@@ -1,0 +1,92 @@
+@use '../../../styles/variables' as variables;
+
+
+.product__card__wrapper__grid{
+    width: 325px;
+    min-height: 500px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+
+    .product__card__image__wrapper{
+        height: 350px;
+        width: 100%;
+    }
+
+    .product__card__link__wrapper{
+        cursor: pointer;
+
+        .product__card__price__wrapper{
+            margin: 10px 0px;
+            .product__card__price__sale{
+                color: variables.$orange-color;
+            }
+            .price__tag{
+                font-family: variables.$museo_cyrl;
+                font-size: variables.$fontX;
+                font-weight: 900;
+                &::after{
+                    content: "\20BD"
+                }
+            }
+            .product__card__price{
+                font-family: variables.$museo_cyrl;
+                color: variables.$standard-color;
+                font-size: variables.$fontX;
+                font-weight: 900;
+            }
+            .product__card__price__before__sale{
+                font-size: variables.$fontM;
+                color: variables.$gray-color;
+                text-decoration: line-through;
+                margin-left: 5px;
+                font-weight: 700;
+            }
+        }
+    
+        .product__card__name__wrapper{
+            .product__card__name{
+                font-family: variables.$museo_cyrl;
+                color: variables.$standard-color;
+                font-size: variables.$fontL;
+                font-weight: 300;
+            }
+        }
+
+        .product__card__manufacturer__data__wrapper{
+            .product__card__manufacturer__data{
+                color: variables.$gray-color;
+                font-size: variables.$fontM;
+                font-family: 'Arial';
+            }
+            .product__card__slash{
+                color: variables.$gray-color;
+                font-size: variables.$fontM;
+                margin: 0px 5px;
+            }
+        }
+    }
+
+
+    .product__card__options__wrapper{
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        right: 15px;
+        top: 10px;
+        z-index: 10;
+        .product__card__option{
+            margin-bottom: 10px;
+            width: variables.$fontX;
+            color: variables.$gray-color;
+            &:hover{
+                color: variables.$orange-color;
+            }
+        }
+    }
+}

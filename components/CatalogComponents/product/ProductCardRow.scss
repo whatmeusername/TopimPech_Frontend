@@ -1,0 +1,138 @@
+@use '../../../styles/variables' as variables;
+
+.product__card__wrapper__row{
+    width: 100%;
+    height: 250px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    
+
+    .product__card__image__wrapper{
+        width: 240px;
+        height: 240px;
+        .gallery__images__dots{
+            margin-top: 0px!important;
+        }
+    }
+
+
+    .product__card__main__wrapper{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 0 5%;
+        margin-top: 5px;
+        width: 65%;
+        
+        .product__card__info{
+            max-width: 350px;
+            .product__card__name__wrapper{
+                .product__card__name{
+                    font-family: variables.$museo_cyrl;
+                    font-size: variables.$fontX;
+                    color: variables.$brown-color;
+                    font-weight: 300;
+                }
+            }
+    
+            .product__card__manufacturer__data__wrapper{
+                .product__card__manufacturer__data{
+                    color: variables.$gray-color;
+                    font-size: variables.$fontL;
+                    font-family: 'Arial';
+                }
+                .product__card__slash{
+                    color: variables.$gray-color;
+                    font-size: variables.$fontL;
+                    margin: 0px 5px;
+                }
+            }
+        
+            .product__features__wrapper{
+                margin-top: 20px;
+                .product__feature__wrapper{
+                    display: flex;
+                    flex-direction: row;
+                    margin: 7.5px 0px;
+                    font-family: 'Arial';
+                    font-size: variables.$fontS;
+                    .product__feature__key{
+                        color: variables.$gray-color;
+                        letter-spacing: 0.5px;
+                        &::first-letter{
+                            text-transform: capitalize;
+                        }
+                    }
+                    .product__feature__value{
+                        margin: 0px;
+                        margin-left: 5px;
+                        &::first-letter{
+                            text-transform: capitalize;
+                        }
+                    }
+                }
+            }  
+        } 
+
+        .product__card__functions__wrapper{
+            .product__card__price__wrapper{
+                margin: 10px 0px;
+                .product__card__price__sale{
+                    color: variables.$orange-color;
+                }
+                .price__tag{
+                    font-family: variables.$museo_cyrl;
+                    font-size: variables.$fontXL;
+                    font-weight: 900;
+                    &::after{
+                        content: "\20BD";
+                    }
+                }
+                .product__card__price{
+                    color: variables.$standard-color;
+                    
+
+                }
+                .product__card__price__before__sale{
+                    font-size: variables.$fontM;
+                    color: variables.$gray-color;
+                    text-decoration: line-through;
+                    margin-left: 5px;
+                    font-weight: 700;
+                }
+            }
+            .product__card__add__to__cart{
+                width: 100%;
+            }
+            .product__card__options__wrapper{
+                margin-top: 10px;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                .product__card__option{
+                    border-radius: 4px;
+                    border: 2px solid variables.$grey-color;
+                    color: variables.$grey-color;
+                    width: 30px;
+                    height: 30px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    cursor: pointer;
+                    transition: 0.1s ease-in-out;
+                    svg{
+                        width: 20px;
+                    }
+                    &:hover{
+                        border: 2px solid variables.$orange-color;
+                        color: variables.$orange-color;
+                    }
+                }
+            }
+        }
+    }
+}

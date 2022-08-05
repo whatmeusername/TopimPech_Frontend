@@ -1,0 +1,134 @@
+@use '../../../styles/variables' as variables;
+
+
+.catalog__page__wrapper{
+    margin: 20px 0 50px;
+
+    .catalog__body{
+        display: flex;
+        flex-direction: row;
+        max-width: 1440px;
+    
+        .catalog__filters__wrapper{
+            min-width: 240px;
+            .dropdown__wrapper{
+                margin-bottom: 10px;
+            }
+        }
+        
+        .catalog__wrapper{
+            display: flex;
+            flex-direction: column;
+            min-width: calc(100% - 280px);
+            width: calc(100% - 280px);
+            max-width: calc(100% - 280px);
+            .product__catalog__header{
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                padding: 0 10px;
+            }
+            .catalog__products__container{
+                max-width: 100%;
+                padding: 0px 25px;
+                &.display__row{
+                    grid-gap: 10px;
+                    display: grid;
+                    grid-template-columns: repeat(12,1fr);
+                    justify-items: center;
+                    flex-direction: row;
+                    flex-wrap: wrap;
+    
+                    @media (max-width: 1024px) {
+                        grid-template-columns: repeat(8,1fr);
+                    }
+    
+                    .product__card__wrapper{
+                        width: 100%;
+                        height: 100;
+                        grid-column-start: span 4;
+                    }
+                }
+                &.display__column{
+                    display: flex;
+                    flex-direction: column;
+                }
+            }
+            .catalog__footer{
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                .viewed__products__count{
+                    color: variables.$gray-color;
+                    font-family: variables.$museo_cyrl;
+                    font-size: variables.$fontL;
+                }
+            }
+        }   
+    }
+    
+
+    .catalog__head__wrapper{
+        margin-bottom: 20px;
+        .catalog__header__wrapper{
+           display: flex;
+           flex-direction: row;
+           align-items: baseline;
+           margin-top: 5px;
+            .catalog__header{
+                color: variables.$brown-color;
+                font-family: variables.$museo_cyrl;
+                font-weight: 300;
+                letter-spacing: 1px;
+                margin: 0px;
+    
+                &::first-letter{
+                    text-transform: capitalize;
+                }
+        
+            }
+            .catalog__header__count{
+                margin-left: 5px;
+                font-family: variables.$museo_cyrl;
+                color: variables.$standard-color;
+                font-size: variables.$fontM;
+            }
+        }
+    }   
+}
+
+
+.catalog__page__not__fount__wrapper{
+    width: 100%;
+    height: 80vh;
+    display: flex;
+    flex-direction:column;
+    justify-content: center;
+    align-items: center;
+    .catalog__page__not__found{
+        text-align: center;
+        .catalog__page__not__found__text{
+            color: variables.$brown-color;
+            font-family: variables.$museo_cyrl;
+            font-size: variables.$headerS;
+            font-weight: 500;
+            margin-bottom: 30px;
+        }
+        .return__to_main_page__button{
+            padding: 10px 15px;
+            border-radius: 4px;
+            background-color: variables.$orange-color;
+            font-family: variables.$museo_cyrl;
+            font-weight: 300;
+            font-size: variables.$fontX;
+            color: rgb(255, 255, 255);
+            transition: 0.25s ease-in;
+            &:hover{
+                background-color: variables.$orange-darker-color;
+            }
+        }
+    }
+}
+
+

@@ -1,0 +1,37 @@
+
+
+$content-max-width: 1440px;
+
+$orange-color: rgb(238, 115, 14);
+$orange-darker-color: rgb(220, 100, 5);
+$standard-color: rgb(77, 77, 77);
+
+$light-grey-color: rgb(245, 245, 245);
+$grey-color: rgb(220, 220, 220);
+$gray-color: rgb(150, 150, 150);
+
+$brown-color: rgb(99, 79, 57);
+
+
+$fontS: 12px;
+$fontMS: 13px;
+$fontM: 14px;
+$fontML: 16px;
+$fontL: 16px;
+$fontX: 18px;
+$fontXL: 20px;
+
+$headerS: 24px;
+$headerM: 28px;
+$headerL: 32px;
+$headerX: 36px;
+
+.break__line__standard{
+    height: 2.5px;
+    width: 100%;
+    background-color: $grey-color;
+    border: none;
+    border-radius: 4px;
+}
+
+$museo_cyrl: 'MuseoCyrl', 'Arial';

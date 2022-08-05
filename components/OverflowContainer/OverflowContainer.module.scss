@@ -1,0 +1,40 @@
+@use '../../styles/variables' as variables;
+
+
+.oveflow__container__hidder{
+    overflow:hidden;
+    &.oveflow__container__content__active{
+        overflow: auto; 
+    }
+
+
+    &::-webkit-scrollbar {
+        width: 3px;
+        height: 3px;
+    }
+    &::-webkit-scrollbar-thumb{
+        visibility: visible;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+        background-color: variables.$gray-color;
+        border-radius: 4px;
+    } 
+}
+
+
+.oveflow__container__toggle__button{
+    color: variables.$orange-color;
+    font-family: variables.$museo_cyrl;
+    font-size: variables.$fontM;
+    border: none;
+    cursor: pointer;
+    margin: 10px 0 0 0;
+    padding: 0;
+    background-color: transparent;
+    transition: all 0.25s ease-in-out;
+    letter-spacing: 0.5px;
+    &:hover{
+        color: variables.$orange-darker-color;
+    }
+}

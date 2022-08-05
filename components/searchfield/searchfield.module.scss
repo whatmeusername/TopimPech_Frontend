@@ -1,0 +1,35 @@
+@use '../../styles/variables' as variables;
+
+.seachfield__wrapper{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 40px;
+    border: 2px solid variables.$brown-color;
+    border-radius: 4px;
+    
+    .seachfield__input{
+        border: 0px solid transparent;
+        background: transparent;
+        width: calc(100% - 100px);
+        padding: 5px 20px;
+        font-size: variables.$fontX;
+        outline: 0;
+    }
+
+    .seachfield__button{
+        width: 100px;
+        border: none;
+        background: variables.$brown-color;
+        cursor: pointer;
+        min-height: 100%;
+        margin: 0;
+        padding: 0;
+        .seachfield__button__icon{
+            font-size: variables.$fontL;
+            width: 20px;
+            color: rgb(255,255,255);
+        } 
+    }
+    
+}

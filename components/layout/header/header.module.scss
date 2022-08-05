@@ -1,0 +1,37 @@
+
+
+.flex__items__center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header__wrapper{
+    width: 100%;
+    padding-top: 20px;
+
+    .header{
+        margin: 0 auto;
+        max-width: 1440px;
+        display: grid;
+        grid-template-columns: 1fr 1fr 4fr 2fr;
+
+        .logo__wrapper{
+            padding: 5px;
+            max-width: 100%;
+            max-height: 100%;
+            overflow: hidden;
+            cursor: pointer;
+            .logo__main{
+                height: 100%;
+                width: 100%;
+            }
+        }
+
+    }
+
+    .center__wrapper{
+        padding: 0 10px;
+    }
+}
+

@@ -1,0 +1,7 @@
+@use '../../styles/variables' as variables;
+
+.width__limiter{
+    max-width: variables.$content-max-width;
+    overflow: hidden;
+    margin: 0 auto;
+}

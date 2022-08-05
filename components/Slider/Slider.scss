@@ -1,0 +1,83 @@
+@use '../../styles/variables' as variables;
+
+.slider__wrapper{
+    display: flex;
+    flex-direction: column;
+    margin: 25px 0;
+    &.slider__wrapper__carousel{
+        .slider__main__content{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            .slider__content__slide__button{
+                width: 35px;
+                height: 35px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 50%;
+                background-color: variables.$light-grey-color;
+                box-shadow: 0 0 4px 2px rgba(77, 77, 77, 0.20);
+                border: none;
+                cursor: pointer;
+                .slider__content__slide__icon{
+                    width: auto;
+                    height: 85%;
+                    color: variables.$gray-color;
+                }
+                &.slider__button__disabled{
+                    cursor: default;
+                    .slider__content__slide__icon{
+                        color: variables.$grey-color;
+                    }
+                }
+            }
+            .slider__content__wrapper{
+                overflow: hidden;
+                display: flex;
+                flex-direction: column;
+                .slider__content{
+                    transition: left 0.75s ease-out;
+                    position: relative;
+                    left: 0px;
+                    display: flex;
+                    flex-direction: row;
+                }
+                .slider__dots__wrapper{
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                    align-items: center;
+                    .slider__dot{
+                        width: 25px;
+                        height: 4px;
+                        background-color: variables.$gray-color;
+                        border-radius: 4px;
+                        margin: 0 5px;
+                        &.slider__dot__button{
+                            cursor: pointer;
+                        }
+                        &.slider__dot__active{
+                            background-color: variables.$orange-color
+                        }
+                    }
+                }
+            }
+        }
+    }
+    &.slider__wrapper__drag{
+        .slider__content__wrapper{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            overflow: scroll;
+            .slider__content{
+                display: flex;
+                flex-direction: row;
+            }
+            .slider__item__wrapper{
+                user-select: none;
+            }
+        }
+    }
+}

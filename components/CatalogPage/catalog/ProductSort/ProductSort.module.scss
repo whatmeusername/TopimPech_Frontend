@@ -1,0 +1,101 @@
+@use '../../../../styles/variables' as variables;
+
+.product__sort__wrapper{
+    width: 180px;
+    position: relative;
+
+    .product__sort__button{
+        background-color: transparent;
+        border: 1.5px solid variables.$brown-color;
+        color: variables.$brown-color;
+        padding: 4px 10px;
+        width: 100%;
+        border-radius: 4px;
+        font-size: variables.$fontM;
+        font-family: variables.$museo_cyrl;
+
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+
+        transition: all 0.25s ease-in;
+
+        &:hover{
+            border: 1.5px solid variables.$orange-color;
+            background-color: variables.$orange-color;
+            color: rgb(255, 255, 255);
+            .product__sort__button__icon{
+                color: rgb(255, 255, 255);
+            }
+        }
+
+        .product__sort__button__icon{
+            color: variables.$brown-color;
+            font-size: variables.$fontL;
+            margin-left: 5px;
+            transition: all 0.25s ease-in;
+            animation-fill-mode: forwards;
+            width: 12px;
+        }
+
+        &.product__sort__button__active{
+            border: 1.5px solid variables.$orange-color;
+            background-color: variables.$orange-color;
+            color: rgb(255, 255, 255);
+            .product__sort__button__icon{
+                color: rgb(255, 255, 255);
+                transform: rotateZ(180deg);
+            }
+        }
+    }
+    .product__sort__modal{
+        display: none;
+        position: absolute;
+        z-index: 100;
+        background-color: rgb(255, 255, 255);
+        box-shadow: 0 0 8px 8px rgb(77, 77, 77, 0.2);
+        width: 100%;
+        margin-top: 2.5px;
+        border-radius: 4px;
+        .product__sort__modal__content{
+            padding: 5px;
+            display: flex;
+            flex-direction: column;
+            .modal__sort__item{
+                font-family: variables.$museo_cyrl;
+                font-weight: 300;
+                margin-bottom: 5px;
+                font-size: variables.$fontML;
+                cursor: pointer;
+                transition: 0.1s ease;
+                &:hover{
+                    color: variables.$orange-color;
+                }
+                &::first-letter{
+                    text-transform: uppercase;
+                }
+            }
+        }
+        &.product__sort__modal__active{
+            display: block;
+    
+        }
+    }
+
+    &.product__sort__wrapper__disabled{
+        opacity: 0.5;
+        cursor: default;
+        &:hover{
+            .product__sort__button{
+                transition: none;
+                border: 1.5px solid variables.$brown-color;
+                background-color: transparent;
+                color: variables.$brown-color;
+                .product__sort__button__icon{
+                    color: variables.$brown-color;
+                }
+            }
+        }
+    }
+}
