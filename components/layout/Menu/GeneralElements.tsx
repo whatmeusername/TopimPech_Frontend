@@ -1,6 +1,6 @@
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import styles from './menu.module.scss';
+import './menu.scss';
 
 import { useToggleModalContext } from './Menu';
 
@@ -14,7 +14,7 @@ const CategoriesColumn = ({
 	CategoryItem: (...rest: any) => JSX.Element;
 }): JSX.Element => {
 	return (
-		<div className={styles.menu__category__column}>
+		<div className="menu__category__column">
 			{(categories ?? []).map((category) => {
 				return <CategoryItem category={category} key={category.slug} />;
 			})}
@@ -25,10 +25,10 @@ const CategoriesColumn = ({
 const CloseButton = (): JSX.Element => {
 	const closeModalFunction = useToggleModalContext();
 	return (
-		<button className={styles.menu__content__close__button}>
+		<button className="menu__content__close__button">
 			<FontAwesomeIcon
 				icon={faXmark}
-				className={styles.menu__content__close__button__icon}
+				className="menu__content__close__button__icon"
 				onClick={() => closeModalFunction(false)}
 			/>
 		</button>

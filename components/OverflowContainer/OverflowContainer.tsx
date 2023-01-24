@@ -1,7 +1,7 @@
 import useToggle from '../../hooks/useToggle';
 import { useRef, useEffect, useState } from 'react';
 
-import styles from './OverflowContainer.module.scss';
+import './OverflowContainer.scss';
 
 export default function OverflowContainer({
 	children,
@@ -25,20 +25,18 @@ export default function OverflowContainer({
 	}, [toggled]);
 
 	return (
-		<div className={styles.oveflow__container__wrapper}>
+		<div className="oveflow__container__wrapper">
 			<div
-				className={`${styles.oveflow__container__hidder} ${
-					toggled ? styles.oveflow__container__content__active : ''
-				}`}
+				className={`oveflow__container__hidder ${toggled ? 'oveflow__container__content__active' : ''}`}
 				ref={overflowElement}
 				style={{ maxHeight: toggled ? maxHeight + 25 : maxHeight }}
 			>
-				<div className={styles.oveflow__container__content} ref={content}>
+				<div className="oveflow__container__content" ref={content}>
 					{children}
 				</div>
 			</div>
 			{overflow ? (
-				<button className={styles.oveflow__container__toggle__button} onClick={() => setToggled()}>
+				<button className="oveflow__container__toggle__button" onClick={() => setToggled()}>
 					{!toggled ? 'Показать все' : 'Скрыть'}
 				</button>
 			) : (

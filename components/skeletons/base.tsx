@@ -1,4 +1,4 @@
-import styles from './skeletons.module.scss';
+import './skeletons.scss';
 
 const Skeleton = ({
 	children,
@@ -9,14 +9,10 @@ const Skeleton = ({
 	transperent?: boolean;
 	className?: string;
 }): JSX.Element => {
-	return (
-		<div className={`${transperent ? styles.skeleteon__transperent : styles.skeleton} ${styles[className]}`}>
-			{children}
-		</div>
-	);
+	return <div className={`${transperent ? 'skeleteon__transperent' : 'skeleton'} ${className}`}>{children}</div>;
 };
 const SkeletonItem = ({ className = '' }: { className?: string }) => {
-	return <div className={`${styles.skeleton__item} ${styles[className]}`} />;
+	return <div className={`skeleton__item ${className}`} />;
 };
 
 export { Skeleton, SkeletonItem };

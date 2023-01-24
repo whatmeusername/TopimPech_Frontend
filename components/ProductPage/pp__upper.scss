@@ -1,0 +1,272 @@
+@use '../../styles/variables' as variables;
+
+.product__page__wrapper{
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    margin: 20px auto 40px;
+    gap: 25px;
+
+    
+
+    .product__page__card{
+        background-color: variables.$pp_cards_bg;
+        border-radius: 4px;
+        padding: 5px 20px;
+    }
+
+    .product__page__header__medium{
+        color: variables.$black-color;
+        font-family: variables.$museo_cyrl;
+        font-size: variables.$headerS;
+        margin: 10px 0;
+        font-weight: 300;
+        letter-spacing: 1px;
+    }
+
+
+    .slider__item__wrapper{
+        border-radius: 4px;
+        min-width: 180px;
+        max-width: 180px;
+        border: 2px solid transparent;
+        transition: background 0.15s ease-in-out, border 0.15s ease-in-out;
+        &:hover{
+            background: rgb(255, 255, 255);
+            border: 2px solid rgb(77, 77, 77, 0.25);
+        }
+    }
+
+    .product__card__price__wrapper{
+        gap: 10px; 
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    
+        font-weight: 700;
+        margin: 40px 0;
+    
+        .price__tag{
+            font-size: variables.$headerS;
+            &::after{
+                content: "₽";
+            }
+        }
+    
+        .product__card__price,
+        .product__card__price__sale{
+            color: variables.$orange-color;
+        }
+    
+        .product__card__price__before__sale{
+            font-size: variables.$fontX;
+            color: variables.$gray-color;
+            position: relative;
+            z-index: 1;
+            &::before{
+                content: "";
+                position: absolute;
+                width: 100%;
+                height: 2px;
+                border-radius: 8px;
+                z-index: -1;
+                left: 0;
+                top: 50%;
+                background-color: variables.$orange-color;
+            }
+        }
+    }
+}
+
+
+
+
+
+.product__page__head{
+    .product__page__article__wrapper{
+        margin: 0;
+        font-size: variables.$fontMS;
+        color: variables.$gray-color;
+    }
+    @media (max-width: 768px){
+        flex-wrap: wrap;
+        justify-content: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .breadcrumb__wrapper{
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+    }
+}
+
+
+.product__page__upper{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+
+
+
+    
+    .product__page__upper__item{
+        min-height: 500px;
+    }
+
+    
+    .product__page__gallery__wrapper{
+        min-width: 650px;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .gallery__wrapper{
+            height: 98%;
+            max-width: 650px;
+            padding: 10px;
+        }
+    }
+
+    .product__page__main__info{
+        width: 100%;
+        
+    }
+
+    .product__page__header{
+        font-size: variables.$headerM;
+        color: variables.$black-color;
+        font-weight: 300;
+        font-family: variables.$museo_cyrl;
+        -webkit-line-clamp: 2;
+        display: -webkit-box;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -webkit-box-orient: vertical;
+    }
+
+
+    .product__page__upper__buttons{
+        margin: 10px 0;
+        .product__card__add__to__cart{
+            width: 100%;
+        }
+    }
+
+    @media (max-width: 1024px) {
+        flex-direction: column;
+        .product__page__gallery__wrapper{
+            width: 100%;
+        }
+    }
+}
+
+
+
+
+.product__page__description{
+    color: variables.$black-color;
+    .product__page__description{
+        font-size: variables.$fontM;
+        line-height: 20px;
+        font-family: "Arial";
+    }
+}
+
+
+.product__page__properties__content{
+    display: grid;
+    grid-template-columns: 50% 50%;
+    gap: 15px;
+    margin: 20px 0;
+
+    
+    .product__page__properties__item{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 500px;
+        position: relative;
+        margin: 0;
+        .product__page__properties__item__key{
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+            margin: 0;
+            padding-right: 5px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            font-size: variables.$fontM;
+            color: variables.$gray-color;
+            font-family: variables.$museo_cyrl;
+            &::first-letter{
+                text-transform: capitalize;
+            }
+            &::after{
+                content: "";
+                width: 100%;
+                position: absolute;
+                bottom: 0;
+                border-bottom: 1px dotted variables.$gray-color;
+            }
+        }
+        .product__page__properties__item__value{
+            margin: 0;
+            white-space: nowrap;
+            color: variables.$standard-color;
+        }
+    }
+
+    @media (max-width: 1080px) {
+        columns: 1;
+        gap: 20px;
+        .product__page__properties__item{
+            width: 98%;
+        }
+    }
+}
+
+
+
+
+
+
+
+.history__item{
+    width: 180px;
+    height: 330px;
+    border-radius: 4px;
+    .history__item__image__wrapper{
+        padding: 5px;
+        height: 215px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .history__item__image{
+            max-width: 100%;
+            max-height: 100%;
+            height: auto;
+            width: auto;
+            border-radius: 4px;
+        }
+    }
+    .history__item__info{
+        padding: 5px 8px;
+        .product__card__price__wrapper{
+            margin: 0;
+            .price__tag{
+                font-size: variables.$fontM;
+            }
+        }
+        .history__item__label{
+            font-size: variables.$fontMS;
+            color: variables.$standard-color;
+        }
+    }
+}
+

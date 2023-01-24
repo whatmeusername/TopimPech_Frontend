@@ -1,4 +1,4 @@
-import styles from './breadcrumb.module.scss';
+import './breadcrumb.scss';
 
 import { Fragment as ReactFragment } from 'react';
 import useBreadcrumbContext from '../../GlobalContext/Breadcrumb/Context';
@@ -8,12 +8,31 @@ import { useRouter } from 'next/router';
 
 interface BreadcrumbSettings {
 	includeHomePage?: boolean;
+
+	categoryData?: {
+		maincategory: string;
+		category: string;
+	};
+	includeAtEnd?: {
+		label: string;
+		href: string;
+		slug: string;
+	};
 }
 
 export default function BreadcrumbByURL({ settings }: { settings?: BreadcrumbSettings }): JSX.Element {
 	const breacrumbData = useBreadcrumbContext();
 	const router = useRouter();
-	const { maincategory, category } = router.query as { maincategory: string; category: string };
+
+	let maincategory: string, category: string;
+
+	if (!settings?.categoryData) {
+		maincategory = router.query?.maincategory as string;
+		category = router.query?.category as string;
+	} else {
+		maincategory = settings.categoryData?.maincategory as string;
+		category = settings.categoryData?.category as string;
+	}
 	if (!breacrumbData) return <></>;
 
 	let currentBreadcrumbItem = breacrumbData.get({ start: maincategory, end: category });
@@ -31,13 +50,21 @@ export default function BreadcrumbByURL({ settings }: { settings?: BreadcrumbSet
 		currentBreadcrumbItem.data.unshift({ name: 'главная', slug: 'glavnay', href: '/' });
 	}
 
+	if (settings?.includeAtEnd) {
+		currentBreadcrumbItem.data.push({
+			name: settings.includeAtEnd.label,
+			slug: settings.includeAtEnd.slug,
+			href: settings.includeAtEnd.href,
+		});
+	}
+
 	const BreadcrumbItem = ({ data }: { data: CategoryDataOmit }) => {
 		const url =
 			data?.href ??
 			`/catalog/${maincategory !== data.slug ? maincategory + '/' + data.slug + '/' : maincategory + '/'}`;
 		return (
-			<Link href={url}>
-				<a className={styles.breadcrumb__item + ' ' + styles.breadcrumb__item__link}>{data.name}</a>
+			<Link href={url} className="breadcrumb__item breadcrumb__item__link">
+				{data.name}
 			</Link>
 		);
 	};
@@ -45,19 +72,19 @@ export default function BreadcrumbByURL({ settings }: { settings?: BreadcrumbSet
 	const BreadcrumbLength = currentBreadcrumbItem.data.length - 1;
 
 	return (
-		<div className={styles.breadcrumb__wrapper}>
+		<div className="breadcrumb__wrapper">
 			{currentBreadcrumbItem.data.map((breadcrumbItem, index) => {
 				if (BreadcrumbLength !== index) {
 					return (
 						<ReactFragment key={`breadcrumb__item-${breadcrumbItem.slug}`}>
 							<BreadcrumbItem data={breadcrumbItem} />
-							<span className={styles.breadcrumb__slash}>/</span>
+							<span className="breadcrumb__slash">/</span>
 						</ReactFragment>
 					);
 				} else {
 					return (
 						<div
-							className={styles.breadcrumb__item + ' ' + styles.breadcrumb__item__active}
+							className="breadcrumb__item breadcrumb__item__active"
 							key={`breadcrumb__item-${breadcrumbItem.slug}`}
 						>
 							<span>{breadcrumbItem.name}</span>

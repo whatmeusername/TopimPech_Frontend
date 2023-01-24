@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRouter, NextRouter } from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
+import './filter.scss';
 
 import type { FilterData, FilterItem } from './interface';
 import axios from 'axios';
@@ -11,9 +12,7 @@ import OverflowContainer from '../../../OverflowContainer/OverflowContainer';
 import { SearchParamsBuilder } from '../catalog';
 
 import useToggle from '../../../../hooks/useToggle';
-import declOfNum from '../../../../utils/decOfNum';
-
-import dropdownStyles from '../../../Dropdown/Dropdown.module.scss';
+import { declOfNum } from '../../../../utils/';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
@@ -438,9 +437,7 @@ function FacetFilter(): JSX.Element {
 													.slice(start, end)
 													.map(([parentKey, parentValue]) => {
 														const DropdownHeader = (
-															<span className={dropdownStyles.dropdown__label}>
-																{parentValue.name}
-															</span>
+															<span className="dropdown__label">{parentValue.name}</span>
 														);
 														return (
 															<Dropdown
@@ -494,9 +491,7 @@ function FacetFilter(): JSX.Element {
 					Object.entries(filters?.filtered ?? {})
 						.slice(0, 10)
 						.map(([parentKey, parentValue], index) => {
-							const DropdownHeader = (
-								<span className={dropdownStyles.dropdown__label}>{parentValue.name}</span>
-							);
+							const DropdownHeader = <span className="dropdown__label">{parentValue.name}</span>;
 							return (
 								<Dropdown header={DropdownHeader} key={'filter-' + parentKey}>
 									<OverflowContainer maxHeight={290}>

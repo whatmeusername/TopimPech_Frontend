@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import './CatalogContainer.scss';
 
 // ==== NEXT ====
 import { ParsedUrlQuery } from 'querystring';
@@ -12,8 +13,8 @@ import { ProductCardGridSkeleton, ProductCardRowSkeleton } from '../../skeletons
 
 // ===== Utils =======
 import axios from 'axios';
-import { usePagePropsContext } from '../../../pages/catalog/[maincategory]';
-import declOfNum from '../../../utils/decOfNum';
+import { usePagePropsContext } from '../../../pages/_app';
+import { declOfNum } from '../../../utils/';
 
 // ===== Interface =====
 import type { ProductData } from '../../CatalogComponents/product/interface';
@@ -28,7 +29,7 @@ import FacetFilter from './Filter/Filter';
 import ChangeProductView from './ChangeProductView/ChangeProductView';
 import Paginator from './Paginator/Paginator';
 import ProductSort from './ProductSort/ProductSort';
-import Slider from '../../Slider/Slider';
+import Slider from '../../Slider';
 
 export interface ProductAPIResponse {
 	products: ProductData[];
@@ -42,6 +43,8 @@ export interface initData {
 	view: 'grid' | 'row';
 	order: string;
 }
+
+const isClient = typeof window !== 'undefined';
 
 function compare(a: any, b: any) {
 	if (a.id < b.id) {
@@ -106,7 +109,6 @@ const ProductColumn = ({
 			<>
 				{products.map((product) => {
 					product.images.sort(compare);
-
 					return view === 'grid' ? (
 						<ProductCardGrid product={product} key={product.slug} fadeIn={fadeIn} />
 					) : (
@@ -281,8 +283,8 @@ export default function Catalog({ initData }: { initData: initData }): JSX.Eleme
 					<p className="catalog__page__not__found__text">
 						Упс! К сожалению, по вашему запросу ничего не было найдено
 					</p>
-					<Link href={'/'}>
-						<a className="return__to_main_page__button">Вернуться на главную</a>
+					<Link href={'/'} className="return__to_main_page__button">
+						Вернуться на главную
 					</Link>
 				</div>
 			</div>

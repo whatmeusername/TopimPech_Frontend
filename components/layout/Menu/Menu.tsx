@@ -1,5 +1,5 @@
 import { useEffect, memo, createContext, useContext } from 'react';
-import styles from './menu.module.scss';
+import './menu.scss';
 
 import useToggle from '../../../hooks/useToggle';
 import useWindowSize from '../../../hooks/useWindowSize';
@@ -27,10 +27,10 @@ const MenuContent = memo((): JSX.Element => {
 	if (width === undefined || width >= 1024) {
 		return (
 			<>
-				<div className={styles.menu__content__wrapper}>
-					<div className={styles.menu__content__desktop}>
+				<div className="menu__content__wrapper">
+					<div className="menu__content__desktop">
 						<MenuContentDesktop categories={categories} />
-						<div className={styles.menu__content__close__button__wrapper}>
+						<div className="menu__content__close__button__wrapper">
 							<CloseButton />
 						</div>
 					</div>
@@ -39,15 +39,15 @@ const MenuContent = memo((): JSX.Element => {
 		);
 	} else {
 		return (
-			<div className={styles.menu__content__wrapper}>
-				<div className={styles.menu__content__mobile__wrapper}>
-					<div className={styles.menu__content__upper__wrapper}>
-						<div className={styles.menu__content__header__mobile}>
+			<div className="menu__content__wrapper">
+				<div className="menu__content__mobile__wrapper">
+					<div className="menu__content__upper__wrapper">
+						<div className="menu__content__header__mobile">
 							<span>Категории</span>
 						</div>
 						<CloseButton />
 					</div>
-					<div className={styles.menu__content__mobile}>
+					<div className="menu__content__mobile">
 						<MenuContentMobile categories={categories} />
 					</div>
 				</div>
@@ -71,21 +71,17 @@ export default function Menu() {
 
 	return (
 		<>
-			<button className={styles.menu__button} onClick={() => setModalActive(false)}>
-				<FontAwesomeIcon icon={faBars} className={styles.menu__button__icon} />
-				<p className={styles.menu__button__label}>Каталог</p>
+			<button className="menu__button" onClick={() => setModalActive(false)}>
+				<FontAwesomeIcon icon={faBars} className="menu__button__icon" />
+				<p className="menu__button__label">Каталог</p>
 			</button>
 			<div
-				className={`${styles.menu__content__active__blackscreen} ${
-					modalActive ? styles.blackscreen__inactive : styles.blackscreen__active
+				className={`menu__content__active__blackscreen ${
+					modalActive ? 'blackscreen__inactive' : 'blackscreen__active'
 				}`}
 				onClick={() => setModalActive(false)}
 			></div>
-			<div
-				className={`${styles.menu__content__modal} ${
-					modalActive ? styles.modal__unhidden : styles.modal__hidden
-				}`}
-			>
+			<div className={`menu__content__modal ${modalActive ? 'modal__unhidden' : 'modal__hidden'}`}>
 				<ToggleModalContext.Provider value={setModalActive}>
 					<MenuContent />
 				</ToggleModalContext.Provider>

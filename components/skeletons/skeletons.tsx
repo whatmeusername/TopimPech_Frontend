@@ -1,14 +1,13 @@
 import { Skeleton, SkeletonItem } from './base';
-import styles from './skeletons.module.scss';
 
 function ProductCardGridSkeleton(): JSX.Element {
 	return (
-		<Skeleton className={styles.product__card__grid__skeleton}>
+		<Skeleton className="product__card__grid__skeleton">
 			<>
-				<SkeletonItem className={styles.product__card__grid__image} />
-				<SkeletonItem className={styles.product__card__grid__price} />
-				<SkeletonItem className={styles.product__card__grid__label} />
-				<SkeletonItem className={styles.product__card__grid__cart} />
+				<SkeletonItem className="product__card__grid__image" />
+				<SkeletonItem className="product__card__grid__price" />
+				<SkeletonItem className="product__card__grid__label" />
+				<SkeletonItem className="product__card__grid__cart" />
 			</>
 		</Skeleton>
 	);
@@ -16,23 +15,23 @@ function ProductCardGridSkeleton(): JSX.Element {
 
 function ProductCardRowSkeleton(): JSX.Element {
 	return (
-		<Skeleton className={styles.product__card__row__skeleton}>
+		<Skeleton className="product__card__row__skeleton">
 			<>
-				<div className={styles.product__card__row__skeleton__image}>
-					<SkeletonItem className={styles.product__card__grid__image} />
+				<div className="product__card__row__skeleton__image">
+					<SkeletonItem className="product__card__grid__image" />
 				</div>
-				<div className={styles.product__card__row__skeleton__main}>
-					<div className={styles.product__card__row__skeleton__info}>
-						<SkeletonItem className={styles.product__card__grid__label} />
-						<SkeletonItem className={styles.product__card__grid__feature} />
-						<SkeletonItem className={styles.product__card__grid__feature} />
-						<SkeletonItem className={styles.product__card__grid__feature} />
-						<SkeletonItem className={styles.product__card__grid__feature} />
-						<SkeletonItem className={styles.product__card__grid__feature} />
+				<div className="product__card__row__skeleton__main">
+					<div className="product__card__row__skeleton__info">
+						<SkeletonItem className="product__card__grid__label" />
+						<SkeletonItem className="product__card__grid__feature" />
+						<SkeletonItem className="product__card__grid__feature" />
+						<SkeletonItem className="product__card__grid__feature" />
+						<SkeletonItem className="product__card__grid__feature" />
+						<SkeletonItem className="product__card__grid__feature" />
 					</div>
-					<div className={styles.product__card__row__skeleton__price}>
-						<SkeletonItem className={styles.product__card__grid__price} />
-						<SkeletonItem className={styles.product__card__grid__cart} />
+					<div className="product__card__row__skeleton__price">
+						<SkeletonItem className="product__card__grid__price" />
+						<SkeletonItem className="product__card__grid__cart" />
 					</div>
 				</div>
 			</>
@@ -43,18 +42,14 @@ function ProductCardRowSkeleton(): JSX.Element {
 function FilterSkeleton(): JSX.Element {
 	let skelteonsCount = Array.from(Array(3).keys());
 	return (
-		<Skeleton className={styles.filters__wrapper__skeleton} transperent={true}>
+		<Skeleton className="filters__wrapper__skeleton" transperent={true}>
 			<>
 				{skelteonsCount.map((i) => {
 					return (
-						<Skeleton
-							className={styles.filter__wrapper__skeleton}
-							transperent={true}
-							key={'filter-skeleton' + i}
-						>
+						<Skeleton className="filter__wrapper__skeleton" transperent={true} key={'filter-skeleton' + i}>
 							<>
-								<SkeletonItem className={styles.filter__header} />
-								<SkeletonItem className={styles.filter__items} />
+								<SkeletonItem className="filter__header" />
+								<SkeletonItem className="filter__items" />
 							</>
 						</Skeleton>
 					);

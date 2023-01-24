@@ -3,7 +3,8 @@ import { createContext, useContext } from 'react';
 import Catalog, { initData as initDataInterface } from '../../../../components/CatalogPage/catalog/catalog';
 import { GetServerSidePropsContext } from 'next';
 
-import { catalogGetServerSideProps, PagePropsContext } from '../index';
+import { catalogGetServerSideProps } from '../index';
+import { PagePropsContext } from '../../../_app';
 
 function CatalogPage({ initData }: { initData: initDataInterface }) {
 	return (

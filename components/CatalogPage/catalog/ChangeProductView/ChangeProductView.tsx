@@ -1,12 +1,27 @@
-import { useState, useContext, memo } from 'react';
+import { useState, useContext, memo, useEffect } from 'react';
 import useWindowSize from '../../../../hooks/useWindowSize';
-import styles from './ChangeProductView.module.scss';
-import { useRouter } from 'next/router';
+import './ChangeProductView.scss';
+import { NextRouter, useRouter } from 'next/router';
 
 import List from '../../../../public/CatalogViewIcons/list.svg';
 import Grid from '../../../../public/CatalogViewIcons/grid.svg';
 
 const isClient = typeof window !== 'undefined';
+type ProductAligmentType = 'row' | 'grid';
+interface ProductAligmentVariantData {
+	icon: JSX.Element;
+	name: ProductAligmentType;
+}
+
+const getInitialView = (router: NextRouter, searchParams: URLSearchParams): ProductAligmentType => {
+	if (!isClient) {
+		return 'row';
+	}
+	let lsv = localStorage.getItem('view');
+	let view = (lsv ?? router.query['view'] ?? 'row') as ProductAligmentType;
+	if (!lsv) localStorage.setItem('view', view);
+	return view;
+};
 
 const ChangeProductView = memo(
 	({ disabled, setCatalogView }: { disabled?: boolean; setCatalogView: (...args: any[]) => void }) => {
@@ -15,24 +30,20 @@ const ChangeProductView = memo(
 		const searchParams = isClient ? new URLSearchParams(window.location.search) : ({} as URLSearchParams);
 		disabled = disabled === undefined ? false : disabled;
 
-		//const ProductSettings = useContext(ProductSettingsContext);
-		const [selectedView, setSelectedView] = useState<string>((router.query['view'] as string) ?? 'row');
+		const [selectedView, setSelectedView] = useState<ProductAligmentType | undefined>(undefined);
 
-		const AvailableVariant = [
-			{ icon: <Grid className={styles.product__view__icon} />, name: 'grid' },
-			{ icon: <List className={styles.product__view__icon} />, name: 'row' },
+		// using useEffect hook to ignore SSR Hydration
+		useEffect(() => {
+			setSelectedView(getInitialView(router, searchParams));
+		}, []);
+
+		const AvailableVariant: ProductAligmentVariantData[] = [
+			{ icon: <Grid className="product__view__icon" />, name: 'grid' },
+			{ icon: <List className="product__view__icon" />, name: 'row' },
 		];
 
 		const setView = (variant: string) => {
-			searchParams.set('view', variant);
-			router.push(
-				{
-					pathname: window.location.pathname,
-					query: searchParams.toString(),
-				},
-				undefined,
-				{ shallow: true },
-			);
+			localStorage.setItem('view', variant);
 			setCatalogView(variant);
 		};
 
@@ -46,17 +57,13 @@ const ChangeProductView = memo(
 		let nextView = getNextView();
 
 		return (
-			<div
-				className={`${styles.prdouct__views__wrapper} ${
-					disabled ? styles.prdouct__views__wrapper__disabled : ''
-				}`}
-			>
+			<div className={`prdouct__views__wrapper ${disabled ? 'prdouct__views__wrapper__disabled' : ''}`}>
 				{width === undefined || width >= 1024 ? (
 					AvailableVariant.map((variant) => {
 						return (
 							<div
-								className={`${styles.prdouct__view} ${
-									selectedView === variant.name ? styles.prdouct__view__selected : ''
+								className={`prdouct__view ${
+									selectedView === variant.name ? 'prdouct__view__selected' : ''
 								}`}
 								key={variant.name}
 								onClick={() => {
@@ -72,7 +79,7 @@ const ChangeProductView = memo(
 					})
 				) : (
 					<div
-						className={`${styles.prdouct__view} ${styles.prdouct__view__selected}`}
+						className="prdouct__view prdouct__view__selected"
 						onClick={() => {
 							if (!disabled) {
 								setSelectedView(nextView.name);

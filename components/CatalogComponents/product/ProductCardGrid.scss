@@ -23,9 +23,11 @@
 
         .product__card__price__wrapper{
             margin: 10px 0px;
+            
             .product__card__price__sale{
                 color: variables.$orange-color;
             }
+
             .price__tag{
                 font-family: variables.$museo_cyrl;
                 font-size: variables.$fontX;
@@ -34,12 +36,14 @@
                     content: "\20BD"
                 }
             }
+
             .product__card__price{
                 font-family: variables.$museo_cyrl;
-                color: variables.$standard-color;
+                color: variables.$orange-color;
                 font-size: variables.$fontX;
                 font-weight: 900;
             }
+
             .product__card__price__before__sale{
                 font-size: variables.$fontM;
                 color: variables.$gray-color;
@@ -55,6 +59,7 @@
                 color: variables.$standard-color;
                 font-size: variables.$fontL;
                 font-weight: 300;
+                transition: 0.1s ease-in-out;
             }
         }
 
@@ -70,6 +75,12 @@
                 margin: 0px 5px;
             }
         }
+
+        &:hover{
+            .product__card__name{
+                color: variables.$orange-darker-color;
+            }
+        }
     }
 
 
@@ -80,13 +91,9 @@
         right: 15px;
         top: 10px;
         z-index: 10;
+        gap: 10px;
         .product__card__option{
-            margin-bottom: 10px;
             width: variables.$fontX;
-            color: variables.$gray-color;
-            &:hover{
-                color: variables.$orange-color;
-            }
         }
     }
 }

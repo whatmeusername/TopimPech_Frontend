@@ -1,5 +1,5 @@
 import React, { memo, useRef } from 'react';
-import styles from './menu.module.scss';
+import './menu.scss';
 import Link from 'next/link';
 
 import { faAngleRight, faAngleLeft } from '@fortawesome/free-solid-svg-icons';
@@ -53,14 +53,16 @@ const MenuContentMobile = memo(({ categories }: { categories: CategoryData[] }):
 
 	const MainCategoryItem = ({ category }: { category: CategoryData }): JSX.Element => {
 		return (
-			<div className={styles.mobile__category__item}>
-				<Link href={`/catalog/${category.slug}/`}>
-					<a className={styles.mobile__category__item__link} onClick={() => closeModalFunction(false)}>
-						{category.name}
-					</a>
+			<div className="mobile__category__item">
+				<Link
+					href={`/catalog/${category.slug}/`}
+					className="mobile__category__item__link"
+					onClick={() => closeModalFunction(false)}
+				>
+					{category.name}
 				</Link>
 				{category.child.length > 0 ? (
-					<span className={styles.mobile__category__item__arrow} onClick={() => ToggleBurger(category.slug)}>
+					<span className="mobile__category__item__arrow" onClick={() => ToggleBurger(category.slug)}>
 						<FontAwesomeIcon icon={faAngleRight} />
 					</span>
 				) : (
@@ -72,14 +74,16 @@ const MenuContentMobile = memo(({ categories }: { categories: CategoryData[] }):
 
 	const SubCategoryItem = ({ category, parentSlug }: { category: CategoryData; parentSlug: string }): JSX.Element => {
 		return (
-			<div className={styles.mobile__category__item}>
-				<Link href={`/catalog/${parentSlug}/${category.slug}/`}>
-					<a onClick={() => closeModalFunction(false)} className={styles.mobile__category__item__link}>
-						{category.name}
-					</a>
+			<div className="mobile__category__item">
+				<Link
+					href={`/catalog/${parentSlug}/${category.slug}/`}
+					onClick={() => closeModalFunction(false)}
+					className="mobile__category__item__link"
+				>
+					{category.name}
 				</Link>
 				{category.child.length > 0 ? (
-					<span className={styles.mobile__category__item__arrow} onClick={() => ToggleBurger(category.slug)}>
+					<span className="mobile__category__item__arrow" onClick={() => ToggleBurger(category.slug)}>
 						<FontAwesomeIcon icon={faAngleRight} />
 					</span>
 				) : (
@@ -99,17 +103,17 @@ const MenuContentMobile = memo(({ categories }: { categories: CategoryData[] }):
 		parentCategory: CategoryData | undefined;
 	}) => {
 		return (
-			<div className={styles.sub__category__burger__wrapper} data-parent-id={categoryId}>
+			<div className="sub__category__burger__wrapper" data-parent-id={categoryId}>
 				<div
-					className={styles.sub__category__burger__back__wrapper}
+					className="sub__category__burger__back__wrapper"
 					onClick={() => ToggleBurger(parentCategory ? parentCategory.slug : null)}
 				>
-					<span className={styles.sub__category__burger__back__arrow}>
+					<span className="sub__category__burger__back__arrow">
 						<FontAwesomeIcon icon={faAngleLeft} />
 					</span>
 					<span>{parentCategory ? parentCategory.name : 'категории'}</span>
 				</div>
-				<div className={styles.menu__category__column}>
+				<div className="menu__category__column">
 					{category.map((category) => {
 						return <SubCategoryItem category={category} parentSlug={categoryId} key={category.slug} />;
 					})}
@@ -122,10 +126,10 @@ const MenuContentMobile = memo(({ categories }: { categories: CategoryData[] }):
 
 	return (
 		<>
-			<div className={styles.main__category__column__wrapper}>
+			<div className="main__category__column__wrapper">
 				<CategoriesColumn categories={categories} CategoryItem={MainCategoryItem} />
 			</div>
-			<div ref={SubModals} className={styles.burger__modals__list}>
+			<div ref={SubModals} className="burger__modals__list">
 				{subBurgers.map((burger) => {
 					return (
 						<SubCategoryBurger

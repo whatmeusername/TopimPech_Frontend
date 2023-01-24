@@ -1,5 +1,5 @@
 const PriceElement = ({ price, sale = 0 }: { price: number; sale: number }) => {
-	sale = 25;
+	//sale = 25;
 	const PriceTag = sale > 0 ? Number((price - (price * sale) / 100).toFixed(0)) : price;
 	return (
 		<div className="product__card__price__wrapper">

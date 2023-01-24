@@ -57,12 +57,17 @@
         margin: 5px 0px;
         text-align: left;
 
+
+        .facet__filter__item__count{
+            font-weight: 500;
+            padding: 0 5px;
+            font-size: variables.$fontMS;
+        }
+
         .filter__custom__checkbox:hover + .facet__filter__item__label{
             color: variables.$standard-color;
             .facet__filter__item__count{
-                font-weight: 500;
                 color: variables.$standard-color;
-                font-size: variables.$fontMS;
             }
         }
 
@@ -91,9 +96,7 @@
                 }
             }
             .facet__filter__item__count{
-                font-weight: 500;
                 color: variables.$gray-color;
-                font-size: variables.$fontMS;
             }
         }
     }

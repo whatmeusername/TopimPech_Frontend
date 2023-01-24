@@ -4,15 +4,17 @@ import ProductCardOptions from './components/other/ProductCardOptions';
 import AddToCartButton from './components/other/AddToCartButton';
 
 import ProductImageGallery from './components/gallery/ProductGallery';
+import './ProductCardGrid.scss';
 
 import { ProductData } from './interface';
+import Link from 'next/link';
 
 export default function ProductCardGrid({ product, fadeIn }: { product: ProductData; fadeIn?: boolean }): JSX.Element {
 	return (
 		<div
 			className={`product__card__wrapper product__card__wrapper__grid ${fadeIn ? 'product__card__fade__in' : ''}`}
 		>
-			<div className="product__card__link__wrapper">
+			<Link href={`/product/${product.article}/`} className="product__card__link__wrapper">
 				<div className="product__card__image__wrapper">
 					<ProductImageGallery images={product.images} urlStartsWith={'/api'} />
 				</div>
@@ -21,9 +23,9 @@ export default function ProductCardGrid({ product, fadeIn }: { product: ProductD
 					<span className="product__card__name">{product.name}</span>
 				</div>
 				<ManufacturerData product={product} />
-			</div>
+			</Link>
 			<div className="product__card__no__link__wrapper">
-				<AddToCartButton />
+				<AddToCartButton itemId={product.article} />
 			</div>
 			<ProductCardOptions />
 		</div>

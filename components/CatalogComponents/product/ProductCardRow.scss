@@ -36,6 +36,7 @@
                     font-size: variables.$fontX;
                     color: variables.$brown-color;
                     font-weight: 300;
+                    transition: 0.1s ease-in-out;
                 }
             }
     
@@ -92,11 +93,11 @@
                         content: "\20BD";
                     }
                 }
+                
                 .product__card__price{
-                    color: variables.$standard-color;
-                    
-
+                    color: variables.$orange-color;
                 }
+
                 .product__card__price__before__sale{
                     font-size: variables.$fontM;
                     color: variables.$gray-color;
@@ -127,11 +128,28 @@
                     svg{
                         width: 20px;
                     }
-                    &:hover{
+
+                    &__active{
                         border: 2px solid variables.$orange-color;
                         color: variables.$orange-color;
                     }
+                    &__inactive{
+                        &:hover{
+                            color: variables.$orange-color;
+                        }
+                    }
+
+                    &:hover{
+                        border-color: variables.$orange-color;
+                        color: variables.$orange-color;
+                    }
                 }
+            }
+        }
+
+        .product__card__link:hover{
+            .product__card__name{
+                color: variables.$orange-darker-color;
             }
         }
     }

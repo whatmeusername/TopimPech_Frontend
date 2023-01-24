@@ -1,0 +1,198 @@
+import { useState, useEffect, useRef } from 'react';
+
+import './gallery.scss';
+
+interface GalleryItem {
+	path: string;
+	id: number;
+}
+
+const GalleryDesktop = ({
+	items,
+	urlStartsWith,
+	ration,
+}: {
+	items: GalleryItem[];
+	urlStartsWith?: string;
+	ration?: number;
+}): JSX.Element => {
+	const [current, setCurrent] = useState<number>(items[0].id);
+
+	const imageBar = useRef<HTMLDivElement>(null!);
+	const imageBarList = useRef<HTMLDivElement>(null!);
+
+	const zoomImage = useRef<HTMLImageElement>(null!);
+	const zoomPointer = useRef<HTMLDivElement>(null!);
+	const imageElement = useRef<HTMLImageElement>(null!);
+
+	const Ration = ration === undefined ? 2.5 : ration;
+
+	let zoomWidth = 0;
+	let zoomHeight = 0;
+	let rect: DOMRect = null!;
+	let sideTop = useRef<number>(0);
+
+	const setActiveImage = (id: number): void => {
+		setCurrent(id);
+
+		const nextElement: HTMLDivElement = imageBarList.current.querySelector(
+			`[data-image-id="${id}"]`,
+		) as HTMLDivElement;
+
+		const nextSibling = nextElement.nextSibling as HTMLDivElement;
+		if (
+			nextSibling &&
+			imageBar.current.offsetHeight + sideTop.current < nextSibling.offsetTop + nextSibling.offsetHeight
+		) {
+			sideTop.current = nextSibling.offsetHeight + (nextSibling.offsetTop - imageBar.current.offsetHeight);
+			imageBarList.current.style.top = -1 * sideTop.current + 'px';
+		} else {
+			const previousSibling = nextElement.previousSibling as HTMLDivElement;
+			if (previousSibling && sideTop.current >= previousSibling.offsetTop) {
+				sideTop.current = previousSibling.offsetTop;
+				imageBarList.current.style.top = -1 * sideTop.current + 'px';
+			}
+		}
+	};
+
+	const onEnter = (e: React.MouseEvent) => {
+		zoomImage.current.classList.add('image__zoom__active');
+		zoomPointer.current.classList.add('image__zoom__active');
+
+		const w = Ration * imageElement.current.offsetWidth;
+		const h = Ration * imageElement.current.offsetHeight;
+		zoomImage.current.style.backgroundSize = `${w}px ${h}px`;
+
+		zoomWidth = (zoomImage.current.offsetWidth / w) * 100;
+		zoomHeight = (zoomImage.current.offsetHeight / h) * 100;
+		rect = imageElement.current.getBoundingClientRect();
+
+		zoomPointer.current.style.width = zoomWidth + '%';
+		zoomPointer.current.style.height = zoomHeight + '%';
+	};
+
+	const onHover = (e: React.MouseEvent) => {
+		let newPointerX = e.clientX - rect.left - zoomPointer.current.offsetWidth / 2;
+		let newPointerY = e.clientY - rect.top - zoomPointer.current.offsetHeight / 2;
+
+		const maxX = imageElement.current.offsetWidth - zoomPointer.current.offsetWidth;
+		const maxY = imageElement.current.offsetHeight - zoomPointer.current.offsetHeight;
+
+		newPointerX = newPointerX < 0 ? 0 : newPointerX > maxX ? maxX : newPointerX;
+		newPointerY = newPointerY < 0 ? 0 : newPointerY > maxY ? maxY : newPointerY;
+
+		zoomPointer.current.style.left = newPointerX + 'px';
+		zoomPointer.current.style.top = newPointerY + 'px';
+
+		zoomImage.current.style.backgroundPosition = `-${Ration * newPointerX}px -${Ration * newPointerY}px`;
+	};
+
+	const onHoverLeave = (e: React.MouseEvent) => {
+		zoomImage.current.classList.remove('image__zoom__active');
+		zoomPointer.current.classList.remove('image__zoom__active');
+	};
+
+	const activeImagePath = (urlStartsWith ?? '') + (items.find((i) => i.id === current)?.path ?? '');
+
+	return (
+		<div className="gallery__wrapper gallery__wrapper__desktop">
+			<div className="gallery__available__items__wrapper" ref={imageBar}>
+				<div className="gallery__available__items" ref={imageBarList}>
+					{items.map((item) => {
+						return (
+							<div
+								className={`gallery__available__item ${
+									current === item.id
+										? 'gallery__available__item__selected'
+										: 'gallery__available__item__inactive'
+								}`}
+								key={`gallery__item__${item.id}`}
+								onClick={(e) => setActiveImage(item.id)}
+								data-image-id={item.id}
+							>
+								<img
+									src={(urlStartsWith ?? '') + item.path}
+									alt=""
+									className="gallery__available__item__img"
+								/>
+							</div>
+						);
+					})}
+				</div>
+			</div>
+			<div className="gallery__current__img__holder__wrapper">
+				<div className="gallery__current__img__holder">
+					<div
+						className="gallery__current__img__wrapper"
+						onMouseMove={onHover}
+						onMouseEnter={onEnter}
+						onMouseLeave={onHoverLeave}
+					>
+						<img src={activeImagePath} alt="" className="gallery__current__img" ref={imageElement} />
+						<div ref={zoomPointer} className="gallery__current__zoom__cursor" />
+					</div>
+					<div
+						className="gallery__current__img__zoom"
+						style={{ background: `url(${activeImagePath})` }}
+						ref={zoomImage}
+					/>
+				</div>
+			</div>
+		</div>
+	);
+};
+
+const GalleryMobile = ({
+	items,
+	urlStartsWith,
+	ration,
+}: {
+	items: GalleryItem[];
+	urlStartsWith?: string;
+	ration?: number;
+}): JSX.Element | null => {
+	const [current, setCurrent] = useState<number>(items[0].id);
+
+	const activeImagePath = (urlStartsWith ?? '') + (items.find((i) => i.id === current)?.path ?? '');
+	return (
+		<div className="gallery__wrapper gallery__wrapper__mobile">
+			<div className="gallery__current__image__holder">
+				<img src={activeImagePath} className="gallery__current__image" alt="" />
+			</div>
+			<div className="gallery__available__items__wrapper">
+				<div className="gallery__available__items">
+					{items.map((item) => {
+						return (
+							<div
+								key={`gallery__item__${item.id}`}
+								className={`gallery__available__item ${
+									current === item.id
+										? 'gallery__available__item__selected'
+										: 'gallery__available__item__inactive'
+								}`}
+							></div>
+						);
+					})}
+				</div>
+			</div>
+		</div>
+	);
+};
+
+function Gallery({
+	items,
+	urlStartsWith,
+	ration,
+}: {
+	items: GalleryItem[];
+	urlStartsWith?: string;
+	ration?: number;
+}): JSX.Element | null {
+	if (window.innerWidth > 1024) {
+		return <GalleryDesktop items={items} urlStartsWith={urlStartsWith} ration={ration} />;
+	} else {
+		return <GalleryMobile items={items} urlStartsWith={urlStartsWith} ration={ration} />;
+	}
+}
+
+export default Gallery;

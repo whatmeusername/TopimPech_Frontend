@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 
-import styles from './ProductSort.module.scss';
+import './productSort.scss';
 
 import useModal from '../../../../hooks/useModal';
 
@@ -47,9 +47,7 @@ function ProductSort({ disabled }: { disabled?: boolean }): JSX.Element {
 	const SortItem = ({ sortItem }: { sortItem: SortItem }): JSX.Element => {
 		return (
 			<div
-				className={`${styles.modal__sort__item} ${
-					selected.name === sortItem.name ? styles.modal__sort__item__active : ''
-				}`}
+				className={`modal__sort__item ${selected.name === sortItem.name ? 'modal__sort__item__active' : ''}`}
 				onClick={() => {
 					if (!disabled) {
 						setModalActive(false);
@@ -63,26 +61,19 @@ function ProductSort({ disabled }: { disabled?: boolean }): JSX.Element {
 	};
 
 	return (
-		<div
-			className={`${styles.product__sort__wrapper} ${disabled ? styles.product__sort__wrapper__disabled : ''}`}
-			ref={modal}
-		>
+		<div className={`product__sort__wrapper ${disabled ? 'product__sort__wrapper__disabled' : ''}`} ref={modal}>
 			<button
-				className={`${styles.product__sort__button} ${modalActive ? styles.product__sort__button__active : ''}`}
+				className={`product__sort__button ${modalActive ? 'product__sort__button__active' : ''}`}
 				onClick={() => {
 					if (!disabled) setModalActive(!modalActive);
 				}}
 			>
 				<span>{selected.name}</span>
-				<FontAwesomeIcon icon={faAngleUp} className={styles.product__sort__button__icon} />
+				<FontAwesomeIcon icon={faAngleUp} className="product__sort__button__icon" />
 			</button>
 			{!disabled ? (
-				<div
-					className={`${styles.product__sort__modal} ${
-						modalActive ? styles.product__sort__modal__active : ''
-					}`}
-				>
-					<div className={styles.product__sort__modal__content}>
+				<div className={`product__sort__modal ${modalActive ? 'product__sort__modal__active' : ''}`}>
+					<div className="product__sort__modal__content">
 						{sortOptions.map((sortItem) => {
 							return <SortItem sortItem={sortItem} key={`modal-item-${sortItem.slug}`} />;
 						})}

@@ -6,6 +6,9 @@ import ManufacturerData from './components/other/ManufacturerData';
 import ProductCardOptions from './components/other/ProductCardOptions';
 import AddToCartButton from './components/other/AddToCartButton';
 
+import './ProductCardRow.scss';
+import Link from 'next/link';
+
 const FeatureElement = ({ feature }: { feature: Property }): JSX.Element => {
 	return (
 		<dl className="product__feature__wrapper">
@@ -38,16 +41,18 @@ function ProductCardRow({ product, fadeIn }: { product: ProductData; fadeIn?: bo
 				<ProductImageGallery images={product?.images} urlStartsWith={'/api'} />
 			</div>
 			<div className="product__card__main__wrapper">
-				<div className="product__card__info">
-					<div className="product__card__name__wrapper">
-						<span className="product__card__name">{product.name}</span>
+				<Link href={`/product/${product.article}/`} className="product__card__link">
+					<div className="product__card__info">
+						<div className="product__card__name__wrapper">
+							<span className="product__card__name">{product.name}</span>
+						</div>
+						<ManufacturerData product={product} />
+						<FeatureWrapper product={product} limit={6} />
 					</div>
-					<ManufacturerData product={product} />
-					<FeatureWrapper product={product} limit={6} />
-				</div>
+				</Link>
 				<div className="product__card__functions__wrapper">
 					<PriceElement price={product.price} sale={product.sale} />
-					<AddToCartButton />
+					<AddToCartButton itemId={product.article} />
 					<ProductCardOptions />
 				</div>
 			</div>

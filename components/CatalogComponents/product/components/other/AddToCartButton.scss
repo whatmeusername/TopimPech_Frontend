@@ -1,18 +1,29 @@
 @use '../../../../../styles/variables' as variables;
 
 .product__card__add__to__cart{
-    background-color: variables.$orange-color;
     font-family: variables.$museo_cyrl;
     padding: 10px 15px;
     cursor: pointer;
     font-size: variables.$fontM;
-    text-transform: capitalize;
     letter-spacing: 0.5px;
-    color: rgb(255, 255, 255);
     border-radius: 4px;
-    border: none;
+    border: 1px solid transparent;
     transition: 0.1s ease;
-    &:hover{
-        background-color: variables.$orange-darker-color;
+
+    &.product__card__add__to__cart__active{
+        background-color: transparent;
+        border: 1px solid variables.$brown-color;
+        &:hover{
+            opacity: 0.5;
+        }
     }
+    &.product__card__add__to__cart__inactive{
+        background-color: variables.$orange-color;
+        color: rgb(255, 255, 255);
+        &:hover{
+            background-color: variables.$orange-darker-color;
+        }
+    }
+
 }
+

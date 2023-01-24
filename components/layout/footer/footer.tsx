@@ -1,6 +1,6 @@
 import React from 'react';
-import styles from './footer.module.scss';
+import './footer.scss';
 
 export default function Footer(): JSX.Element {
-	return <footer className={styles.footer__wrapper}></footer>;
+	return <footer className="footer__wrapper"></footer>;
 }

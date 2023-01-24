@@ -1,3 +1,6 @@
+@use "../../../styles/variables" as variables;
+
+
 .product__card__wrapper{
 
 
@@ -10,11 +13,36 @@
     &.product__card__fade__in{
         animation: fadeIn 0.5s ease-in;
     }
-    &:hover{
-        background-color: rgb(245, 245, 245);
-        box-shadow: 0px 0px 20px rgba(77, 77, 77, 0.2);
+}
+
+
+.product__card__option{
+    color: variables.$gray-color;
+    cursor: pointer;
+    transition: 0.1s ease-in-out;
+
+    &__active{
+        border-color: variables.$orange-color;
+        color: variables.$orange-color;
+    }
+    &__inactive{
+        &:hover{
+            border-color: variables.$orange-color;
+            color: variables.$orange-color;
+        }
     }
 }
+
+.product__card__option__background{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: variables.$modals__background__click;
+}
+
+
 
 @keyframes fadeIn{
     0%{

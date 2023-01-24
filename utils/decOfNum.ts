@@ -13,4 +13,4 @@ function declOfNum(n: number, forms: string[]) {
 	return forms[2];
 }
 
-export default declOfNum
+export { declOfNum };

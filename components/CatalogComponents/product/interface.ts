@@ -10,14 +10,14 @@ export interface ProductBaseData {
 	slug: string;
 }
 
-export interface FeatureKey{
+export interface FeatureKey {
 	slug: string;
 	name: string;
 	valueUnit: string;
 	valueType: 0 | 1;
 }
 
-export interface Property{
+export interface Property {
 	value: string;
 	slug: string;
 	valueType: 0 | 1;
@@ -26,13 +26,15 @@ export interface Property{
 
 export interface ProductData {
 	name: string;
+	article: number;
 	price: number;
 	sale: number;
 	images: ProductImage[];
 	manufacturer: ProductBaseData;
 	MainCategory: ProductBaseData;
-	categories?: ProductBaseData;
+	categories?: ProductBaseData[];
 	type?: ProductBaseData;
 	properties?: Property[];
 	slug: string;
+	description?: string;
 }

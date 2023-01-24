@@ -1,13 +1,11 @@
-import styles from './Paginator.module.scss';
+import './paginator.scss';
 
 import { PaginatorData } from './interface';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 const SpreadElement = ({ enabled }: { enabled: boolean }): JSX.Element => {
-	return (
-		<span className={`${styles.paginator__spread}${enabled ? '' : styles.paginator__spread__disabled}`}>...</span>
-	);
+	return <span className={`paginator__spread ${enabled ? '' : 'paginator__spread__disabled'}`}>...</span>;
 };
 
 const ScrollToTop = () => {
@@ -31,13 +29,15 @@ function Paginator({ PaginatorData, range = 3 }: { PaginatorData: PaginatorData;
 
 	const PageElement = ({ page, current }: { page: number; current?: boolean }): JSX.Element => {
 		if (current) {
-			return <span className={`${styles.paginator__item} ${styles.paginator__item__active}`}>{page}</span>;
+			return <span className={'paginator__item paginator__item__active'}>{page}</span>;
 		} else {
 			return (
-				<Link href={{ pathname: router.pathname, query: { ...searchParams, page: page } }}>
-					<a className={styles.paginator__item} onClick={ScrollToTop}>
-						{page}
-					</a>
+				<Link
+					href={{ pathname: router.pathname, query: { ...searchParams, page: page } }}
+					className="paginator__item"
+					onClick={ScrollToTop}
+				>
+					{page}
 				</Link>
 			);
 		}
@@ -46,19 +46,21 @@ function Paginator({ PaginatorData, range = 3 }: { PaginatorData: PaginatorData;
 	const PaginatorArrow = ({ enabled, page, label }: { enabled: boolean; page: number; label: string }) => {
 		if (enabled) {
 			return (
-				<div className={styles.paginator__arrow__wrapper}>
-					<Link href={{ pathname: router.pathname, query: { ...searchParams, page: page } }}>
-						<a className={styles.paginator__link} onClick={ScrollToTop}>
-							<span className={styles.paginator__arrow__label}>{label}</span>
-						</a>
+				<div className="paginator__arrow__wrapper">
+					<Link
+						href={{ pathname: router.pathname, query: { ...searchParams, page: page } }}
+						className="paginator__link"
+						onClick={ScrollToTop}
+					>
+						<span className="paginator__arrow__label">{label}</span>
 					</Link>
 				</div>
 			);
 		} else {
 			return (
-				<div className={`${styles.paginator__arrow__wrapper} ${styles.paginator__arrow__disabled}`}>
-					<span className={`${styles.paginator__link} ${styles.paginator__link__disabled}`}>
-						<span className={`${styles.paginator__arrow__label}`}>{label}</span>
+				<div className="paginator__arrow__wrapper paginator__arrow__disabled">
+					<span className="paginator__link paginator__link__disabled">
+						<span className="paginator__arrow__label">{label}</span>
 					</span>
 				</div>
 			);
@@ -68,8 +70,9 @@ function Paginator({ PaginatorData, range = 3 }: { PaginatorData: PaginatorData;
 	if (PaginatorData.pages === 1) {
 		return <></>;
 	}
+
 	return (
-		<div className={styles.paginator__wrapper}>
+		<div className="paginator__wrapper">
 			<PaginatorArrow page={PaginatorData.page - 1} enabled={PaginatorData.previous} label={'назад'} />
 			<SpreadElement enabled={PaginatorData.page - range > 1} />
 			{startArr.map((range) => {

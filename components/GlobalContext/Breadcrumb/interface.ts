@@ -1,7 +1,5 @@
-
-
-import type {CategoryData} from '../Categories/interface'
-export type {CategoryData}
+import type { CategoryData } from '../Categories/interface';
+export type { CategoryData };
 
 export type CategoryDataOmit = Omit<CategoryData, 'child'>;
 

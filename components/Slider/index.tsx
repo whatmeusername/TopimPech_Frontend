@@ -1,9 +1,13 @@
 import { useRef, useState, useEffect } from 'react';
 
+import './Slider.scss';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import useWindowSize from '../../hooks/useWindowSize';
 
 const ACTIVE_DOT_CLASSNAME = 'slider__dot__active';
+const INACTIVE_DOT_CLASSNAME = 'slider__dot__inactive';
 const DISABLED_BUTTON_CLASSNAME = 'slider__button__disabled';
 
 interface SliderSettings {

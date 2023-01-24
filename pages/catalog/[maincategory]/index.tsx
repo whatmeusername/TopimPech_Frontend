@@ -1,18 +1,12 @@
-import { createContext, useContext } from 'react';
+import { GetServerSidePropsContext } from 'next';
+import axios, { AxiosResponse } from 'axios';
+import { PagePropsContext, PROXY_URL } from '../../_app';
 
 import Catalog, {
 	initData as initDataInterface,
 	ProductAPIResponse,
 	SearchParamsBuilder,
 } from '../../../components/CatalogPage/catalog/catalog';
-import { GetServerSidePropsContext } from 'next';
-import axios, { AxiosResponse } from 'axios';
-import { PROXY_URL } from '../../_app';
-
-export const PagePropsContext = createContext<initDataInterface>(null!);
-export const usePagePropsContext = () => {
-	return useContext(PagePropsContext);
-};
 
 function CatalogPage({ initData }: { initData: initDataInterface }) {
 	return (
@@ -21,8 +15,6 @@ function CatalogPage({ initData }: { initData: initDataInterface }) {
 		</PagePropsContext.Provider>
 	);
 }
-
-export default CatalogPage;
 
 export async function catalogGetServerSideProps(context: GetServerSidePropsContext) {
 	const { maincategory, category } = context.params as { maincategory: string; category: string };
@@ -38,7 +30,7 @@ export async function catalogGetServerSideProps(context: GetServerSidePropsConte
 	try {
 		let res = (await axios.get(fetchUrl)) as AxiosResponse<ProductAPIResponse>;
 		productsData = res.data;
-	} catch (err) {
+	} catch (err: unknown) {
 		productsData = {
 			products: [],
 			paginator: { previous: false, next: false, page: 0, pages: 0, count: 0 },
@@ -61,3 +53,5 @@ export async function catalogGetServerSideProps(context: GetServerSidePropsConte
 export const getServerSideProps = async (context: GetServerSidePropsContext) => {
 	return catalogGetServerSideProps(context);
 };
+
+export default CatalogPage;
