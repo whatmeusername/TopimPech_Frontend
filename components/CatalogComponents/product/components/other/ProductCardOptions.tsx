@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEquals, faChartColumn } from '@fortawesome/free-solid-svg-icons';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import { useState } from 'react';
+import { useCentralModalContext } from '../../../../GlobalContext';
 
 function SimilarProductsElement() {
 	const [active, setActive] = useState<boolean>(false);
@@ -15,11 +16,6 @@ function SimilarProductsElement() {
 			>
 				<FontAwesomeIcon icon={faEquals} />
 			</div>
-			{active ? (
-				<>
-					<div className="product__card__option__background" />
-				</>
-			) : null}
 		</>
 	);
 }

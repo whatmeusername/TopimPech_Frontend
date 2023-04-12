@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, ReactNode, useMemo, ReactElement } from 'react';
 import './CatalogContainer.scss';
 
 // ==== NEXT ====
@@ -21,15 +21,14 @@ import type { ProductData } from '../../CatalogComponents/product/interface';
 import type { PaginatorData } from './Paginator/interface';
 
 // ==== Breadcrumb ====
-import useBreadcrumbContext from '../../GlobalContext/Breadcrumb/Context';
+import { useBreadcrumbContext } from '../../GlobalContext/';
 import BreadcrumbByURL from '../../CatalogComponents/breadcrumb/breacrumb';
 
 // ==== Elements =====
 import FacetFilter from './Filter/Filter';
-import ChangeProductView from './ChangeProductView/ChangeProductView';
+import ChangeProductView, { getInitialView } from './ChangeProductView/ChangeProductView';
 import Paginator from './Paginator/Paginator';
 import ProductSort from './ProductSort/ProductSort';
-import Slider from '../../Slider';
 
 export interface ProductAPIResponse {
 	products: ProductData[];
@@ -39,18 +38,13 @@ export interface ProductAPIResponse {
 
 export interface initData {
 	productsData: ProductAPIResponse;
-	filter: {};
+	filter: { [K: string]: any };
 	view: 'grid' | 'row';
 	order: string;
 }
 
-const isClient = typeof window !== 'undefined';
-
 function compare(a: any, b: any) {
-	if (a.id < b.id) {
-		return -1;
-	}
-	return 0;
+	return a.id < b.id ? -1 : 0;
 }
 
 export function SearchParamsBuilder(
@@ -66,7 +60,7 @@ export function SearchParamsBuilder(
 	function getSearchParams(...params: string[]): string {
 		let SearchParams = '?';
 		params.forEach((param) => {
-			let paramRes = isURLSearchParams
+			const paramRes = isURLSearchParams
 				? (searchParams as URLSearchParams).get(param)
 				: (searchParams as ParsedUrlQuery)[param];
 			if (paramRes) {
@@ -80,7 +74,7 @@ export function SearchParamsBuilder(
 		return SearchParams;
 	}
 
-	let SearchParams = getSearchParams(...rest);
+	const SearchParams = getSearchParams(...rest);
 
 	return [url + SearchParams, SearchParams];
 }
@@ -95,10 +89,9 @@ const ProductColumn = ({
 	fadeIn: boolean;
 }): JSX.Element => {
 	if (products.length === 0) {
-		let SkeletonsCountArr = Array.from(Array(24).keys());
 		return (
 			<>
-				{SkeletonsCountArr.map((item) => {
+				{Array.from(Array(24).keys()).map((item) => {
 					if (view === 'grid') return <ProductCardGridSkeleton key={`product__skeleton__${item}`} />;
 					else return <ProductCardRowSkeleton key={`product__skeleton__${item}`} />;
 				})}
@@ -109,11 +102,9 @@ const ProductColumn = ({
 			<>
 				{products.map((product) => {
 					product.images.sort(compare);
-					return view === 'grid' ? (
-						<ProductCardGrid product={product} key={product.slug} fadeIn={fadeIn} />
-					) : (
-						<ProductCardRow product={product} key={product.slug} fadeIn={fadeIn} />
-					);
+					if (view === 'grid')
+						return <ProductCardGrid product={product} key={product.slug} fadeIn={fadeIn} />;
+					else return <ProductCardRow product={product} key={product.slug} fadeIn={fadeIn} />;
 				})}
 			</>
 		);
@@ -138,7 +129,7 @@ function getItemsPerPage(): number {
 	let itemsPerPage = 36;
 	if (typeof window !== 'undefined') {
 		const searchParams = new URLSearchParams(window.location.search);
-		let itemsPerPageParsed = searchParams.get('items_per_page');
+		const itemsPerPageParsed = searchParams.get('items_per_page');
 		itemsPerPage =
 			itemsPerPageParsed !== null && typeof itemsPerPageParsed === 'string'
 				? Number(itemsPerPageParsed)
@@ -147,12 +138,29 @@ function getItemsPerPage(): number {
 	return itemsPerPage;
 }
 
-const CatalogContainer = ({ ProductCount }: { ProductCount: any }): JSX.Element => {
+const CatalogContainerFooter = ({ children }: { children: ReactNode[] | ReactNode }): ReactElement => {
+	return <div className="catalog__footer">{children}</div>;
+};
+
+const CatalogContainerViewedItems = ({ PaginatorData }: { PaginatorData: PaginatorData }): ReactElement => {
+	return (
+		<p className="viewed__products__count">
+			Вы просмотрели {getItemsPerPage() * PaginatorData.page} из {PaginatorData.count}{' '}
+			{declOfNum(PaginatorData.count, ['товар', 'товаров', 'товаров'])}
+		</p>
+	);
+};
+
+const StandardBreakLine = () => {
+	return <hr className="break__line__standard" />;
+};
+
+const CatalogContainer = (): ReactElement => {
 	const router = useRouter();
 	const initData = usePagePropsContext();
 	const { maincategory, category } = router.query as { maincategory: string; category: string };
-	const [CatalogData, setCatalogData] = useState<ProductAPIResponse>(initData?.productsData ?? null!);
-	const [catalogView, setCatalogView] = useState<'row' | 'grid'>(initData?.view ?? 'grid');
+	const [CatalogData, setCatalogData] = useState<ProductAPIResponse>(initData?.productsData);
+	const [catalogView, setCatalogView] = useState<'row' | 'grid'>(getInitialView(router) ?? 'grid');
 
 	const isLoaded = useRef<number>(0);
 
@@ -167,7 +175,14 @@ const CatalogContainer = ({ ProductCount }: { ProductCount: any }): JSX.Element 
 	let url = '/api/products/filter/';
 	if (maincategory) url += `${maincategory}/`;
 	if (category) url += `${category}/`;
-	let [fetchUrl, SearchParams] = SearchParamsBuilder(url, router.query, 'page', 'items_per_page', 'order', 'filter');
+	const [fetchUrl, SearchParams] = SearchParamsBuilder(
+		url,
+		router.query,
+		'page',
+		'items_per_page',
+		'order',
+		'filter',
+	);
 
 	useEffect(() => {
 		isLoaded.current = 0;
@@ -177,7 +192,6 @@ const CatalogContainer = ({ ProductCount }: { ProductCount: any }): JSX.Element 
 				url: fetchUrl,
 			}).then(({ data }: { data: ProductAPIResponse }) => {
 				setCatalogData(data);
-				ProductCount.current?.setCount(data.paginator?.count ?? 0);
 				isLoaded.current = 1;
 			});
 		} else setCatalogData(initData.productsData);
@@ -192,7 +206,7 @@ const CatalogContainer = ({ ProductCount }: { ProductCount: any }): JSX.Element 
 				disabled={CatalogData?.products === undefined || CatalogData?.products?.length === 0}
 				setCatalogView={setCatalogView}
 			/>
-			<hr className="break__line__standard"></hr>
+			<StandardBreakLine />
 			<div
 				className={`catalog__products__container ${
 					catalogView === 'grid' ? 'display__row' : 'display__column'
@@ -200,94 +214,83 @@ const CatalogContainer = ({ ProductCount }: { ProductCount: any }): JSX.Element 
 			>
 				<ProductColumn products={CatalogData?.products ?? []} view={catalogView} fadeIn={isFetched} />
 			</div>
-			{CatalogData?.paginator && CatalogData?.paginator.pages > 1 ? (
+			{CatalogData?.paginator && CatalogData.paginator.pages > 1 ? (
 				<>
-					<hr className="break__line__standard"></hr>
-					<div className="catalog__footer">
+					<StandardBreakLine />
+					<CatalogContainerFooter>
 						<Paginator PaginatorData={CatalogData.paginator} />
-						<p className="viewed__products__count">
-							Вы просмотрели {getItemsPerPage() * CatalogData.paginator.page} из{' '}
-							{CatalogData.paginator.count}{' '}
-							{declOfNum(CatalogData.paginator.count, ['товар', 'товаров', 'товаров'])}
-						</p>
-					</div>
+						<CatalogContainerViewedItems PaginatorData={CatalogData.paginator} />
+					</CatalogContainerFooter>
 				</>
-			) : (
-				''
-			)}
+			) : null}
 		</div>
 	);
 };
 
-export default function Catalog({ initData }: { initData: initData }): JSX.Element {
-	const ProductCount = useRef<any>(null!);
+function CatalogHead({ children }: { children: ReactNode[] }): ReactElement {
+	return <div className="catalog__head__wrapper">{children}</div>;
+}
 
-	const CatalogHeader = () => {
-		const [count, setCount] = useState<number>(initData.productsData?.paginator.count ?? 0);
+function CatalogHeader({ paginator }: { paginator: PaginatorData }): ReactElement {
+	const breacrumbData = useBreadcrumbContext();
+	const { maincategory, category } = useRouter().query as { maincategory: string; category: string };
 
-		useEffect(() => {
-			ProductCount.current = { count: count, setCount: setCount };
-		}, []);
+	const header = useMemo(() => {
+		const currentBreadcrumbItem = breacrumbData?.get({ start: maincategory, end: category });
+		if (currentBreadcrumbItem) {
+			const dataFromBreadcrumb = breacrumbData.getUntil(
+				currentBreadcrumbItem,
+				maincategory ?? '',
+				category ?? '',
+			);
 
-		const breacrumbData = useBreadcrumbContext();
-		const router = useRouter();
-		let { maincategory, category } = router.query as { maincategory: string; category: string };
-
-		let header = '';
-
-		if (breacrumbData) {
-			let currentBreadcrumbItem = breacrumbData.get({ start: maincategory, end: category });
-			if (currentBreadcrumbItem) {
-				const dataFromBreadcrumb = breacrumbData.getUntil(
-					currentBreadcrumbItem,
-					maincategory ?? '',
-					category ?? '',
-				);
-
-				let findHeader = category ? category : maincategory;
-				header = dataFromBreadcrumb.data.find((data) => data.slug === findHeader)?.name ?? '';
-			}
+			const findHeader = category ? category : maincategory;
+			return dataFromBreadcrumb.data.find((data) => data.slug === findHeader)?.name ?? '';
 		}
+	}, [breacrumbData, maincategory, category]);
 
-		return (
-			<div className="catalog__head__wrapper">
-				<BreadcrumbByURL settings={{ includeHomePage: true }} />
-				<div className="catalog__header__wrapper">
-					<h1 className="catalog__header">{header}</h1>
-					<span className="catalog__header__count">
-						{count} {declOfNum(count, ['товар', 'товара', 'товаров'])}
-					</span>
-				</div>
+	return (
+		<div className="catalog__header__wrapper">
+			<h1 className="catalog__header">{header}</h1>
+			<span className="catalog__header__count">
+				{paginator.count} {declOfNum(paginator.count, ['товар', 'товара', 'товаров'])}
+			</span>
+		</div>
+	);
+}
+
+function ProductsNotFound(): ReactElement {
+	return (
+		<div className="catalog__page__not__fount__wrapper">
+			<div className="catalog__page__not__found">
+				<p className="catalog__page__not__found__text">
+					Упс! К сожалению, по вашему запросу ничего не было найдено
+				</p>
+				<Link href={'/'} className="return__to_main_page__button">
+					Вернуться на главную
+				</Link>
 			</div>
-		);
-	};
+		</div>
+	);
+}
 
-	let responseStatus = initData?.productsData?.status?.is404Page ?? true;
-
-	if (!responseStatus) {
+export default function Catalog({ initData }: { initData: initData }): ReactElement {
+	if (!initData?.productsData?.status?.is404Page) {
 		return (
 			<div className="catalog__page__wrapper">
-				<CatalogHeader />
+				<CatalogHead>
+					<BreadcrumbByURL settings={{ includeHomePage: true }} />
+					<CatalogHeader paginator={initData.productsData.paginator} />
+				</CatalogHead>
 				<div className="catalog__body">
 					<div className="catalog__filters__wrapper">
 						<FacetFilter />
 					</div>
-					<CatalogContainer ProductCount={ProductCount} />
+					<CatalogContainer />
 				</div>
 			</div>
 		);
 	} else {
-		return (
-			<div className="catalog__page__not__fount__wrapper">
-				<div className="catalog__page__not__found">
-					<p className="catalog__page__not__found__text">
-						Упс! К сожалению, по вашему запросу ничего не было найдено
-					</p>
-					<Link href={'/'} className="return__to_main_page__button">
-						Вернуться на главную
-					</Link>
-				</div>
-			</div>
-		);
+		return <ProductsNotFound />;
 	}
 }

@@ -20,7 +20,7 @@ type ServerSideProps = {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
 	const { article } = context.params as { article: string };
 
-	let serverSideProps: ServerSideProps = { initData: null, params: context.params };
+	const serverSideProps: ServerSideProps = { initData: null, params: context.params };
 	try {
 		serverSideProps['initData'] = (await get(PROXY_URL + `products/byarticle/${article}`)).data;
 	} catch (err) {

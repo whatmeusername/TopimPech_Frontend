@@ -38,7 +38,7 @@ class Categories {
 
 const CategoryContextData = createContext<Categories>(null!);
 
-export const CategoriesContext = ({ children }: { children: JSX.Element }) => {
+const CategoriesContext = ({ children }: { children: JSX.Element }) => {
 	const [categories, setCategories] = useState<Categories>(new Categories(CategoriesInitial.categories));
 
 	useEffect(() => {
@@ -52,7 +52,8 @@ export const CategoriesContext = ({ children }: { children: JSX.Element }) => {
 
 	return <CategoryContextData.Provider value={categories}>{children}</CategoryContextData.Provider>;
 };
-
-export default function useCategoriesContext(): Categories {
+function useCategoriesContext(): Categories {
 	return useContext(CategoryContextData);
 }
+
+export { CategoriesContext, useCategoriesContext };

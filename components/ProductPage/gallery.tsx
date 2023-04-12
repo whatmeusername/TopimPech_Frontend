@@ -18,6 +18,7 @@ const GalleryDesktop = ({
 }): JSX.Element => {
 	const [current, setCurrent] = useState<number>(items[0].id);
 
+	const imageWrapper = useRef<HTMLDivElement>(null!);
 	const imageBar = useRef<HTMLDivElement>(null!);
 	const imageBarList = useRef<HTMLDivElement>(null!);
 
@@ -27,17 +28,24 @@ const GalleryDesktop = ({
 
 	const Ration = ration === undefined ? 2.5 : ration;
 
+	const OnLoad = () => {
+		imageElement.current.style.maxWidth = imageWrapper.current.offsetWidth + 'px';
+		imageElement.current.style.maxHeight = imageWrapper.current.offsetHeight + 'px';
+	};
+
+	useEffect(() => {
+		OnLoad();
+	}, []);
+
 	let zoomWidth = 0;
 	let zoomHeight = 0;
 	let rect: DOMRect = null!;
-	let sideTop = useRef<number>(0);
+	const sideTop = useRef<number>(0);
 
 	const setActiveImage = (id: number): void => {
 		setCurrent(id);
 
-		const nextElement: HTMLDivElement = imageBarList.current.querySelector(
-			`[data-image-id="${id}"]`,
-		) as HTMLDivElement;
+		const nextElement: HTMLDivElement = imageBarList.current.querySelector(`[data-image-id="${id}"]`) as HTMLDivElement;
 
 		const nextSibling = nextElement.nextSibling as HTMLDivElement;
 		if (
@@ -55,7 +63,7 @@ const GalleryDesktop = ({
 		}
 	};
 
-	const onEnter = (e: React.MouseEvent) => {
+	const onEnter = () => {
 		zoomImage.current.classList.add('image__zoom__active');
 		zoomPointer.current.classList.add('image__zoom__active');
 
@@ -87,7 +95,7 @@ const GalleryDesktop = ({
 		zoomImage.current.style.backgroundPosition = `-${Ration * newPointerX}px -${Ration * newPointerY}px`;
 	};
 
-	const onHoverLeave = (e: React.MouseEvent) => {
+	const onHoverLeave = () => {
 		zoomImage.current.classList.remove('image__zoom__active');
 		zoomPointer.current.classList.remove('image__zoom__active');
 	};
@@ -102,19 +110,13 @@ const GalleryDesktop = ({
 						return (
 							<div
 								className={`gallery__available__item ${
-									current === item.id
-										? 'gallery__available__item__selected'
-										: 'gallery__available__item__inactive'
+									current === item.id ? 'gallery__available__item__selected' : 'gallery__available__item__inactive'
 								}`}
 								key={`gallery__item__${item.id}`}
-								onClick={(e) => setActiveImage(item.id)}
+								onClick={() => setActiveImage(item.id)}
 								data-image-id={item.id}
 							>
-								<img
-									src={(urlStartsWith ?? '') + item.path}
-									alt=""
-									className="gallery__available__item__img"
-								/>
+								<img src={(urlStartsWith ?? '') + item.path} alt="" className="gallery__available__item__image" />
 							</div>
 						);
 					})}
@@ -127,6 +129,7 @@ const GalleryDesktop = ({
 						onMouseMove={onHover}
 						onMouseEnter={onEnter}
 						onMouseLeave={onHoverLeave}
+						ref={imageWrapper}
 					>
 						<img src={activeImagePath} alt="" className="gallery__current__img" ref={imageElement} />
 						<div ref={zoomPointer} className="gallery__current__zoom__cursor" />
@@ -145,19 +148,108 @@ const GalleryDesktop = ({
 const GalleryMobile = ({
 	items,
 	urlStartsWith,
-	ration,
 }: {
 	items: GalleryItem[];
 	urlStartsWith?: string;
-	ration?: number;
 }): JSX.Element | null => {
 	const [current, setCurrent] = useState<number>(items[0].id);
 
-	const activeImagePath = (urlStartsWith ?? '') + (items.find((i) => i.id === current)?.path ?? '');
+	const dragWrapper = useRef<HTMLDivElement>(null!);
+
+	let dragOffset = 0;
+	let rect: DOMRect | null = null;
+	let currentOffset = 0;
+	let nextOffset = 0;
+
+	useEffect(() => {
+		dragWrapper.current.style.left = current * dragWrapper.current.offsetWidth * -1 + 'px';
+	}, [current]);
+
+	const OnDragStart = (e: React.DragEvent | React.TouchEvent) => {
+		const isTouch = (e as React.DragEvent).clientX === undefined;
+
+		if (!isTouch) {
+			e.preventDefault();
+		}
+		const x = (e as React.DragEvent).clientX ?? (e as React.TouchEvent).touches[0].clientX;
+
+		rect = dragWrapper.current.getBoundingClientRect();
+		currentOffset = dragWrapper.current.offsetWidth * current;
+		dragOffset = x - rect.left + currentOffset;
+		dragWrapper.current.style.transition = '';
+
+		window.addEventListener('mousemove', onDragMove);
+		window.addEventListener('mouseup', onDragEnd);
+
+		if (isTouch) {
+			window.addEventListener('touchmove', onDragMove);
+			window.addEventListener('touchend', onDragEnd);
+		} else {
+			window.addEventListener('mousemove', onDragMove);
+			window.addEventListener('mouseup', onDragEnd);
+		}
+	};
+
+	const removeEvents = () => {
+		window.removeEventListener('touchmove', onDragMove);
+		window.removeEventListener('touchend', onDragEnd);
+		window.removeEventListener('mousemove', onDragMove);
+		window.removeEventListener('mouseup', onDragEnd);
+	};
+
+	const onDragMove = (e: MouseEvent | TouchEvent) => {
+		if (!rect) {
+			removeEvents();
+			return;
+		}
+
+		const x = (e as DragEvent).clientX ?? (e as TouchEvent).touches[0].clientX;
+		const next = x - rect.left - dragOffset;
+
+		dragWrapper.current.style.left = next + 'px';
+		nextOffset = next;
+	};
+
+	const onDragEnd = () => {
+		removeEvents();
+
+		dragWrapper.current.style.transition = 'left 0.25s ease';
+
+		const ratioNext = (nextOffset * -1) / dragWrapper.current.offsetWidth;
+		let idNext = Math.trunc(ratioNext);
+
+		if (ratioNext > current + 0.5) {
+			idNext = ratioNext > idNext + 0.5 ? Math.ceil(ratioNext) : idNext;
+		} else if (ratioNext + 0.5 < current) {
+			idNext = ratioNext < idNext + 0.5 ? Math.floor(ratioNext) : Math.floor(ratioNext);
+		} else {
+			dragWrapper.current.style.left = `-${dragWrapper.current.offsetWidth * current}px`;
+			return;
+		}
+
+		if (ratioNext < 0) {
+			if (current !== 0) setCurrent(0);
+			else dragWrapper.current.style.left = '0px';
+		} else if (idNext < current) {
+			setCurrent(idNext === 0 ? 0 : current - (current - idNext));
+		} else if (idNext >= items.length - 2) {
+			if (current !== items.length - 1) setCurrent(items.length - 1);
+			else dragWrapper.current.style.left = `-${dragWrapper.current.offsetWidth * (items.length - 1)}px`;
+		} else if (idNext > current) setCurrent(current + (idNext - current));
+	};
+
 	return (
 		<div className="gallery__wrapper gallery__wrapper__mobile">
-			<div className="gallery__current__image__holder">
-				<img src={activeImagePath} className="gallery__current__image" alt="" />
+			<div className="gallery__images__holder__wrapper">
+				<div className="gallery__images__holder" onDragStart={OnDragStart} onTouchStart={OnDragStart} ref={dragWrapper}>
+					{items.map((item) => {
+						return (
+							<span className="gallery__image__holder" key={`gallery__image__holder__${item.id}`}>
+								<img src={(urlStartsWith ?? '') + item.path} className="gallery__current__image" alt="" />
+							</span>
+						);
+					})}
+				</div>
 			</div>
 			<div className="gallery__available__items__wrapper">
 				<div className="gallery__available__items">
@@ -165,12 +257,13 @@ const GalleryMobile = ({
 						return (
 							<div
 								key={`gallery__item__${item.id}`}
+								onClick={() => setCurrent(item.id)}
 								className={`gallery__available__item ${
-									current === item.id
-										? 'gallery__available__item__selected'
-										: 'gallery__available__item__inactive'
+									current === item.id ? 'gallery__available__item__selected' : 'gallery__available__item__inactive'
 								}`}
-							></div>
+							>
+								<img src={(urlStartsWith ?? '') + item.path} className="gallery__available__item__image" />
+							</div>
 						);
 					})}
 				</div>
@@ -188,10 +281,10 @@ function Gallery({
 	urlStartsWith?: string;
 	ration?: number;
 }): JSX.Element | null {
-	if (window.innerWidth > 1024) {
+	if (typeof window === 'undefined' || window.innerWidth > 1024) {
 		return <GalleryDesktop items={items} urlStartsWith={urlStartsWith} ration={ration} />;
 	} else {
-		return <GalleryMobile items={items} urlStartsWith={urlStartsWith} ration={ration} />;
+		return <GalleryMobile items={items} urlStartsWith={urlStartsWith} />;
 	}
 }
 

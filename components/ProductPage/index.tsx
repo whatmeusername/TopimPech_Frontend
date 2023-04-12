@@ -1,12 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, ReactElement } from 'react';
 import type { ProductData } from '../CatalogComponents/product/interface';
-import { useRouter } from 'next/router';
 
 import './pp__upper.scss';
-
-import { useSelector, useDispatch } from 'react-redux';
-import type { RootState } from '../../store';
-import { add as historyAdd, HistorySliceItem } from '../../store/history.slice';
 
 import BreadcrumbByURL from '../CatalogComponents/breadcrumb/breacrumb';
 import Gallery from './gallery';
@@ -17,6 +12,8 @@ import Link from 'next/link';
 import useWindowSize from '../../hooks/useWindowSize';
 import get from 'axios';
 import { ParsedUrlQuery } from 'querystring';
+import { observer } from 'mobx-react-lite';
+import { HistorySliceItem, productHistory } from '../../store';
 
 const ProductSliderItem = ({
 	data,
@@ -99,6 +96,10 @@ function SimilarProductBlock({
 	} else return null;
 }
 
+const HistorySlider = observer(() => {
+	return <ProductSlider items={productHistory.items} URLStartWith={'/api'} key={productHistory.items.length} />;
+});
+
 function ProductPageElement({
 	initData,
 	params,
@@ -106,12 +107,9 @@ function ProductPageElement({
 	initData: ProductData;
 	params: ParsedUrlQuery;
 }): JSX.Element | null {
-	const dispatch = useDispatch();
-	const productHistory = useSelector((state: RootState) => state.productHistory).items;
-
 	useEffect(() => {
 		if (initData && !(initData as any)?.status) {
-			dispatch(historyAdd(initData));
+			productHistory.add(initData);
 		}
 	}, [params.article]);
 
@@ -135,7 +133,6 @@ function ProductPageElement({
 							includeAtEnd: {
 								label: initData.name,
 								slug: initData.slug,
-								href: location.href,
 							},
 						}}
 					/>
@@ -146,9 +143,7 @@ function ProductPageElement({
 			</div>
 			<div className="product__page__upper">
 				<div className="product__page__card product__page__upper__item product__page__gallery__wrapper">
-					{galleryItems.length > 0 ? (
-						<Gallery items={galleryItems} urlStartsWith={'/api'} ration={3} />
-					) : null}
+					{galleryItems.length > 0 ? <Gallery items={galleryItems} urlStartsWith={'/api'} ration={3} /> : null}
 				</div>
 				<div className=" product__page__card product__page__upper__item product__page__main__info">
 					<h1 className="product__page__header">{initData.name}</h1>
@@ -168,10 +163,7 @@ function ProductPageElement({
 					{(initData.properties ?? []).map((prop) => {
 						if (!prop.key) return null;
 						return (
-							<dl
-								key={`product__properties__${prop.key.slug}`}
-								className="product__page__properties__item"
-							>
+							<dl key={`product__properties__${prop.key.slug}`} className="product__page__properties__item">
 								<dt className="product__page__properties__item__key">{prop.key.name}</dt>
 								<dd className="product__page__properties__item__value">
 									{prop.value} {prop.key.valueUnit}
@@ -181,15 +173,29 @@ function ProductPageElement({
 					})}
 				</div>
 			</div>
-			<div className="product__page__card product__page__history">
-				<h3 className="product__page__header__medium">Вы смотрели</h3>
-				{productHistory.length > 0 ? (
-					<ProductSlider items={productHistory} URLStartWith={'/api'} key={productHistory.length} />
-				) : null}
-			</div>
+			{/* // TODO: SUPPRESESS HYDRATION */}
+			<HydrationComponent>
+				<div suppressHydrationWarning className="product__page__card product__page__history">
+					<h3 className="product__page__header__medium">Вы смотрели</h3>
+					{productHistory.items.length > 0 ? <HistorySlider /> : null}
+				</div>
+			</HydrationComponent>
 			<SimilarProductBlock article={initData.article} URLStartWith={'/api'} params={params} />
 		</div>
 	);
 }
+
+const HydrationComponent = ({ children, still }: { children: ReactElement; still?: boolean }) => {
+	const [ssr, setSSR] = useState(false);
+	useEffect(() => {
+		setSSR(true);
+	});
+
+	if (ssr || still) {
+		return <>{children}</>;
+	} else {
+		return null;
+	}
+};
 
 export default ProductPageElement;

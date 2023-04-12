@@ -28,7 +28,7 @@ export async function catalogGetServerSideProps(context: GetServerSidePropsConte
 	const [fetchUrl] = SearchParamsBuilder(url, query, 'page', 'items_per_page', 'order', 'filter');
 
 	try {
-		let res = (await axios.get(fetchUrl)) as AxiosResponse<ProductAPIResponse>;
+		const res = (await axios.get(fetchUrl)) as AxiosResponse<ProductAPIResponse>;
 		productsData = res.data;
 	} catch (err: unknown) {
 		productsData = {

@@ -13,7 +13,7 @@ interface ProductAligmentVariantData {
 	name: ProductAligmentType;
 }
 
-const getInitialView = (router: NextRouter, searchParams: URLSearchParams): ProductAligmentType => {
+const getInitialView = (router: NextRouter): ProductAligmentType => {
 	if (!isClient) {
 		return 'row';
 	}
@@ -27,14 +27,13 @@ const ChangeProductView = memo(
 	({ disabled, setCatalogView }: { disabled?: boolean; setCatalogView: (...args: any[]) => void }) => {
 		const { width } = useWindowSize();
 		const router = useRouter();
-		const searchParams = isClient ? new URLSearchParams(window.location.search) : ({} as URLSearchParams);
 		disabled = disabled === undefined ? false : disabled;
 
 		const [selectedView, setSelectedView] = useState<ProductAligmentType | undefined>(undefined);
 
 		// using useEffect hook to ignore SSR Hydration
 		useEffect(() => {
-			setSelectedView(getInitialView(router, searchParams));
+			setSelectedView(getInitialView(router));
 		}, []);
 
 		const AvailableVariant: ProductAligmentVariantData[] = [
@@ -97,4 +96,5 @@ const ChangeProductView = memo(
 
 ChangeProductView.displayName = 'ChangeProductView';
 
+export { getInitialView };
 export default ChangeProductView;

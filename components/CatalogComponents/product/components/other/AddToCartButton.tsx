@@ -1,23 +1,17 @@
-import { useState } from 'react';
-
 import './AddToCartButton.scss';
 
-import { useSelector, useDispatch } from 'react-redux';
-import type { RootState } from '../../../../../store';
-import { addItem } from '../../../../../store/cart.slice';
+import { userProductCart } from '../../../../../store/index';
+import { observer } from 'mobx-react-lite';
 
 function AddToCartButton({ itemId }: { itemId: number }): JSX.Element {
-	const dispatch = useDispatch();
-	const cartData = useSelector((state: RootState) => state.cart).raw_items;
-	const [inCart, setInCart] = useState<boolean>(cartData.find((i) => i.id === itemId) !== undefined);
+	const inCart = userProductCart.has(itemId);
 
 	if (!inCart) {
 		return (
 			<button
 				className="product__card__add__to__cart product__card__add__to__cart__inactive"
 				onClick={() => {
-					setInCart(true);
-					dispatch(addItem({ id: itemId, count: 1 }));
+					userProductCart.addItem({ id: itemId, count: 1 });
 				}}
 			>
 				В корзину
@@ -28,4 +22,4 @@ function AddToCartButton({ itemId }: { itemId: number }): JSX.Element {
 	}
 }
 
-export default AddToCartButton;
+export default observer(AddToCartButton);

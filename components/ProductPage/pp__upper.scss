@@ -115,6 +115,9 @@
     
     .product__page__upper__item{
         min-height: 500px;
+        @media (max-width: 768px){
+            min-height: 200px;
+        }
     }
 
     
@@ -129,6 +132,12 @@
             height: 98%;
             max-width: 650px;
             padding: 10px;
+        }
+
+        @media (max-width: 768px) {
+            max-width: 100%;
+            min-width: 200px;
+            
         }
     }
 
@@ -223,12 +232,13 @@
     }
 
     @media (max-width: 1080px) {
-        columns: 1;
+        grid-template-columns: 100%;
         gap: 20px;
         .product__page__properties__item{
             width: 98%;
         }
     }
+
 }
 
 

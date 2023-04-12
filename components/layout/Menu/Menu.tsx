@@ -11,7 +11,7 @@ import MenuContentMobile from './MenuContentMobile';
 import MenuContentDesktop from './MenuContentDesktop';
 import { CloseButton } from './GeneralElements';
 
-import useCategoriesContext from '../../GlobalContext/Categories/Context';
+import { useCategoriesContext } from '../../GlobalContext/';
 
 export const ToggleModalContext = createContext<(fixedState?: boolean) => void>(null!);
 

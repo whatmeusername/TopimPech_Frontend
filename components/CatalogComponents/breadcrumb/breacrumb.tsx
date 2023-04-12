@@ -1,7 +1,7 @@
 import './breadcrumb.scss';
 
 import { Fragment as ReactFragment } from 'react';
-import useBreadcrumbContext from '../../GlobalContext/Breadcrumb/Context';
+import { useBreadcrumbContext } from '../../GlobalContext/';
 import { CategoryDataOmit } from '../../GlobalContext/Breadcrumb/interface';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -15,7 +15,6 @@ interface BreadcrumbSettings {
 	};
 	includeAtEnd?: {
 		label: string;
-		href: string;
 		slug: string;
 	};
 }
@@ -54,7 +53,7 @@ export default function BreadcrumbByURL({ settings }: { settings?: BreadcrumbSet
 		currentBreadcrumbItem.data.push({
 			name: settings.includeAtEnd.label,
 			slug: settings.includeAtEnd.slug,
-			href: settings.includeAtEnd.href,
+			href: '',
 		});
 	}
 
@@ -83,10 +82,7 @@ export default function BreadcrumbByURL({ settings }: { settings?: BreadcrumbSet
 					);
 				} else {
 					return (
-						<div
-							className="breadcrumb__item breadcrumb__item__active"
-							key={`breadcrumb__item-${breadcrumbItem.slug}`}
-						>
+						<div className="breadcrumb__item breadcrumb__item__active" key={`breadcrumb__item-${breadcrumbItem.slug}`}>
 							<span>{breadcrumbItem.name}</span>
 						</div>
 					);

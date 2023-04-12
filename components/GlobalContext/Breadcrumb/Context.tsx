@@ -1,10 +1,10 @@
-import { createContext, useState, useEffect, useContext } from 'react';
+import { createContext, useState, useContext } from 'react';
 import type { CategoryData, CategoryDataOmit, BreadcrumbData } from './interface';
-import useCategoriesContext from '../Categories/Context';
+import { useCategoriesContext } from '../index';
 
 const BreadcrumbContextData = createContext<Breadcrumb>(null!);
 
-export class Breadcrumb {
+class Breadcrumb {
 	BreadcrumbData: BreadcrumbData[];
 	constructor(BreadcrumbData: BreadcrumbData[]) {
 		this.BreadcrumbData = BreadcrumbData;
@@ -116,7 +116,8 @@ function BreadcrumbContext({ children }: { children: JSX.Element }): JSX.Element
 	return <BreadcrumbContextData.Provider value={breadcrumbData}>{children}</BreadcrumbContextData.Provider>;
 }
 
-export { BreadcrumbContext };
-export default function useBreadcrumbContext(): Breadcrumb {
+function useBreadcrumbContext(): Breadcrumb {
 	return useContext(BreadcrumbContextData);
 }
+
+export { BreadcrumbContext, useBreadcrumbContext, Breadcrumb };

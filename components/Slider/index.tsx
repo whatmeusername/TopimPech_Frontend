@@ -1,5 +1,4 @@
 import { useRef, useState, useEffect } from 'react';
-
 import './Slider.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
