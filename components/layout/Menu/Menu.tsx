@@ -22,7 +22,7 @@ export const useToggleModalContext = (): ((fixedState?: boolean) => void) => {
 const MenuContent = memo((): JSX.Element => {
 	const { width } = useWindowSize();
 
-	const categories = useCategoriesContext().get();
+	const categories = useCategoriesContext()?.get();
 
 	if (width === undefined || width >= 1024) {
 		return (
@@ -30,9 +30,7 @@ const MenuContent = memo((): JSX.Element => {
 				<div className="menu__content__wrapper">
 					<div className="menu__content__desktop">
 						<MenuContentDesktop categories={categories} />
-						<div className="menu__content__close__button__wrapper">
-							<CloseButton />
-						</div>
+						<div className="menu__content__close__button__wrapper">{categories ? <CloseButton /> : null}</div>
 					</div>
 				</div>
 			</>
@@ -48,7 +46,7 @@ const MenuContent = memo((): JSX.Element => {
 						<CloseButton />
 					</div>
 					<div className="menu__content__mobile">
-						<MenuContentMobile categories={categories} />
+						{categories ? <MenuContentMobile categories={categories} /> : null}
 					</div>
 				</div>
 			</div>

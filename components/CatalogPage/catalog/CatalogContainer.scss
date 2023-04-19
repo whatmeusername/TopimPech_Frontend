@@ -77,7 +77,7 @@
            align-items: baseline;
            margin-top: 5px;
             .catalog__header{
-                color: variables.$brown-color;
+                color: variables.$primary-color;
                 font-family: variables.$museo_cyrl;
                 font-weight: 300;
                 letter-spacing: 1px;
@@ -109,7 +109,7 @@
     .catalog__page__not__found{
         text-align: center;
         .catalog__page__not__found__text{
-            color: variables.$brown-color;
+            color: variables.$primary-color;
             font-family: variables.$museo_cyrl;
             font-size: variables.$headerS;
             font-weight: 500;

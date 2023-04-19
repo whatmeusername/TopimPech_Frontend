@@ -33,10 +33,6 @@ const GalleryDesktop = ({
 		imageElement.current.style.maxHeight = imageWrapper.current.offsetHeight + 'px';
 	};
 
-	useEffect(() => {
-		OnLoad();
-	}, []);
-
 	let zoomWidth = 0;
 	let zoomHeight = 0;
 	let rect: DOMRect = null!;
@@ -131,7 +127,7 @@ const GalleryDesktop = ({
 						onMouseLeave={onHoverLeave}
 						ref={imageWrapper}
 					>
-						<img src={activeImagePath} alt="" className="gallery__current__img" ref={imageElement} />
+						<img src={activeImagePath} alt="" className="gallery__current__img" ref={imageElement} onLoad={OnLoad} />
 						<div ref={zoomPointer} className="gallery__current__zoom__cursor" />
 					</div>
 					<div

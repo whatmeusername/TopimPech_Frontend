@@ -21,7 +21,7 @@
             transition: 0.25s ease-out;
             &:hover{
                 text-decoration: underline;
-                color: variables.$brown-color;
+                color: variables.$primary-color;
             }
         }
         &.breadcrumb__item__active{

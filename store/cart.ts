@@ -57,7 +57,10 @@ class UserProductCart {
 	}
 
 	private save(): void {
+		if (typeof window === 'undefined') return;
+
 		const json = JSON.stringify(toJS(this));
+
 		localStorage.setItem('cart', json);
 	}
 }

@@ -1,5 +1,5 @@
 import { useEffect, useState, ReactElement } from 'react';
-import type { ProductData } from '../CatalogComponents/product/interface';
+import type { ProductBaseData, ProductData } from '../CatalogComponents/product/interface';
 
 import './pp__upper.scss';
 
@@ -14,6 +14,8 @@ import get from 'axios';
 import { ParsedUrlQuery } from 'querystring';
 import { observer } from 'mobx-react-lite';
 import { HistorySliceItem, productHistory } from '../../store';
+import { Property } from '../CatalogComponents/product/interface';
+import React from 'react';
 
 const ProductSliderItem = ({
 	data,
@@ -100,6 +102,92 @@ const HistorySlider = observer(() => {
 	return <ProductSlider items={productHistory.items} URLStartWith={'/api'} key={productHistory.items.length} />;
 });
 
+const ManufacturerElement = ({ ManufacturerData }: { ManufacturerData: ProductBaseData }) => {
+	return (
+		<div className="product__page__manufacturer">
+			<span className="product__page__manufacturer__label">Производитель:</span>
+			<span className="product__page__manufacturer__name">{ManufacturerData.name}</span>
+		</div>
+	);
+};
+
+const AttributeElement = ({ item }: { item: Property }): ReactElement => {
+	return (
+		<dl key={`product__properties__${item.key.slug}`} className="product__page__properties__item">
+			<dt className="product__page__properties__item__key">{item.key.name}</dt>
+			<dd className="product__page__properties__item__value">
+				{item.value} {item.key.valueUnit}
+			</dd>
+		</dl>
+	);
+};
+
+const AttributesElement = ({ properties }: { properties: Property[] }): ReactElement => {
+	return (
+		<div className=" product__page__card product__page__properties" id="product__page__properties">
+			<h3 className="product__page__header__medium product__page__properties__header">Характеристика</h3>
+			<div className="product__page__properties__content">
+				{properties.map((prop) => {
+					if (!prop.key) return null;
+					return <AttributeElement item={prop} key={`product__properties__${prop.key.slug}`} />;
+				})}
+			</div>
+		</div>
+	);
+};
+
+function smoothScrollToAnchor(anchor: string, duration: number) {
+	const target: HTMLElement = document.querySelector(anchor) as HTMLElement;
+
+	if (target) {
+		const startPosition = window.pageYOffset;
+		const targetPosition = target.offsetTop;
+		const distance = targetPosition - startPosition;
+
+		let start: number | null = null;
+
+		const easeInOutQuad = (t: number) => {
+			return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+		};
+
+		const step = (timestamp: number) => {
+			if (!start) start = timestamp;
+			const progress = timestamp - start;
+			const easing = easeInOutQuad(progress / duration);
+			window.scrollTo(0, startPosition + distance * easing);
+			if (progress < duration) {
+				window.requestAnimationFrame(step);
+			}
+		};
+
+		window.requestAnimationFrame(step);
+	}
+}
+
+function ShortAttributesElement({ properties, take }: { properties: Property[]; take: number }): ReactElement {
+	return (
+		<div className="product__page__properties__short">
+			<h5 className="product__page__properties__short__header">Характеристики:</h5>
+			<div className="product__page__properties__short__content">
+				{properties.slice(0, take).map((prop) => {
+					if (!prop.key) return null;
+					return <AttributeElement item={prop} key={`product__properties__${prop.key.slug}`} />;
+				})}
+			</div>
+			{properties.length > take ? (
+				<button
+					className="product__page__properties__short__show__all"
+					onClick={(event: React.MouseEvent) => {
+						smoothScrollToAnchor('#product__page__properties', 500);
+					}}
+				>
+					Показать все характеристики
+				</button>
+			) : null}
+		</div>
+	);
+}
+
 function ProductPageElement({
 	initData,
 	params,
@@ -123,19 +211,21 @@ function ProductPageElement({
 		<div className="product__page__wrapper">
 			<div className="product__page__head">
 				<div className="product__page__breadcrumb">
-					<BreadcrumbByURL
-						settings={{
-							includeHomePage: true,
-							categoryData: {
-								maincategory: initData.MainCategory.slug,
-								category: initData.categories?.[initData.categories.length - 1]?.slug ?? '',
-							},
-							includeAtEnd: {
-								label: initData.name,
-								slug: initData.slug,
-							},
-						}}
-					/>
+					{initData?.categories ? (
+						<BreadcrumbByURL
+							settings={{
+								includeHomePage: true,
+								categoryData: {
+									maincategory: initData.categories[0].slug,
+									category: initData.categories[initData.categories.length - 1].slug,
+								},
+								includeAtEnd: {
+									label: initData.name,
+									slug: initData.slug,
+								},
+							}}
+						/>
+					) : null}
 				</div>
 				<div className="product__page__article__wrapper">
 					<span className="product__page__article">Артикул: {initData.article}</span>
@@ -148,31 +238,22 @@ function ProductPageElement({
 				<div className=" product__page__card product__page__upper__item product__page__main__info">
 					<h1 className="product__page__header">{initData.name}</h1>
 					<PriceElement price={initData.price} sale={initData.sale} />
+					{initData.manufacturer ? <ManufacturerElement ManufacturerData={initData.manufacturer} /> : null}
 					<div className="product__page__upper__buttons">
-						<AddToCartButton itemId={initData.article} />
+						<HydrationComponent>
+							<AddToCartButton itemId={initData.article} />
+						</HydrationComponent>
 					</div>
+					{initData.properties && initData.properties?.length > 0 ? (
+						<ShortAttributesElement properties={initData.properties} take={5} />
+					) : null}
 				</div>
 			</div>
 			<div className=" product__page__card product__page__description">
-				<h3 className="product__page__header__medium product__page__description__header">Описание</h3>
+				<h3 className="product__page__header__medium product__page__description__header">О товаре</h3>
 				<span className="product__page__description">{initData.description}</span>
 			</div>
-			<div className=" product__page__card product__page__properties">
-				<h3 className="product__page__header__medium product__page__properties__header">Характеристика</h3>
-				<div className="product__page__properties__content">
-					{(initData.properties ?? []).map((prop) => {
-						if (!prop.key) return null;
-						return (
-							<dl key={`product__properties__${prop.key.slug}`} className="product__page__properties__item">
-								<dt className="product__page__properties__item__key">{prop.key.name}</dt>
-								<dd className="product__page__properties__item__value">
-									{prop.value} {prop.key.valueUnit}
-								</dd>
-							</dl>
-						);
-					})}
-				</div>
-			</div>
+			<AttributesElement properties={initData.properties ?? []} />
 			{/* // TODO: SUPPRESESS HYDRATION */}
 			<HydrationComponent>
 				<div suppressHydrationWarning className="product__page__card product__page__history">

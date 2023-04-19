@@ -2,7 +2,6 @@ import { createContext, useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 
 import { CategoryData } from './interface';
-import { default as CategoriesInitial } from './initialData.json';
 
 class Categories {
 	categories: CategoryData[];
@@ -15,31 +14,28 @@ class Categories {
 		return this.categories;
 	}
 
-	find(start: string, end?: string): CategoryData | null {
-		const SearchChild = (child: CategoryData): CategoryData | null => {
-			let childrens = child.child;
-			let childExists = childrens.find((child) => child.slug === end) ?? null;
+	find(start: string, end?: string): CategoryData | undefined {
+		const SearchChild = (ancestor: CategoryData): CategoryData | undefined => {
+			const childExists = ancestor.child.find((child) => child.slug === end);
 			if (!childExists) {
-				for (let child of childrens) {
-					return SearchChild(child);
+				for (let i = 0; i < ancestor.child.length; i++) {
+					return SearchChild(ancestor.child[i]);
 				}
 			}
 			return childExists;
 		};
+
 		const parentCategory = this.categories.find((category) => category.slug === start);
 		if (parentCategory) {
-			if (end) {
-				return SearchChild(parentCategory);
-			} else return parentCategory;
+			return end ? SearchChild(parentCategory) : parentCategory;
 		}
-		return null;
 	}
 }
 
 const CategoryContextData = createContext<Categories>(null!);
 
 const CategoriesContext = ({ children }: { children: JSX.Element }) => {
-	const [categories, setCategories] = useState<Categories>(new Categories(CategoriesInitial.categories));
+	const [categories, setCategories] = useState<Categories>(null!);
 
 	useEffect(() => {
 		axios({
@@ -56,4 +52,4 @@ function useCategoriesContext(): Categories {
 	return useContext(CategoryContextData);
 }
 
-export { CategoriesContext, useCategoriesContext };
+export { CategoriesContext, useCategoriesContext, Categories };

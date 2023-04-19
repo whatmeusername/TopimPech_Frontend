@@ -11,7 +11,7 @@ export default function useWindowSize(): { width: number | undefined; height: nu
 		height: undefined,
 	});
 
-	let debounce = useRef<boolean>(false);
+	const debounce = useRef<boolean>(false);
 
 	useEffect(() => {
 		function handleResize() {

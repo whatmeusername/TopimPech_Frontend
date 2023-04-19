@@ -24,7 +24,7 @@ const getFilterParameters = (searchParams: URLSearchParams | ParsedUrlQuery) => 
 	if (searchParams instanceof URLSearchParams) filterParam = searchParams.get('filter');
 	else filterParam = searchParams['filter'] as string;
 
-	let filters: { [K: string]: string[] } = {};
+	const filters: { [K: string]: string[] } = {};
 	if (filterParam === null || filterParam === '' || filterParam === undefined) return filters;
 	else {
 		const rawFilters = filterParam.split(';');
@@ -42,24 +42,24 @@ const filterOnCheck = (
 	parentKey: string,
 	router: NextRouter,
 	apply: 'update' | 'apply',
-	callback: (...args: any[]) => void,
+	callback?: (...args: any[]) => void,
 ) => {
 	const searchParams = router.query;
 
-	let checked = (event.target as HTMLInputElement).checked;
+	const checked = (event.target as HTMLInputElement).checked;
 	const filtersParams = getFilterParameters(searchParams);
 
 	if (checked) {
-		let currentValue = filtersParams[parentKey];
+		const currentValue = filtersParams[parentKey];
 		if (!currentValue) {
 			filtersParams[parentKey] = [key];
 		} else {
 			if (!currentValue.includes(key)) filtersParams[parentKey].push(key);
 		}
 	} else {
-		let currentValue = filtersParams[parentKey];
+		const currentValue = filtersParams[parentKey];
 		if (currentValue) {
-			let valueIndex = currentValue.findIndex((item) => item === key);
+			const valueIndex = currentValue.findIndex((item) => item === key);
 			filtersParams[parentKey].splice(valueIndex, 1);
 			if (currentValue.length === 0) {
 				delete filtersParams[parentKey];
@@ -67,8 +67,8 @@ const filterOnCheck = (
 		}
 	}
 
-	let filtersParamsLength = Object.keys(filtersParams).length;
-	let searchParamsSTR = collectFilterParameters(filtersParams);
+	const filtersParamsLength = Object.keys(filtersParams).length;
+	const searchParamsSTR = collectFilterParameters(filtersParams);
 
 	if (filtersParamsLength > 0) {
 		searchParams['filter'] = searchParamsSTR;
@@ -77,7 +77,7 @@ const filterOnCheck = (
 	if (apply === 'apply') {
 		searchParams['page'] = '1';
 		router.push({ pathname: router.pathname, query: searchParams }, undefined, { scroll: false });
-	} else if (apply === 'update') {
+	} else if (apply === 'update' && callback) {
 		callback(`?filter=${searchParamsSTR}`);
 	}
 };
@@ -89,29 +89,29 @@ const filterOnInput = (
 	filterData: FilterItem,
 	router: NextRouter,
 	apply: 'apply' | 'update',
-	callback: (...args: any[]) => void,
+	callback?: (...args: any[]) => void,
 ) => {
 	const searchParams = router.query;
 	const filtersParams = getFilterParameters(searchParams);
-	let value = (event.target as HTMLInputElement).value;
+	const value = (event.target as HTMLInputElement).value;
 
 	const applyFilter = () => {
-		let filtersCount = Object.keys(filtersParams).length;
+		const filtersCount = Object.keys(filtersParams).length;
 		if (apply === 'apply') {
 			if (filtersCount === 0) {
 				delete searchParams['filter'];
 			}
 			searchParams['page'] = '1';
 			router.push({ pathname: router.pathname, query: searchParams }, undefined, { scroll: false });
-		} else if (apply === 'update') {
+		} else if (apply === 'update' && callback) {
 			callback(filtersCount !== 0 ? `?filter=${searchParams['filter']}` : '');
 		}
 	};
 
-	let currentFilter = filtersParams[parentKey] ?? ['', ''];
+	const currentFilter = filtersParams[parentKey] ?? ['', ''];
 
 	let valueAsFloat = parseFloat(parseFloat(value.replaceAll(',', '.')).toFixed(2));
-	let valueIsNumber = !isNaN(valueAsFloat);
+	const valueIsNumber = !isNaN(valueAsFloat);
 
 	if ((side === 'min' && value !== currentFilter[0]) || (side === 'max' && value !== currentFilter[1])) {
 		if (value === '') {
@@ -122,13 +122,13 @@ const filterOnInput = (
 				delete filtersParams[parentKey];
 			}
 
-			let search = collectFilterParameters(filtersParams);
+			const search = collectFilterParameters(filtersParams);
 			searchParams['filter'] = search;
 
 			applyFilter();
 		} else if (valueIsNumber && valueAsFloat > 0) {
-			let filterMin = filterData.values.min as unknown as number;
-			let filterMax = filterData.values.max as unknown as number;
+			const filterMin = filterData.values.min as unknown as number;
+			const filterMax = filterData.values.max as unknown as number;
 
 			if (side === 'min') {
 				if (valueAsFloat > filterMax) valueAsFloat = filterMax;
@@ -147,7 +147,7 @@ const filterOnInput = (
 
 			filtersParams[parentKey] = currentFilter;
 
-			let search = collectFilterParameters(filtersParams);
+			const search = collectFilterParameters(filtersParams);
 			searchParams['filter'] = search;
 
 			applyFilter();
@@ -161,7 +161,7 @@ const collectFilterParameters = (filterParam: { [K: string]: string[] } | null):
 	let res = '';
 	if (filterParam === null) return res;
 
-	let filterLength = Object.keys(filterParam).length - 1;
+	const filterLength = Object.keys(filterParam).length - 1;
 	Object.entries(filterParam).forEach(([key, value], index) => {
 		res += key + ':' + value.join('$');
 		if (index !== filterLength) res += ';';
@@ -214,8 +214,7 @@ function FacetFilter(): JSX.Element {
 		return (
 			<div className="facet__filter__wrapper facet__filter__string">
 				{Object.entries(filterData.values).map(([key, value], index) => {
-					const isChecked =
-						getActiveFilters[parentKey] !== undefined && getActiveFilters[parentKey].includes(key);
+					const isChecked = getActiveFilters[parentKey] !== undefined && getActiveFilters[parentKey].includes(key);
 					return (
 						<div className="facet__filter__item" key={parentKey + `-${key}`}>
 							<input
@@ -223,8 +222,7 @@ function FacetFilter(): JSX.Element {
 								id={`${key}-${index}-${applyFilter}`}
 								className="filter__custom__checkbox"
 								onClick={(e) => {
-									if (value.items !== 0 || isChecked)
-										filterOnCheck(e, key, parentKey, router, applyFilter, callback ?? (() => {}));
+									if (value.items !== 0 || isChecked) filterOnCheck(e, key, parentKey, router, applyFilter, callback);
 								}}
 								disabled={value.items === 0 && !isChecked}
 								defaultChecked={isChecked}
@@ -251,7 +249,7 @@ function FacetFilter(): JSX.Element {
 		applyFilter: 'apply' | 'update';
 		callback?: (...args: any[]) => void;
 	}): JSX.Element => {
-		let values = filterData.values;
+		const values = filterData.values;
 		const defaultValues = getActiveFilters[parentKey];
 		const defaultValueMin = defaultValues ? parseFloat(defaultValues[0]).toFixed(2) : null;
 		const defaultValueMax = defaultValues ? parseFloat(defaultValues[1]).toFixed(2) : null;
@@ -268,16 +266,7 @@ function FacetFilter(): JSX.Element {
 						defaultValue={defaultValues ? defaultValues[0] : ''}
 						disabled={defaultValueMin ? !(defaultValueMin !== '') : isDisabled}
 						onBlur={(event) => {
-							if (!isDisabled)
-								return filterOnInput(
-									event,
-									'min',
-									parentKey,
-									filterData,
-									router,
-									applyFilter,
-									callback ?? (() => {}),
-								);
+							if (!isDisabled) return filterOnInput(event, 'min', parentKey, filterData, router, applyFilter, callback);
 						}}
 					/>
 					<span className="facet__filter__number__slash">-</span>
@@ -290,16 +279,7 @@ function FacetFilter(): JSX.Element {
 						defaultValue={defaultValues ? defaultValues[1] : ''}
 						disabled={defaultValueMax ? !(defaultValueMax !== '') : isDisabled}
 						onBlur={(event) => {
-							if (!isDisabled)
-								return filterOnInput(
-									event,
-									'max',
-									parentKey,
-									filterData,
-									router,
-									applyFilter,
-									callback ?? (() => {}),
-								);
+							if (!isDisabled) return filterOnInput(event, 'max', parentKey, filterData, router, applyFilter, callback);
 						}}
 					/>
 				</div>
@@ -316,14 +296,14 @@ function FacetFilter(): JSX.Element {
 	}): JSX.Element => {
 		if (count === 0) {
 			return (
-				<button className={`filter__founded__items__button filter__founded__items__button__empty`}>
+				<button className={'filter__founded__items__button filter__founded__items__button__empty'}>
 					Пустой результат
 				</button>
 			);
 		}
 		return (
 			<button
-				className={`filter__founded__items__button`}
+				className={'filter__founded__items__button'}
 				onClick={() => {
 					if (onClick) onClick();
 					window.scrollTo({
@@ -355,25 +335,20 @@ function FacetFilter(): JSX.Element {
 		);
 	};
 
-	const AllFilterComponent = ({
-		filterData,
-	}: {
-		filterData: { count: number; filtered: FilterData };
-	}): JSX.Element => {
+	const AllFilterComponent = ({ filterData }: { filterData: { count: number; filtered: FilterData } }): JSX.Element => {
 		const [FilterData, setFilterData] = useState<{ count: number; filtered: FilterData }>(filterData);
 		const [toggle, setToggle] = useToggle();
 		const router = useRouter();
 		const currenFilter = useRef<string>('');
 		const randomKey = useRef<string>('');
 
-		let filtersCount = Object.keys(filters?.filtered ?? {}).length;
-		let itemsPerColumn = Math.ceil(filtersCount / 3);
+		const filtersCount = Object.keys(filters?.filtered ?? {}).length;
+		const itemsPerColumn = Math.ceil(filtersCount / 3);
 
 		const fetchData = (searchParams: string) => {
-			let fetchURL = url + searchParams;
 			axios({
 				method: 'GET',
-				url: fetchURL,
+				url: url + searchParams,
 			}).then((response) => {
 				setFilterData(response.data);
 			});
@@ -415,8 +390,7 @@ function FacetFilter(): JSX.Element {
 								<div className="content__header__wrapper">
 									<h3 className="filter__modal__content__header">Все фильтры</h3>
 									<p className="filters__modal__count">
-										всего {filtersCount}{' '}
-										{declOfNum(filtersCount, ['параметр', 'параметра', 'параметров'])}
+										всего {filtersCount} {declOfNum(filtersCount, ['параметр', 'параметра', 'параметров'])}
 									</p>
 								</div>
 								<div className="filter__modal__close__wrapper">
@@ -429,21 +403,16 @@ function FacetFilter(): JSX.Element {
 							<div className="filter__modal__content__items__wrapper">
 								<div className="filter__modal__content__items" key={randomKey.current}>
 									{[1, 2, 3].map((column) => {
-										let start = itemsPerColumn * (column - 1);
-										let end = itemsPerColumn * column;
+										const start = itemsPerColumn * (column - 1);
+										const end = itemsPerColumn * column;
 										return (
 											<div className="filter__column" key={`filter-column-${column}`}>
 												{Object.entries(FilterData?.filtered ?? {})
 													.slice(start, end)
 													.map(([parentKey, parentValue]) => {
-														const DropdownHeader = (
-															<span className="dropdown__label">{parentValue.name}</span>
-														);
+														const DropdownHeader = <span className="dropdown__label">{parentValue.name}</span>;
 														return (
-															<Dropdown
-																header={DropdownHeader}
-																key={'modal-filter-' + parentKey}
-															>
+															<Dropdown header={DropdownHeader} key={'modal-filter-' + parentKey}>
 																<OverflowContainer maxHeight={290}>
 																	{parentValue.valueType === 'string' ? (
 																		<CheckboxFilter
@@ -490,7 +459,7 @@ function FacetFilter(): JSX.Element {
 				{filters?.filtered !== undefined ? (
 					Object.entries(filters?.filtered ?? {})
 						.slice(0, 10)
-						.map(([parentKey, parentValue], index) => {
+						.map(([parentKey, parentValue]) => {
 							const DropdownHeader = <span className="dropdown__label">{parentValue.name}</span>;
 							return (
 								<Dropdown header={DropdownHeader} key={'filter-' + parentKey}>

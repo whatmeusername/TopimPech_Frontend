@@ -37,14 +37,35 @@
         }
     }
 
-    .product__card__price__wrapper{
-        gap: 10px; 
+
+    .product__page__manufacturer{
         display: flex;
         flex-direction: row;
+        gap: 8px;
+        .product__page__manufacturer__label{
+            color: variables.$standard-color;
+            font-family: variables.$museo_cyrl;
+        }
+    }
+
+    .product__card__price__wrapper{
+        gap: 10px; 
         align-items: center;
+        display: flex;
+        flex-direction: row;
     
         font-weight: 700;
-        margin: 40px 0;
+        margin: 20px 0;
+
+
+        .product__card__price__label{
+            color: variables.$standard-color;
+            margin: 0;
+            padding: 0;
+            letter-spacing: 0.5px;
+            font-family: variables.$museo_cyrl;
+            font-size: variables.$fontX;
+        }
     
         .price__tag{
             font-size: variables.$headerS;
@@ -181,10 +202,50 @@
     color: variables.$black-color;
     .product__page__description{
         font-size: variables.$fontM;
-        line-height: 20px;
+        line-height: 25px;
         font-family: "Arial";
+        white-space: pre-wrap;
     }
 }
+
+
+.product__page__properties__item{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 500px;
+    position: relative;
+    margin: 0;
+    .product__page__properties__item__key{
+        overflow: hidden;
+        position: relative;
+        width: 50%;
+        margin: 0;
+        padding-right: 5px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        font-size: variables.$fontM;
+        color: variables.$gray-color;
+        font-family: variables.$museo_cyrl;
+        &::first-letter{
+            text-transform: capitalize;
+        }
+        &::after{
+            content: "";
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+            border-bottom: 1px dotted variables.$gray-color;
+        }
+    }
+    .product__page__properties__item__value{
+        margin: 0;
+        color: variables.$standard-color;
+        width: 50%;
+    }
+}
+
 
 
 .product__page__properties__content{
@@ -193,43 +254,7 @@
     gap: 15px;
     margin: 20px 0;
 
-    
-    .product__page__properties__item{
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        width: 500px;
-        position: relative;
-        margin: 0;
-        .product__page__properties__item__key{
-            overflow: hidden;
-            position: relative;
-            width: 100%;
-            margin: 0;
-            padding-right: 5px;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            font-size: variables.$fontM;
-            color: variables.$gray-color;
-            font-family: variables.$museo_cyrl;
-            &::first-letter{
-                text-transform: capitalize;
-            }
-            &::after{
-                content: "";
-                width: 100%;
-                position: absolute;
-                bottom: 0;
-                border-bottom: 1px dotted variables.$gray-color;
-            }
-        }
-        .product__page__properties__item__value{
-            margin: 0;
-            white-space: nowrap;
-            color: variables.$standard-color;
-        }
-    }
+
 
     @media (max-width: 1080px) {
         grid-template-columns: 100%;
@@ -280,3 +305,40 @@
     }
 }
 
+
+
+.product__page__properties__short{
+
+    .product__page__properties__short__header{
+        color: variables.$standard-color;
+        font-size: variables.$fontX;
+        letter-spacing: 0.5px;
+        font-family: variables.$museo_cyrl;
+        margin: 10px 0;
+    }
+
+    .product__page__properties__short__content{
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+
+    }
+
+
+    .product__page__properties__short__show__all{
+        outline: none;
+        border: 0;
+        background-color: transparent;
+        font-size: variables.$fontM;
+        padding: 5px;
+        margin: 0;
+        margin-top: 10px;
+        cursor: pointer;
+        color: variables.$standard_color;
+        transition: 0.1s ease-in-out;
+        &:hover{
+            color: variables.$orange-color;
+
+        }
+    }
+}

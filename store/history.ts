@@ -3,8 +3,7 @@ import { ProductData } from '../components/CatalogComponents/product/interface';
 
 interface HistorySliceItem {
 	name: string;
-	mc: string;
-	sc: string;
+	categories: ProductData['categories'];
 	image: string | null;
 	price: number;
 	sale: number;
@@ -29,8 +28,7 @@ class ProductHistory {
 			const image = payload.images.length > 0 ? payload.images[0].path : null;
 			this.items.unshift({
 				name: payload.name,
-				mc: payload.MainCategory.slug,
-				sc: payload.MainCategory.slug,
+				categories: payload.categories,
 				image: image,
 				price: payload.price,
 				sale: payload.sale,
@@ -57,15 +55,17 @@ class ProductHistory {
 	private load(): void {
 		if (typeof window === 'undefined') return;
 
-		const data = localStorage.getItem('cart');
+		const data = localStorage.getItem('history');
 		if (data) {
 			extendObservable(this, JSON.parse(data));
 		}
 	}
 
 	private save(): void {
+		if (typeof window === 'undefined') return;
+
 		const json = JSON.stringify(toJS(this));
-		localStorage.setItem('cart', json);
+		localStorage.setItem('history', json);
 	}
 }
 

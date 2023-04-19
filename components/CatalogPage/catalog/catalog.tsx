@@ -3,7 +3,7 @@ import './CatalogContainer.scss';
 
 // ==== NEXT ====
 import { ParsedUrlQuery } from 'querystring';
-import { useRouter } from 'next/router';
+import { useRouter, NextRouter } from 'next/router';
 import Link from 'next/link';
 
 // ==== ProdcutCards Templates =====
@@ -21,7 +21,7 @@ import type { ProductData } from '../../CatalogComponents/product/interface';
 import type { PaginatorData } from './Paginator/interface';
 
 // ==== Breadcrumb ====
-import { useBreadcrumbContext } from '../../GlobalContext/';
+import { useBreadcrumbContext, useCategoriesContext } from '../../GlobalContext/';
 import BreadcrumbByURL from '../../CatalogComponents/breadcrumb/breacrumb';
 
 // ==== Elements =====
@@ -102,12 +102,19 @@ const ProductColumn = ({
 			<>
 				{products.map((product) => {
 					product.images.sort(compare);
-					if (view === 'grid')
-						return <ProductCardGrid product={product} key={product.slug} fadeIn={fadeIn} />;
+					if (view === 'grid') return <ProductCardGrid product={product} key={product.slug} fadeIn={fadeIn} />;
 					else return <ProductCardRow product={product} key={product.slug} fadeIn={fadeIn} />;
 				})}
 			</>
 		);
+};
+
+const ChildCategoriesElement = (): ReactElement => {
+	const childCategories = useCategoriesContext();
+	const router = useRouter();
+	const { maincategory, category } = router.query as { maincategory: string; category: string };
+	console.log(maincategory, category, childCategories?.find(maincategory, category));
+	return <></>;
 };
 
 const ProductCatalogHeader = ({
@@ -119,6 +126,7 @@ const ProductCatalogHeader = ({
 }) => {
 	return (
 		<div className="product__catalog__header">
+			<ChildCategoriesElement />
 			<ProductSort disabled={disabled} />
 			<ChangeProductView disabled={disabled} setCatalogView={setCatalogView} />
 		</div>
@@ -131,9 +139,7 @@ function getItemsPerPage(): number {
 		const searchParams = new URLSearchParams(window.location.search);
 		const itemsPerPageParsed = searchParams.get('items_per_page');
 		itemsPerPage =
-			itemsPerPageParsed !== null && typeof itemsPerPageParsed === 'string'
-				? Number(itemsPerPageParsed)
-				: itemsPerPage;
+			itemsPerPageParsed !== null && typeof itemsPerPageParsed === 'string' ? Number(itemsPerPageParsed) : itemsPerPage;
 	}
 	return itemsPerPage;
 }
@@ -155,9 +161,10 @@ const StandardBreakLine = () => {
 	return <hr className="break__line__standard" />;
 };
 
-const CatalogContainer = (): ReactElement => {
+const CatalogContainer = ({ getFetchURL }: { getFetchURL: (router: NextRouter) => [string, string] }): ReactElement => {
 	const router = useRouter();
 	const initData = usePagePropsContext();
+
 	const { maincategory, category } = router.query as { maincategory: string; category: string };
 	const [CatalogData, setCatalogData] = useState<ProductAPIResponse>(initData?.productsData);
 	const [catalogView, setCatalogView] = useState<'row' | 'grid'>(getInitialView(router) ?? 'grid');
@@ -172,24 +179,14 @@ const CatalogContainer = (): ReactElement => {
 		return false;
 	};
 
-	let url = '/api/products/filter/';
-	if (maincategory) url += `${maincategory}/`;
-	if (category) url += `${category}/`;
-	const [fetchUrl, SearchParams] = SearchParamsBuilder(
-		url,
-		router.query,
-		'page',
-		'items_per_page',
-		'order',
-		'filter',
-	);
+	const [fetchURL, SearchParams] = getFetchURL(router);
 
 	useEffect(() => {
 		isLoaded.current = 0;
 		if (initData?.productsData?.products === undefined) {
 			axios({
 				method: 'GET',
-				url: fetchUrl,
+				url: fetchURL,
 			}).then(({ data }: { data: ProductAPIResponse }) => {
 				setCatalogData(data);
 				isLoaded.current = 1;
@@ -207,11 +204,7 @@ const CatalogContainer = (): ReactElement => {
 				setCatalogView={setCatalogView}
 			/>
 			<StandardBreakLine />
-			<div
-				className={`catalog__products__container ${
-					catalogView === 'grid' ? 'display__row' : 'display__column'
-				}`}
-			>
+			<div className={`catalog__products__container ${catalogView === 'grid' ? 'display__row' : 'display__column'}`}>
 				<ProductColumn products={CatalogData?.products ?? []} view={catalogView} fadeIn={isFetched} />
 			</div>
 			{CatalogData?.paginator && CatalogData.paginator.pages > 1 ? (
@@ -238,11 +231,7 @@ function CatalogHeader({ paginator }: { paginator: PaginatorData }): ReactElemen
 	const header = useMemo(() => {
 		const currentBreadcrumbItem = breacrumbData?.get({ start: maincategory, end: category });
 		if (currentBreadcrumbItem) {
-			const dataFromBreadcrumb = breacrumbData.getUntil(
-				currentBreadcrumbItem,
-				maincategory ?? '',
-				category ?? '',
-			);
+			const dataFromBreadcrumb = breacrumbData.getUntil(currentBreadcrumbItem, maincategory ?? '', category ?? '');
 
 			const findHeader = category ? category : maincategory;
 			return dataFromBreadcrumb.data.find((data) => data.slug === findHeader)?.name ?? '';
@@ -263,9 +252,7 @@ function ProductsNotFound(): ReactElement {
 	return (
 		<div className="catalog__page__not__fount__wrapper">
 			<div className="catalog__page__not__found">
-				<p className="catalog__page__not__found__text">
-					Упс! К сожалению, по вашему запросу ничего не было найдено
-				</p>
+				<p className="catalog__page__not__found__text">Упс! К сожалению, по вашему запросу ничего не было найдено</p>
 				<Link href={'/'} className="return__to_main_page__button">
 					Вернуться на главную
 				</Link>
@@ -273,6 +260,14 @@ function ProductsNotFound(): ReactElement {
 		</div>
 	);
 }
+
+const getFetchURL = (router: NextRouter): [string, string] => {
+	const { maincategory, category } = router.query as { maincategory: string; category: string };
+	let url = '/api/products/filter/';
+	if (maincategory) url += `${maincategory}/`;
+	if (category) url += `${category}/`;
+	return SearchParamsBuilder(url, router.query, 'page', 'items_per_page', 'order', 'filter');
+};
 
 export default function Catalog({ initData }: { initData: initData }): ReactElement {
 	if (!initData?.productsData?.status?.is404Page) {
@@ -286,7 +281,7 @@ export default function Catalog({ initData }: { initData: initData }): ReactElem
 					<div className="catalog__filters__wrapper">
 						<FacetFilter />
 					</div>
-					<CatalogContainer />
+					<CatalogContainer getFetchURL={getFetchURL} />
 				</div>
 			</div>
 		);

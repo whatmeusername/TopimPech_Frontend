@@ -1,13 +1,13 @@
-import { createContext, useState, useContext } from 'react';
+import { createContext, useState, useContext, useEffect } from 'react';
 import type { CategoryData, CategoryDataOmit, BreadcrumbData } from './interface';
-import { useCategoriesContext } from '../index';
+import { Categories, useCategoriesContext } from '../index';
 
 const BreadcrumbContextData = createContext<Breadcrumb>(null!);
 
 class Breadcrumb {
 	BreadcrumbData: BreadcrumbData[];
-	constructor(BreadcrumbData: BreadcrumbData[]) {
-		this.BreadcrumbData = BreadcrumbData;
+	constructor(categories: Categories) {
+		this.BreadcrumbData = BuildBreadcrumbData(categories.get());
 	}
 
 	get(getData: { start?: string; end?: string }) {
@@ -29,9 +29,9 @@ class Breadcrumb {
 
 	getUntil(BreadcrumbData: BreadcrumbData, start: string, end: string): BreadcrumbData {
 		BreadcrumbData = JSON.parse(JSON.stringify(BreadcrumbData));
-		let breacrumbContains = BreadcrumbData.contains;
-		let startIndex = breacrumbContains.findIndex((breacrumb) => breacrumb === start);
-		let endIndex = breacrumbContains.findIndex((breacrumb) => breacrumb === end);
+		const breacrumbContains = BreadcrumbData.contains;
+		const startIndex = breacrumbContains.findIndex((breacrumb) => breacrumb === start);
+		const endIndex = breacrumbContains.findIndex((breacrumb) => breacrumb === end);
 		if (startIndex > -1 && endIndex > -1) {
 			BreadcrumbData.start = start;
 			BreadcrumbData.end = end;
@@ -42,7 +42,7 @@ class Breadcrumb {
 	}
 }
 const BuildBreadcrumbData = (categories: CategoryData[]) => {
-	let BreadcrumbData = [];
+	const BreadcrumbData = [];
 
 	let parentCategory: CategoryData;
 	let start: string;
@@ -51,7 +51,7 @@ const BuildBreadcrumbData = (categories: CategoryData[]) => {
 	let data: CategoryDataOmit[];
 
 	const BuildPath = (category: CategoryData) => {
-		let categpryWithoutChild = { name: category.name, slug: category.slug };
+		const categpryWithoutChild = { name: category.name, slug: category.slug };
 
 		if (category.child.length > 0) {
 			contains.push(categpryWithoutChild.slug);
@@ -83,7 +83,7 @@ const BuildBreadcrumbData = (categories: CategoryData[]) => {
 
 	for (let i = 0; i < categories?.length; i++) {
 		parentCategory = categories[i];
-		let parentWithoutChild = { name: parentCategory.name, slug: parentCategory.slug };
+		const parentWithoutChild = { name: parentCategory.name, slug: parentCategory.slug };
 		start = parentCategory.slug;
 		contains = [start];
 
@@ -109,9 +109,14 @@ const BuildBreadcrumbData = (categories: CategoryData[]) => {
 
 function BreadcrumbContext({ children }: { children: JSX.Element }): JSX.Element {
 	const categories = useCategoriesContext();
-	const [breadcrumbData, setBreadcrumbData] = useState<Breadcrumb>(
-		new Breadcrumb(BuildBreadcrumbData(categories.get())),
-	);
+
+	const [breadcrumbData, setBreadcrumbData] = useState<Breadcrumb>(null!);
+
+	useEffect(() => {
+		if (categories) {
+			setBreadcrumbData(new Breadcrumb(categories));
+		}
+	}, [categories]);
 
 	return <BreadcrumbContextData.Provider value={breadcrumbData}>{children}</BreadcrumbContextData.Provider>;
 }

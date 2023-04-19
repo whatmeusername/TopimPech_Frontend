@@ -2,6 +2,8 @@ export interface ProductImage {
 	id: number;
 	name: string;
 	path: string;
+	extension: string;
+	dir: string;
 }
 
 export interface ProductBaseData {

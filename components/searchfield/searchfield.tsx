@@ -9,13 +9,14 @@ import get from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import PriceElement from '../CatalogComponents/product/components/other/PriceElement';
+import { declOfNum } from '../../utils/';
 
 const SearchItemElement = ({ data, s }: { data: ProductData; s: Dispatch<SetStateAction<boolean>> }) => {
 	return (
 		<Link
 			className="search__result__item"
 			href={`/product/${data.article}/`}
-			onClick={(e) => {
+			onClick={() => {
 				s(false);
 				toggleWindowScroll(true);
 			}}
@@ -66,7 +67,7 @@ export default function ProductSearch() {
 		}
 	}, [active, results.count]);
 
-	const FocusEvent = (e: React.FocusEvent): void => {
+	const FocusEvent = (): void => {
 		setActive(true);
 		toggleWindowScroll(false);
 	};
@@ -81,7 +82,10 @@ export default function ProductSearch() {
 	};
 
 	const onKeyDown = (e: React.KeyboardEvent): void => {
-		if (!active) {
+		const value = inputField.current.value.trim();
+		if (e.key === 'Enter' && value) {
+			router.push({ pathname: `/catalog/search/${value}` });
+		} else if (!active) {
 			setActive(true);
 			toggleWindowScroll(false);
 		}
@@ -95,13 +99,7 @@ export default function ProductSearch() {
 		<>
 			<div className={`search__field__wrapper ${active ? 'search__field__wrapper__active' : ''}`}>
 				<div className="search__input__wrapper">
-					<input
-						type="text"
-						className="search__field"
-						onFocus={FocusEvent}
-						ref={inputField}
-						onKeyDown={onKeyDown}
-					/>
+					<input type="text" className="search__field" onFocus={FocusEvent} ref={inputField} onKeyDown={onKeyDown} />
 					<button className="search__field__button">
 						<FontAwesomeIcon icon={faMagnifyingGlass} className="search__field__button__icon" />
 					</button>
@@ -110,16 +108,12 @@ export default function ProductSearch() {
 					<div className="search__field__results__wrapper">
 						<div className="search__field__results__content">
 							{results.count > 0 ? (
-								<div className="search__field__results__count">Найдено: {results.count}</div>
+								<div className="search__field__results__count">
+									Найдено: {results.count} {declOfNum(results.count, ['товар', 'товара', 'товаров'])}
+								</div>
 							) : null}
 							{results.items.map((item) => {
-								return (
-									<SearchItemElement
-										data={item}
-										key={`search__field__item__${item.article}`}
-										s={setActive}
-									/>
-								);
+								return <SearchItemElement data={item} key={`search__field__item__${item.article}`} s={setActive} />;
 							})}
 						</div>
 					</div>
@@ -128,7 +122,7 @@ export default function ProductSearch() {
 			{active ? (
 				<div
 					className="search__field__background__clickable"
-					onClick={(e) => {
+					onClick={() => {
 						setActive(false);
 						toggleWindowScroll(true);
 					}}

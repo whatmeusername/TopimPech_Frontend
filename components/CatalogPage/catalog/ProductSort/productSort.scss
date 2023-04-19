@@ -6,8 +6,8 @@
 
     .product__sort__button{
         background-color: transparent;
-        border: 1.5px solid variables.$brown-color;
-        color: variables.$brown-color;
+        border: 1.5px solid variables.$primary-color;
+        color: variables.$primary-color;
         padding: 4px 10px;
         width: 100%;
         border-radius: 4px;
@@ -31,7 +31,7 @@
         }
 
         .product__sort__button__icon{
-            color: variables.$brown-color;
+            color: variables.$primary-color;
             font-size: variables.$fontL;
             margin-left: 5px;
             transition: all 0.25s ease-in;
@@ -89,11 +89,11 @@
         &:hover{
             .product__sort__button{
                 transition: none;
-                border: 1.5px solid variables.$brown-color;
+                border: 1.5px solid variables.$primary-color;
                 background-color: transparent;
-                color: variables.$brown-color;
+                color: variables.$primary-color;
                 .product__sort__button__icon{
-                    color: variables.$brown-color;
+                    color: variables.$primary-color;
                 }
             }
         }

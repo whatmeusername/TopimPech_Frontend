@@ -12,7 +12,7 @@ import type { CategoryData } from './GeneralElements';
 
 type BurgerData = { parent: CategoryData | undefined; child: CategoryData[]; id: string };
 const PrepareBurgersData = (categories: CategoryData[]): BurgerData[] => {
-	let data: BurgerData[] = [];
+	const data: BurgerData[] = [];
 	categories.forEach((category) => {
 		if (category.child.length > 1) {
 			category.child.forEach((category) => {
@@ -31,10 +31,10 @@ const MenuContentMobile = memo(({ categories }: { categories: CategoryData[] }):
 	const hasActiveBurger = useRef<boolean>(false);
 
 	const ToggleBurger = (modalId: string | null) => {
-		let modalList = SubModals.current;
+		const modalList = SubModals.current;
 		if (modalList) {
 			if (modalId !== null) {
-				let selectedModal = modalList.querySelector(`[data-parent-id="${modalId}"]`);
+				const selectedModal = modalList.querySelector(`[data-parent-id="${modalId}"]`);
 
 				if (hasActiveBurger.current === false) {
 					selectedModal?.classList.add('modal__active__fade__in');
@@ -43,7 +43,7 @@ const MenuContentMobile = memo(({ categories }: { categories: CategoryData[] }):
 
 				hasActiveBurger.current = true;
 			} else {
-				let selectedModal = modalList.querySelector(`.modal__active`);
+				const selectedModal = modalList.querySelector('.modal__active');
 				selectedModal?.classList.remove('modal__active');
 
 				hasActiveBurger.current = false;

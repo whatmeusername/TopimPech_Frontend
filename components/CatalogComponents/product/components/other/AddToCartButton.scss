@@ -12,7 +12,7 @@
 
     &.product__card__add__to__cart__active{
         background-color: transparent;
-        border: 1px solid variables.$brown-color;
+        border: 1px solid variables.$primary-color;
         &:hover{
             opacity: 0.5;
         }

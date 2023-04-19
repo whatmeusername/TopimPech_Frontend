@@ -30,12 +30,12 @@
         width: 65%;
         
         .product__card__info{
-            max-width: 350px;
+            max-width: 400px;
             .product__card__name__wrapper{
                 .product__card__name{
                     font-family: variables.$museo_cyrl;
                     font-size: variables.$fontX;
-                    color: variables.$brown-color;
+                    color: variables.$primary-color;
                     font-weight: 300;
                     transition: 0.1s ease-in-out;
                 }
@@ -83,6 +83,7 @@
         .product__card__functions__wrapper{
             .product__card__price__wrapper{
                 margin: 10px 0px;
+                text-align: right;
                 .product__card__price__sale{
                     color: variables.$orange-color;
                 }
