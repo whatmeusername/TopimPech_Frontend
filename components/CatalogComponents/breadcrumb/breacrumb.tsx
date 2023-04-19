@@ -37,8 +37,6 @@ export default function BreadcrumbByURL({ settings }: { settings?: BreadcrumbSet
 	let currentBreadcrumbItem = breacrumbData.get({ start: maincategory, end: category });
 	if (!currentBreadcrumbItem) return <></>;
 
-	console.log(breacrumbData);
-
 	currentBreadcrumbItem = breacrumbData.getUntil(
 		currentBreadcrumbItem,
 		maincategory ?? '',

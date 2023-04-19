@@ -1,5 +1,3 @@
-import { createContext, useContext } from 'react';
-
 import Catalog, { initData as initDataInterface } from '../../../../components/CatalogPage/catalog/catalog';
 import { GetServerSidePropsContext } from 'next';
 

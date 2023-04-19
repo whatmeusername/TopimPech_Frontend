@@ -9,7 +9,7 @@
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution":"node",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
@@ -18,6 +18,6 @@
     "experimentalDecorators": true,
     "useDefineForClassFields": true,
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/catalog/[maincategory].js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
 }

@@ -153,8 +153,7 @@ function smoothScrollToAnchor(anchor: string, duration: number) {
 		const step = (timestamp: number) => {
 			if (!start) start = timestamp;
 			const progress = timestamp - start;
-			const easing = easeInOutQuad(progress / duration);
-			window.scrollTo(0, startPosition + distance * easing);
+			window.scrollTo(0, startPosition + distance * easeInOutQuad(progress / duration));
 			if (progress < duration) {
 				window.requestAnimationFrame(step);
 			}
@@ -177,7 +176,7 @@ function ShortAttributesElement({ properties, take }: { properties: Property[]; 
 			{properties.length > take ? (
 				<button
 					className="product__page__properties__short__show__all"
-					onClick={(event: React.MouseEvent) => {
+					onClick={() => {
 						smoothScrollToAnchor('#product__page__properties', 500);
 					}}
 				>
@@ -279,4 +278,4 @@ const HydrationComponent = ({ children, still }: { children: ReactElement; still
 	}
 };
 
-export default ProductPageElement;
+export { HydrationComponent, ProductPageElement };

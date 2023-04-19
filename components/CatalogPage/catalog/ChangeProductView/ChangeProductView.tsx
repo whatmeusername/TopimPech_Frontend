@@ -1,4 +1,4 @@
-import { useState, useContext, memo, useEffect } from 'react';
+import { useState, memo, useEffect } from 'react';
 import useWindowSize from '../../../../hooks/useWindowSize';
 import './ChangeProductView.scss';
 import { NextRouter, useRouter } from 'next/router';
@@ -7,53 +7,55 @@ import List from '../../../../public/CatalogViewIcons/list.svg';
 import Grid from '../../../../public/CatalogViewIcons/grid.svg';
 
 const isClient = typeof window !== 'undefined';
-type ProductAligmentType = 'row' | 'grid';
-interface ProductAligmentVariantData {
-	icon: JSX.Element;
-	name: ProductAligmentType;
+
+enum CatalogView {
+	GRID = 'grid',
+	ROW = 'row',
 }
 
-const getInitialView = (router: NextRouter): ProductAligmentType => {
+interface ProductAligmentVariantData {
+	icon: JSX.Element;
+	name: CatalogView;
+}
+
+const getInitialView = (router: NextRouter): CatalogView => {
 	if (!isClient) {
-		return 'row';
+		return CatalogView.ROW;
 	}
-	let lsv = localStorage.getItem('view');
-	let view = (lsv ?? router.query['view'] ?? 'row') as ProductAligmentType;
+	const lsv = localStorage.getItem('view');
+	const view = (lsv ?? router.query['view'] ?? CatalogView.ROW) as CatalogView;
 	if (!lsv) localStorage.setItem('view', view);
 	return view;
 };
 
+const AvailableVariant: ProductAligmentVariantData[] = [
+	{ icon: <Grid className="product__view__icon" />, name: CatalogView.GRID },
+	{ icon: <List className="product__view__icon" />, name: CatalogView.ROW },
+];
+
 const ChangeProductView = memo(
-	({ disabled, setCatalogView }: { disabled?: boolean; setCatalogView: (...args: any[]) => void }) => {
+	({ disabled, setCatalogView }: { disabled?: boolean; setCatalogView: (value: CatalogView) => void }) => {
 		const { width } = useWindowSize();
 		const router = useRouter();
-		disabled = disabled === undefined ? false : disabled;
 
-		const [selectedView, setSelectedView] = useState<ProductAligmentType | undefined>(undefined);
+		const [selectedView, setSelectedView] = useState<CatalogView | undefined>(undefined);
 
-		// using useEffect hook to ignore SSR Hydration
 		useEffect(() => {
 			setSelectedView(getInitialView(router));
 		}, []);
 
-		const AvailableVariant: ProductAligmentVariantData[] = [
-			{ icon: <Grid className="product__view__icon" />, name: 'grid' },
-			{ icon: <List className="product__view__icon" />, name: 'row' },
-		];
-
-		const setView = (variant: string) => {
+		const setView = (variant: CatalogView) => {
 			localStorage.setItem('view', variant);
 			setCatalogView(variant);
 		};
 
 		const getNextView = () => {
-			const length = AvailableVariant.length - 1;
-			let selectedIndex = AvailableVariant.findIndex((view) => view.name === selectedView);
-			if (selectedIndex === length) return AvailableVariant[0];
+			const selectedIndex = AvailableVariant.findIndex((view) => view.name === selectedView);
+			if (selectedIndex === AvailableVariant.length - 1) return AvailableVariant[0];
 			else return AvailableVariant[selectedIndex + 1];
 		};
 
-		let nextView = getNextView();
+		const nextView = getNextView();
 
 		return (
 			<div className={`prdouct__views__wrapper ${disabled ? 'prdouct__views__wrapper__disabled' : ''}`}>
@@ -61,9 +63,7 @@ const ChangeProductView = memo(
 					AvailableVariant.map((variant) => {
 						return (
 							<div
-								className={`prdouct__view ${
-									selectedView === variant.name ? 'prdouct__view__selected' : ''
-								}`}
+								className={`prdouct__view ${selectedView === variant.name ? 'prdouct__view__selected' : ''}`}
 								key={variant.name}
 								onClick={() => {
 									if (!disabled) {
@@ -96,5 +96,5 @@ const ChangeProductView = memo(
 
 ChangeProductView.displayName = 'ChangeProductView';
 
-export { getInitialView };
+export { getInitialView, CatalogView };
 export default ChangeProductView;

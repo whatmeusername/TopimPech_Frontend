@@ -25,8 +25,8 @@ import { useBreadcrumbContext, useCategoriesContext } from '../../GlobalContext/
 import BreadcrumbByURL from '../../CatalogComponents/breadcrumb/breacrumb';
 
 // ==== Elements =====
-import FacetFilter from './Filter/Filter';
-import ChangeProductView, { getInitialView } from './ChangeProductView/ChangeProductView';
+import FacetFilter, { FilterFetchData } from './Filter/Filter';
+import ChangeProductView, { CatalogView, getInitialView } from './ChangeProductView/ChangeProductView';
 import Paginator from './Paginator/Paginator';
 import ProductSort from './ProductSort/ProductSort';
 
@@ -38,7 +38,7 @@ export interface ProductAPIResponse {
 
 export interface initData {
 	productsData: ProductAPIResponse;
-	filter: { [K: string]: any };
+	filtersData: FilterFetchData;
 	view: 'grid' | 'row';
 	order: string;
 }
@@ -101,7 +101,6 @@ const ProductColumn = ({
 		return (
 			<>
 				{products.map((product) => {
-					product.images.sort(compare);
 					if (view === 'grid') return <ProductCardGrid product={product} key={product.slug} fadeIn={fadeIn} />;
 					else return <ProductCardRow product={product} key={product.slug} fadeIn={fadeIn} />;
 				})}
@@ -113,7 +112,6 @@ const ChildCategoriesElement = (): ReactElement => {
 	const childCategories = useCategoriesContext();
 	const router = useRouter();
 	const { maincategory, category } = router.query as { maincategory: string; category: string };
-	console.log(maincategory, category, childCategories?.find(maincategory, category));
 	return <></>;
 };
 
@@ -122,7 +120,7 @@ const ProductCatalogHeader = ({
 	setCatalogView,
 }: {
 	disabled: boolean;
-	setCatalogView: (...args: any[]) => void;
+	setCatalogView: (value: CatalogView) => void;
 }) => {
 	return (
 		<div className="product__catalog__header">
@@ -161,13 +159,23 @@ const StandardBreakLine = () => {
 	return <hr className="break__line__standard" />;
 };
 
+function useCatalogView(initial?: CatalogView): [CatalogView, (value: CatalogView) => void] {
+	const router = useRouter();
+	const [catalogView, setCatalogView] = useState<CatalogView>(initial ?? CatalogView.ROW);
+	useEffect(() => {
+		setCatalogView(getInitialView(router));
+	}, []);
+
+	return [catalogView, setCatalogView];
+}
+
 const CatalogContainer = ({ getFetchURL }: { getFetchURL: (router: NextRouter) => [string, string] }): ReactElement => {
 	const router = useRouter();
 	const initData = usePagePropsContext();
 
 	const { maincategory, category } = router.query as { maincategory: string; category: string };
 	const [CatalogData, setCatalogData] = useState<ProductAPIResponse>(initData?.productsData);
-	const [catalogView, setCatalogView] = useState<'row' | 'grid'>(getInitialView(router) ?? 'grid');
+	const [catalogView, setCatalogView] = useCatalogView();
 
 	const isLoaded = useRef<number>(0);
 
@@ -279,7 +287,7 @@ export default function Catalog({ initData }: { initData: initData }): ReactElem
 				</CatalogHead>
 				<div className="catalog__body">
 					<div className="catalog__filters__wrapper">
-						<FacetFilter />
+						<FacetFilter initialFilters={initData?.filtersData} />
 					</div>
 					<CatalogContainer getFetchURL={getFetchURL} />
 				</div>

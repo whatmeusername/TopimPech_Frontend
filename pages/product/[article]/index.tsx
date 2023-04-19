@@ -2,7 +2,7 @@ import { PagePropsContext, PROXY_URL } from '../../_app';
 import get from 'axios';
 import { GetServerSidePropsContext } from 'next';
 import type { ProductData } from '../../../components/CatalogComponents/product/interface';
-import ProductPageElement from '../../../components/ProductPage/index';
+import { ProductPageElement } from '../../../components/ProductPage/ProductPage';
 import type { ParsedUrlQuery } from 'querystring';
 
 const ProductPage = ({ initData, params }: { initData: ProductData; params: ParsedUrlQuery }) => {

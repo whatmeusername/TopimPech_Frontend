@@ -124,7 +124,8 @@
     width: 90%;
     .filter__wrapper__skeleton{
         height: 300px;
-        width: 100%;
+        width: 280px;
+        padding: 10px;
         display: flex;
         flex-direction: column;
         .filter__header{

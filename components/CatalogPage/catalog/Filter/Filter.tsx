@@ -169,9 +169,26 @@ const collectFilterParameters = (filterParam: { [K: string]: string[] } | null):
 	return res;
 };
 
-function FacetFilter(): JSX.Element {
+interface FilterFetchData {
+	count: number;
+	filtered: FilterData;
+}
+
+const useInitialState = (): [boolean, () => void] => {
+	const firstRender = useRef<boolean>(false);
+	return [
+		firstRender.current,
+		() => {
+			firstRender.current = true;
+		},
+	];
+};
+
+function FacetFilter({ initialFilters }: { initialFilters?: FilterFetchData }): JSX.Element {
 	const router = useRouter();
-	const [filters, setFilters] = useState<{ count: number; filtered: FilterData }>(null!);
+	const [IsFirstRender, confirmRender] = useInitialState();
+	const [filters, setFilters] = useState<FilterFetchData>(initialFilters ?? null!);
+
 	const { maincategory, category } = router.query as { maincategory: string; category: string };
 
 	let url = '/api/products/filters/';
@@ -187,11 +204,12 @@ function FacetFilter(): JSX.Element {
 	let [fetchUrl, SearchParams] = SearchParamsBuilder(url, searchParams, 'filter');
 
 	useEffect(() => {
-		fetchData(SearchParams);
-		//eslint-disable-next-line
-	}, [maincategory, category, SearchParams]);
+		if (IsFirstRender) {
+			fetchData();
+		} else confirmRender();
+	}, [SearchParams]);
 
-	const fetchData = (searchParams: string) => {
+	const fetchData = () => {
 		axios({
 			method: 'GET',
 			url: fetchUrl,
@@ -493,4 +511,5 @@ function FacetFilter(): JSX.Element {
 	);
 }
 
+export type { FilterFetchData };
 export default FacetFilter;

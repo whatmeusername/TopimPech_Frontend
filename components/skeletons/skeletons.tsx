@@ -40,11 +40,10 @@ function ProductCardRowSkeleton(): JSX.Element {
 }
 
 function FilterSkeleton(): JSX.Element {
-	let skelteonsCount = Array.from(Array(3).keys());
 	return (
 		<Skeleton className="filters__wrapper__skeleton" transperent={true}>
 			<>
-				{skelteonsCount.map((i) => {
+				{Array.from(Array(3).keys()).map((i) => {
 					return (
 						<Skeleton className="filter__wrapper__skeleton" transperent={true} key={'filter-skeleton' + i}>
 							<>
