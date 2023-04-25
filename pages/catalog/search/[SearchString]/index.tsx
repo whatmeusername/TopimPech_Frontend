@@ -1,5 +1,5 @@
 import { GetServerSidePropsContext } from 'next';
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 import { PagePropsContext, PROXY_URL } from '../../../_app';
 
 import Catalog, {
@@ -19,7 +19,6 @@ function CatalogPage({ initData }: { initData: initDataInterface }) {
 export async function catalogGetServerSideProps(context: GetServerSidePropsContext) {
 	const { SearchString } = context.params as { SearchString: string };
 
-
 	const query = context.query;
 	let url = PROXY_URL + 'products/search/';
 	if (SearchString) url += `${SearchString}/`;
@@ -29,8 +28,7 @@ export async function catalogGetServerSideProps(context: GetServerSidePropsConte
 	const [fetchUrl] = SearchParamsBuilder(url, query, 'page', 'items_per_page', 'order', 'filter');
 
 	try {
-		const res = (await axios.get(fetchUrl)) as AxiosResponse<ProductAPIResponse>;
-		productsData = res.data;
+		productsData = (await axios.get(fetchUrl)).data;
 	} catch (err: unknown) {
 		productsData = {
 			products: [],

@@ -132,3 +132,54 @@
 }
 
 
+
+
+
+
+
+.slider__item__wrapper{
+    min-width: 210px;
+    max-width: 210px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.child__category__wrapper{
+    min-width: 200px;
+    max-width: 200px;
+    border-radius:8px;
+    padding: 10px;
+    height: 75px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: variables.$primary_cards_background;
+    gap: 10px;
+
+    &:hover{
+        .child__category__label{
+            color: variables.$orange-color;
+        }
+    }
+
+    .child__category__image__wrapper{
+        width: 60px;
+        height: 60px;
+        .child__category__image{
+            max-width: 100%;
+            max-height: 100%;
+            border-radius:8px;
+        }
+    }
+    .child__category__label{
+        width: 135px;
+        font-size: variables.$fontMS;
+        font-size: variables.$museo_cyrl;
+        color: variables.$primary-color;
+        transition: color 0.15s ease;
+        &::first-letter{
+            text-transform: uppercase;
+        }
+    }
+}

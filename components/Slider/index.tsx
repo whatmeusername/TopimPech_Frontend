@@ -1,12 +1,10 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, ReactElement } from 'react';
 import './Slider.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
-import useWindowSize from '../../hooks/useWindowSize';
 
 const ACTIVE_DOT_CLASSNAME = 'slider__dot__active';
-const INACTIVE_DOT_CLASSNAME = 'slider__dot__inactive';
 const DISABLED_BUTTON_CLASSNAME = 'slider__button__disabled';
 
 interface SliderSettings {
@@ -30,14 +28,14 @@ function ButtonVersionSlider({ children, SliderSettings }: { children: JSX.Eleme
 	const itemsPerSlide = useRef<number>(SliderSettings?.ItemsPerSlide ?? null!);
 	const itemWidth = useRef<number>(0);
 
-	let IS_BUTTON_ACTIVE = useRef<boolean>(true);
+	const IS_BUTTON_ACTIVE = useRef<boolean>(true);
 
-	let DOTS_COUNT = Math.ceil(itemsCount / (itemsPerSlide.current ?? 1)) + 1;
-	let dots = Array.from(Array(DOTS_COUNT).keys());
+	const DOTS_COUNT = Math.ceil(itemsCount / (itemsPerSlide.current ?? 1)) + 1;
+	const dots = Array.from(Array(DOTS_COUNT).keys());
 
 	useEffect(() => {
-		let wrapperInnerWidth = contentRef.current.offsetWidth;
-		let contentItems = contentRef.current.childNodes;
+		const wrapperInnerWidth = contentRef.current.offsetWidth;
+		const contentItems = contentRef.current.childNodes;
 
 		itemWidth.current = (contentItems[0] as HTMLElement).offsetWidth;
 
@@ -51,7 +49,7 @@ function ButtonVersionSlider({ children, SliderSettings }: { children: JSX.Eleme
 			slidesTotal.current = Math.ceil(itemsCount / itemsPerSlide.current);
 		}
 
-		let maxWidth = itemsPerSlide.current * itemWidth.current;
+		const maxWidth = itemsPerSlide.current * itemWidth.current;
 		contentRef.current.style.width = `${maxWidth}px`;
 
 		IS_BUTTON_ACTIVE.current = itemsCount > 0 ? true : false;
@@ -66,7 +64,7 @@ function ButtonVersionSlider({ children, SliderSettings }: { children: JSX.Eleme
 				currentItem.current += itemsToSlide;
 				setActiveDot(currentSlide.current + 1);
 			} else if (currentItem.current !== itemsCount && currentItem.current + itemsToSlide - itemsCount > 0) {
-				let remainingItems = itemsCount - currentItem.current;
+				const remainingItems = itemsCount - currentItem.current;
 				currentItem.current += remainingItems;
 
 				setActiveDot(currentSlide.current + 1);
@@ -80,7 +78,7 @@ function ButtonVersionSlider({ children, SliderSettings }: { children: JSX.Eleme
 				setActiveDot(0);
 			}
 		}
-		let newOffset = itemWidth.current * currentItem.current;
+		const newOffset = itemWidth.current * currentItem.current;
 		contentRef.current.style.left = `-${newOffset}px`;
 	};
 
@@ -92,7 +90,7 @@ function ButtonVersionSlider({ children, SliderSettings }: { children: JSX.Eleme
 				to = itemsCount;
 			}
 			currentItem.current = to;
-			let newOffset = itemWidth.current * to;
+			const newOffset = itemWidth.current * to;
 			contentRef.current.style.left = `-${newOffset}px`;
 
 			findDotAndSetActive(to);
@@ -100,12 +98,12 @@ function ButtonVersionSlider({ children, SliderSettings }: { children: JSX.Eleme
 	};
 
 	const validateButtons = () => {
-		let CurrentSlide = currentSlide.current;
+		const CurrentSlide = currentSlide.current;
 		if (CurrentSlide === 0) {
 			leftButton.current.classList.add(DISABLED_BUTTON_CLASSNAME);
 			leftButton.current.disabled = true;
 		} else {
-			let leftButtonClassList = leftButton.current.classList;
+			const leftButtonClassList = leftButton.current.classList;
 			if (leftButtonClassList.contains(DISABLED_BUTTON_CLASSNAME)) {
 				leftButtonClassList.remove(DISABLED_BUTTON_CLASSNAME);
 				leftButton.current.disabled = false;
@@ -116,7 +114,7 @@ function ButtonVersionSlider({ children, SliderSettings }: { children: JSX.Eleme
 			rightButton.current.classList.add(DISABLED_BUTTON_CLASSNAME);
 			rightButton.current.disabled = true;
 		} else {
-			let rightButtonClassList = rightButton.current.classList;
+			const rightButtonClassList = rightButton.current.classList;
 			if (rightButtonClassList.contains(DISABLED_BUTTON_CLASSNAME)) {
 				rightButtonClassList.remove(DISABLED_BUTTON_CLASSNAME);
 				rightButton.current.disabled = false;
@@ -125,10 +123,10 @@ function ButtonVersionSlider({ children, SliderSettings }: { children: JSX.Eleme
 	};
 
 	const findDotAndSetActive = (to: number) => {
-		let dots = dotsRef.current.childNodes as NodeListOf<HTMLElement>;
+		const dots = dotsRef.current.childNodes as NodeListOf<HTMLElement>;
 		for (let i = 0; i < dots.length; i++) {
-			let dot = dots[i];
-			let slidesNumber = Number(dot.dataset.slides);
+			const dot = dots[i];
+			const slidesNumber = Number(dot.dataset.slides);
 			if (to <= slidesNumber) {
 				dots[currentSlide.current]?.classList.remove(ACTIVE_DOT_CLASSNAME);
 				dots[i]?.classList.add(ACTIVE_DOT_CLASSNAME);
@@ -141,7 +139,7 @@ function ButtonVersionSlider({ children, SliderSettings }: { children: JSX.Eleme
 	};
 
 	const setActiveDot = (nextSlide: number) => {
-		let dots = dotsRef.current.childNodes as NodeListOf<HTMLElement>;
+		const dots = dotsRef.current.childNodes as NodeListOf<HTMLElement>;
 
 		dots[currentSlide.current]?.classList.remove(ACTIVE_DOT_CLASSNAME);
 		dots[nextSlide]?.classList.add(ACTIVE_DOT_CLASSNAME);
@@ -151,8 +149,8 @@ function ButtonVersionSlider({ children, SliderSettings }: { children: JSX.Eleme
 	};
 
 	const SliderButton = ({ side }: { side: 'left' | 'right' }): JSX.Element => {
-		let icon = side === 'left' ? faAngleLeft : faAngleRight;
-		let ref = side === 'left' ? leftButton : rightButton;
+		const icon = side === 'left' ? faAngleLeft : faAngleRight;
+		const ref = side === 'left' ? leftButton : rightButton;
 
 		return (
 			<button
@@ -169,12 +167,10 @@ function ButtonVersionSlider({ children, SliderSettings }: { children: JSX.Eleme
 		return (
 			<div className="slider__dots__wrapper" ref={dotsRef}>
 				{dots.map((dot) => {
-					let slides = itemsPerSlide.current * dot <= itemsCount ? itemsPerSlide.current * dot : itemsCount;
+					const slides = itemsPerSlide.current * dot <= itemsCount ? itemsPerSlide.current * dot : itemsCount;
 					return (
 						<span
-							className={`slider__dot ${
-								dot === currentSlide.current ? ACTIVE_DOT_CLASSNAME : ''
-							} slider__dot__button`}
+							className={`slider__dot ${dot === currentSlide.current ? ACTIVE_DOT_CLASSNAME : ''} slider__dot__button`}
 							key={'slider-dot-' + dot}
 							data-slides={slides}
 							onClick={() => SlideTo(slides)}
@@ -208,15 +204,10 @@ function DragVersionSlider({ children, SliderSettings }: { children: JSX.Element
 	let clientStart = 0;
 	let wrapperOffsetLeft = 0;
 	let wrapperLeftScroll = 0;
-	let contentInnerWidth = 0;
-	let wrapperInnerWidth = 0;
 
 	const DragStart = (event: React.MouseEvent) => {
 		wrapperOffsetLeft = contentWrapperRef.current.offsetLeft;
 		wrapperLeftScroll = contentWrapperRef.current.scrollLeft;
-
-		wrapperInnerWidth = contentWrapperRef.current.clientWidth;
-		contentInnerWidth = contentRef.current.clientWidth;
 
 		clientStart = event.clientX - wrapperOffsetLeft;
 		window.addEventListener('mousemove', DragMove);
@@ -229,8 +220,7 @@ function DragVersionSlider({ children, SliderSettings }: { children: JSX.Element
 	};
 
 	const DragMove = (event: MouseEvent) => {
-		let x = event.clientX - wrapperOffsetLeft;
-		let next = (x - clientStart) * 2;
+		const next = (event.clientX - wrapperOffsetLeft - clientStart) * 2;
 		contentWrapperRef.current.scrollLeft = wrapperLeftScroll - next;
 	};
 
@@ -247,14 +237,20 @@ function DragVersionSlider({ children, SliderSettings }: { children: JSX.Element
 	);
 }
 
-function Slider({ children, SliderSettings }: { children: JSX.Element; SliderSettings?: SliderSettings }) {
-	let windowWidth = typeof window !== 'undefined' ? window.innerWidth : 1080;
+function Slider({
+	children,
+	SliderSettings,
+}: {
+	children: JSX.Element | ReactElement;
+	SliderSettings?: SliderSettings;
+}) {
+	const windowWidth = typeof window !== 'undefined' ? window.innerWidth : 1080;
 	if (false || SliderSettings?.mobileSize ? windowWidth > SliderSettings?.mobileSize : windowWidth > 720) {
 		return <ButtonVersionSlider SliderSettings={SliderSettings}>{children}</ButtonVersionSlider>;
 	} else return <DragVersionSlider SliderSettings={SliderSettings}>{children}</DragVersionSlider>;
 }
 
-function Item({ children }: { children: JSX.Element }) {
+function Item({ children }: { children: ReactElement }) {
 	return <span className="slider__item__wrapper">{children}</span>;
 }
 

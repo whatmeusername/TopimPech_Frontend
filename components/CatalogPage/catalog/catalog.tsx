@@ -29,6 +29,8 @@ import FacetFilter, { FilterFetchData } from './Filter/Filter';
 import ChangeProductView, { CatalogView, getInitialView } from './ChangeProductView/ChangeProductView';
 import Paginator from './Paginator/Paginator';
 import ProductSort from './ProductSort/ProductSort';
+import Slider from '../../Slider';
+import { CategoryData } from '../../GlobalContext/Categories/interface';
 
 export interface ProductAPIResponse {
 	products: ProductData[];
@@ -41,10 +43,6 @@ export interface initData {
 	filtersData: FilterFetchData;
 	view: 'grid' | 'row';
 	order: string;
-}
-
-function compare(a: any, b: any) {
-	return a.id < b.id ? -1 : 0;
 }
 
 export function SearchParamsBuilder(
@@ -64,11 +62,7 @@ export function SearchParamsBuilder(
 				? (searchParams as URLSearchParams).get(param)
 				: (searchParams as ParsedUrlQuery)[param];
 			if (paramRes) {
-				if (SearchParams.length === 1) {
-					SearchParams += `${param}=${paramRes}`;
-				} else {
-					SearchParams += `&${param}=${paramRes}`;
-				}
+				SearchParams += `${SearchParams.length === 1 ? '' : '&'}${param}=${paramRes}`;
 			}
 		});
 		return SearchParams;
@@ -108,11 +102,46 @@ const ProductColumn = ({
 		);
 };
 
+const ChildCategoriesChild = ({ category }: { category: CategoryData }): ReactElement => {
+	return (
+		<Link href={`/catalog/${category.parentCategory.slug}/${category.slug}`}>
+			<div className="child__category__wrapper">
+				<div className="child__category__image__wrapper">
+					<img
+						className="child__category__image"
+						src="/api/products/images/products/adapter-1-f450-mm-fantastic-700-vysokij/adapter-1-f450-mm-fantastic-700-vysokij_4.jpg"
+					/>
+				</div>
+				<span className="child__category__label">{category.name}</span>
+			</div>
+		</Link>
+	);
+};
+
 const ChildCategoriesElement = (): ReactElement => {
 	const childCategories = useCategoriesContext();
 	const router = useRouter();
 	const { maincategory, category } = router.query as { maincategory: string; category: string };
-	return <></>;
+
+	// PARENT SHOULD BE FIRST UPPER ELEMENT
+	const currentCategoryAtPage = childCategories?.find(maincategory, category);
+	if (!currentCategoryAtPage || currentCategoryAtPage.child.length < 1) return <></>;
+
+	return (
+		<div className="child__categories__wrapper">
+			<Slider SliderSettings={{ ItemsPerSlide: 5 }}>
+				<>
+					{currentCategoryAtPage.child.map((child) => {
+						return (
+							<Slider.Item key={`categories__child__${child.slug}`}>
+								<ChildCategoriesChild category={child} />
+							</Slider.Item>
+						);
+					})}
+				</>
+			</Slider>
+		</div>
+	);
 };
 
 const ProductCatalogHeader = ({
@@ -124,7 +153,6 @@ const ProductCatalogHeader = ({
 }) => {
 	return (
 		<div className="product__catalog__header">
-			<ChildCategoriesElement />
 			<ProductSort disabled={disabled} />
 			<ChangeProductView disabled={disabled} setCatalogView={setCatalogView} />
 		</div>
@@ -207,6 +235,7 @@ const CatalogContainer = ({ getFetchURL }: { getFetchURL: (router: NextRouter) =
 
 	return (
 		<div className="catalog__wrapper">
+			<ChildCategoriesElement />
 			<ProductCatalogHeader
 				disabled={CatalogData?.products === undefined || CatalogData?.products?.length === 0}
 				setCatalogView={setCatalogView}

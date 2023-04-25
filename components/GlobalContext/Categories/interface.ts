@@ -3,4 +3,5 @@ export interface CategoryData {
 	slug: string;
 	child: CategoryData[];
 	href?: string;
+	parentCategory: CategoryData;
 }

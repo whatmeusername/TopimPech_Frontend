@@ -3,6 +3,7 @@ import './paginator.scss';
 import { PaginatorData } from './interface';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { ReactElement } from 'react';
 
 const SpreadElement = ({ enabled }: { enabled: boolean }): JSX.Element => {
 	return <span className={`paginator__spread ${enabled ? '' : 'paginator__spread__disabled'}`}>...</span>;
@@ -16,18 +17,29 @@ const ScrollToTop = () => {
 	});
 };
 
-function Paginator({ PaginatorData, range = 3 }: { PaginatorData: PaginatorData; range?: number }): JSX.Element {
+function Paginator({
+	PaginatorData,
+	range = 3,
+}: {
+	PaginatorData: PaginatorData;
+	range?: number;
+}): ReactElement | null {
 	const router = useRouter();
-	const searchParams = router.query;
 
+	if (PaginatorData.pages === 1) {
+		return null;
+	}
+
+	const searchParams = router.query;
 	const startArr = [];
 	const endArr = [];
+
 	for (let i = 1; i <= range; i++) {
 		startArr.push(range + 1 - i);
 		endArr.push(i);
 	}
 
-	const PageElement = ({ page, current }: { page: number; current?: boolean }): JSX.Element => {
+	const PageElement = ({ page, current }: { page: number; current?: boolean }): ReactElement => {
 		if (current) {
 			return <span className={'paginator__item paginator__item__active'}>{page}</span>;
 		} else {
@@ -43,7 +55,15 @@ function Paginator({ PaginatorData, range = 3 }: { PaginatorData: PaginatorData;
 		}
 	};
 
-	const PaginatorArrow = ({ enabled, page, label }: { enabled: boolean; page: number; label: string }) => {
+	const PaginatorArrow = ({
+		enabled,
+		page,
+		label,
+	}: {
+		enabled: boolean;
+		page: number;
+		label: string;
+	}): ReactElement => {
 		if (enabled) {
 			return (
 				<div className="paginator__arrow__wrapper">
@@ -67,23 +87,19 @@ function Paginator({ PaginatorData, range = 3 }: { PaginatorData: PaginatorData;
 		}
 	};
 
-	if (PaginatorData.pages === 1) {
-		return <></>;
-	}
-
 	return (
 		<div className="paginator__wrapper">
 			<PaginatorArrow page={PaginatorData.page - 1} enabled={PaginatorData.previous} label={'назад'} />
 			<SpreadElement enabled={PaginatorData.page - range > 1} />
 			{startArr.map((range) => {
-				let previous = PaginatorData.page - range;
+				const previous = PaginatorData.page - range;
 				if (previous > 0) {
 					return <PageElement page={previous} key={`previous-page-${previous}`} />;
 				} else return '';
 			})}
 			<PageElement page={PaginatorData.page} current={true} />
 			{endArr.map((range) => {
-				let next = PaginatorData.page + range;
+				const next = PaginatorData.page + range;
 				if (next <= PaginatorData.pages) {
 					return <PageElement page={next} key={`next-page-${next}`} />;
 				} else return '';
