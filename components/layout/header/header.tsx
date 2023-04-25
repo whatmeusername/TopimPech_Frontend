@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 import './header.scss';
 
-import ProductSearch from '../../searchfield/searchfield';
+import ProductSearch from '../searchfield/searchfield';
 import Menu from '../Menu/Menu';
 import Logo2 from '../../../public/images/Logo2.png';
 

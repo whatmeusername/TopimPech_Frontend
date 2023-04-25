@@ -6,11 +6,10 @@ import Layout from '../components/layout/layout';
 import WidthLimiter from '../components/WidthLimiter/WidthLimiter';
 import type { AppProps } from 'next/app';
 
-import { CategoriesContext, BreadcrumbContext, CentralModalContext } from '../components/GlobalContext/';
-
 import { createContext, useContext } from 'react';
 import { CentralModal } from '../components/CentralModal';
 import { enableStaticRendering } from 'mobx-react-lite';
+import { CategoriesContext, BreadcrumbContext, CentralModalContext } from '../context';
 
 const PROXY_URL = process.env.PROXY_URL;
 

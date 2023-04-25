@@ -1,5 +1,5 @@
 import { action, makeObservable, observable, autorun, toJS, extendObservable } from 'mobx';
-import { ProductData } from '../components/CatalogComponents/product/interface';
+import { ProductData } from '../components/CatalogComponents/Cards/interface';
 
 interface HistorySliceItem {
 	name: string;

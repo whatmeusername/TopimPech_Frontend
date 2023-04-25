@@ -1,4 +1,4 @@
-import Catalog, { initData as initDataInterface } from '../../../../components/CatalogPage/catalog/catalog';
+import Catalog, { initData as initDataInterface } from '../../../../components/CatalogPage/catalog';
 import { GetServerSidePropsContext } from 'next';
 
 import { catalogGetServerSideProps } from '../index';

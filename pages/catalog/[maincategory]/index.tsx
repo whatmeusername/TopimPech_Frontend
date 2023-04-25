@@ -2,12 +2,8 @@ import { GetServerSidePropsContext } from 'next';
 import axios from 'axios';
 import { PagePropsContext, PROXY_URL } from '../../_app';
 
-import Catalog, {
-	initData as initDataInterface,
-	ProductAPIResponse,
-	SearchParamsBuilder,
-} from '../../../components/CatalogPage/catalog/catalog';
-import { FilterFetchData } from '../../../components/CatalogPage/catalog/Filter/Filter';
+import Catalog, { initData as initDataInterface, ProductAPIResponse, SearchParamsBuilder } from '../../../components/CatalogPage/catalog';
+import { FilterFetchData } from '../../../components/CatalogPage/Filter/Filter';
 
 function CatalogPage({ initData }: { initData: initDataInterface }) {
 	return (
@@ -32,14 +28,7 @@ export async function catalogGetServerSideProps(context: GetServerSidePropsConte
 	let productsData: ProductAPIResponse;
 	let filtersData: FilterFetchData;
 
-	const [productFetchURL] = SearchParamsBuilder(
-		produdctFetchURLRaw,
-		query,
-		'page',
-		'items_per_page',
-		'order',
-		'filter',
-	);
+	const [productFetchURL] = SearchParamsBuilder(produdctFetchURLRaw, query, 'page', 'items_per_page', 'order', 'filter');
 	const [filterFetchURL] = SearchParamsBuilder(filtersFetchURLRaw, query, 'filter');
 
 	try {

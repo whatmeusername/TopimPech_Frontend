@@ -2,11 +2,7 @@ import { GetServerSidePropsContext } from 'next';
 import axios from 'axios';
 import { PagePropsContext, PROXY_URL } from '../../../_app';
 
-import Catalog, {
-	initData as initDataInterface,
-	ProductAPIResponse,
-	SearchParamsBuilder,
-} from '../../../../components/CatalogPage/catalog/catalog';
+import Catalog, { initData as initDataInterface, ProductAPIResponse, SearchParamsBuilder } from '../../../../components/CatalogPage/catalog';
 
 function CatalogPage({ initData }: { initData: initDataInterface }) {
 	return (

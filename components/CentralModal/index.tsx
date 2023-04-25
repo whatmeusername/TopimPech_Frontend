@@ -1,4 +1,4 @@
-import { useCentralModalContext } from '../GlobalContext';
+import { useCentralModalContext } from '../../context';
 
 function CentralModal() {
 	const centralContext = useCentralModalContext();

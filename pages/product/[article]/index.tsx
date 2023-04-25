@@ -1,14 +1,14 @@
 import { PagePropsContext, PROXY_URL } from '../../_app';
 import get from 'axios';
 import { GetServerSidePropsContext } from 'next';
-import type { ProductData } from '../../../components/CatalogComponents/product/interface';
-import { ProductPageElement } from '../../../components/ProductPage/ProductPage';
+import type { ProductData } from '../../../components/CatalogComponents/Cards/interface';
+import { ProductPage } from '../../../components/ProductPage/ProductPage';
 import type { ParsedUrlQuery } from 'querystring';
 
-const ProductPage = ({ initData, params }: { initData: ProductData; params: ParsedUrlQuery }) => {
+const ProductPageElement = ({ initData, params }: { initData: ProductData; params: ParsedUrlQuery }) => {
 	return (
 		<PagePropsContext.Provider value={initData}>
-			<ProductPageElement initData={initData} params={params} />
+			<ProductPage initData={initData} params={params} />
 		</PagePropsContext.Provider>
 	);
 };
@@ -29,4 +29,4 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 	return { props: serverSideProps };
 }
 
-export default ProductPage;
+export default ProductPageElement;
