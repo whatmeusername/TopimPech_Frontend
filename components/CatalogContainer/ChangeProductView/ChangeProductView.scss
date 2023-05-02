@@ -1,22 +1,19 @@
-@use '../../../../styles/variables' as variables;
-
-.prdouct__views__wrapper{
-    display: flex;
-    flex-direction: row;
-    &.prdouct__views__wrapper__disabled{
-        opacity: 0.5;
-    }
-    .prdouct__view{
-        color: variables.$gray-color;
-        font-size: variables.$fontM;
-        &.prdouct__view__selected{
-            color: variables.$orange-color;
-
-        }
-        .product__view__icon{
-            cursor: pointer;
-            width: 30px;
-            font-size: 30px;
-        }
-    }
+.prdouct__views__wrapper {
+	display: flex;
+	flex-direction: row;
+	&.prdouct__views__wrapper__disabled {
+		opacity: 0.5;
+	}
+	.prdouct__view {
+		color: var(--gray-color);
+		font-size: var(--fontM);
+		&.prdouct__view__selected {
+			color: var(--orange-color);
+		}
+		.product__view__icon {
+			cursor: pointer;
+			width: 30px;
+			font-size: 30px;
+		}
+	}
 }

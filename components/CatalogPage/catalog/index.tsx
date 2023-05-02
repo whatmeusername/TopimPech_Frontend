@@ -9,12 +9,12 @@ import BreadcrumbByURL from '../../Shared/breadcrumb/breacrumb';
 
 // ==== Elements =====
 import { initData } from './interface';
-import { CatalogContainer } from '../../CatalogContainer';
+import { CatalogContainer } from '../../CatalogContainer/index';
 import FacetFilter from '../Filter/Filter';
 import { ProductsNotFound } from '../ProductsNotFound/ProductsNotFound';
-import { CatalogHead } from '../CatalogHead/CatalogHead';
 import { CatalogHeader } from '../CatalogHead/CatalogHeader';
 import { SearchParamsBuilder } from '../../../utils/SearchParamsBuilder';
+import { CatalogHead } from '../CatalogHead/CatalogHead';
 
 const getFetchURL = (router: NextRouter): [string, string] => {
 	const { maincategory, category } = router.query as { maincategory: string; category: string };

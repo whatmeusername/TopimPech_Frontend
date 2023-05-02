@@ -1,7 +1,5 @@
-@use '../../../styles/variables' as variables;
-
-.footer__wrapper{
-    width: 100vw;
-    height: 120px;
-    background-color: variables.$primary-color;
+.footer__wrapper {
+	width: 100vw;
+	height: 120px;
+	background-color: var(--primary-color);
 }

@@ -1,67 +1,69 @@
-@use '../../../../styles/variables' as variables;
+.paginator__wrapper {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	margin: 10px 0px;
 
-.paginator__wrapper{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin: 10px 0px;
+	.paginator__spread {
+		letter-spacing: 1px;
+		color: var(--gray-color);
+		&.paginator__spread__disabled {
+			display: none;
+		}
+	}
+	.paginator__arrow__wrapper {
+		margin: 0 10px;
+		font-family: var(--museo_cyrl);
+		font-weight: 300;
+		.paginator__link {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-between;
+			padding: 5px 15px;
 
+			text-decoration: none;
+			letter-spacing: 0.5px;
+			color: var(--orange-color);
+			text-transform: capitalize;
 
-    .paginator__spread{
-        letter-spacing: 1px;
-        color: variables.$gray-color;
-        &.paginator__spread__disabled{
-            display: none;
-        }
-    }
-    .paginator__arrow__wrapper{
-        margin: 0 10px;
-        font-family: variables.$museo_cyrl;
-        font-weight: 300;
-        .paginator__link{
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: space-between;
-            padding: 5px 15px;
+			border-radius: 4px;
+			background-color: rgba(238, 115, 14, 0.25);
+			transition: 0.5s ease-in-out;
+			&:hover {
+				background-color: rgba(238, 115, 14, 0.4);
+			}
+			&.paginator__link__disabled {
+				background-color: var(--grey-color);
+				color: var(--gray-color);
+			}
+		}
+	}
 
-            text-decoration: none;
-            letter-spacing: 0.5px;
-            color: variables.$orange-color;
-            text-transform: capitalize;
-
-            border-radius: 4px;
-            background-color: rgba(238, 115, 14, 0.25);
-            transition: 0.5s ease-in-out;
-            &:hover{
-                background-color: rgba(238, 115, 14, 0.4);
-            }
-            &.paginator__link__disabled{
-                background-color: variables.$grey-color;
-                color: variables.$gray-color;
-
-            }
-        }
-    }
-
-    .paginator__item{
-        margin: 0 10px;
-        width: 30px;
-        height: 30px;
-        color: variables.$gray-color;
-        font-family: variables.$museo_cyrl;
-        text-decoration: none;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        border-radius: 4px;
-        font-weight: 500;
-        &.paginator__item__active{
-            border: none;
-            background-color: variables.$orange-color;
-            color: rgb(255, 255, 255);
-            font-weight: 300;
-        }
-    }
+	.paginator__item {
+		margin: 0 10px;
+		width: 30px;
+		height: 30px;
+		color: var(--gray-color);
+		font-family: var(--museo_cyrl);
+		text-decoration: none;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		border-radius: 4px;
+		font-weight: 500;
+		transition: background-color 0.15s ease;
+		&.paginator__item__inactive {
+			&:hover {
+				background-color: var(--paginator__item__hover);
+			}
+		}
+		&.paginator__item__active {
+			border: none;
+			background-color: var(--orange-color);
+			color: rgb(255, 255, 255);
+			font-weight: 300;
+		}
+	}
 }

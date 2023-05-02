@@ -17,13 +17,7 @@ const ScrollToTop = () => {
 	});
 };
 
-function Paginator({
-	PaginatorData,
-	range = 3,
-}: {
-	PaginatorData: PaginatorData;
-	range?: number;
-}): ReactElement | null {
+function Paginator({ PaginatorData, range = 3 }: { PaginatorData: PaginatorData; range?: number }): ReactElement | null {
 	const router = useRouter();
 
 	if (PaginatorData.pages === 1) {
@@ -46,7 +40,7 @@ function Paginator({
 			return (
 				<Link
 					href={{ pathname: router.pathname, query: { ...searchParams, page: page } }}
-					className="paginator__item"
+					className="paginator__item paginator__item__inactive"
 					onClick={ScrollToTop}
 				>
 					{page}
@@ -55,23 +49,11 @@ function Paginator({
 		}
 	};
 
-	const PaginatorArrow = ({
-		enabled,
-		page,
-		label,
-	}: {
-		enabled: boolean;
-		page: number;
-		label: string;
-	}): ReactElement => {
+	const PaginatorArrow = ({ enabled, page, label }: { enabled: boolean; page: number; label: string }): ReactElement => {
 		if (enabled) {
 			return (
 				<div className="paginator__arrow__wrapper">
-					<Link
-						href={{ pathname: router.pathname, query: { ...searchParams, page: page } }}
-						className="paginator__link"
-						onClick={ScrollToTop}
-					>
+					<Link href={{ pathname: router.pathname, query: { ...searchParams, page: page } }} className="paginator__link" onClick={ScrollToTop}>
 						<span className="paginator__arrow__label">{label}</span>
 					</Link>
 				</div>

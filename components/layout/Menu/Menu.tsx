@@ -10,8 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import MenuContentMobile from './MenuContentMobile';
 import MenuContentDesktop from './MenuContentDesktop';
 import { CloseButton } from './GeneralElements';
-
-import { useCategoriesContext } from '../../GlobalContext/';
+import { useCategoriesContext } from '../../../context';
 
 export const ToggleModalContext = createContext<(fixedState?: boolean) => void>(null!);
 
@@ -45,9 +44,7 @@ const MenuContent = memo((): JSX.Element => {
 						</div>
 						<CloseButton />
 					</div>
-					<div className="menu__content__mobile">
-						{categories ? <MenuContentMobile categories={categories} /> : null}
-					</div>
+					<div className="menu__content__mobile">{categories ? <MenuContentMobile categories={categories} /> : null}</div>
 				</div>
 			</div>
 		);
@@ -74,9 +71,7 @@ export default function Menu() {
 				<p className="menu__button__label">Каталог</p>
 			</button>
 			<div
-				className={`menu__content__active__blackscreen ${
-					modalActive ? 'blackscreen__inactive' : 'blackscreen__active'
-				}`}
+				className={`menu__content__active__blackscreen ${modalActive ? 'blackscreen__inactive' : 'blackscreen__active'}`}
 				onClick={() => setModalActive(false)}
 			></div>
 			<div className={`menu__content__modal ${modalActive ? 'modal__unhidden' : 'modal__hidden'}`}>

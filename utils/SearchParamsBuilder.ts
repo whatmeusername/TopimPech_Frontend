@@ -1,4 +1,6 @@
-export function SearchParamsBuilder(url: string, query: ParsedUrlQuery | undefined, ...rest: string[]): [string, string] {
+import { ParsedUrlQuery } from 'querystring';
+
+function SearchParamsBuilder(url: string, query: ParsedUrlQuery | undefined, ...rest: string[]): [string, string] {
 	const isURLSearchParams = query === undefined;
 	const searchParams: URLSearchParams | ParsedUrlQuery = isURLSearchParams ? new URLSearchParams(window.location.search) : query;
 

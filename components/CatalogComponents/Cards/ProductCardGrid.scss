@@ -1,101 +1,95 @@
-@use '../../../styles/variables' as variables;
+.product__card__wrapper__grid {
+	width: 325px;
+	min-height: 500px;
+	border-radius: 8px;
+	margin-bottom: 20px;
+	position: relative;
 
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 
-.product__card__wrapper__grid{
-    width: 325px;
-    min-height: 500px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    position: relative;
+	.product__card__image__wrapper {
+		height: 350px;
+		width: 100%;
+		cursor: pointer;
+	}
 
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+	.product__card__link__wrapper {
+		cursor: pointer;
 
+		.product__card__price__wrapper {
+			margin: 10px 0px;
 
-    .product__card__image__wrapper{
-        height: 350px;
-        width: 100%;
-        cursor: pointer;
-    }
+			.product__card__price__sale {
+				color: var(--orange-color);
+			}
 
-    .product__card__link__wrapper{
-        cursor: pointer;
+			.price__tag {
+				font-family: var(--museo_cyrl);
+				font-size: var(--fontX);
+				font-weight: 900;
+				&::after {
+					content: '\20BD';
+				}
+			}
 
-        .product__card__price__wrapper{
-            margin: 10px 0px;
-            
-            
-            .product__card__price__sale{
-                color: variables.$orange-color;
-            }
+			.product__card__price {
+				font-family: var(--museo_cyrl);
+				color: var(--orange-color);
+				font-size: var(--fontX);
+				font-weight: 900;
+			}
 
-            .price__tag{
-                font-family: variables.$museo_cyrl;
-                font-size: variables.$fontX;
-                font-weight: 900;
-                &::after{
-                    content: "\20BD"
-                }
-            }
+			.product__card__price__before__sale {
+				font-size: var(--fontM);
+				color: var(--gray-color);
+				text-decoration: line-through;
+				margin-left: 5px;
+				font-weight: 700;
+			}
+		}
 
-            .product__card__price{
-                font-family: variables.$museo_cyrl;
-                color: variables.$orange-color;
-                font-size: variables.$fontX;
-                font-weight: 900;
-            }
+		.product__card__name__wrapper {
+			.product__card__name {
+				font-family: var(--museo_cyrl);
+				color: var(--standard-color);
+				font-size: var(--fontL);
+				font-weight: 300;
+				transition: 0.1s ease-in-out;
+			}
+		}
 
-            .product__card__price__before__sale{
-                font-size: variables.$fontM;
-                color: variables.$gray-color;
-                text-decoration: line-through;
-                margin-left: 5px;
-                font-weight: 700;
-            }
-        }
-    
-        .product__card__name__wrapper{
-            .product__card__name{
-                font-family: variables.$museo_cyrl;
-                color: variables.$standard-color;
-                font-size: variables.$fontL;
-                font-weight: 300;
-                transition: 0.1s ease-in-out;
-            }
-        }
+		.product__card__manufacturer__data__wrapper {
+			.product__card__manufacturer__data {
+				color: var(--gray-color);
+				font-size: var(--fontM);
+				font-family: 'Arial';
+			}
+			.product__card__slash {
+				color: var(--gray-color);
+				font-size: var(--fontM);
+				margin: 0px 5px;
+			}
+		}
 
-        .product__card__manufacturer__data__wrapper{
-            .product__card__manufacturer__data{
-                color: variables.$gray-color;
-                font-size: variables.$fontM;
-                font-family: 'Arial';
-            }
-            .product__card__slash{
-                color: variables.$gray-color;
-                font-size: variables.$fontM;
-                margin: 0px 5px;
-            }
-        }
+		&:hover {
+			.product__card__name {
+				color: var(--orange-darker-color);
+			}
+		}
+	}
 
-        &:hover{
-            .product__card__name{
-                color: variables.$orange-darker-color;
-            }
-        }
-    }
-
-
-    .product__card__options__wrapper{
-        display: flex;
-        flex-direction: column;
-        position: absolute;
-        right: 15px;
-        top: 10px;
-        z-index: 10;
-        gap: 10px;
-        .product__card__option{
-            width: variables.$fontX;
-        }
-    }
+	.product__card__options__wrapper {
+		display: flex;
+		flex-direction: column;
+		position: absolute;
+		right: 15px;
+		top: 10px;
+		z-index: 10;
+		gap: 10px;
+		.product__card__option {
+			width: var(--fontX);
+		}
+	}
 }

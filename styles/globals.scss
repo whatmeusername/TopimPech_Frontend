@@ -1,58 +1,49 @@
-@use "./variables" as variables;
-
-
-
-
 html,
 body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+	padding: 0;
+	margin: 0;
+	font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 
-    @media (prefers-color-scheme: light) {
-      background-color: white;
-    }
-    
-    @media (prefers-color-scheme: dark) {
-      background-color: white;
-    }
+	@media (prefers-color-scheme: light) {
+		background-color: white;
+	}
+
+	@media (prefers-color-scheme: dark) {
+		background-color: white;
+	}
 }
 
 a {
-  color: inherit;
-  text-decoration: none;
+	color: inherit;
+	text-decoration: none;
 }
 
 * {
-  box-sizing: border-box;
+	box-sizing: border-box;
 }
 
+.product__card__price__wrapper {
+	.product__card__price__sale {
+		color: var(--orange-color);
+	}
+	.price__tag {
+		font-family: var(--museo_cyrl);
+		font-size: var(--fontXL);
+		font-weight: 900;
+		&::after {
+			content: '\20BD';
+		}
+	}
 
+	.product__card__price {
+		color: var(--orange-color);
+	}
 
-
-.product__card__price__wrapper{
-  .product__card__price__sale{
-    color: variables.$orange-color;
-  }
-  .price__tag{
-    font-family: variables.$museo_cyrl;
-    font-size: variables.$fontXL;
-    font-weight: 900;
-    &::after{
-        content: "\20BD";
-    }
-  }
-  
-  .product__card__price{
-    color: variables.$orange-color;
-  }
-  
-  .product__card__price__before__sale{
-    font-size: variables.$fontM;
-    color: variables.$gray-color;
-    text-decoration: line-through;
-    margin-left: 5px;
-    font-weight: 700;
-  }
+	.product__card__price__before__sale {
+		font-size: var(--fontM);
+		color: var(--gray-color);
+		text-decoration: line-through;
+		margin-left: 5px;
+		font-weight: 700;
+	}
 }

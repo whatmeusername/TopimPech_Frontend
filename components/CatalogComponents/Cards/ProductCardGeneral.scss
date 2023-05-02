@@ -1,47 +1,37 @@
-@use "../../../styles/variables" as variables;
+.product__card__wrapper {
+	border-radius: 8px;
+	padding: 10px;
 
+	position: relative;
+	transition: 0.25s ease;
 
-.product__card__wrapper{
-
-
-    border-radius: 8px;
-    padding: 10px;
-    
-    position: relative;
-    transition: 0.25s ease;
-
-    &.product__card__fade__in{
-        animation: fadeIn 0.5s ease-in;
-    }
+	&.product__card__fade__in {
+		animation: fadeIn 0.5s ease-in;
+	}
 }
 
+.product__card__option {
+	color: var(--gray-color);
+	cursor: pointer;
+	transition: 0.1s ease-in-out;
 
-.product__card__option{
-    color: variables.$gray-color;
-    cursor: pointer;
-    transition: 0.1s ease-in-out;
-
-    &__active{
-        border-color: variables.$orange-color;
-        color: variables.$orange-color;
-    }
-    &__inactive{
-        &:hover{
-            border-color: variables.$orange-color;
-            color: variables.$orange-color;
-        }
-    }
+	&__active {
+		border-color: var(--orange-color);
+		color: var(--orange-color);
+	}
+	&__inactive {
+		&:hover {
+			border-color: var(--orange-color);
+			color: var(--orange-color);
+		}
+	}
 }
 
-
-
-
-
-@keyframes fadeIn{
-    0%{
-        opacity: 0;
-    }
-    100%{
-        opacity: 1;
-    }
+@keyframes fadeIn {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
 }

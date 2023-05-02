@@ -1,29 +1,25 @@
-@use '../../../../../styles/variables' as variables;
+.product__card__add__to__cart {
+	font-family: var(--museo_cyrl);
+	padding: 10px 15px;
+	cursor: pointer;
+	font-size: var(--fontM);
+	letter-spacing: 0.5px;
+	border-radius: 4px;
+	border: 1px solid transparent;
+	transition: 0.1s ease;
 
-.product__card__add__to__cart{
-    font-family: variables.$museo_cyrl;
-    padding: 10px 15px;
-    cursor: pointer;
-    font-size: variables.$fontM;
-    letter-spacing: 0.5px;
-    border-radius: 4px;
-    border: 1px solid transparent;
-    transition: 0.1s ease;
-
-    &.product__card__add__to__cart__active{
-        background-color: transparent;
-        border: 1px solid variables.$primary-color;
-        &:hover{
-            opacity: 0.5;
-        }
-    }
-    &.product__card__add__to__cart__inactive{
-        background-color: variables.$orange-color;
-        color: rgb(255, 255, 255);
-        &:hover{
-            background-color: variables.$orange-darker-color;
-        }
-    }
-
+	&.product__card__add__to__cart__active {
+		background-color: transparent;
+		border: 1px solid var(--primary-color);
+		&:hover {
+			opacity: 0.5;
+		}
+	}
+	&.product__card__add__to__cart__inactive {
+		background-color: var(--orange-color);
+		color: rgb(255, 255, 255);
+		&:hover {
+			background-color: var(--orange-darker-color);
+		}
+	}
 }
-

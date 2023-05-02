@@ -1,62 +1,60 @@
-@use '../../styles/variables' as variables;
+.dropdown__wrapper {
+	margin-bottom: 15px;
+	.dropdown__toggle__button {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		background-color: transparent;
+		border: none;
+		padding: 10px 15px;
+		width: 100%;
+		cursor: pointer;
 
-.dropdown__wrapper{
-    margin-bottom: 15px;
-    .dropdown__toggle__button{
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        background-color: transparent;
-        border: none;
-        padding: 10px 15px;
-        width: 100%;
-        cursor: pointer;
+		&:hover {
+			.dropdown__label {
+				color: var(--standard-color);
+			}
+			.dropdown__toggle__arrow {
+				color: var(--standard-color);
+			}
+		}
 
-        &:hover{
-            .dropdown__label{
-                color: variables.$standard-color;
-            }
-            .dropdown__toggle__arrow{
-                color: variables.$standard-color;
-            }
-        }
+		.dropdown__label {
+			font-family: var(--museo_cyrl);
+			color: var(--primary-color);
+			font-size: var(--fontM);
+			font-weight: 700;
+			width: 90%;
+			text-align: left;
 
-        .dropdown__label{
-            font-family: variables.$museo_cyrl;
-            color: variables.$primary-color;
-            font-size: variables.$fontM;
-            font-weight: 700;
-            width: 90%;
-            text-align: left;
+			display: block;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			transition: all 0.4s ease;
+			&:first-letter {
+				text-transform: uppercase;
+			}
+		}
+		.dropdown__toggle__arrow {
+			color: var(--gray-color);
+			transition: 0.4s ease;
+			width: var(--fontS);
+			&.dropdown__toggle__arrow__active {
+				transform: rotateZ(180deg);
+			}
+		}
+	}
 
-            display: block;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            transition: all 0.4s ease;
-            &:first-letter{
-                text-transform: uppercase;
-            }
-        }
-        .dropdown__toggle__arrow{
-            color: variables.$gray-color;
-            transition: 0.4s ease;
-            width: variables.$fontS;
-            &.dropdown__toggle__arrow__active{
-                transform: rotateZ(180deg)
-            }
-        }
-    }
+	.dropdown__content {
+		max-height: 0px;
+		overflow: hidden;
+		transition: all 0.4s ease;
+		padding: 0 20px;
 
-    .dropdown__content{
-        max-height: 0px;
-        overflow: hidden;
-        transition: all 0.4s ease;
-        padding: 0 20px;
-
-        &.dropdown__content__active{
-            max-height: 350px;
-        }
-    }
+		&.dropdown__content__active {
+			max-height: 350px;
+		}
+	}
 }

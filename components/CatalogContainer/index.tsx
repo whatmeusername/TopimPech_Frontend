@@ -6,13 +6,14 @@ import { ProductAPIResponse } from '../CatalogPage/catalog/interface';
 import Paginator from './Paginator/Paginator';
 import { useCatalogView } from '../../hooks/useCatalogView';
 import { ProductCatalogHeader } from './ProductCatalogHeader/ProductCatalogHeader';
-import { StandardBreakLine } from '../Shared/StandardBreakLine/StandardBreakLine';
 import { ProductColumn } from './ProductColumn/ProductColumn';
-import { CatalogContainerViewedItems } from './CatalogContainerViewedItems/CatalogContainerViewedItems';
+
 import { CatalogContainerFooter } from './CatalogContainerFooter/CatalogContainerFooter';
 
 import './CatalogContainer.scss';
 import { ChildCategoriesElement } from './ChildCategoriesElement/ChildCategoriesElement';
+import { StandardBreakLine } from '../Shared/StandardBreakLine/StandardBreakLine';
+import { CatalogContainerViewedItems } from './CatalogContainerViewedItems/CatalogContainerViewedItems';
 
 const CatalogContainer = ({ getFetchURL }: { getFetchURL: (router: NextRouter) => [string, string] }): ReactElement => {
 	const router = useRouter();

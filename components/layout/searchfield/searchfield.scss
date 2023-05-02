@@ -1,172 +1,160 @@
-@use '../../styles/variables' as variables;
-
-
-
-.search__field__wrapper{
-    width: 100%;
-    position: relative;
-    padding: 6px;
-    &.search__field__wrapper__active{
-        z-index: 30;
-        // .search__input__wrapper{
-        //     background-color: variables.$app_background_color;
-        // }
-        .search__field__results__wrapper{
-            background-color: variables.$app_background_color;
-        }
-    }
+.search__field__wrapper {
+	width: 100%;
+	position: relative;
+	padding: 6px;
+	&.search__field__wrapper__active {
+		z-index: 30;
+		// .search__input__wrapper{
+		//     background-color: var(--app_background_color);
+		// }
+		.search__field__results__wrapper {
+			background-color: var(--app_background_color);
+		}
+	}
 }
 
-
-.search__field__results__wrapper{
-    width: 100%;
-    min-height: 52px;
-    border-radius: 8px;
-    transition: background-color 0.2s ease, height 0.2s ease;    
-    position: absolute;
-    top: 0;
-    left: 0;
+.search__field__results__wrapper {
+	width: 100%;
+	min-height: 52px;
+	border-radius: 8px;
+	transition: background-color 0.2s ease, height 0.2s ease;
+	position: absolute;
+	top: 0;
+	left: 0;
 }
 
-.search__input__wrapper{
-    position: relative;
-    z-index: 30;
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    height: 40px;
-    border: 1px solid variables.$primary-color;
-    border-radius: 10px;
-    background-color: variables.$primary-color;
+.search__input__wrapper {
+	position: relative;
+	z-index: 30;
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	height: 40px;
+	border: 1px solid var(--primary-color);
+	border-radius: 10px;
+	background-color: var(--primary-color);
 
+	.search__field {
+		border: 0px solid transparent;
+		background: var(--white-color);
+		border-radius: 8px;
+		width: calc(100% - 75px);
+		font-size: var(--fontX);
+		outline: 0;
+		color: var(--primary-color);
+		margin-left: 2px;
+		padding: 0 10px;
+	}
 
-    
-    .search__field{
-        border: 0px solid transparent;
-        background: variables.$white-color;
-        border-radius: 8px;
-        width: calc(100% - 75px);
-        font-size: variables.$fontX;
-        outline: 0;
-        color: variables.$primary-color;
-        margin-left: 2px;
-        padding: 0 10px;
-    }
-
-    .search__field__button{
-        width: 75px;
-        border: none;
-        background: transparent;
-        cursor: pointer;
-        min-height: 100%;
-        margin: 0;
-        padding: 0;
-        .search__field__button__icon{
-            font-size: variables.$fontL;
-            width: 20px;
-            color: variables.$light-grey-color;
-        } 
-    }
-
-    
+	.search__field__button {
+		width: 75px;
+		border: none;
+		background: transparent;
+		cursor: pointer;
+		min-height: 100%;
+		margin: 0;
+		padding: 0;
+		.search__field__button__icon {
+			font-size: var(--fontL);
+			width: 20px;
+			color: var(--light-grey-color);
+		}
+	}
 }
 
-.search__field__background__clickable{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: variables.$modals__background__click;
-    z-index: 20;
+.search__field__background__clickable {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: var(--modals__background__click);
+	z-index: 20;
 }
 
+.search__field__results__content {
+	display: flex;
+	margin-top: 50px;
+	flex-direction: column;
 
+	.search__field__results__count {
+		padding: 5px 10px;
+		font-size: var(--fontM);
+		color: var(--gray-color);
+	}
 
-.search__field__results__content{
-    display: flex;
-    margin-top: 50px;
-    flex-direction: column;
+	.search__result__item {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		height: 50px;
+		padding: 2.5px 10px;
+		border-radius: 4px;
+		cursor: pointer;
+		transition: background 0.15s ease;
 
-    .search__field__results__count{
-        padding: 5px 10px;
-        font-size: variables.$fontM;
-        color: variables.$gray-color;
-    }
+		.search__result__item__left {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			width: 100%;
+			gap: 10px;
+			.search__result__item__content {
+				display: flex;
+				flex-direction: row;
+				justify-content: space-between;
+				width: calc(100% - 70px);
+				gap: 10px;
 
-    .search__result__item{
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        height: 50px;
-        padding: 2.5px 10px;
-        border-radius: 4px;
-        cursor: pointer;
-        transition: background 0.15s ease;
+				.search__result__label__wrapper {
+					white-space: nowrap;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					font-family: var(--museo_cyrl);
+					display: flex;
+					flex-direction: column;
+					.search__result__label {
+						overflow: hidden;
+						text-overflow: ellipsis;
+						color: var(--standard-color);
+					}
+					.search__result__article {
+						font-size: var(--fontS);
+						color: var(--gray-color);
+					}
+				}
+				.search__result__price__wrapper {
+					white-space: nowrap;
+					margin: 0;
+					.price__tag {
+						font-size: var(--fontL);
+					}
+					.product__card__price__before__sale {
+						font-size: var(--fontM);
+					}
+				}
+			}
+		}
 
-        .search__result__item__left{
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            width: 100%;
-            gap: 10px;
-            .search__result__item__content{
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-                width: calc(100% - 70px);
-                gap: 10px;
-
-                .search__result__label__wrapper{
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    font-family: variables.$museo_cyrl;
-                    display: flex;
-                    flex-direction: column;
-                    .search__result__label{
-                        overflow: hidden;
-                        text-overflow: ellipsis;
-                        color: variables.$standard-color;
-                    }
-                    .search__result__article{
-                        font-size:variables.$fontS;
-                        color: variables.$gray-color;
-                    }
-                }
-                .search__result__price__wrapper{
-                    white-space: nowrap;
-                    margin: 0;
-                    .price__tag{
-                        font-size: variables.$fontL;
-                    }
-                    .product__card__price__before__sale{
-                        font-size: variables.$fontM;
-                    }
-                }
-            }
-        }
-
-        &:hover{
-            background-color: variables.$search__item__hover;
-        }
-        .search__result__item__image__wrapper{
-            height: 45px;
-            width: 50px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-width: 50px;
-            min-height: 45px;
-            .search__result__item__image{
-                width: auto;
-                height: auto;
-                border-radius: 4px;
-                max-height: 100%;
-                max-width: 100%;
-            }
-        }
-    }
-
+		&:hover {
+			background-color: var(--search__item__hover);
+		}
+		.search__result__item__image__wrapper {
+			height: 45px;
+			width: 50px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			min-width: 50px;
+			min-height: 45px;
+			.search__result__item__image {
+				width: auto;
+				height: auto;
+				border-radius: 4px;
+				max-height: 100%;
+				max-width: 100%;
+			}
+		}
+	}
 }

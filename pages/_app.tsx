@@ -1,9 +1,10 @@
 import '../styles/globals.scss';
 import '../styles/FontFace/MuseoCyrl.scss';
-import '../components/CatalogComponents/product/ProductCardGeneral.scss';
+import '../components/CatalogComponents/Cards/ProductCardGeneral.scss';
+import '../styles/variables.scss';
 
 import Layout from '../components/layout/layout';
-import WidthLimiter from '../components/WidthLimiter/WidthLimiter';
+import WidthLimiter from '../components/Shared/WidthLimiter/WidthLimiter';
 import type { AppProps } from 'next/app';
 
 import { createContext, useContext } from 'react';

@@ -1,37 +1,35 @@
-@use '../../../styles/variables' as variables;
-
-.breadcrumb__wrapper{
-    display: flex;
-    flex-direction: row;
-    font-family: variables.$museo_cyrl;
-    align-items: center;
-    .breadcrumb__item{
-        text-decoration: none;
-        font-size: variables.$fontM;
-        letter-spacing: 0.5px;
-        max-width: 250px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        &::first-letter{
-            text-transform: uppercase;
-        }
-        &.breadcrumb__item__link{
-            color: variables.$gray-color;
-            transition: 0.25s ease-out;
-            &:hover{
-                text-decoration: underline;
-                color: variables.$primary-color;
-            }
-        }
-        &.breadcrumb__item__active{
-            color: variables.$orange-color;
-        }
-    }
-    .breadcrumb__slash{
-        color: variables.$gray-color;
-        font-size: variables.$fontS;
-        margin: 0px 5px;
-        font-size: variables.$fontL;
-    }
+.breadcrumb__wrapper {
+	display: flex;
+	flex-direction: row;
+	font-family: var(--museo_cyrl);
+	align-items: center;
+	.breadcrumb__item {
+		text-decoration: none;
+		font-size: var(--fontM);
+		letter-spacing: 0.5px;
+		max-width: 250px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		&::first-letter {
+			text-transform: uppercase;
+		}
+		&.breadcrumb__item__link {
+			color: var(--gray-color);
+			transition: 0.25s ease-out;
+			&:hover {
+				text-decoration: underline;
+				color: var(--primary-color);
+			}
+		}
+		&.breadcrumb__item__active {
+			color: var(--orange-color);
+		}
+	}
+	.breadcrumb__slash {
+		color: var(--gray-color);
+		font-size: var(--fontS);
+		margin: 0px 5px;
+		font-size: var(--fontL);
+	}
 }

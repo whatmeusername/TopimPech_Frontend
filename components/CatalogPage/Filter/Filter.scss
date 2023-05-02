@@ -1,333 +1,323 @@
+.filter__custom__checkbox[type='checkbox'] {
+	position: absolute;
+	left: -9999px;
 
-@use '../../../../styles/variables' as variables;
+	& + .facet__filter__item__label {
+		position: relative;
+		display: inline-block;
+		padding: 0 20px 0 30px;
+		cursor: pointer;
 
+		// Default State
+		&:before {
+			display: block;
+			content: '';
+			position: absolute;
+			left: 0;
+			width: 15px;
+			height: 15px;
+			border-radius: 4px;
+			border: 1.5px solid var(--gray-color);
+		}
+	}
 
+	&:checked + label {
+		&:before {
+			background-size: 12.5px 12.5px;
+			background-repeat: no-repeat;
+			background-position: center center;
+			border-color: var(--orange-color);
+			background-color: var(--orange-color);
+			background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23fff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3e%3c/svg%3e");
+		}
+	}
 
-.filter__custom__checkbox[type=checkbox]{
-    position: absolute;
-    left: -9999px;
-
-
-    & + .facet__filter__item__label{
-        position: relative;
-        display: inline-block;
-        padding: 0 20px 0 30px;
-        cursor: pointer;
-
-        // Default State
-        &:before {
-        display: block;
-        content: "";
-        position: absolute;
-        left: 0;
-        width: 15px;
-        height: 15px;
-        border-radius: 4px;
-        border: 1.5px solid variables.$gray-color;
-        }
-    }
-
-    &:checked + label {
-        &:before {
-            background-size: 12.5px 12.5px;
-            background-repeat: no-repeat;
-            background-position: center center;
-            border-color: variables.$orange-color;
-            background-color: variables.$orange-color;
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23fff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3e%3c/svg%3e");
-        }
-      }
-
-    &:disabled + label {
-        &:before {
-            border-color: variables.$grey-color;
-        }
-    }
-
+	&:disabled + label {
+		&:before {
+			border-color: var(--grey-color);
+		}
+	}
 }
 
+.facet__filter__string {
+	display: flex;
+	flex-direction: column;
+	.facet__filter__item {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		margin: 5px 0px;
+		text-align: left;
 
-.facet__filter__string{
-    display: flex;
-    flex-direction: column;
-    .facet__filter__item{
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        margin: 5px 0px;
-        text-align: left;
+		.facet__filter__item__count {
+			font-weight: 500;
+			padding: 0 5px;
+			font-size: var(--fontMS);
+		}
 
+		.filter__custom__checkbox:hover + .facet__filter__item__label {
+			color: var(--standard-color);
+			.facet__filter__item__count {
+				color: var(--standard-color);
+			}
+		}
 
-        .facet__filter__item__count{
-            font-weight: 500;
-            padding: 0 5px;
-            font-size: variables.$fontMS;
-        }
+		.filter__custom__checkbox:disabled + .facet__filter__item__label {
+			cursor: default;
+			.facet__filter__item__name {
+				color: var(--grey-color);
+			}
+			.facet__filter__item__count {
+				color: var(--grey-color);
+			}
+		}
 
-        .filter__custom__checkbox:hover + .facet__filter__item__label{
-            color: variables.$standard-color;
-            .facet__filter__item__count{
-                color: variables.$standard-color;
-            }
-        }
+		.facet__filter__item__label {
+			width: 90%;
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+			font-family: var(--museo_cyrl);
 
-        .filter__custom__checkbox:disabled + .facet__filter__item__label {
-            cursor: default;
-            .facet__filter__item__name {
-                color: variables.$grey-color;
-            }
-            .facet__filter__item__count{
-                color: variables.$grey-color;
-            }
-        }
-
-        .facet__filter__item__label{
-            width: 90%;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            font-family: variables.$museo_cyrl;
-            
-            .facet__filter__item__name{
-                font-weight: 300;
-                font-size: variables.$fontL;
-                &:first-letter{
-                    text-transform: uppercase;
-                }
-            }
-            .facet__filter__item__count{
-                color: variables.$gray-color;
-            }
-        }
-    }
+			.facet__filter__item__name {
+				font-weight: 300;
+				font-size: var(--fontL);
+				&:first-letter {
+					text-transform: uppercase;
+				}
+			}
+			.facet__filter__item__count {
+				color: var(--gray-color);
+			}
+		}
+	}
 }
 
-.facet__filter__number{
-    display: flex;
-    flex-direction: column;
-    .facet__filter__number__inputs__wrapper{
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        .facet__filter__number__input{
-            width: 42.5%;
-            padding: 10px 5px;
-            border: 1.5px solid variables.$grey-color;
-            border-radius: 4px;
-            outline: none;
-            font-size: variables.$fontL;
-            font-family: variables.$museo_cyrl;
-            color: variables.$primary-color;
-        }
-        .facet__filter__number__slash{
-            color: variables.$gray-color;
-            font-size: variables.$headerL;
-            margin: 0 5px;
-        }
-    }
+.facet__filter__number {
+	display: flex;
+	flex-direction: column;
+	.facet__filter__number__inputs__wrapper {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		.facet__filter__number__input {
+			width: 42.5%;
+			padding: 10px 5px;
+			border: 1.5px solid var(--grey-color);
+			border-radius: 4px;
+			outline: none;
+			font-size: var(--fontL);
+			font-family: var(--museo_cyrl);
+			color: var(--primary-color);
+		}
+		.facet__filter__number__slash {
+			color: var(--gray-color);
+			font-size: var(--headerL);
+			margin: 0 5px;
+		}
+	}
 }
 
-.filter__clear__button{
-    width: 100%;
-    height: 50px;
-    border-radius: 4px;
-    border: 1px solid variables.$standard-color;
-    font-size: variables.$fontL;
-    font-family: variables.$museo_cyrl;
-    color: variables.$standard-color;
-    background-color: transparent;
-    transition: 0.25s ease-in-out;
-    margin: 10px 0px;
-    &:hover{
-        border-color: variables.$gray-color;
-        color: variables.$gray-color;
-    }
+.filter__clear__button {
+	width: 100%;
+	height: 50px;
+	border-radius: 4px;
+	border: 1px solid var(--standard-color);
+	font-size: var(--fontL);
+	font-family: var(--museo_cyrl);
+	color: var(--standard-color);
+	background-color: transparent;
+	transition: 0.25s ease-in-out;
+	margin: 10px 0px;
+	&:hover {
+		border-color: var(--gray-color);
+		color: var(--gray-color);
+	}
 }
 
-.filter__show__all{
-    width: 100%;
-    height: 50px;
-    border-radius: 4px;
-    background-color: transparent;
-    font-family: variables.$museo_cyrl;
-    font-weight: 300;
-    border: 1px solid variables.$primary-color;
-    font-size: variables.$fontL;
-    transition: all 0.1s ease-in-out;
-    cursor: pointer;
-    &:hover{
-        color: variables.$gray-color;
-        border-color: variables.$gray-color;
-    }
+.filter__show__all {
+	width: 100%;
+	height: 50px;
+	border-radius: 4px;
+	background-color: transparent;
+	font-family: var(--museo_cyrl);
+	font-weight: 300;
+	border: 1px solid var(--primary-color);
+	font-size: var(--fontL);
+	transition: all 0.1s ease-in-out;
+	cursor: pointer;
+	&:hover {
+		color: var(--gray-color);
+		border-color: var(--gray-color);
+	}
 }
 
-.filter__modal__wrapper{
-    position: fixed;
-    left: 0;
-    top: 0;
-    z-index: 1900;
-    display: none;
-    &.filter__modal__wrapper__active{
-        display: block;
-        .filter__modal__content{
-            animation: fadeIn 0.5s ease-in-out;
-        }
-    }
-    .filter__modal__blackscreen{
-        min-width: 100vw;
-        min-height: 100vh;
-        position: relative;
-        display: none;
-        z-index: 1901;
-        background-color: rgba(77, 77, 77, 0.4);
-        left: 0;
-        top: 0;
-        &.filter__modal__blackscreen__active{
-            display: block;
-        }
-    }
-    .filter__modal__content__wrapper{
-        min-width: 100vw;
-        min-height: 100vh; 
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: absolute;
-        top: 0;
-        left: 0;
-        .filter__modal__content{
-            border-radius: 8px;
-            padding: 30px;
-            position: relative;
-            z-index: 1902;
-            max-width: 800px;
-            height: 500px;
-            background-color: rgb(255, 255, 255);
+.filter__modal__wrapper {
+	position: fixed;
+	left: 0;
+	top: 0;
+	z-index: 1900;
+	display: none;
+	&.filter__modal__wrapper__active {
+		display: block;
+		.filter__modal__content {
+			animation: fadeIn 0.5s ease-in-out;
+		}
+	}
+	.filter__modal__blackscreen {
+		min-width: 100vw;
+		min-height: 100vh;
+		position: relative;
+		display: none;
+		z-index: 1901;
+		background-color: rgba(77, 77, 77, 0.4);
+		left: 0;
+		top: 0;
+		&.filter__modal__blackscreen__active {
+			display: block;
+		}
+	}
+	.filter__modal__content__wrapper {
+		min-width: 100vw;
+		min-height: 100vh;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		position: absolute;
+		top: 0;
+		left: 0;
+		.filter__modal__content {
+			border-radius: 8px;
+			padding: 30px;
+			position: relative;
+			z-index: 1902;
+			max-width: 800px;
+			height: 500px;
+			background-color: rgb(255, 255, 255);
 
-            .filter__modal__content__header{
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 20px;
-                .content__header__wrapper{
-                    
-                    font-family: variables.$museo_cyrl;
-                    .filter__modal__content__header{
-                        color: variables.$primary-color;
-                        font-weight: 300;
-                        font-size: variables.$headerL;
-                        padding: 0;
-                        margin: 0;
-                    }
-                    .filters__modal__count{
-                        margin: 0;
-                        padding: 0;
-                        color: variables.$standard-color;
-                        margin-left: 5px;
-                        font-weight: 100;
-                        font-size: variables.$fontL;
-                    }
-                }
-                .filter__modal__close__wrapper__button{
-                    color: variables.$gray-color;
-                    color: variables.$primary-color;
-                    border: none;
-                    font-size: variables.$headerL;
-                    background: transparent;
-                    cursor: pointer;
-                }
-            }
-            .filter__modal__content__items__wrapper{
-                overflow: scroll;
-                height: 75%;
-                &::-webkit-scrollbar {
-                    width: 3px;
-                    height: 3px;
-                }
-                &::-webkit-scrollbar-thumb{
-                    visibility: visible;
-                }
-                
-                &::-webkit-scrollbar-thumb {
-                    background-color: variables.$gray-color;
-                    border-radius: 4px;
-                } 
-                .filter__modal__content__items{
-                    display: grid;
-                    grid-template-columns: repeat(3, 1fr);
-                }
-            }
-            .filter__modal__footer__items{
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-                margin-top: 5px;
+			.filter__modal__content__header {
+				display: flex;
+				flex-direction: row;
+				justify-content: space-between;
+				align-items: center;
+				margin-bottom: 20px;
+				.content__header__wrapper {
+					font-family: var(--museo_cyrl);
+					.filter__modal__content__header {
+						color: var(--primary-color);
+						font-weight: 300;
+						font-size: var(--headerL);
+						padding: 0;
+						margin: 0;
+					}
+					.filters__modal__count {
+						margin: 0;
+						padding: 0;
+						color: var(--standard-color);
+						margin-left: 5px;
+						font-weight: 100;
+						font-size: var(--fontL);
+					}
+				}
+				.filter__modal__close__wrapper__button {
+					color: var(--gray-color);
+					color: var(--primary-color);
+					border: none;
+					font-size: var(--headerL);
+					background: transparent;
+					cursor: pointer;
+				}
+			}
+			.filter__modal__content__items__wrapper {
+				overflow: scroll;
+				height: 75%;
+				&::-webkit-scrollbar {
+					width: 3px;
+					height: 3px;
+				}
+				&::-webkit-scrollbar-thumb {
+					visibility: visible;
+				}
 
-                .filter__founded__items__button{
-                    width: 250px;
-                    height: 40px;
-                    border-radius: 4px;
-                    margin: 0;
-                    padding: 0;
-                    border: none;
+				&::-webkit-scrollbar-thumb {
+					background-color: var(--gray-color);
+					border-radius: 4px;
+				}
+				.filter__modal__content__items {
+					display: grid;
+					grid-template-columns: repeat(3, 1fr);
+				}
+			}
+			.filter__modal__footer__items {
+				display: flex;
+				flex-direction: row;
+				justify-content: space-between;
+				align-items: center;
+				margin-top: 5px;
 
-                    color:rgb(255, 255, 255);
-                    font-family: variables.$museo_cyrl;
-                    font-size: variables.$fontM;
-                    transition: 0.1s ease-out;
+				.filter__founded__items__button {
+					width: 250px;
+					height: 40px;
+					border-radius: 4px;
+					margin: 0;
+					padding: 0;
+					border: none;
 
-                    background-color:  variables.$orange-color;
-                    &:hover{
-                        background-color:  variables.$orange-darker-color;
-                    }
-                }
-                .filter__clear__button{
-                    width: 200px;
-                    height: 40px;
-                    background-color: transparent;
-                    border-radius: 4px;
-                    border: 1px solid variables.$standard-color;
+					color: rgb(255, 255, 255);
+					font-family: var(--museo_cyrl);
+					font-size: var(--fontM);
+					transition: 0.1s ease-out;
 
-                    font-family: variables.$museo_cyrl;
-                    font-size: variables.$fontM;
-                    color: variables.$standard-color;
-                    transition: 0.1s ease-out;
-                    margin: 0;
-                    &:hover{
-                        color: variables.$gray-color;
-                        border-color: variables.$gray-color;
-                    }
-                }
-                .filter__modal__return__button{
-                    width: 200px;
-                    height: 40px;
+					background-color: var(--orange-color);
+					&:hover {
+						background-color: var(--orange-darker-color);
+					}
+				}
+				.filter__clear__button {
+					width: 200px;
+					height: 40px;
+					background-color: transparent;
+					border-radius: 4px;
+					border: 1px solid var(--standard-color);
 
-                    background-color: transparent;
-                    border-radius: 4px;
-                    border: 1px solid variables.$standard-color;
+					font-family: var(--museo_cyrl);
+					font-size: var(--fontM);
+					color: var(--standard-color);
+					transition: 0.1s ease-out;
+					margin: 0;
+					&:hover {
+						color: var(--gray-color);
+						border-color: var(--gray-color);
+					}
+				}
+				.filter__modal__return__button {
+					width: 200px;
+					height: 40px;
 
-                    font-family: variables.$museo_cyrl;
-                    font-size: variables.$fontM;
-                    color: variables.$standard-color;
-                    transition: 0.1s ease-out;
-                    &:hover{
-                        color: variables.$gray-color;
-                        border-color: variables.$gray-color;
-                    }
-                }
-            }
-        }
-    }
+					background-color: transparent;
+					border-radius: 4px;
+					border: 1px solid var(--standard-color);
+
+					font-family: var(--museo_cyrl);
+					font-size: var(--fontM);
+					color: var(--standard-color);
+					transition: 0.1s ease-out;
+					&:hover {
+						color: var(--gray-color);
+						border-color: var(--gray-color);
+					}
+				}
+			}
+		}
+	}
 }
 
-@keyframes fadeIn{
-    0%{
-        opacity: 0;
-    }
-    100%{
-        opacity: 1;
-    }
+@keyframes fadeIn {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
 }

@@ -2,10 +2,13 @@ import { GetServerSidePropsContext } from 'next';
 import axios from 'axios';
 import { PagePropsContext, PROXY_URL } from '../../_app';
 
-import Catalog, { initData as initDataInterface, ProductAPIResponse, SearchParamsBuilder } from '../../../components/CatalogPage/catalog';
 import { FilterFetchData } from '../../../components/CatalogPage/Filter/Filter';
+import Catalog from '../../../components/CatalogPage/catalog/index';
+import { initData } from '../../../components/CatalogPage/catalog/interface';
+import { ProductAPIResponse } from '../../../components/CatalogPage/catalog/interface';
+import { SearchParamsBuilder } from '../../../utils';
 
-function CatalogPage({ initData }: { initData: initDataInterface }) {
+function CatalogPage({ initData }: { initData: initData }) {
 	return (
 		<PagePropsContext.Provider value={initData}>
 			<Catalog initData={initData} />
@@ -31,6 +34,7 @@ export async function catalogGetServerSideProps(context: GetServerSidePropsConte
 	const [productFetchURL] = SearchParamsBuilder(produdctFetchURLRaw, query, 'page', 'items_per_page', 'order', 'filter');
 	const [filterFetchURL] = SearchParamsBuilder(filtersFetchURLRaw, query, 'filter');
 
+	console.log(productFetchURL);
 	try {
 		productsData = (await axios.get(productFetchURL)).data;
 		filtersData = (await axios.get(filterFetchURL)).data;

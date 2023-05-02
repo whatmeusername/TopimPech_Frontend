@@ -9,10 +9,8 @@ import axios from 'axios';
 import Dropdown from '../../Shared/Dropdown/Dropdown';
 import OverflowContainer from '../../Shared/OverflowContainer/OverflowContainer';
 
-import { SearchParamsBuilder } from '../catalog';
-
 import useToggle from '../../../hooks/useToggle';
-import { declOfNum } from '../../../utils';
+import { SearchParamsBuilder, declOfNum } from '../../../utils';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
