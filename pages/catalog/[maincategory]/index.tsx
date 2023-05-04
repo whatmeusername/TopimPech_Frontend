@@ -34,7 +34,6 @@ export async function catalogGetServerSideProps(context: GetServerSidePropsConte
 	const [productFetchURL] = SearchParamsBuilder(produdctFetchURLRaw, query, 'page', 'items_per_page', 'order', 'filter');
 	const [filterFetchURL] = SearchParamsBuilder(filtersFetchURLRaw, query, 'filter');
 
-	console.log(productFetchURL);
 	try {
 		productsData = (await axios.get(productFetchURL)).data;
 		filtersData = (await axios.get(filterFetchURL)).data;

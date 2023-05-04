@@ -4,6 +4,9 @@ import { ProductData } from '../../CatalogComponents/Cards/interface';
 import { ProductCardGridSkeleton, ProductCardRowSkeleton } from '../../skeletons/skeletons';
 import { CatalogView } from '../ChangeProductView/interface';
 
+import { ThinBreakLine } from '../../Shared/Lines/ThinBreakLine/ThinBreakLine';
+import { Fragment } from 'react';
+
 const ProductColumn = ({
 	products,
 	view = CatalogView.ROW,
@@ -27,7 +30,13 @@ const ProductColumn = ({
 			<>
 				{products.map((product) => {
 					if (view === CatalogView.GRID) return <ProductCardGrid product={product} key={product.slug} fadeIn={fadeIn} />;
-					else return <ProductCardRow product={product} key={product.slug} fadeIn={fadeIn} />;
+					else
+						return (
+							<Fragment key={product.slug}>
+								<ProductCardRow product={product} fadeIn={fadeIn} />
+								<ThinBreakLine />
+							</Fragment>
+						);
 				})}
 			</>
 		);

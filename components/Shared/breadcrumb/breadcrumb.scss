@@ -4,7 +4,6 @@
 	font-family: var(--museo_cyrl);
 	align-items: center;
 	gap: 0px;
-	
 
 	.breadcrumb__item {
 		text-decoration: none;
@@ -14,7 +13,8 @@
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
-
+		padding: 2.5px 5px;
+		border-radius: 8px;
 
 		&::first-letter {
 			text-transform: uppercase;
@@ -23,8 +23,7 @@
 			color: var(--gray-color);
 			transition: 0.25s ease-out;
 			&:hover {
-				text-decoration: underline;
-				color: var(--primary-color);
+				background-color: var(--primary_link_hover);
 			}
 		}
 		&.breadcrumb__item__active {

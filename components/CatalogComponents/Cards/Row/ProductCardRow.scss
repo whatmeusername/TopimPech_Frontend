@@ -26,7 +26,8 @@
 		width: 65%;
 
 		.product__card__info {
-			max-width: 400px;
+			max-width: 375px;
+			min-width: 325px;
 			.product__card__name__wrapper {
 				.product__card__name {
 					font-family: var(--museo_cyrl);
@@ -68,6 +69,9 @@
 					.product__feature__value {
 						margin: 0px;
 						margin-left: 5px;
+						overflow: hidden;
+						text-overflow: ellipsis;
+						white-space: nowrap;
 						&::first-letter {
 							text-transform: capitalize;
 						}

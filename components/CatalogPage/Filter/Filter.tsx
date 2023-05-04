@@ -301,11 +301,13 @@ function FacetFilter({ initialFilters }: { initialFilters?: FilterFetchData }): 
 
 	const FoundedItemsButton = ({ count, onClick }: { count: number; onClick?: (...args: any[]) => void }): JSX.Element => {
 		if (count === 0) {
-			return <button className={'filter__founded__items__button filter__founded__items__button__empty'}>Пустой результат</button>;
+			return (
+				<button className={'filter__founded__items__button filter__founded__items__button__empty filter__modal__button'}>Пустой результат</button>
+			);
 		}
 		return (
 			<button
-				className={'filter__founded__items__button'}
+				className="filter__founded__items__button filter__modal__button"
 				onClick={() => {
 					if (onClick) onClick();
 					window.scrollTo({
@@ -324,7 +326,7 @@ function FacetFilter({ initialFilters }: { initialFilters?: FilterFetchData }): 
 	const ClearFiltersButton = ({ onClick }: { onClick?: () => void }): JSX.Element => {
 		return (
 			<button
-				className="filter__clear__button"
+				className="filter__clear__button filter__modal__button"
 				onClick={() => {
 					window.scrollTo({ behavior: 'smooth', top: 0, left: 0 });
 					delete router.query?.filter;
@@ -428,7 +430,7 @@ function FacetFilter({ initialFilters }: { initialFilters?: FilterFetchData }): 
 								</div>
 							</div>
 							<div className="filter__modal__footer__items">
-								<button className="filter__modal__return__button" onClick={Close}>
+								<button className="filter__modal__return__button filter__modal__button" onClick={Close}>
 									Возрат
 								</button>
 								<FoundedItemsButton count={FilterData?.count ?? 0} onClick={() => setToggle(false)} />

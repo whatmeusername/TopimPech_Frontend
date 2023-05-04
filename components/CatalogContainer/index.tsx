@@ -12,7 +12,7 @@ import { CatalogContainerFooter } from './CatalogContainerFooter/CatalogContaine
 
 import './CatalogContainer.scss';
 import { ChildCategoriesElement } from './ChildCategoriesElement/ChildCategoriesElement';
-import { StandardBreakLine } from '../Shared/StandardBreakLine/StandardBreakLine';
+import { StandardBreakLine } from '../Shared/Lines/StandardBreakLine/StandardBreakLine';
 import { CatalogContainerViewedItems } from './CatalogContainerViewedItems/CatalogContainerViewedItems';
 
 const CatalogContainer = ({ getFetchURL }: { getFetchURL: (router: NextRouter) => [string, string] }): ReactElement => {

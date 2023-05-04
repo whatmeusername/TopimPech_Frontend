@@ -256,6 +256,10 @@
 				align-items: center;
 				margin-top: 5px;
 
+				.filter__modal__button {
+					cursor: pointer;
+				}
+
 				.filter__founded__items__button {
 					width: 250px;
 					height: 40px;

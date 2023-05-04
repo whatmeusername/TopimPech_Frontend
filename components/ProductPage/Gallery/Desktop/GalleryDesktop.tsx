@@ -95,22 +95,24 @@ const GalleryDesktop = ({ items, urlStartsWith, ration }: { items: GalleryItem[]
 	return (
 		<>
 			<div className="gallery__available__items__wrapper" ref={imageBar}>
-				<div className="gallery__available__items" ref={imageBarList}>
-					{items.map((item) => {
-						return (
-							<div
-								className={`gallery__available__item ${
-									current === item.id ? 'gallery__available__item__selected' : 'gallery__available__item__inactive'
-								}`}
-								key={`gallery__item__${item.id}`}
-								onClick={() => setActiveImage(item.id)}
-								data-image-id={item.id}
-							>
-								<img src={(urlStartsWith ?? '') + item.path} alt="" className="gallery__available__item__image" />
-							</div>
-						);
-					})}
-				</div>
+				{items.length > 1 ? (
+					<div className="gallery__available__items" ref={imageBarList}>
+						{items.map((item) => {
+							return (
+								<div
+									className={`gallery__available__item ${
+										current === item.id ? 'gallery__available__item__selected' : 'gallery__available__item__inactive'
+									}`}
+									key={`gallery__item__${item.id}`}
+									onClick={() => setActiveImage(item.id)}
+									data-image-id={item.id}
+								>
+									<img src={(urlStartsWith ?? '') + item.path} alt="" className="gallery__available__item__image" />
+								</div>
+							);
+						})}
+					</div>
+				) : null}
 			</div>
 			<div className="gallery__current__img__holder__wrapper">
 				<div className="gallery__current__img__holder" ref={imageWrapper}>

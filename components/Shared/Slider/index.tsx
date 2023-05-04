@@ -65,7 +65,7 @@ function ButtonVersionSlider({ children, options }: { children: JSX.Element; opt
 		const itemsToSlide = to !== null ? to : 1;
 		if (side === SlideDirection.RIGHT) {
 			setCurrent(itemsCount >= current + itemsToSlide ? current + itemsToSlide : itemsCount);
-			setActiveDot(currentSlide.current + 1);
+			setActiveDot(currentSlide.current + 1 <= slidesTotal.current ? currentSlide.current + 1 : slidesTotal.current);
 		} else if (side === SlideDirection.LEFT) {
 			setCurrent(current - itemsToSlide >= 0 ? current - itemsToSlide : 0);
 			setActiveDot(current - itemsToSlide >= 0 ? currentSlide.current - 1 : 0);
@@ -115,14 +115,14 @@ function ButtonVersionSlider({ children, options }: { children: JSX.Element; opt
 		validateButtons();
 	};
 
-	const SliderButton = ({ side }: { side: SlideDirection }): JSX.Element => {
-		const icon = side === 'left' ? faAngleLeft : faAngleRight;
-		const isEnabledSide = side === 'left' ? LBDisabled : RBDisabled;
+	const SliderButton = ({ side }: { side: SlideDirection }): ReactElement => {
+		const icon = side === SlideDirection.LEFT ? faAngleLeft : faAngleRight;
+		const isDisabledSide = side === SlideDirection.LEFT ? LBDisabled : RBDisabled;
 
 		return (
 			<button
-				className={`${isEnabledSide ? DISABLED_BUTTON_CLASSNAME : ''} slider__content__slide__button`}
-				onClick={() => SlideItem(side, itemsPerSlide.current)}
+				className={`${isDisabledSide ? DISABLED_BUTTON_CLASSNAME : ''} slider__content__slide__button`}
+				onClick={isDisabledSide ? () => SlideItem(side, itemsPerSlide.current) : undefined}
 			>
 				<FontAwesomeIcon icon={icon} className="slider__content__slide__icon" />
 			</button>
