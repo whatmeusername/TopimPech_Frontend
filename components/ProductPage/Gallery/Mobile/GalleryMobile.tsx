@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
-import { GalleryItem } from './interface';
+import { GalleryItem } from '../interface';
+import './GalleryMobile.scss';
 
 const GalleryMobile = ({ items, urlStartsWith }: { items: GalleryItem[]; urlStartsWith?: string }): JSX.Element | null => {
 	const [current, setCurrent] = useState<number>(items[0].id);
@@ -10,14 +11,13 @@ const GalleryMobile = ({ items, urlStartsWith }: { items: GalleryItem[]; urlStar
 
 	let dragOffset = 0;
 	let rect: DOMRect | null = null;
-	let currentOffset = 0;
 	let nextOffset = 0;
 
 	useEffect(() => {
 		dragWrapper.current.style.left = `-${current * dragWrapper.current.offsetWidth}px`;
 	}, [current]);
 
-	const OnDragStart = (e: React.DragEvent | React.TouchEvent) => {
+	const OnDragStart = (e: React.DragEvent | React.TouchEvent): void => {
 		dragWrapper.current.style.transition = 'unset';
 
 		const isTouch = (e as React.DragEvent).clientX === undefined;
@@ -28,8 +28,7 @@ const GalleryMobile = ({ items, urlStartsWith }: { items: GalleryItem[]; urlStar
 		const x = (e as React.DragEvent).clientX ?? (e as React.TouchEvent).touches[0].clientX;
 
 		rect = dragWrapper.current.getBoundingClientRect();
-		currentOffset = dragWrapper.current.offsetWidth * current;
-		dragOffset = x - rect.left + currentOffset;
+		dragOffset = x - rect.left + dragWrapper.current.offsetWidth * current;
 
 		window.addEventListener('mousemove', onDragMove);
 		window.addEventListener('mouseup', onDragEnd);
@@ -43,24 +42,21 @@ const GalleryMobile = ({ items, urlStartsWith }: { items: GalleryItem[]; urlStar
 		}
 	};
 
-	const removeEvents = () => {
+	const removeEvents = (): void => {
 		window.removeEventListener('touchmove', onDragMove);
 		window.removeEventListener('touchend', onDragEnd);
 		window.removeEventListener('mousemove', onDragMove);
 		window.removeEventListener('mouseup', onDragEnd);
 	};
 
-	const onDragMove = (e: MouseEvent | TouchEvent) => {
+	const onDragMove = (event: MouseEvent | TouchEvent): void => {
 		if (!rect) {
 			removeEvents();
 			return;
 		}
-
-		const x = (e as DragEvent).clientX ?? (e as TouchEvent).touches[0].clientX;
-		const next = x - rect.left - dragOffset;
-
-		dragWrapper.current.style.left = next + 'px';
-		nextOffset = next;
+		const x = (event as TouchEvent)?.touches?.[0].clientX ?? (event as MouseEvent).clientX;
+		nextOffset = x - rect.left - dragOffset;
+		dragWrapper.current.style.left = `${nextOffset}px`;
 	};
 
 	const onDragEnd = () => {

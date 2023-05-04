@@ -1,7 +1,7 @@
 import './gallery.scss';
-import { GalleryDesktop } from './GalleryDesktop';
+import { GalleryDesktop } from './Desktop/GalleryDesktop';
 import { GalleryItem } from './interface';
-import { GalleryMobile } from './GalleryMobile';
+import { GalleryMobile } from './Mobile/GalleryMobile';
 import useWindowSize from '../../../hooks/useWindowSize';
 import { ReactElement, useEffect, useRef, useState } from 'react';
 

@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
-import { GalleryItem } from './interface';
+import { GalleryItem } from '../interface';
+import './GalleryDesktop.scss';
 
 const GalleryDesktop = ({ items, urlStartsWith, ration }: { items: GalleryItem[]; urlStartsWith?: string; ration?: number }): JSX.Element => {
 	const [current, setCurrent] = useState<number>(items[0].id);
@@ -29,8 +30,6 @@ const GalleryDesktop = ({ items, urlStartsWith, ration }: { items: GalleryItem[]
 		OnLoad();
 	}, [current]);
 
-	let zoomWidth = 0;
-	let zoomHeight = 0;
 	let rect: DOMRect = null!;
 	const sideTop = useRef<number>(0);
 
@@ -60,8 +59,8 @@ const GalleryDesktop = ({ items, urlStartsWith, ration }: { items: GalleryItem[]
 		const h = Ration * imageElement.current.offsetHeight;
 		zoomImage.current.style.backgroundSize = `${w}px ${h}px`;
 
-		zoomWidth = (zoomImage.current.offsetWidth / w) * 100;
-		zoomHeight = (zoomImage.current.offsetHeight / h) * 100;
+		const zoomWidth = (zoomImage.current.offsetWidth / w) * 100;
+		const zoomHeight = (zoomImage.current.offsetHeight / h) * 100;
 		rect = imageElement.current.getBoundingClientRect();
 
 		zoomPointer.current.style.width = zoomWidth + '%';
@@ -91,7 +90,7 @@ const GalleryDesktop = ({ items, urlStartsWith, ration }: { items: GalleryItem[]
 		zoomPointer.current.classList.remove('image__zoom__active');
 	};
 
-	const activeImagePath = (urlStartsWith ?? '') + (items.find((i) => i.id === current)?.path ?? '');
+	const activeImagePath = `${urlStartsWith ?? ''}${items.find((i) => i.id === current)?.path ?? ''}`;
 
 	return (
 		<>
@@ -114,9 +113,9 @@ const GalleryDesktop = ({ items, urlStartsWith, ration }: { items: GalleryItem[]
 				</div>
 			</div>
 			<div className="gallery__current__img__holder__wrapper">
-				<div className="gallery__current__img__holder">
-					<div className="gallery__current__img__wrapper" onMouseMove={onHover} onMouseEnter={onEnter} onMouseLeave={onHoverLeave} ref={imageWrapper}>
-						<img src={activeImagePath} alt="" className="gallery__current__img" ref={imageElement} style={{ display: 'none' }} onLoad={OnLoad} />
+				<div className="gallery__current__img__holder" ref={imageWrapper}>
+					<div className="gallery__current__img__wrapper" onMouseMove={onHover} onMouseEnter={onEnter} onMouseLeave={onHoverLeave}>
+						<img src={activeImagePath} alt="" className="gallery__current__img" ref={imageElement} style={{ display: 'none' }} />
 						<div ref={zoomPointer} className="gallery__current__zoom__cursor" />
 					</div>
 					<div className="gallery__current__img__zoom" style={{ background: `url(${activeImagePath})` }} ref={zoomImage} />
