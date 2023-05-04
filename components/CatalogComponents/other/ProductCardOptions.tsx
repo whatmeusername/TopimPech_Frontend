@@ -6,16 +6,14 @@ import { useState } from 'react';
 function SimilarProductsElement() {
 	const [active, setActive] = useState<boolean>(false);
 	return (
-		<>
-			<div
-				className={`product__card__option ${
-					active ? 'product__card__option__active' : 'product__card__option__inactive'
-				} product__card__options__favourite`}
-				onClick={(e) => setActive(!active)}
-			>
-				<FontAwesomeIcon icon={faEquals} />
-			</div>
-		</>
+		<div
+			className={`product__card__option ${
+				active ? 'product__card__option__active' : 'product__card__option__inactive'
+			} product__card__options__favourite`}
+			onClick={() => setActive(!active)}
+		>
+			<FontAwesomeIcon icon={faEquals} />
+		</div>
 	);
 }
 

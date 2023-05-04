@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleUp } from '@fortawesome/free-solid-svg-icons';
 import { SortItem } from './interface';
+
 const sortOptions: SortItem[] = [
 	{ slug: 'id', name: 'по популярности' },
 	{ slug: 'price', name: 'Сначала подешевле' },

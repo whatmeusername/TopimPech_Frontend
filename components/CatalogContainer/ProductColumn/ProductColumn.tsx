@@ -1,5 +1,5 @@
-import ProductCardRow from '../../CatalogComponents/Cards/ProductCardRow';
-import ProductCardGrid from '../../CatalogComponents/Cards/ProductСardGrid';
+import ProductCardRow from '../../CatalogComponents/Cards/Row/ProductCardRow';
+import ProductCardGrid from '../../CatalogComponents/Cards/Grid/ProductСardGrid';
 import { ProductData } from '../../CatalogComponents/Cards/interface';
 import { ProductCardGridSkeleton, ProductCardRowSkeleton } from '../../skeletons/skeletons';
 import { CatalogView } from '../ChangeProductView/interface';
@@ -17,7 +17,7 @@ const ProductColumn = ({
 		return (
 			<>
 				{Array.from(Array(24).keys()).map((item) => {
-					if (view === 'grid') return <ProductCardGridSkeleton key={`product__skeleton__${item}`} />;
+					if (view === CatalogView.GRID) return <ProductCardGridSkeleton key={`product__skeleton__${item}`} />;
 					else return <ProductCardRowSkeleton key={`product__skeleton__${item}`} />;
 				})}
 			</>
@@ -26,7 +26,7 @@ const ProductColumn = ({
 		return (
 			<>
 				{products.map((product) => {
-					if (view === 'grid') return <ProductCardGrid product={product} key={product.slug} fadeIn={fadeIn} />;
+					if (view === CatalogView.GRID) return <ProductCardGrid product={product} key={product.slug} fadeIn={fadeIn} />;
 					else return <ProductCardRow product={product} key={product.slug} fadeIn={fadeIn} />;
 				})}
 			</>

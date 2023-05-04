@@ -5,13 +5,13 @@ import './header.scss';
 
 import ProductSearch from '../searchfield/searchfield';
 import Menu from '../Menu/Menu';
-import Logo2 from '../../../public/images/Logo2.png';
+import Logo from '../../../public/images/SiteLogo.png';
 
 const HeaderLogo = (): JSX.Element => {
 	return (
 		<Link href="/">
 			<div className="logo__wrapper">
-				<Image src={Logo2} className="logo__main" alt=""></Image>
+				<Image src={Logo} className="logo__main" alt=""></Image>
 			</div>
 		</Link>
 	);

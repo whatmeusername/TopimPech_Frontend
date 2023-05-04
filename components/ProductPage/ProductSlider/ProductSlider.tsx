@@ -4,6 +4,7 @@ import { HistorySliceItem } from '../../../store';
 import PriceElement from '../../CatalogComponents/PriceElement.tsx/PriceElement';
 import { ProductData } from '../../CatalogComponents/Cards/interface';
 import Slider from '../../Shared/Slider';
+import './ProductSlider.scss';
 
 const ProductSliderItem = ({ data, URLStartWith }: { data: HistorySliceItem | ProductData; URLStartWith?: string }): JSX.Element => {
 	const image = Array.isArray((data as ProductData).images) ? (data as any).images[0]?.path : (data as any).image;

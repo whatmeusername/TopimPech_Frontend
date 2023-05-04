@@ -1,11 +1,11 @@
-import AddToCartButton from '../AddToCartButton/AddToCartButton';
-import ProductImageGallery from '../HoverGallery/ProductGallery';
-import PriceElement from '../PriceElement.tsx/PriceElement';
-import ManufacturerData from '../other/ManufacturerData';
-import ProductCardOptions from '../other/ProductCardOptions';
+import AddToCartButton from '../../AddToCartButton/AddToCartButton';
+import ProductImageGallery from '../../HoverGallery/ProductGallery';
+import PriceElement from '../../PriceElement.tsx/PriceElement';
+import ManufacturerData from '../../other/ManufacturerData';
+import ProductCardOptions from '../../other/ProductCardOptions';
 import './ProductCardGrid.scss';
 
-import { ProductData } from './interface';
+import { ProductData } from '../interface';
 import Link from 'next/link';
 
 export default function ProductCardGrid({ product, fadeIn }: { product: ProductData; fadeIn?: boolean }): JSX.Element {

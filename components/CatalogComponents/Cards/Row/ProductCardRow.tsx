@@ -1,9 +1,9 @@
-import AddToCartButton from '../AddToCartButton/AddToCartButton';
-import ProductImageGallery from '../HoverGallery/ProductGallery';
-import PriceElement from '../PriceElement.tsx/PriceElement';
-import ManufacturerData from '../other/ManufacturerData';
-import ProductCardOptions from '../other/ProductCardOptions';
-import { ProductData, Property } from './interface';
+import AddToCartButton from '../../AddToCartButton/AddToCartButton';
+import ProductImageGallery from '../../HoverGallery/ProductGallery';
+import PriceElement from '../../PriceElement.tsx/PriceElement';
+import ManufacturerData from '../../other/ManufacturerData';
+import ProductCardOptions from '../../other/ProductCardOptions';
+import { ProductData, Property } from './../interface';
 
 import './ProductCardRow.scss';
 import Link from 'next/link';
@@ -13,8 +13,7 @@ const FeatureElement = ({ feature }: { feature: Property }): JSX.Element => {
 		<dl className="product__feature__wrapper">
 			<dt className="product__feature__key">{feature.key?.name}</dt>
 			<dd className="product__feature__value">
-				{feature.value}
-				{feature.key?.valueUnit}
+				{feature.value} {feature.key?.valueUnit}
 			</dd>
 		</dl>
 	);

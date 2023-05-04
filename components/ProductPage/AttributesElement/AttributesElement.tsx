@@ -2,6 +2,8 @@ import { ReactElement } from 'react';
 import { Property } from '../../CatalogComponents/Cards/interface';
 import { SmoothScrollToAnchor } from '../../../utils';
 
+import './AttributeElement.scss';
+
 const AttributeElement = ({ item }: { item: Property }): ReactElement => {
 	return (
 		<dl key={`product__properties__${item.key.slug}`} className="product__page__properties__item">

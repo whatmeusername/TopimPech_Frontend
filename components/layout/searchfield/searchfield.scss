@@ -30,7 +30,7 @@
 	flex-direction: row;
 	width: 100%;
 	height: 40px;
-	border: 1px solid var(--primary-color);
+	border: 2.5px solid var(--primary-color);
 	border-radius: 10px;
 	background-color: var(--primary-color);
 
@@ -42,7 +42,7 @@
 		font-size: var(--fontX);
 		outline: 0;
 		color: var(--primary-color);
-		margin-left: 2px;
+		height: 100%;
 		padding: 0 10px;
 	}
 

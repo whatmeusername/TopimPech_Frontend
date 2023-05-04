@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { GalleryItem } from './interface';
 
 const GalleryDesktop = ({ items, urlStartsWith, ration }: { items: GalleryItem[]; urlStartsWith?: string; ration?: number }): JSX.Element => {
@@ -12,12 +12,22 @@ const GalleryDesktop = ({ items, urlStartsWith, ration }: { items: GalleryItem[]
 	const zoomPointer = useRef<HTMLDivElement>(null!);
 	const imageElement = useRef<HTMLImageElement>(null!);
 
-	const Ration = ration === undefined ? 2.5 : ration;
+	const Ration = !ration ? 2.5 : ration;
 
 	const OnLoad = () => {
-		imageElement.current.style.maxWidth = imageWrapper.current.offsetWidth + 'px';
-		imageElement.current.style.maxHeight = imageWrapper.current.offsetHeight + 'px';
+		imageElement.current.style.display = 'unset';
+		if (imageWrapper.current.offsetWidth > 0 && imageWrapper.current.offsetHeight > 0) {
+			imageElement.current.style.maxWidth = imageWrapper.current.offsetWidth + 'px';
+			imageElement.current.style.maxHeight = imageWrapper.current.offsetHeight + 'px';
+		} else {
+			imageElement.current.style.maxWidth = 'auto';
+			imageElement.current.style.maxHeight = 'auto';
+		}
 	};
+
+	useEffect(() => {
+		OnLoad();
+	}, [current]);
 
 	let zoomWidth = 0;
 	let zoomHeight = 0;
@@ -59,6 +69,8 @@ const GalleryDesktop = ({ items, urlStartsWith, ration }: { items: GalleryItem[]
 	};
 
 	const onHover = (e: React.MouseEvent) => {
+		if (!rect) return;
+
 		let newPointerX = e.clientX - rect.left - zoomPointer.current.offsetWidth / 2;
 		let newPointerY = e.clientY - rect.top - zoomPointer.current.offsetHeight / 2;
 
@@ -82,7 +94,7 @@ const GalleryDesktop = ({ items, urlStartsWith, ration }: { items: GalleryItem[]
 	const activeImagePath = (urlStartsWith ?? '') + (items.find((i) => i.id === current)?.path ?? '');
 
 	return (
-		<div className="gallery__wrapper gallery__wrapper__desktop">
+		<>
 			<div className="gallery__available__items__wrapper" ref={imageBar}>
 				<div className="gallery__available__items" ref={imageBarList}>
 					{items.map((item) => {
@@ -104,13 +116,13 @@ const GalleryDesktop = ({ items, urlStartsWith, ration }: { items: GalleryItem[]
 			<div className="gallery__current__img__holder__wrapper">
 				<div className="gallery__current__img__holder">
 					<div className="gallery__current__img__wrapper" onMouseMove={onHover} onMouseEnter={onEnter} onMouseLeave={onHoverLeave} ref={imageWrapper}>
-						<img src={activeImagePath} alt="" className="gallery__current__img" ref={imageElement} onLoad={OnLoad} />
+						<img src={activeImagePath} alt="" className="gallery__current__img" ref={imageElement} style={{ display: 'none' }} onLoad={OnLoad} />
 						<div ref={zoomPointer} className="gallery__current__zoom__cursor" />
 					</div>
 					<div className="gallery__current__img__zoom" style={{ background: `url(${activeImagePath})` }} ref={zoomImage} />
 				</div>
 			</div>
-		</div>
+		</>
 	);
 };
 

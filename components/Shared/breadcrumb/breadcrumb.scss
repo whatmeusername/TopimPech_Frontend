@@ -3,6 +3,9 @@
 	flex-direction: row;
 	font-family: var(--museo_cyrl);
 	align-items: center;
+	gap: 0px;
+	
+
 	.breadcrumb__item {
 		text-decoration: none;
 		font-size: var(--fontM);
@@ -11,6 +14,8 @@
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
+
+
 		&::first-letter {
 			text-transform: uppercase;
 		}

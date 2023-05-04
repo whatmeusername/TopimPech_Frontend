@@ -19,12 +19,6 @@
 			min-width: calc(100% - 280px);
 			width: calc(100% - 280px);
 			max-width: calc(100% - 280px);
-			.product__catalog__header {
-				display: flex;
-				flex-direction: row;
-				justify-content: space-between;
-				padding: 0 10px;
-			}
 			.catalog__products__container {
 				max-width: 100%;
 				padding: 0px 25px;
@@ -51,79 +45,13 @@
 					flex-direction: column;
 				}
 			}
-			.catalog__footer {
-				display: flex;
-				flex-direction: row;
-				justify-content: space-between;
-				align-items: center;
-				.viewed__products__count {
-					color: var(--gray-color);
-					font-family: var(--museo_cyrl);
-					font-size: var(--fontL);
-				}
-			}
 		}
 	}
 
-	.catalog__head__wrapper {
-		margin-bottom: 20px;
-		.catalog__header__wrapper {
-			display: flex;
-			flex-direction: row;
-			align-items: baseline;
-			margin-top: 5px;
-			.catalog__header {
-				color: var(--primary-color);
-				font-family: var(--museo_cyrl);
-				font-weight: 300;
-				letter-spacing: 1px;
-				margin: 0px;
 
-				&::first-letter {
-					text-transform: capitalize;
-				}
-			}
-			.catalog__header__count {
-				margin-left: 5px;
-				font-family: var(--museo_cyrl);
-				color: var(--standard-color);
-				font-size: var(--fontM);
-			}
-		}
-	}
 }
 
-.catalog__page__not__fount__wrapper {
-	width: 100%;
-	height: 80vh;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	.catalog__page__not__found {
-		text-align: center;
-		.catalog__page__not__found__text {
-			color: var(--primary-color);
-			font-family: var(--museo_cyrl);
-			font-size: var(--headerS);
-			font-weight: 500;
-			margin-bottom: 30px;
-		}
-		.return__to_main_page__button {
-			padding: 10px 15px;
-			border-radius: 4px;
-			background-color: var(--orange-color);
-			font-family: var(--museo_cyrl);
-			font-weight: 300;
-			font-size: var(--fontX);
-			color: rgb(255, 255, 255);
-			transition: 0.25s ease-in;
-			&:hover {
-				background-color: var(--orange-darker-color);
-			}
-		}
-	}
-}
+
 
 .slider__item__wrapper {
 	min-width: 210px;
@@ -133,41 +61,3 @@
 	align-items: center;
 }
 
-.child__category__wrapper {
-	min-width: 200px;
-	max-width: 200px;
-	border-radius: 8px;
-	padding: 10px;
-	height: 75px;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	background-color: var(--primary_cards_background);
-	gap: 10px;
-
-	&:hover {
-		.child__category__label {
-			color: var(--orange-color);
-		}
-	}
-
-	.child__category__image__wrapper {
-		width: 60px;
-		height: 60px;
-		.child__category__image {
-			max-width: 100%;
-			max-height: 100%;
-			border-radius: 8px;
-		}
-	}
-	.child__category__label {
-		width: 135px;
-		font-size: var(--fontMS);
-		font-size: var(--museo_cyrl);
-		color: var(--primary-color);
-		transition: color 0.15s ease;
-		&::first-letter {
-			text-transform: uppercase;
-		}
-	}
-}

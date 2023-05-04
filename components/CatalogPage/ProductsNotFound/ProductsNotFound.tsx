@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { ReactElement } from 'react';
 
+import './ProductsNotFound.scss';
+
 function ProductsNotFound(): ReactElement {
 	return (
 		<div className="catalog__page__not__fount__wrapper">

@@ -93,12 +93,14 @@
 }
 
 .product__page__head {
+	padding: 0 10px;
 	.product__page__article__wrapper {
 		margin: 0;
 		font-size: var(--fontMS);
 		color: var(--gray-color);
 	}
 	@media (max-width: 768px) {
+		padding: 0;
 		flex-wrap: wrap;
 		justify-content: center;
 		display: flex;
@@ -133,7 +135,6 @@
 		align-items: center;
 
 		.gallery__wrapper {
-			height: 98%;
 			max-width: 650px;
 			padding: 10px;
 		}
@@ -185,42 +186,6 @@
 	}
 }
 
-.product__page__properties__item {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	width: 500px;
-	position: relative;
-	margin: 0;
-	.product__page__properties__item__key {
-		overflow: hidden;
-		position: relative;
-		width: 50%;
-		margin: 0;
-		padding-right: 5px;
-		overflow: hidden;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-		font-size: var(--fontM);
-		color: var(--gray-color);
-		font-family: var(--museo_cyrl);
-		&::first-letter {
-			text-transform: capitalize;
-		}
-		&::after {
-			content: '';
-			width: 100%;
-			position: absolute;
-			bottom: 0;
-			border-bottom: 1px dotted var(--gray-color);
-		}
-	}
-	.product__page__properties__item__value {
-		margin: 0;
-		color: var(--standard-color);
-		width: 50%;
-	}
-}
 
 .product__page__properties__content {
 	display: grid;
@@ -237,38 +202,7 @@
 	}
 }
 
-.history__item {
-	width: 180px;
-	height: 330px;
-	border-radius: 4px;
-	.history__item__image__wrapper {
-		padding: 5px;
-		height: 215px;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		.history__item__image {
-			max-width: 100%;
-			max-height: 100%;
-			height: auto;
-			width: auto;
-			border-radius: 4px;
-		}
-	}
-	.history__item__info {
-		padding: 5px 8px;
-		.product__card__price__wrapper {
-			margin: 0;
-			.price__tag {
-				font-size: var(--fontM);
-			}
-		}
-		.history__item__label {
-			font-size: var(--fontMS);
-			color: var(--standard-color);
-		}
-	}
-}
+
 
 .product__page__properties__short {
 	.product__page__properties__short__header {
@@ -290,14 +224,15 @@
 		border: 0;
 		background-color: transparent;
 		font-size: var(--fontM);
-		padding: 5px;
+		padding: 10px;
 		margin: 0;
 		margin-top: 10px;
 		cursor: pointer;
-		color: var(--standard_color);
-		transition: 0.1s ease-in-out;
+		color: var(--orange-color);
+		transition: opacity 0.1s ease-in-out;
+		opacity: 1;
 		&:hover {
-			color: var(--orange-color);
+			opacity: 0.7;
 		}
 	}
 }

@@ -46,7 +46,6 @@ const CatalogContainer = ({ getFetchURL }: { getFetchURL: (router: NextRouter) =
 				isLoaded.current = 1;
 			});
 		} else setCatalogData(initData.productsData);
-		//eslint-disable-next-line
 	}, [maincategory, category, SearchParams]);
 
 	const isFetched = IsLoaded();

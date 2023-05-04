@@ -6,16 +6,20 @@ const GalleryMobile = ({ items, urlStartsWith }: { items: GalleryItem[]; urlStar
 
 	const dragWrapper = useRef<HTMLDivElement>(null!);
 
+	const maxIndex = items.length - 1;
+
 	let dragOffset = 0;
 	let rect: DOMRect | null = null;
 	let currentOffset = 0;
 	let nextOffset = 0;
 
 	useEffect(() => {
-		dragWrapper.current.style.left = current * dragWrapper.current.offsetWidth * -1 + 'px';
+		dragWrapper.current.style.left = `-${current * dragWrapper.current.offsetWidth}px`;
 	}, [current]);
 
 	const OnDragStart = (e: React.DragEvent | React.TouchEvent) => {
+		dragWrapper.current.style.transition = 'unset';
+
 		const isTouch = (e as React.DragEvent).clientX === undefined;
 
 		if (!isTouch) {
@@ -26,7 +30,6 @@ const GalleryMobile = ({ items, urlStartsWith }: { items: GalleryItem[]; urlStar
 		rect = dragWrapper.current.getBoundingClientRect();
 		currentOffset = dragWrapper.current.offsetWidth * current;
 		dragOffset = x - rect.left + currentOffset;
-		dragWrapper.current.style.transition = '';
 
 		window.addEventListener('mousemove', onDragMove);
 		window.addEventListener('mouseup', onDragEnd);
@@ -65,31 +68,20 @@ const GalleryMobile = ({ items, urlStartsWith }: { items: GalleryItem[]; urlStar
 
 		dragWrapper.current.style.transition = 'left 0.25s ease';
 
-		const ratioNext = (nextOffset * -1) / dragWrapper.current.offsetWidth;
-		let idNext = Math.trunc(ratioNext);
+		const slidesPassedRation = (nextOffset * -1) / dragWrapper.current.offsetWidth - current;
+		const slidesPassed = Math.round(slidesPassedRation);
 
-		if (ratioNext > current + 0.5) {
-			idNext = ratioNext > idNext + 0.5 ? Math.ceil(ratioNext) : idNext;
-		} else if (ratioNext + 0.5 < current) {
-			idNext = ratioNext < idNext + 0.5 ? Math.floor(ratioNext) : Math.floor(ratioNext);
+		if (slidesPassed > 0 && current !== maxIndex) {
+			setCurrent(current + slidesPassed > maxIndex ? maxIndex : current + slidesPassed);
+		} else if (slidesPassed < 0 && current !== 0) {
+			setCurrent(current + slidesPassed > 0 ? current + slidesPassed : 0);
 		} else {
 			dragWrapper.current.style.left = `-${dragWrapper.current.offsetWidth * current}px`;
-			return;
 		}
-
-		if (ratioNext < 0) {
-			if (current !== 0) setCurrent(0);
-			else dragWrapper.current.style.left = '0px';
-		} else if (idNext < current) {
-			setCurrent(idNext === 0 ? 0 : current - (current - idNext));
-		} else if (idNext >= items.length - 2) {
-			if (current !== items.length - 1) setCurrent(items.length - 1);
-			else dragWrapper.current.style.left = `-${dragWrapper.current.offsetWidth * (items.length - 1)}px`;
-		} else if (idNext > current) setCurrent(current + (idNext - current));
 	};
 
 	return (
-		<div className="gallery__wrapper gallery__wrapper__mobile">
+		<>
 			<div className="gallery__images__holder__wrapper">
 				<div className="gallery__images__holder" onDragStart={OnDragStart} onTouchStart={OnDragStart} ref={dragWrapper}>
 					{items.map((item) => {
@@ -118,7 +110,7 @@ const GalleryMobile = ({ items, urlStartsWith }: { items: GalleryItem[]; urlStar
 					})}
 				</div>
 			</div>
-		</div>
+		</>
 	);
 };
 

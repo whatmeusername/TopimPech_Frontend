@@ -109,6 +109,7 @@
 		flex-direction: row;
 		position: relative;
 		touch-action: none;
+		transition: left .5s ease;
 		.gallery__image__holder {
 			max-height: 100%;
 			max-width: 100%;

@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { useCategoriesContext } from '../../../context';
 import { CategoryData } from '../../layout/Menu/GeneralElements';
 
+import './ChildCategoriesElement.scss';
+
 const ChildCategoriesChild = ({ category }: { category: CategoryData }): ReactElement => {
 	return (
 		<Link href={`/catalog/${category?.parentCategory?.slug}/${category.slug}`}>
@@ -21,14 +23,13 @@ const ChildCategoriesChild = ({ category }: { category: CategoryData }): ReactEl
 	);
 };
 
-const ChildCategoriesElement = (): ReactElement => {
+const ChildCategoriesElement = (): ReactElement | null => {
 	const childCategories = useCategoriesContext();
 	const router = useRouter();
 	const { maincategory, category } = router.query as { maincategory: string; category: string };
 
-	// PARENT SHOULD BE FIRST UPPER ELEMENT
 	const currentCategoryAtPage = childCategories?.find(maincategory, category);
-	if (!currentCategoryAtPage || currentCategoryAtPage.child.length < 1) return <></>;
+	if (!currentCategoryAtPage || currentCategoryAtPage.child.length < 1) return null;
 
 	return (
 		<div className="child__categories__wrapper">
