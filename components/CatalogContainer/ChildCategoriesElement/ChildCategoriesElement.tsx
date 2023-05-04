@@ -33,7 +33,7 @@ const ChildCategoriesElement = (): ReactElement | null => {
 
 	return (
 		<div className="child__categories__wrapper">
-			<Slider SliderSettings={{ ItemsPerSlide: 5 }}>
+			<Slider SliderSettings={{ ItemsPerSlide: 'auto' }}>
 				<>
 					{currentCategoryAtPage.child.map((child) => {
 						return (
