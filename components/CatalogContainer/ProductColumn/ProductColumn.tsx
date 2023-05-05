@@ -28,13 +28,13 @@ const ProductColumn = ({
 	} else
 		return (
 			<>
-				{products.map((product) => {
+				{products.map((product, i) => {
 					if (view === CatalogView.GRID) return <ProductCardGrid product={product} key={product.slug} fadeIn={fadeIn} />;
 					else
 						return (
 							<Fragment key={product.slug}>
 								<ProductCardRow product={product} fadeIn={fadeIn} />
-								<ThinBreakLine />
+								{products.length - 1 !== i ? <ThinBreakLine /> : null}
 							</Fragment>
 						);
 				})}

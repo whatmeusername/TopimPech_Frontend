@@ -1,19 +1,12 @@
-import { createContext, useContext, SetStateAction, Dispatch } from 'react';
+import { createContext, useContext, MutableRefObject } from 'react';
 
 interface CentralModalContext {
-	cc: JSX.Element | null;
-	sc: Dispatch<SetStateAction<JSX.Element>> | null;
-	oc: false;
-	os: Dispatch<SetStateAction<boolean>> | null;
+	ref: MutableRefObject<HTMLDivElement>;
 }
 const CategoryContextData = createContext<CentralModalContext>(null!);
 
 const CentralModalContext = ({ children }: { children: JSX.Element }) => {
-	return (
-		<CategoryContextData.Provider value={{ cc: null, sc: null, oc: false, os: null }}>
-			{children}
-		</CategoryContextData.Provider>
-	);
+	return <CategoryContextData.Provider value={{ ref: null! }}>{children}</CategoryContextData.Provider>;
 };
 
 const useCentralModalContext = (): CentralModalContext => {

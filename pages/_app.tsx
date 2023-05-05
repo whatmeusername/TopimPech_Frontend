@@ -8,7 +8,7 @@ import WidthLimiter from '../components/Shared/WidthLimiter/WidthLimiter';
 import type { AppProps } from 'next/app';
 
 import { createContext, useContext } from 'react';
-import { CentralModal } from '../components/CentralModal';
+import { CenterModal } from '../components/CentralModal';
 import { enableStaticRendering } from 'mobx-react-lite';
 import { CategoriesContext, BreadcrumbContext, CentralModalContext } from '../context';
 
@@ -31,7 +31,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 							<WidthLimiter>
 								<Component {...pageProps} />
 							</WidthLimiter>
-							<CentralModal />
+							<CenterModal />
 						</>
 					</Layout>
 				</CentralModalContext>
