@@ -1,10 +1,12 @@
 import { GetServerSidePropsContext } from 'next';
 import axios from 'axios';
 import { PagePropsContext, PROXY_URL } from '../../../_app';
+import Catalog from '../../../../components/CatalogPage/catalog';
+import { ProductAPIResponse } from '../../../../components/CatalogPage/catalog/interface';
+import { SearchParamsBuilder } from '../../../../utils';
+import { initData } from '../../../../components/CatalogPage/catalog/interface';
 
-import Catalog, { initData as initDataInterface, ProductAPIResponse, SearchParamsBuilder } from '../../../../components/CatalogPage/catalog';
-
-function CatalogPage({ initData }: { initData: initDataInterface }) {
+function CatalogPage({ initData }: { initData: initData }) {
 	return (
 		<PagePropsContext.Provider value={initData}>
 			<Catalog initData={initData} />

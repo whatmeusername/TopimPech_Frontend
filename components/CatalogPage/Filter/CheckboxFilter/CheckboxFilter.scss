@@ -1,0 +1,53 @@
+.facet__filter__string {
+	display: flex;
+	flex-direction: column;
+	.facet__filter__item {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		margin: 5px 0px;
+		text-align: left;
+
+		.facet__filter__item__count {
+			font-weight: 500;
+			padding: 0 5px;
+			font-size: var(--fontMS);
+		}
+
+		.filter__custom__checkbox:hover + .facet__filter__item__label {
+			color: var(--standard-color);
+			.facet__filter__item__count {
+				color: var(--standard-color);
+			}
+		}
+
+		.filter__custom__checkbox:disabled + .facet__filter__item__label {
+			cursor: default;
+			.facet__filter__item__name {
+				color: var(--grey-color);
+			}
+			.facet__filter__item__count {
+				color: var(--grey-color);
+			}
+		}
+
+		.facet__filter__item__label {
+			width: 90%;
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+			font-family: var(--museo_cyrl);
+
+			.facet__filter__item__name {
+				font-weight: 300;
+				font-size: var(--fontL);
+				&:first-letter {
+					text-transform: uppercase;
+				}
+			}
+			.facet__filter__item__count {
+				color: var(--gray-color);
+			}
+		}
+	}
+}

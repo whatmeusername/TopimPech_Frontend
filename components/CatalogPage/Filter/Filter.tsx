@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
-import { useRouter, NextRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
 import './Filter.scss';
 
-import type { FilterData, FilterItem } from './interface';
+import { FilterApplyFN, FilterData, FilterFetchData } from './interface';
 import axios from 'axios';
 
 import Dropdown from '../../Shared/Dropdown/Dropdown';
@@ -17,14 +17,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
 import { FilterSkeleton } from '../../skeletons/skeletons';
-import { useCentralModalContext } from '../../../context';
+
 import { ModalWrapper } from '../../CentralModal';
 import { HydrationComponent } from '../../ProductPage/ProductPage';
 import { centerModalControl } from '../../../store';
 
-interface FilterParameters {
-	[K: string]: any;
-}
+import type { FilterParameters } from './interface';
+import InputFilter from './InputFilter/InputFilter';
+import CheckboxFilter from './CheckboxFilter/CheckboxFilter';
 
 const getFilterParameters = (searchParams: URLSearchParams | ParsedUrlQuery): FilterParameters => {
 	let filterParam: string | null;
@@ -43,127 +43,6 @@ const getFilterParameters = (searchParams: URLSearchParams | ParsedUrlQuery): Fi
 	return filters;
 };
 
-const filterOnCheck = (
-	event: React.MouseEvent,
-	key: string,
-	parentKey: string,
-	router: NextRouter,
-	apply: 'update' | 'apply',
-	callback?: (...args: any[]) => void,
-) => {
-	const searchParams = router.query;
-
-	const checked = (event.target as HTMLInputElement).checked;
-	const filtersParams = getFilterParameters(searchParams);
-
-	if (checked) {
-		const currentValue = filtersParams[parentKey];
-		if (!currentValue) {
-			filtersParams[parentKey] = [key];
-		} else {
-			if (!currentValue.includes(key)) filtersParams[parentKey].push(key);
-		}
-	} else {
-		const currentValue = filtersParams[parentKey];
-		if (currentValue) {
-			const valueIndex = currentValue.findIndex((item) => item === key);
-			filtersParams[parentKey].splice(valueIndex, 1);
-			if (currentValue.length === 0) {
-				delete filtersParams[parentKey];
-			}
-		}
-	}
-
-	const filtersParamsLength = Object.keys(filtersParams).length;
-	const searchParamsSTR = collectFilterParameters(filtersParams);
-
-	if (filtersParamsLength > 0) {
-		searchParams['filter'] = searchParamsSTR;
-	} else delete searchParams['filter'];
-
-	if (apply === 'apply') {
-		searchParams['page'] = '1';
-		router.push({ pathname: router.pathname, query: searchParams }, undefined, { scroll: false });
-	} else if (apply === 'update' && callback) {
-		callback(`?filter=${searchParamsSTR}`);
-	}
-};
-
-const filterOnInput = (
-	event: React.FocusEvent<HTMLInputElement>,
-	side: 'min' | 'max',
-	parentKey: string,
-	filterData: FilterItem,
-	router: NextRouter,
-	apply: 'apply' | 'update',
-	callback?: (...args: any[]) => void,
-) => {
-	const searchParams = router.query;
-	const filtersParams = getFilterParameters(searchParams);
-	const value = (event.target as HTMLInputElement).value;
-
-	const applyFilter = () => {
-		const filtersCount = Object.keys(filtersParams).length;
-		if (apply === 'apply') {
-			if (filtersCount === 0) {
-				delete searchParams['filter'];
-			}
-			searchParams['page'] = '1';
-			router.push({ pathname: router.pathname, query: searchParams }, undefined, { scroll: false });
-		} else if (apply === 'update' && callback) {
-			callback(filtersCount !== 0 ? `?filter=${searchParams['filter']}` : '');
-		}
-	};
-
-	const currentFilter = filtersParams[parentKey] ?? ['', ''];
-
-	let valueAsFloat = parseFloat(parseFloat(value.replaceAll(',', '.')).toFixed(2));
-	const valueIsNumber = !isNaN(valueAsFloat);
-
-	if ((side === 'min' && value !== currentFilter[0]) || (side === 'max' && value !== currentFilter[1])) {
-		if (value === '') {
-			if (side === 'min') currentFilter[0] = '';
-			else if (side === 'max') currentFilter[1] = '';
-
-			if (currentFilter[0] === '' && currentFilter[1] === '') {
-				delete filtersParams[parentKey];
-			}
-
-			const search = collectFilterParameters(filtersParams);
-			searchParams['filter'] = search;
-
-			applyFilter();
-		} else if (valueIsNumber && valueAsFloat > 0) {
-			const filterMin = filterData.values.min as unknown as number;
-			const filterMax = filterData.values.max as unknown as number;
-
-			if (side === 'min') {
-				if (valueAsFloat > filterMax) valueAsFloat = filterMax;
-				else if (valueAsFloat < filterMin) valueAsFloat = filterMin;
-				const valueAsString = valueAsFloat.toString();
-				currentFilter[0] = valueAsString;
-				if (currentFilter[1] !== '') {
-					if (valueAsFloat > parseFloat(currentFilter[1])) currentFilter[1] = valueAsString;
-				}
-			}
-
-			if (side === 'max') {
-				if (filterMin > valueAsFloat) valueAsFloat = filterMin;
-				currentFilter[1] = valueAsFloat.toString();
-			}
-
-			filtersParams[parentKey] = currentFilter;
-
-			const search = collectFilterParameters(filtersParams);
-			searchParams['filter'] = search;
-
-			applyFilter();
-		} else {
-			event.target.value = event.target.defaultValue;
-		}
-	}
-};
-
 const collectFilterParameters = (filterParam: { [K: string]: string[] } | null): string => {
 	let res = '';
 	if (filterParam === null) return res;
@@ -176,11 +55,6 @@ const collectFilterParameters = (filterParam: { [K: string]: string[] } | null):
 	return res;
 };
 
-interface FilterFetchData {
-	count: number;
-	filtered: FilterData;
-}
-
 const useInitialState = (): [boolean, () => void] => {
 	const firstRender = useRef<boolean>(false);
 	return [
@@ -189,101 +63,6 @@ const useInitialState = (): [boolean, () => void] => {
 			firstRender.current = true;
 		},
 	];
-};
-
-interface FilterSelector {
-	parentKey: string;
-	filterData: FilterItem;
-	applyFilter: 'update' | 'apply';
-	callback?: (...args: any[]) => void;
-	ActiveFilters: FilterParameters;
-}
-
-const CheckboxFilter = ({
-	parentKey,
-	filterData,
-	applyFilter,
-	callback,
-	ActiveFilters,
-}: {
-	parentKey: string;
-	filterData: FilterItem;
-	applyFilter: 'update' | 'apply';
-	callback?: (...args: any[]) => void;
-	ActiveFilters: FilterParameters;
-}): JSX.Element => {
-	return (
-		<div className="facet__filter__wrapper facet__filter__string">
-			{Object.entries(filterData.values).map(([key, value], index) => {
-				const isChecked = getActiveFilters[parentKey] !== undefined && getActiveFilters[parentKey].includes(key);
-				return (
-					<div className="facet__filter__item" key={parentKey + `-${key}`}>
-						<input
-							type="checkbox"
-							id={`${key}-${index}-${applyFilter}`}
-							className="filter__custom__checkbox"
-							onClick={(e) => {
-								if (value.items !== 0 || isChecked) filterOnCheck(e, key, parentKey, router, applyFilter, callback);
-							}}
-							disabled={value.items === 0 && !isChecked}
-							defaultChecked={isChecked}
-						></input>
-						<label htmlFor={`${key}-${index}-${applyFilter}`} className="facet__filter__item__label">
-							<span className="facet__filter__item__name">{value.name}</span>
-							<span className="facet__filter__item__count">{value.items}</span>
-						</label>
-					</div>
-				);
-			})}
-		</div>
-	);
-};
-
-const InputFilter = ({
-	parentKey,
-	filterData,
-	applyFilter,
-	callback,
-	ActiveFilters,
-}: {
-	parentKey: string;
-	filterData: FilterItem;
-	applyFilter: 'apply' | 'update';
-	callback?: (...args: any[]) => void;
-	ActiveFilters;
-}): JSX.Element => {
-	const values = filterData.values;
-	const defaultValues = getActiveFilters[parentKey];
-	const defaultValueMin = defaultValues ? parseFloat(defaultValues[0]).toFixed(2) : null;
-	const defaultValueMax = defaultValues ? parseFloat(defaultValues[1]).toFixed(2) : null;
-	const isDisabled = values.min === null || values.max === null || values.min === values.max;
-	return (
-		<div className="facet__filter__wrapper facet__filter__number">
-			<div className="facet__filter__number__inputs__wrapper">
-				<input
-					type="text"
-					className={`facet__filter__number__input facet__filter__number__input__left ${isDisabled ? 'facet__filter__number__disabled' : ''}`}
-					placeholder={`От ${values.min}`}
-					defaultValue={defaultValues ? defaultValues[0] : ''}
-					disabled={defaultValueMin ? !(defaultValueMin !== '') : isDisabled}
-					onBlur={(event) => {
-						if (!isDisabled) return filterOnInput(event, 'min', parentKey, filterData, router, applyFilter, callback);
-					}}
-				/>
-				<span className="facet__filter__number__slash">-</span>
-				<input
-					type="text"
-					className={`facet__filter__number__input facet__filter__number__input__right ${isDisabled ? 'facet__filter__number__disabled' : ''}`}
-					placeholder={`До ${values.max}`}
-					defaultValue={defaultValues ? defaultValues[1] : ''}
-					disabled={defaultValueMax ? !(defaultValueMax !== '') : isDisabled}
-					onBlur={(event) => {
-						if (!isDisabled) return filterOnInput(event, 'max', parentKey, filterData, router, applyFilter, callback);
-					}}
-				/>
-			</div>
-		</div>
-	);
 };
 
 function FacetFilter({ initialFilters }: { initialFilters?: FilterFetchData }): JSX.Element {
@@ -368,8 +147,6 @@ function FacetFilter({ initialFilters }: { initialFilters?: FilterFetchData }): 
 		const filtersCount = Object.keys(filters?.filtered ?? {}).length;
 		const itemsPerColumn = Math.ceil(filtersCount / 3);
 
-		const centralModalContext = useCentralModalContext();
-
 		const fetchData = (searchParams: string) => {
 			axios({
 				method: 'GET',
@@ -437,9 +214,27 @@ function FacetFilter({ initialFilters }: { initialFilters?: FilterFetchData }): 
 															<Dropdown header={DropdownHeader} key={'modal-filter-' + parentKey}>
 																<OverflowContainer maxHeight={290}>
 																	{parentValue.valueType === 'string' ? (
-																		<CheckboxFilter parentKey={parentKey} filterData={parentValue} applyFilter={'update'} callback={fetchData} />
+																		<CheckboxFilter
+																			config={{
+																				parentKey: parentKey,
+																				filterData: parentValue,
+																				applyFilter: FilterApplyFN.UPDATE,
+																				callback: fetchData,
+																				router: router,
+																				ActiveFilters: getActiveFilters,
+																			}}
+																		/>
 																	) : (
-																		<InputFilter parentKey={parentKey} filterData={parentValue} applyFilter={'update'} callback={fetchData} />
+																		<InputFilter
+																			config={{
+																				parentKey: parentKey,
+																				filterData: parentValue,
+																				applyFilter: FilterApplyFN.UPDATE,
+																				callback: fetchData,
+																				router: router,
+																				ActiveFilters: getActiveFilters,
+																			}}
+																		/>
 																	)}
 																</OverflowContainer>
 															</Dropdown>
@@ -527,9 +322,27 @@ function FacetFilter({ initialFilters }: { initialFilters?: FilterFetchData }): 
 													<Dropdown header={DropdownHeader} key={'modal-filter-' + parentKey}>
 														<OverflowContainer maxHeight={290}>
 															{parentValue.valueType === 'string' ? (
-																<CheckboxFilter parentKey={parentKey} filterData={parentValue} applyFilter={'update'} callback={fetchData} />
+																<CheckboxFilter
+																	config={{
+																		parentKey: parentKey,
+																		filterData: parentValue,
+																		applyFilter: FilterApplyFN.UPDATE,
+																		callback: fetchData,
+																		router: router,
+																		ActiveFilters: getActiveFilters,
+																	}}
+																/>
 															) : (
-																<InputFilter parentKey={parentKey} filterData={parentValue} applyFilter={'update'} callback={fetchData} />
+																<InputFilter
+																	config={{
+																		parentKey: parentKey,
+																		filterData: parentValue,
+																		applyFilter: FilterApplyFN.UPDATE,
+																		callback: fetchData,
+																		router: router,
+																		ActiveFilters: getActiveFilters,
+																	}}
+																/>
 															)}
 														</OverflowContainer>
 													</Dropdown>
@@ -649,9 +462,27 @@ function FacetFilter({ initialFilters }: { initialFilters?: FilterFetchData }): 
 								<Dropdown header={DropdownHeader} key={'filter-' + parentKey}>
 									<OverflowContainer maxHeight={290}>
 										{parentValue.valueType === 'string' ? (
-											<CheckboxFilter parentKey={parentKey} filterData={parentValue} applyFilter={'apply'} callback={fetchData} />
+											<CheckboxFilter
+												config={{
+													parentKey: parentKey,
+													filterData: parentValue,
+													applyFilter: FilterApplyFN.APPLY,
+													callback: fetchData,
+													router: router,
+													ActiveFilters: getActiveFilters,
+												}}
+											/>
 										) : (
-											<InputFilter parentKey={parentKey} filterData={parentValue} applyFilter={'apply'} callback={fetchData} />
+											<InputFilter
+												config={{
+													parentKey: parentKey,
+													filterData: parentValue,
+													applyFilter: FilterApplyFN.APPLY,
+													callback: fetchData,
+													router: router,
+													ActiveFilters: getActiveFilters,
+												}}
+											/>
 										)}
 									</OverflowContainer>
 								</Dropdown>
@@ -679,5 +510,6 @@ function FacetFilter({ initialFilters }: { initialFilters?: FilterFetchData }): 
 	);
 }
 
+export { getFilterParameters, collectFilterParameters };
 export type { FilterFetchData };
 export default FacetFilter;

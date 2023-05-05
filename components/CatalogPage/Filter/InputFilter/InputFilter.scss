@@ -1,0 +1,25 @@
+.facet__filter__number {
+	display: flex;
+	flex-direction: column;
+	.facet__filter__number__inputs__wrapper {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		.facet__filter__number__input {
+			width: 42.5%;
+			padding: 10px 5px;
+			border: 1.5px solid var(--grey-color);
+			border-radius: 4px;
+			outline: none;
+			font-size: var(--fontL);
+			font-family: var(--museo_cyrl);
+			color: var(--primary-color);
+		}
+		.facet__filter__number__slash {
+			color: var(--gray-color);
+			font-size: var(--headerL);
+			margin: 0 5px;
+		}
+	}
+}
