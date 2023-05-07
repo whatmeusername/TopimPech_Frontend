@@ -1,5 +1,6 @@
+'use client';
+
 import { ReactElement, useEffect, useRef } from 'react';
-import { useCentralModalContext } from '../../context';
 import { observer } from 'mobx-react-lite';
 import { centerModalControl } from '../../store';
 import './CentralModal.scss';
@@ -14,12 +15,7 @@ const ModalWrapper = observer(({ children }: { children: ReactElement }) => {
 });
 
 const CenterModal = observer(() => {
-	const centralContext = useCentralModalContext();
 	const modalContentRef = useRef<HTMLDivElement>(null!);
-
-	useEffect(() => {
-		centralContext.ref = modalContentRef;
-	}, []);
 
 	return (
 		<div className={`center__modal__wrapper ${centerModalControl.isToggled ? 'center__modal__wrapper__active' : ''}`} id="center__modal">

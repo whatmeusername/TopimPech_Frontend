@@ -2,7 +2,7 @@ import './paginator.scss';
 
 import { PaginatorData } from './interface';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { ReactElement } from 'react';
 
 const SpreadElement = ({ enabled }: { enabled: boolean }): JSX.Element => {
@@ -18,13 +18,13 @@ const ScrollToTop = () => {
 };
 
 function Paginator({ PaginatorData, range = 3 }: { PaginatorData: PaginatorData; range?: number }): ReactElement | null {
-	const router = useRouter();
+	const searchParams = useSearchParams();
+	const path = usePathname();
 
 	if (PaginatorData.pages === 1) {
 		return null;
 	}
 
-	const searchParams = router.query;
 	const startArr = [];
 	const endArr = [];
 
@@ -37,12 +37,10 @@ function Paginator({ PaginatorData, range = 3 }: { PaginatorData: PaginatorData;
 		if (current) {
 			return <span className={'paginator__item paginator__item__active'}>{page}</span>;
 		} else {
+			const nextSP = new URLSearchParams(searchParams);
+			nextSP.set('page', `${page}`);
 			return (
-				<Link
-					href={{ pathname: router.pathname, query: { ...searchParams, page: page } }}
-					className="paginator__item paginator__item__inactive"
-					onClick={ScrollToTop}
-				>
+				<Link href={path + '?' + nextSP.toString()} className="paginator__item paginator__item__inactive" onClick={ScrollToTop}>
 					{page}
 				</Link>
 			);
@@ -51,9 +49,11 @@ function Paginator({ PaginatorData, range = 3 }: { PaginatorData: PaginatorData;
 
 	const PaginatorArrow = ({ enabled, page, label }: { enabled: boolean; page: number; label: string }): ReactElement => {
 		if (enabled) {
+			const nextSP = new URLSearchParams(searchParams);
+			nextSP.set('page', `${page}`);
 			return (
 				<div className="paginator__arrow__wrapper">
-					<Link href={{ pathname: router.pathname, query: { ...searchParams, page: page } }} className="paginator__link" onClick={ScrollToTop}>
+					<Link href={path + '?' + nextSP.toString()} className="paginator__link" onClick={ScrollToTop}>
 						<span className="paginator__arrow__label">{label}</span>
 					</Link>
 				</div>

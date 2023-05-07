@@ -1,3 +1,5 @@
+'use client';
+
 import ProductCardRow from '../../CatalogComponents/Cards/Row/ProductCardRow';
 import ProductCardGrid from '../../CatalogComponents/Cards/Grid/ProductСardGrid';
 import { ProductData } from '../../CatalogComponents/Cards/interface';

@@ -2,12 +2,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 import './searchfield.scss';
-import { Dispatch, SetStateAction, useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { toggleWindowScroll } from '../../../utils/enableWindowScroll';
 import { ProductData } from '../../CatalogComponents/Cards/interface';
 import get from 'axios';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import PriceElement from '../../CatalogComponents/PriceElement.tsx/PriceElement';
 import { declOfNum } from '../../../utils';
 import useToggle from '../../../hooks/useToggle';
@@ -81,7 +81,7 @@ export default function ProductSearch() {
 	const onKeyDown = (e: React.KeyboardEvent): void => {
 		const value = inputField.current.value.trim();
 		if (e.key === 'Enter' && value) {
-			router.push({ pathname: `/catalog/search/${value}` });
+			router.push(`/catalog/search/${value}`);
 		} else if (!isToggled) {
 			Toggle(true);
 			toggleWindowScroll(false);

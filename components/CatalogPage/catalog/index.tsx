@@ -1,8 +1,10 @@
+'use client';
+
 import { ReactElement } from 'react';
 import './CatalogContainer.scss';
 
 // ==== NEXT ====
-import { NextRouter } from 'next/router';
+// import { NextRouter } from 'next/router';
 
 // ==== Breadcrumb ====
 import BreadcrumbByURL from '../../Shared/breadcrumb/breacrumb';
@@ -16,8 +18,13 @@ import { CatalogHeader } from '../CatalogHead/CatalogHeader';
 import { SearchParamsBuilder } from '../../../utils/SearchParamsBuilder';
 import { CatalogHead } from '../CatalogHead/CatalogHead';
 
-const getFetchURL = (router: NextRouter): [string, string] => {
-	const { maincategory, category } = router.query as { maincategory: string; category: string };
+export interface FetchURLData {
+	params: { [K: string]: string };
+	query: URLSearchParams;
+}
+
+const getFetchURL = (router: FetchURLData): [string, string] => {
+	const { maincategory, category } = router.params;
 	let url = '/api/products/filter/';
 	if (maincategory) url += `${maincategory}/`;
 	if (category) url += `${category}/`;
@@ -36,7 +43,7 @@ export default function Catalog({ initData }: { initData: initData }): ReactElem
 					<div className="catalog__filters__wrapper">
 						<FacetFilter initialFilters={initData?.filtersData} />
 					</div>
-					<CatalogContainer getFetchURL={getFetchURL} />
+					<CatalogContainer getFetchURL={getFetchURL} CatalogData={initData.productsData} />
 				</div>
 			</div>
 		);

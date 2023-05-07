@@ -7,6 +7,9 @@ const PROXY_URL = process.env.PROXY_URL;
 const nextConfig = {
 	reactStrictMode: true,
 	swcMinify: true,
+	experimental: {
+		appDir: true,
+	},
 
 	webpack(config) {
 		config.module.rules.forEach((rule) => {

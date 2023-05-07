@@ -5,10 +5,8 @@ import { FilterApplyFN, FilterElementActionConfig, FilterElementConfig } from '.
 import './CheckboxFilter.scss';
 
 const filterOnCheck = (config: FilterElementActionConfig) => {
-	const searchParams = config.router.query;
-
 	const checked = (config.event.target as HTMLInputElement).checked;
-	const filtersParams = getFilterParameters(searchParams);
+	const filtersParams = getFilterParameters(config.searchParams);
 	const currentValue = filtersParams[config.parentKey];
 
 	if (checked) {
@@ -29,12 +27,12 @@ const filterOnCheck = (config: FilterElementActionConfig) => {
 	const searchParamsSTR = collectFilterParameters(filtersParams);
 
 	if (filtersParamsLength > 0) {
-		searchParams['filter'] = searchParamsSTR;
-	} else delete searchParams['filter'];
+		config.searchParams.set('filter', searchParamsSTR);
+	} else config.searchParams.delete('filter');
 
 	if (config.applyFunction === FilterApplyFN.APPLY) {
-		searchParams['page'] = '1';
-		config.router.push({ pathname: config.router.pathname, query: searchParams }, undefined, { scroll: false });
+		config.searchParams.set('page', '1');
+		config.router.replace(`${config.path}?${config.searchParams.toString()}`);
 	} else if (config.applyFunction === FilterApplyFN.UPDATE && config.callback) {
 		config.callback(`?filter=${searchParamsSTR}`);
 	}
@@ -61,6 +59,8 @@ const CheckboxFilter = ({ config }: { config: FilterElementConfig }): ReactEleme
 												router: config.router,
 												applyFunction: config.applyFilter,
 												callback: config.callback,
+												searchParams: config.searchParams,
+												path: config.path,
 											})
 									: undefined
 							}

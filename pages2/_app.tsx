@@ -8,9 +8,10 @@ import WidthLimiter from '../components/Shared/WidthLimiter/WidthLimiter';
 import type { AppProps } from 'next/app';
 
 import { createContext, useContext } from 'react';
-import { CenterModal } from '../components/CentralModal';
+import { CenterModal } from '../components/CentralModal/CenterModal';
 import { enableStaticRendering } from 'mobx-react-lite';
-import { CategoriesContext, BreadcrumbContext, CentralModalContext } from '../context';
+import { CategoriesContext } from '../context/Categories';
+import { BreadcrumbContext } from '../context/Breadcrumb';
 
 const PROXY_URL = process.env.PROXY_URL;
 
@@ -25,16 +26,14 @@ function MyApp({ Component, pageProps }: AppProps) {
 	return (
 		<CategoriesContext>
 			<BreadcrumbContext>
-				<CentralModalContext>
-					<Layout>
-						<>
-							<WidthLimiter>
-								<Component {...pageProps} />
-							</WidthLimiter>
-							<CenterModal />
-						</>
-					</Layout>
-				</CentralModalContext>
+				<Layout>
+					<>
+						<WidthLimiter>
+							<Component {...pageProps} />
+						</WidthLimiter>
+						<CenterModal />
+					</>
+				</Layout>
 			</BreadcrumbContext>
 		</CategoriesContext>
 	);

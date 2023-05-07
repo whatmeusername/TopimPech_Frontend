@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import MenuContentMobile from './MenuContentMobile';
 import MenuContentDesktop from './MenuContentDesktop';
 import { CloseButton } from './GeneralElements';
-import { useCategoriesContext } from '../../../context';
+import { useCategoriesContext } from '../../../context/Categories';
 
 export const ToggleModalContext = createContext<(fixedState?: boolean) => void>(null!);
 

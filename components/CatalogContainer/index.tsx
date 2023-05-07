@@ -1,7 +1,10 @@
+'use client';
+
 import axios from 'axios';
-import { NextRouter, useRouter } from 'next/router';
+
 import { ReactElement, useState, useRef, useEffect } from 'react';
-import { usePagePropsContext } from '../../pages/_app';
+import { useParams, useSearchParams } from 'next/navigation';
+
 import { ProductAPIResponse } from '../CatalogPage/catalog/interface';
 import Paginator from './Paginator/Paginator';
 import { useCatalogView } from '../../hooks/useCatalogView';
@@ -15,16 +18,25 @@ import { ChildCategoriesElement } from './ChildCategoriesElement/ChildCategories
 import { StandardBreakLine } from '../Shared/Lines/StandardBreakLine/StandardBreakLine';
 import { CatalogContainerViewedItems } from './CatalogContainerViewedItems/CatalogContainerViewedItems';
 
-const CatalogContainer = ({ getFetchURL }: { getFetchURL: (router: NextRouter) => [string, string] }): ReactElement => {
-	const router = useRouter();
-	const initData = usePagePropsContext();
+import { FetchURLData } from '../CatalogPage/catalog';
+import { usePagePropsContext } from '../../context/PagePropsContext';
 
-	const { maincategory, category } = router.query as { maincategory: string; category: string };
-	const [CatalogData, setCatalogData] = useState<ProductAPIResponse>(initData?.productsData);
+const CatalogContainer = ({
+	CatalogData,
+	getFetchURL,
+}: {
+	CatalogData: ProductAPIResponse;
+	getFetchURL: (router: FetchURLData) => [string, string];
+}): ReactElement => {
+	const params = useParams();
+	const query = useSearchParams();
+
+	const { maincategory, category } = params;
+
+	// const [CatalogData, setCatalogData] = useState<ProductAPIResponse>(initData?.productsData);
 	const [catalogView, setCatalogView] = useCatalogView();
 
 	const isLoaded = useRef<number>(0);
-
 	const IsLoaded = () => {
 		if (isLoaded.current === 1) {
 			isLoaded.current = 0;
@@ -33,20 +45,21 @@ const CatalogContainer = ({ getFetchURL }: { getFetchURL: (router: NextRouter) =
 		return false;
 	};
 
-	const [fetchURL, SearchParams] = getFetchURL(router);
+	//const [fetchURL, SearchParams] = getFetchURL({ params: params, query: query });
 
-	useEffect(() => {
-		isLoaded.current = 0;
-		if (initData?.productsData?.products === undefined) {
-			axios({
-				method: 'GET',
-				url: fetchURL,
-			}).then(({ data }: { data: ProductAPIResponse }) => {
-				setCatalogData(data);
-				isLoaded.current = 1;
-			});
-		} else setCatalogData(initData.productsData);
-	}, [maincategory, category, SearchParams]);
+	// useEffect(() => {
+	// 	console.log(initData);
+	// 	isLoaded.current = 0;
+	// 	if (initData?.productsData?.products === undefined) {
+	// 		axios({
+	// 			method: 'GET',
+	// 			url: fetchURL,
+	// 		}).then(({ data }: { data: ProductAPIResponse }) => {
+	// 			setCatalogData(data);
+	// 			isLoaded.current = 1;
+	// 		});
+	// 	} else setCatalogData(initData.productsData);
+	// }, [maincategory, category, SearchParams]);
 
 	const isFetched = IsLoaded();
 

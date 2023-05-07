@@ -1,3 +1,4 @@
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
 import type { NextRouter } from 'next/router';
 
 enum FilterApplyFN {
@@ -29,7 +30,9 @@ interface FilterElementConfig {
 	applyFilter: FilterApplyFN;
 	callback?: (...args: any[]) => void;
 	ActiveFilters: FilterParameters;
-	router: NextRouter;
+	router: AppRouterInstance;
+	searchParams: URLSearchParams;
+	path: string;
 }
 
 interface FilterFetchData {
@@ -41,9 +44,11 @@ interface FilterElementActionConfig {
 	event: React.MouseEvent<HTMLInputElement>;
 	key: string;
 	parentKey: string;
-	router: NextRouter;
+	router: AppRouterInstance;
 	applyFunction: FilterApplyFN;
 	callback?: (...args: any[]) => void;
+	searchParams: URLSearchParams;
+	path: string;
 }
 
 interface FilterElementActionConfigRange extends Omit<FilterElementActionConfig, 'event' | 'key'> {

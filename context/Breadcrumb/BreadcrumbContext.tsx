@@ -1,6 +1,8 @@
+'use client';
+
 import { createContext, useState, useContext, useEffect } from 'react';
 import type { CategoryData, CategoryDataOmit, BreadcrumbData } from './interface';
-import { Categories, useCategoriesContext } from '../index';
+import { Categories, useCategoriesContext } from '../Categories/CategoriesContext';
 
 const BreadcrumbContextData = createContext<Breadcrumb>(null!);
 
@@ -110,10 +112,10 @@ const BuildBreadcrumbData = (categories: CategoryData[]) => {
 function BreadcrumbContext({ children }: { children: JSX.Element }): JSX.Element {
 	const categories = useCategoriesContext();
 
-	const [breadcrumbData, setBreadcrumbData] = useState<Breadcrumb>(null!);
+	const [breadcrumbData, setBreadcrumbData] = useState<Breadcrumb>(categories ? new Breadcrumb(categories) : null!);
 
 	useEffect(() => {
-		if (categories) {
+		if (categories && !breadcrumbData) {
 			setBreadcrumbData(new Breadcrumb(categories));
 		}
 	}, [categories]);

@@ -3,8 +3,9 @@ import './breadcrumb.scss';
 import { Fragment as ReactFragment } from 'react';
 import { CategoryDataOmit } from '../../../context/Breadcrumb/interface';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { useBreadcrumbContext } from '../../../context';
+
+import { useBreadcrumbContext } from '../../../context/Breadcrumb';
+import { useParams } from 'next/navigation';
 
 interface BreadcrumbSettings {
 	includeHomePage?: boolean;
@@ -21,14 +22,9 @@ interface BreadcrumbSettings {
 
 export default function BreadcrumbByURL({ settings }: { settings?: BreadcrumbSettings }): JSX.Element {
 	const breacrumbData = useBreadcrumbContext();
-	const router = useRouter();
+	let { maincategory, category } = useParams();
 
-	let maincategory: string, category: string;
-
-	if (!settings?.categoryData) {
-		maincategory = router.query?.maincategory as string;
-		category = router.query?.category as string;
-	} else {
+	if (settings?.categoryData) {
 		maincategory = settings.categoryData?.maincategory as string;
 		category = settings.categoryData?.category as string;
 	}

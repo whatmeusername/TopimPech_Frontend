@@ -4,7 +4,7 @@ import './productSort.scss';
 
 import useModal from '../../../hooks/useModal';
 
-import { useRouter } from 'next/router';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleUp } from '@fortawesome/free-solid-svg-icons';
@@ -19,8 +19,12 @@ const sortOptions: SortItem[] = [
 
 function ProductSort({ disabled }: { disabled?: boolean }): JSX.Element {
 	const router = useRouter();
-	const selectedSort = router.query['order'];
-	const searchParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : ({} as URLSearchParams);
+
+	const query = useSearchParams();
+	const path = usePathname();
+
+	const selectedSort = query.get('order');
+	const searchParams = typeof window !== 'undefined' ? new URLSearchParams(query) : ({} as URLSearchParams);
 
 	const modal = useRef<HTMLDivElement>(null!);
 	const [modalActive, setModalActive] = useModal(modal);
@@ -30,10 +34,7 @@ function ProductSort({ disabled }: { disabled?: boolean }): JSX.Element {
 	const setSort = (sortItem: SortItem) => {
 		searchParams.set('order', sortItem.slug);
 		searchParams.set('page', '1');
-		router.push({
-			pathname: window.location.pathname,
-			query: searchParams.toString(),
-		});
+		router.replace(`${path}?${searchParams.toString()}`);
 	};
 
 	const SortItemElement = ({ SortItemData }: { SortItemData: SortItem }): JSX.Element => {

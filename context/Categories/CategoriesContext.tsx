@@ -1,4 +1,6 @@
-import { createContext, useEffect, useState, useContext } from 'react';
+'use client';
+
+import { createContext, useEffect, useState, useContext, ReactElement } from 'react';
 import axios from 'axios';
 
 import { CategoryData } from './interface';
@@ -34,16 +36,18 @@ class Categories {
 
 const CategoryContextData = createContext<Categories>(null!);
 
-const CategoriesContext = ({ children }: { children: JSX.Element }) => {
-	const [categories, setCategories] = useState<Categories>(null!);
+const CategoriesContext = ({ children, initialCategories }: { children: ReactElement; initialCategories?: CategoryData[] }) => {
+	const [categories, setCategories] = useState<Categories>(initialCategories ? new Categories(initialCategories) : null!);
 
 	useEffect(() => {
-		axios({
-			method: 'GET',
-			url: '/api/products/categories/',
-		}).then((response) => {
-			setCategories(new Categories(response.data));
-		});
+		if (!initialCategories) {
+			axios({
+				method: 'GET',
+				url: '/api/products/categories/',
+			}).then((response) => {
+				setCategories(new Categories(response.data));
+			});
+		}
 	}, []);
 
 	return <CategoryContextData.Provider value={categories}>{children}</CategoryContextData.Provider>;

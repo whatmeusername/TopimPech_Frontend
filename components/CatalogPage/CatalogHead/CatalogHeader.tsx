@@ -1,12 +1,13 @@
-import { useRouter } from 'next/router';
+import { useParams } from 'next/navigation';
 import { ReactElement, useMemo } from 'react';
 import { declOfNum } from '../../../utils';
 import { PaginatorData } from '../../CatalogContainer/Paginator/interface';
-import { useBreadcrumbContext } from '../../../context';
+import { useBreadcrumbContext } from '../../../context/Breadcrumb';
+import { useCategoriesContext } from '../../../context/Categories';
 
 function CatalogHeader({ paginator }: { paginator: PaginatorData }): ReactElement {
 	const breacrumbData = useBreadcrumbContext();
-	const { maincategory, category } = useRouter().query as { maincategory: string; category: string };
+	const { maincategory, category } = useParams();
 
 	const header = useMemo(() => {
 		const currentBreadcrumbItem = breacrumbData?.get({ start: maincategory, end: category });

@@ -1,8 +1,8 @@
-import { useRouter } from 'next/router';
+import { useParams } from 'next/navigation';
 import { ReactElement } from 'react';
 import Slider from '../../Shared/Slider';
 import Link from 'next/link';
-import { useCategoriesContext } from '../../../context';
+import { useCategoriesContext } from '../../../context/Categories';
 import { CategoryData } from '../../layout/Menu/GeneralElements';
 
 import './ChildCategoriesElement.scss';
@@ -25,8 +25,8 @@ const ChildCategoriesChild = ({ category }: { category: CategoryData }): ReactEl
 
 const ChildCategoriesElement = (): ReactElement | null => {
 	const childCategories = useCategoriesContext();
-	const router = useRouter();
-	const { maincategory, category } = router.query as { maincategory: string; category: string };
+
+	const { maincategory, category } = useParams();
 
 	const currentCategoryAtPage = childCategories?.find(maincategory, category);
 	if (!currentCategoryAtPage || currentCategoryAtPage.child.length < 1) return null;

@@ -1,17 +1,15 @@
 import { useState, memo, useEffect } from 'react';
 import useWindowSize from '../../../hooks/useWindowSize';
 import './ChangeProductView.scss';
-import { NextRouter, useRouter } from 'next/router';
 
 import List from '../../../public/CatalogViewIcons/list.svg';
 import Grid from '../../../public/CatalogViewIcons/grid.svg';
 import { CatalogView, ProductAligmentVariantData } from './interface';
+import { useSearchParams } from 'next/navigation';
 
-const getInitialView = (router: NextRouter): CatalogView => {
-	if (typeof window === 'undefined') return CatalogView.ROW;
-
+const getInitialView = (query: URLSearchParams): CatalogView => {
 	const lsv = localStorage.getItem('view');
-	const view = (lsv ?? router.query['view'] ?? CatalogView.ROW) as CatalogView;
+	const view = (lsv ?? query.get('view') ?? CatalogView.ROW) as CatalogView;
 	if (!lsv) localStorage.setItem('view', view);
 	return view;
 };
@@ -23,12 +21,13 @@ const AvailableVariant: ProductAligmentVariantData[] = [
 
 const ChangeProductView = memo(({ disabled, setCatalogView }: { disabled?: boolean; setCatalogView: (value: CatalogView) => void }) => {
 	const { width } = useWindowSize();
-	const router = useRouter();
+
+	const query = useSearchParams();
 
 	const [selectedView, setSelectedView] = useState<CatalogView | undefined>(undefined);
 
 	useEffect(() => {
-		setSelectedView(getInitialView(router));
+		setSelectedView(getInitialView(query));
 	}, []);
 
 	const setView = (variant: CatalogView) => {

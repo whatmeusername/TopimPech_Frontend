@@ -59,9 +59,7 @@ const filterOnInput = (config: FilterElementActionConfigRange) => {
 			}
 
 			filtersParams[config.parentKey] = currentFilter;
-
 			searchParams['filter'] = collectFilterParameters(filtersParams);
-
 			applyFilter();
 		} else {
 			config.event.target.value = config.event.target.defaultValue;
