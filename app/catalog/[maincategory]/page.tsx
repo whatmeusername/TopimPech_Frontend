@@ -4,22 +4,16 @@ import Catalog from '../../../components/CatalogPage/catalog/index';
 import { ProductAPIResponse } from '../../../components/CatalogPage/catalog/interface';
 import { SearchParamsBuilder } from '../../../utils';
 
-import { PROXY_URL, getData } from '../../layout';
-import { PagePropsContextProvider } from '../../../context/PagePropsContext/PagePropsContext';
+import { PROXY_URL, ServerSideURLProps, getData } from '../../layout';
+
 import { CatalogView } from '../../../components/CatalogContainer/ChangeProductView/interface';
 
-async function CatalogPage(context: { params: { [K: string]: string }; searchParams: { [K: string]: string } }) {
+async function CatalogPage(context: ServerSideURLProps) {
 	const { initData } = await catalogGetServerSideProps(context);
 	return <Catalog initData={initData} />;
 }
 
-export async function catalogGetServerSideProps({
-	params,
-	searchParams,
-}: {
-	params: { [K: string]: string };
-	searchParams: { [K: string]: string };
-}) {
+export async function catalogGetServerSideProps({ params, searchParams }: ServerSideURLProps) {
 	const { maincategory, category } = params;
 
 	let produdctFetchURLRaw = PROXY_URL + 'products/filter/';

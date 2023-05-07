@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useEffect } from 'react';
 import type { ProductData } from '../CatalogComponents/Cards/interface';
 
@@ -66,9 +68,7 @@ function ProductPage({ initData, params }: { initData: ProductData; params: Pars
 					<PriceElement price={initData.price} sale={initData.sale} />
 					{initData.manufacturer ? <ManufacturerElement ManufacturerData={initData.manufacturer} /> : null}
 					<div className="product__page__upper__buttons">
-						<HydrationComponent>
-							<AddToCartButton itemId={initData.article} />
-						</HydrationComponent>
+						<AddToCartButton itemId={initData.article} />
 					</div>
 					{initData.properties && initData.properties?.length > 0 ? <ShortAttributesElement properties={initData.properties} take={5} /> : null}
 				</div>

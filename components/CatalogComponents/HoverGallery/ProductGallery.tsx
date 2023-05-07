@@ -10,7 +10,7 @@ const ProductImageGallery = ({ images, urlStartsWith }: { images: ProductImage[]
 	return (
 		<div className="hover__image__gallery__wrapper">
 			<div className="gallery__image__wrapper">
-				<img className="gallery__image" src={(urlStartsWith ?? '') + refImages.current[selectedImage]?.path} alt=""></img>
+				<img className="gallery__image" src={(urlStartsWith ?? '') + refImages.current[selectedImage]?.path} alt="" />
 			</div>
 			{refImages.current.length > 1 ? (
 				<>

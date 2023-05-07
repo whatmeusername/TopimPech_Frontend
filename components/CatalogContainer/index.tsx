@@ -1,9 +1,6 @@
 'use client';
 
-import axios from 'axios';
-
-import { ReactElement, useState, useRef, useEffect } from 'react';
-import { useParams, useSearchParams } from 'next/navigation';
+import { ReactElement, useRef } from 'react';
 
 import { ProductAPIResponse } from '../CatalogPage/catalog/interface';
 import Paginator from './Paginator/Paginator';
@@ -19,7 +16,6 @@ import { StandardBreakLine } from '../Shared/Lines/StandardBreakLine/StandardBre
 import { CatalogContainerViewedItems } from './CatalogContainerViewedItems/CatalogContainerViewedItems';
 
 import { FetchURLData } from '../CatalogPage/catalog';
-import { usePagePropsContext } from '../../context/PagePropsContext';
 
 const CatalogContainer = ({
 	CatalogData,
@@ -28,10 +24,10 @@ const CatalogContainer = ({
 	CatalogData: ProductAPIResponse;
 	getFetchURL: (router: FetchURLData) => [string, string];
 }): ReactElement => {
-	const params = useParams();
-	const query = useSearchParams();
+	// const params = useParams();
+	// const query = useSearchParams();
 
-	const { maincategory, category } = params;
+	//const { maincategory, category } = params;
 
 	// const [CatalogData, setCatalogData] = useState<ProductAPIResponse>(initData?.productsData);
 	const [catalogView, setCatalogView] = useCatalogView();

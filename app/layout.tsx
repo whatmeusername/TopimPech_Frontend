@@ -21,6 +21,11 @@ export async function getData(url: string, init?: RequestInit) {
 	return res.json();
 }
 
+interface ServerSideURLProps {
+	params: { [K: string]: string };
+	searchParams: { [K: string]: string };
+}
+
 async function RootLayout({ children }: { children: ReactElement }) {
 	const categories = await getData(`${PROXY_URL}products/categories/`, { cache: 'force-cache', next: { revalidate: 3600 } });
 	return (
@@ -39,5 +44,6 @@ async function RootLayout({ children }: { children: ReactElement }) {
 	);
 }
 
+export type { ServerSideURLProps };
 export { PROXY_URL };
 export default RootLayout;
