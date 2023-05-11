@@ -48,14 +48,14 @@
 	}
 
 	.dropdown__content {
-		max-height: 0px;
+		max-height: 0;
 		overflow: hidden;
-		transition: all 0.4s ease;
 		padding: 0 20px;
+		transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
 
 		&.dropdown__content__active {
-			max-height: 350px;
+			transition: max-height 1s;
+			max-height: 3000px;
 		}
 	}
 }
-

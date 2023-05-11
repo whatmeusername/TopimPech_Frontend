@@ -27,10 +27,10 @@ const MenuContentDesktop = memo(({ categories }: { categories: CategoryData[] })
 		);
 	};
 
-	function SubCategoryColumn({ data, mainCategorySlug }: { data: CategoryData; mainCategorySlug: string }): JSX.Element {
+	function SubCategoryColumn({ data }: { data: CategoryData }): JSX.Element {
 		function SubCategoryItem({ data, className }: { data: CategoryData; className: string }): JSX.Element {
 			return (
-				<Link href={`/catalog/${mainCategorySlug}/${data.slug}`} onClick={() => closeModalFunction(false)} className={className}>
+				<Link href={`/catalog/${data.slug}`} onClick={() => closeModalFunction(false)} className={className}>
 					{data.name}
 				</Link>
 			);
@@ -52,13 +52,13 @@ const MenuContentDesktop = memo(({ categories }: { categories: CategoryData[] })
 		);
 	}
 
-	function CategoriesBlock({ categories, selectedCategory }: { categories: CategoryData[]; selectedCategory: string }): JSX.Element {
+	function CategoriesBlock({ categories }: { categories: CategoryData[] }): JSX.Element {
 		const category = categories.find((category) => category.slug === selectedCategory);
 
 		return (
 			<div className="sub__categories_columns">
 				{category?.child?.map((category) => {
-					return <SubCategoryColumn data={category} mainCategorySlug={selectedCategory} key={category.slug} />;
+					return <SubCategoryColumn data={category} key={category.slug} />;
 				})}
 			</div>
 		);
@@ -71,7 +71,7 @@ const MenuContentDesktop = memo(({ categories }: { categories: CategoryData[] })
 			</div>
 			{selectedCategory ? (
 				<div className="sub__categories">
-					<CategoriesBlock categories={categories} selectedCategory={selectedCategory} />
+					<CategoriesBlock categories={categories} />
 				</div>
 			) : (
 				''

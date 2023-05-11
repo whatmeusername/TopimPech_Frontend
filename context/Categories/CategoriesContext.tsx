@@ -16,20 +16,41 @@ class Categories {
 		return this.categories;
 	}
 
-	find(start: string, end?: string): CategoryData | undefined {
+	findByAncestor(start: string, end?: string): CategoryData | undefined {
 		const SearchChild = (ancestor: CategoryData): CategoryData | undefined => {
-			const childExists = ancestor.child.find((child) => child.slug === end);
-			if (!childExists) {
-				for (let i = 0; i < ancestor.child.length; i++) {
-					return SearchChild(ancestor.child[i]);
+			const stack = [ancestor];
+			while (stack.length > 0) {
+				const node = stack.pop() as CategoryData;
+				const childExists = node.child.find((child) => child.slug === end);
+				if (!childExists) {
+					stack.push(...ancestor.child);
 				}
+				return childExists;
 			}
-			return childExists;
 		};
 
 		const parentCategory = this.categories.find((category) => category.slug === start);
-		if (parentCategory) {
-			return end ? SearchChild(parentCategory) : parentCategory;
+		return end && parentCategory ? SearchChild(parentCategory) : parentCategory;
+	}
+
+	find(item: string): CategoryData | undefined {
+		const SearchChild = (ancestor: CategoryData): CategoryData | undefined => {
+			const stack = [ancestor];
+			while (stack.length > 0) {
+				const node = stack.pop() as CategoryData;
+				const childExists = node.child.find((child) => child.slug === item);
+				if (!childExists) {
+					stack.push(...ancestor.child);
+				}
+				return childExists;
+			}
+		};
+
+		for (let i = 0; i < this.categories.length; i++) {
+			if (this.categories[i].slug === item) return this.categories[i];
+
+			const result = SearchChild(this.categories[i]);
+			if (result) return result;
 		}
 	}
 }

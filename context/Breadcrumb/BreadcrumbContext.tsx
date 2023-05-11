@@ -12,21 +12,26 @@ class Breadcrumb {
 		this.BreadcrumbData = BuildBreadcrumbData(categories.get());
 	}
 
-	get(getData: { start?: string; end?: string }) {
+	get(getData: { start?: string; end?: string }): BreadcrumbData | undefined {
 		const { start, end } = getData;
 		if (start && !end) {
-			return this.BreadcrumbData.find((breacrumb) => {
-				return breacrumb.start === start;
-			});
+			return this.BreadcrumbData.find((breacrumb) => breacrumb.start === start);
 		} else if (!start && end) {
-			return this.BreadcrumbData.find((breacrumb) => {
-				return breacrumb.end === end || breacrumb.contains.includes(end);
-			});
+			return this.BreadcrumbData.find((breacrumb) => breacrumb.end === end || breacrumb.contains.includes(end));
 		} else if (start && end) {
-			return this.BreadcrumbData.find((breacrumb) => {
-				return breacrumb.start === start && (breacrumb.end === end || breacrumb.contains.includes(end));
-			});
+			return this.BreadcrumbData.find((breacrumb) => breacrumb.start === start && (breacrumb.end === end || breacrumb.contains.includes(end)));
 		}
+	}
+
+	getEndWith(end: string): BreadcrumbData | undefined {
+		let founded = this.BreadcrumbData.find((breacrumb) => breacrumb.end === end || breacrumb.contains.includes(end));
+		founded = founded ? JSON.parse(JSON.stringify(founded)) : undefined;
+		if (founded && founded?.end !== end) {
+			const endIndex = founded?.contains.indexOf(end);
+			founded.contains = founded.contains.slice(0, endIndex + 1);
+			founded.data = founded.data.slice(0, endIndex + 1);
+		}
+		return founded;
 	}
 
 	getUntil(BreadcrumbData: BreadcrumbData, start: string, end: string): BreadcrumbData {

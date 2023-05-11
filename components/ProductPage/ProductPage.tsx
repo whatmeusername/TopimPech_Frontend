@@ -43,10 +43,7 @@ function ProductPage({ initData, params }: { initData: ProductData; params: Pars
 						<BreadcrumbByURL
 							settings={{
 								includeHomePage: true,
-								categoryData: {
-									maincategory: initData.categories[0].slug,
-									category: initData.categories[initData.categories.length - 1].slug,
-								},
+								category: initData.categories[initData.categories.length - 1].slug,
 								includeAtEnd: {
 									label: initData.name,
 									slug: initData.slug,

@@ -54,11 +54,7 @@ const MenuContentMobile = memo(({ categories }: { categories: CategoryData[] }):
 	const MainCategoryItem = ({ category }: { category: CategoryData }): JSX.Element => {
 		return (
 			<div className="mobile__category__item">
-				<Link
-					href={`/catalog/${category.slug}/`}
-					className="mobile__category__item__link"
-					onClick={() => closeModalFunction(false)}
-				>
+				<Link href={`/catalog/${category.slug}/`} className="mobile__category__item__link" onClick={() => closeModalFunction(false)}>
 					{category.name}
 				</Link>
 				{category.child.length > 0 ? (
@@ -72,14 +68,10 @@ const MenuContentMobile = memo(({ categories }: { categories: CategoryData[] }):
 		);
 	};
 
-	const SubCategoryItem = ({ category, parentSlug }: { category: CategoryData; parentSlug: string }): JSX.Element => {
+	const SubCategoryItem = ({ category }: { category: CategoryData }): JSX.Element => {
 		return (
 			<div className="mobile__category__item">
-				<Link
-					href={`/catalog/${parentSlug}/${category.slug}/`}
-					onClick={() => closeModalFunction(false)}
-					className="mobile__category__item__link"
-				>
+				<Link href={`/catalog/${category.slug}/`} onClick={() => closeModalFunction(false)} className="mobile__category__item__link">
 					{category.name}
 				</Link>
 				{category.child.length > 0 ? (
@@ -104,10 +96,7 @@ const MenuContentMobile = memo(({ categories }: { categories: CategoryData[] }):
 	}) => {
 		return (
 			<div className="sub__category__burger__wrapper" data-parent-id={categoryId}>
-				<div
-					className="sub__category__burger__back__wrapper"
-					onClick={() => ToggleBurger(parentCategory ? parentCategory.slug : null)}
-				>
+				<div className="sub__category__burger__back__wrapper" onClick={() => ToggleBurger(parentCategory ? parentCategory.slug : null)}>
 					<span className="sub__category__burger__back__arrow">
 						<FontAwesomeIcon icon={faAngleLeft} />
 					</span>
@@ -115,7 +104,7 @@ const MenuContentMobile = memo(({ categories }: { categories: CategoryData[] }):
 				</div>
 				<div className="menu__category__column">
 					{category.map((category) => {
-						return <SubCategoryItem category={category} parentSlug={categoryId} key={category.slug} />;
+						return <SubCategoryItem category={category} key={category.slug} />;
 					})}
 				</div>
 			</div>
@@ -132,12 +121,7 @@ const MenuContentMobile = memo(({ categories }: { categories: CategoryData[] }):
 			<div ref={SubModals} className="burger__modals__list">
 				{subBurgers.map((burger) => {
 					return (
-						<SubCategoryBurger
-							category={burger.child}
-							categoryId={burger.id}
-							parentCategory={burger.parent}
-							key={`mobile-modal-${burger.id}`}
-						/>
+						<SubCategoryBurger category={burger.child} categoryId={burger.id} parentCategory={burger.parent} key={`mobile-modal-${burger.id}`} />
 					);
 				})}
 			</div>

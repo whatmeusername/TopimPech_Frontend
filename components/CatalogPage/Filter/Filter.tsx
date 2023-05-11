@@ -68,13 +68,11 @@ function FacetFilter({ initialFilters }: { initialFilters: FilterFetchData }): J
 
 	const { width } = useWindowSize();
 
-	const { maincategory, category } = useParams();
+	const { category } = useParams();
 	const searchParams = new URLSearchParams(useSearchParams());
 	const pathname = usePathname();
 
-	let fetchURL = '/api/products/filters/';
-	if (maincategory) fetchURL += `${maincategory}/`;
-	if (category) fetchURL += `${category}/`;
+	let fetchURL = `/api/products/filters/${category}`;
 
 	const ActiveFilters = getFilterParameters(searchParams);
 	const getActiveFiltersLength = Object.keys(ActiveFilters).length;

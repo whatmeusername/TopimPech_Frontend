@@ -17,8 +17,6 @@ export default function OverflowContainer({ children, maxHeight }: { children: J
 		overflowElement.current.scrollTop = 0;
 	}, [toggled]);
 
-	console.log('render', content?.current?.offsetHeight);
-
 	return (
 		<div className="oveflow__container__wrapper">
 			<div

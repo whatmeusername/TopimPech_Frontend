@@ -14,20 +14,15 @@ async function CatalogPage(context: ServerSideURLProps) {
 }
 
 export async function catalogGetServerSideProps({ params, searchParams }: ServerSideURLProps) {
-	const { maincategory, category } = params;
+	const { category } = params;
 
-	let produdctFetchURLRaw = PROXY_URL + 'products/filter/';
-	if (maincategory) produdctFetchURLRaw += `${maincategory}/`;
-	if (category) produdctFetchURLRaw += `${category}/`;
-
-	let filtersFetchURLRaw = PROXY_URL + 'products/filters/';
-	if (maincategory) filtersFetchURLRaw += `${maincategory}/`;
-	if (category) filtersFetchURLRaw += `${category}/`;
+	const productFetchURLRaw = `${PROXY_URL}products/filter/${category}`;
+	const filtersFetchURLRaw = `${PROXY_URL}products/filters/${category}`;
 
 	let productsData: ProductAPIResponse;
 	let filtersData: FilterFetchData;
 
-	const [productFetchURL] = SearchParamsBuilder(produdctFetchURLRaw, searchParams, 'page', 'items_per_page', 'order', 'filter');
+	const [productFetchURL] = SearchParamsBuilder(productFetchURLRaw, searchParams, 'page', 'items_per_page', 'order', 'filter');
 	const [filterFetchURL] = SearchParamsBuilder(filtersFetchURLRaw, searchParams, 'filter');
 
 	try {

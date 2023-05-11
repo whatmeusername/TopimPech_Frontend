@@ -10,12 +10,9 @@ function CatalogHeader({ paginator }: { paginator: PaginatorData }): ReactElemen
 	const { maincategory, category } = useParams();
 
 	const header = useMemo(() => {
-		const currentBreadcrumbItem = breacrumbData?.get({ start: maincategory, end: category });
+		const currentBreadcrumbItem = breacrumbData?.getEndWith(category);
 		if (currentBreadcrumbItem) {
-			const dataFromBreadcrumb = breacrumbData.getUntil(currentBreadcrumbItem, maincategory ?? '', category ?? '');
-
-			const findHeader = category ? category : maincategory;
-			return dataFromBreadcrumb.data.find((data) => data.slug === findHeader)?.name ?? '';
+			return currentBreadcrumbItem.data.find((data) => data.slug === category)?.name ?? '';
 		}
 	}, [breacrumbData, maincategory, category]);
 

@@ -3,8 +3,8 @@
 	padding: 30px;
 	position: relative;
 	z-index: 1902;
-	max-width: 800px;
-	height: 500px;
+	max-width: 1000px;
+	height: 600px;
 	background-color: rgb(255, 255, 255);
 
 	.filter__modal__content__header {
@@ -45,7 +45,7 @@
 			align-items: center;
 			border-radius: 50%;
 			transition: background 0.15s ease;
-			&:hover{
+			&:hover {
 				background: var(--primary_link_hover);
 			}
 		}
@@ -141,22 +141,22 @@
 		width: 100%;
 		border-radius: unset;
 		height: 100vh;
-		.filter__modal__content__items__wrapper{
-			.filter__modal__content__items{
+		.filter__modal__content__items__wrapper {
+			.filter__modal__content__items {
 				display: flex;
 				flex-direction: column;
 			}
 		}
-		.filter__modal__footer__items{
+		.filter__modal__footer__items {
 			flex-direction: column;
 			justify-content: unset;
-			.filter__founded__items__button{
+			.filter__founded__items__button {
 				width: 100%;
 			}
-			.filter__modal__return__button{
+			.filter__modal__return__button {
 				display: none;
 			}
-			.filter__clear__button{
+			.filter__clear__button {
 				width: 100%;
 			}
 		}

@@ -10,10 +10,7 @@ import { useParams } from 'next/navigation';
 interface BreadcrumbSettings {
 	includeHomePage?: boolean;
 
-	categoryData?: {
-		maincategory: string;
-		category: string;
-	};
+	category?: string;
 	includeAtEnd?: {
 		label: string;
 		slug: string;
@@ -22,18 +19,12 @@ interface BreadcrumbSettings {
 
 export default function BreadcrumbByURL({ settings }: { settings?: BreadcrumbSettings }): JSX.Element {
 	const breacrumbData = useBreadcrumbContext();
-	let { maincategory, category } = useParams();
+	let { category } = useParams();
 
-	if (settings?.categoryData) {
-		maincategory = settings.categoryData?.maincategory as string;
-		category = settings.categoryData?.category as string;
-	}
 	if (!breacrumbData) return <></>;
 
-	let currentBreadcrumbItem = breacrumbData.get({ start: maincategory, end: category });
+	let currentBreadcrumbItem = breacrumbData.getEndWith(settings?.category ?? category);
 	if (!currentBreadcrumbItem) return <></>;
-
-	currentBreadcrumbItem = breacrumbData.getUntil(currentBreadcrumbItem, maincategory ?? '', category ? category : maincategory ?? '');
 
 	if (settings?.includeHomePage) {
 		currentBreadcrumbItem.start = 'glavnay';
@@ -50,7 +41,7 @@ export default function BreadcrumbByURL({ settings }: { settings?: BreadcrumbSet
 	}
 
 	const BreadcrumbItem = ({ data }: { data: CategoryDataOmit }) => {
-		const url = data?.href ?? `/catalog/${maincategory !== data.slug ? maincategory + '/' + data.slug + '/' : maincategory + '/'}`;
+		const url = data?.href ?? `/catalog/${data.slug}`;
 		return (
 			<Link href={url} className="breadcrumb__item breadcrumb__item__link">
 				{data.name}

@@ -33,7 +33,6 @@ export interface ProductData {
 	sale: number;
 	images: ProductImage[];
 	manufacturer: ProductBaseData;
-	MainCategory: ProductBaseData;
 	categories?: ProductBaseData[];
 	type?: ProductBaseData;
 	properties?: Property[];

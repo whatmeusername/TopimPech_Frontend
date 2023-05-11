@@ -9,7 +9,7 @@ import './ChildCategoriesElement.scss';
 
 const ChildCategoriesChild = ({ category }: { category: CategoryData }): ReactElement => {
 	return (
-		<Link href={`/catalog/${category?.parentCategory?.slug}/${category.slug}`}>
+		<Link href={`/catalog/${category.slug}`}>
 			<div className="child__category__wrapper">
 				<div className="child__category__image__wrapper">
 					<img
@@ -26,9 +26,10 @@ const ChildCategoriesChild = ({ category }: { category: CategoryData }): ReactEl
 const ChildCategoriesElement = (): ReactElement | null => {
 	const childCategories = useCategoriesContext();
 
-	const { maincategory, category } = useParams();
+	const { category } = useParams();
 
-	const currentCategoryAtPage = childCategories?.find(maincategory, category);
+	const currentCategoryAtPage = childCategories?.find(category);
+	console.log(currentCategoryAtPage);
 	if (!currentCategoryAtPage || currentCategoryAtPage.child.length < 1) return null;
 
 	return (

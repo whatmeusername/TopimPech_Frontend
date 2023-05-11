@@ -8,13 +8,10 @@
 	flex-direction: row;
 	justify-content: space-between;
 
-
-
-
 	.product__card__image__wrapper {
 		width: 240px;
 		height: 240px;
-		.hover__image__gallery__wrapper{
+		.hover__image__gallery__wrapper {
 			.gallery__images__dots {
 				margin-top: 0px;
 			}
@@ -27,9 +24,10 @@
 		justify-content: space-between;
 		margin-top: 5px;
 		width: 65%;
+		gap: 30px;
 
 		.product__card__info {
-			max-width: 375px;
+			max-width: 450px;
 
 			.product__card__name__wrapper {
 				.product__card__name {
@@ -161,36 +159,36 @@
 	}
 
 	@media (max-width: 768px) {
-		flex-direction:  column;
+		flex-direction: column;
 		height: 570px;
 
-		.product__card__image__wrapper{
+		.product__card__image__wrapper {
 			margin: auto;
 		}
 
-		.product__card__main__wrapper{
+		.product__card__main__wrapper {
 			flex-direction: column;
 			width: 100%;
 			gap: 10px;
-			.product__card__info{
+			.product__card__info {
 				max-width: 100%;
 			}
-			.product__card__functions__wrapper{
+			.product__card__functions__wrapper {
 				display: grid;
 				grid-gap: 5px;
-				grid-template: 
-				"b b c c" 20px            
-				"b b c c" 20px
-				"a a a a" 40px;
+				grid-template:
+					'b b c c' 20px
+					'b b c c' 20px
+					'a a a a' 40px;
 				width: 100%;
-				.product__card__add__to__cart{
+				.product__card__add__to__cart {
 					width: auto;
 					grid-area: a;
 				}
-				.product__card__price__wrapper{
+				.product__card__price__wrapper {
 					grid-area: c;
 				}
-				.product__card__options__wrapper{
+				.product__card__options__wrapper {
 					grid-area: b;
 					justify-content: unset;
 					gap: 10px;
