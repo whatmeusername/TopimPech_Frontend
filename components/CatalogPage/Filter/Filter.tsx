@@ -50,7 +50,7 @@ const collectFilterParameters = (filterParam: { [K: string]: string[] } | null):
 	return res;
 };
 
-const AllFiltersOpenButton = ({ shortLabel }: { shortLabel: boolean }): ReactElement => {
+const AllFiltersOpenButton = ({ shortLabel }: { shortLabel?: boolean }): ReactElement => {
 	return (
 		<button
 			className="filter__show__all"

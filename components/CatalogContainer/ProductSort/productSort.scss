@@ -18,6 +18,7 @@
 		align-items: center;
 
 		transition: all 0.25s ease-in;
+		cursor: pointer;
 
 		&:hover {
 			border: 1.5px solid var(--orange-color);

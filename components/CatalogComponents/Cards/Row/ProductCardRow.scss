@@ -14,9 +14,10 @@
 	.product__card__image__wrapper {
 		width: 240px;
 		height: 240px;
-		cursor: pointer;
-		.gallery__images__dots {
-			margin-top: 0px !important;
+		.hover__image__gallery__wrapper{
+			.gallery__images__dots {
+				margin-top: 0px;
+			}
 		}
 	}
 

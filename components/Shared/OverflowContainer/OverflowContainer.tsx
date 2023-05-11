@@ -11,12 +11,13 @@ export default function OverflowContainer({ children, maxHeight }: { children: J
 
 	useEffect(() => {
 		setOverflow(content.current.offsetHeight > maxHeight);
-		//eslint-disable-next-line
-	}, []);
+	}, [content.current]);
 
 	useEffect(() => {
 		overflowElement.current.scrollTop = 0;
 	}, [toggled]);
+
+	console.log('render', content?.current?.offsetHeight);
 
 	return (
 		<div className="oveflow__container__wrapper">

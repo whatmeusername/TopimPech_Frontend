@@ -54,6 +54,7 @@
 	background-color: transparent;
 	transition: 0.25s ease-in-out;
 	margin: 10px 0px;
+	cursor: pointer;
 	&:hover {
 		border-color: var(--gray-color);
 		color: var(--gray-color);

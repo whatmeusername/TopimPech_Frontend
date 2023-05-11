@@ -10,7 +10,6 @@ import { centerModalControl } from '../../../../store';
 import { declOfNum } from '../../../../utils';
 import { ModalWrapper } from '../../../CentralModal/CenterModal';
 import Dropdown from '../../../Shared/Dropdown/Dropdown';
-import OverflowContainer from '../../../Shared/OverflowContainer/OverflowContainer';
 import CheckboxFilter from '../CheckboxFilter/CheckboxFilter';
 import InputFilter from '../InputFilter/InputFilter';
 import { FilterData, FilterFetchData, FilterParameters, FilterApplyFN } from '../interface';
@@ -148,35 +147,33 @@ const AllFilterComponent = ({
 											const DropdownHeader = <span className="dropdown__label">{parentValue.name}</span>;
 											return (
 												<Dropdown header={DropdownHeader} key={'modal-filter-' + parentKey}>
-													<OverflowContainer maxHeight={290}>
-														{parentValue.valueType === 'string' ? (
-															<CheckboxFilter
-																config={{
-																	parentKey: parentKey,
-																	filterData: parentValue,
-																	applyFilter: FilterApplyFN.UPDATE,
-																	callback: fetchData,
-																	router: router,
-																	ActiveFilters: ActiveFilters,
-																	searchParams: searchParams.current,
-																	path: pathname,
-																}}
-															/>
-														) : (
-															<InputFilter
-																config={{
-																	parentKey: parentKey,
-																	filterData: parentValue,
-																	applyFilter: FilterApplyFN.UPDATE,
-																	callback: fetchData,
-																	router: router,
-																	ActiveFilters: ActiveFilters,
-																	searchParams: searchParams.current,
-																	path: pathname,
-																}}
-															/>
-														)}
-													</OverflowContainer>
+													{parentValue.valueType === 'string' ? (
+														<CheckboxFilter
+															config={{
+																parentKey: parentKey,
+																filterData: parentValue,
+																applyFilter: FilterApplyFN.UPDATE,
+																callback: fetchData,
+																router: router,
+																ActiveFilters: ActiveFilters,
+																searchParams: searchParams.current,
+																path: pathname,
+															}}
+														/>
+													) : (
+														<InputFilter
+															config={{
+																parentKey: parentKey,
+																filterData: parentValue,
+																applyFilter: FilterApplyFN.UPDATE,
+																callback: fetchData,
+																router: router,
+																ActiveFilters: ActiveFilters,
+																searchParams: searchParams.current,
+																path: pathname,
+															}}
+														/>
+													)}
 												</Dropdown>
 											);
 										})}

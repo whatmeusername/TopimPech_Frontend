@@ -3,6 +3,9 @@
 	flex-direction: row;
 	align-items: center;
 	margin: 10px 0px;
+	max-width: 100%;
+	gap: 5px;
+	padding: 0 5px;
 
 	.paginator__spread {
 		letter-spacing: 1px;
@@ -12,7 +15,6 @@
 		}
 	}
 	.paginator__arrow__wrapper {
-		margin: 0 10px;
 		font-family: var(--museo_cyrl);
 		font-weight: 300;
 		.paginator__link {
@@ -37,11 +39,14 @@
 				background-color: var(--grey-color);
 				color: var(--gray-color);
 			}
+
+			@media (max-width: 428px){
+				padding: 5px 3px;
+			}
 		}
 	}
 
 	.paginator__item {
-		margin: 0 10px;
 		width: 30px;
 		height: 30px;
 		color: var(--gray-color);
