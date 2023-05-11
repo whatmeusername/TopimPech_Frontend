@@ -24,8 +24,6 @@ export default function BreadcrumbByURL({ settings }: { settings?: BreadcrumbSet
 	const breacrumbData = useBreadcrumbContext();
 	let { maincategory, category } = useParams();
 
-	console.log('render');
-
 	if (settings?.categoryData) {
 		maincategory = settings.categoryData?.maincategory as string;
 		category = settings.categoryData?.category as string;

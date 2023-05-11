@@ -44,34 +44,22 @@ const ChangeProductView = memo(({ disabled, setCatalogView }: { disabled?: boole
 
 	return (
 		<div className={`prdouct__views__wrapper ${disabled ? 'prdouct__views__wrapper__disabled' : ''}`}>
-			{width === undefined || width >= 1024 ? (
-				AvailableVariant.map((variant) => {
-					return (
-						<div
-							className={`prdouct__view ${selectedView === variant.name ? 'prdouct__view__selected' : ''}`}
-							key={variant.name}
-							onClick={() => {
-								if (!disabled) {
-									setSelectedView(variant.name);
-									setView(variant.name);
-								}
-							}}
-						>
-							{variant.icon}
-						</div>
-					);
-				})
-			) : (
-				<div
-					className="prdouct__view prdouct__view__selected"
-					onClick={() => {
-						if (!disabled) {
-							setSelectedView(nextView.name);
-							setView(nextView.name);
-						}
-					}}
-				></div>
-			)}
+			{AvailableVariant.map((variant) => {
+				return (
+					<div
+						className={`prdouct__view ${selectedView === variant.name ? 'prdouct__view__selected' : ''}`}
+						key={variant.name}
+						onClick={() => {
+							if (!disabled) {
+								setSelectedView(variant.name);
+								setView(variant.name);
+							}
+						}}
+					>
+						{variant.icon}
+					</div>
+				);
+			})}
 		</div>
 	);
 });

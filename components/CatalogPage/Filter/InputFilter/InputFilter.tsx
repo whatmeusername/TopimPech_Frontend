@@ -6,20 +6,19 @@ import { collectFilterParameters, getFilterParameters } from '../Filter';
 import './InputFilter.scss';
 
 const filterOnInput = (config: FilterElementActionConfigRange) => {
-	const searchParams = config.router.query;
-	const filtersParams = getFilterParameters(searchParams);
+	const filtersParams = getFilterParameters(config.searchParams);
 	const value = (config.event.target as HTMLInputElement).value;
 
 	const applyFilter = () => {
 		const filtersCount = Object.keys(filtersParams).length;
 		if (config.applyFunction === FilterApplyFN.APPLY) {
 			if (filtersCount === 0) {
-				delete searchParams['filter'];
+				config.searchParams.delete('filter');
 			}
-			searchParams['page'] = '1';
-			config.router.push({ pathname: config.router.pathname, query: searchParams }, undefined, { scroll: false });
+			config.searchParams.set('page', '1');
+			config.router.push(config.path + '?' + config.searchParams);
 		} else if (config.applyFunction === FilterApplyFN.UPDATE && config.callback) {
-			config.callback(filtersCount !== 0 ? `?filter=${searchParams['filter']}` : '');
+			config.callback(filtersCount !== 0 ? `?filter=${config.searchParams.get('filter')}` : '');
 		}
 	};
 
@@ -36,7 +35,7 @@ const filterOnInput = (config: FilterElementActionConfigRange) => {
 				delete filtersParams[config.parentKey];
 			}
 
-			searchParams['filter'] = collectFilterParameters(filtersParams);
+			config.searchParams.set('filter', collectFilterParameters(filtersParams));
 
 			applyFilter();
 		} else if (valueIsNumber && valueAsFloat > 0) {
@@ -59,7 +58,7 @@ const filterOnInput = (config: FilterElementActionConfigRange) => {
 			}
 
 			filtersParams[config.parentKey] = currentFilter;
-			searchParams['filter'] = collectFilterParameters(filtersParams);
+			config.searchParams.set('filter', collectFilterParameters(filtersParams));
 			applyFilter();
 		} else {
 			config.event.target.value = config.event.target.defaultValue;
@@ -94,6 +93,8 @@ const RangeFilter = ({ config }: { config: FilterElementConfig }): ReactElement 
 										router: config.router,
 										applyFunction: config.applyFilter,
 										callback: config.callback,
+										searchParams: config.searchParams,
+										path: config.path,
 									})
 							: undefined
 					}
@@ -116,6 +117,8 @@ const RangeFilter = ({ config }: { config: FilterElementConfig }): ReactElement 
 										router: config.router,
 										applyFunction: config.applyFilter,
 										callback: config.callback,
+										searchParams: config.searchParams,
+										path: config.path,
 									})
 							: undefined
 					}

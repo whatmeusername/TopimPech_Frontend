@@ -1,31 +1,25 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
-import { createPortal } from 'react-dom';
 import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { ParsedUrlQuery } from 'querystring';
 import './Filter.scss';
 
-import { FilterApplyFN, FilterData, FilterFetchData } from './interface';
-import axios from 'axios';
+import { FilterApplyFN, FilterFetchData } from './interface';
 
 import Dropdown from '../../Shared/Dropdown/Dropdown';
 import OverflowContainer from '../../Shared/OverflowContainer/OverflowContainer';
 
-import { declOfNum } from '../../../utils';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
-
 import { FilterSkeleton } from '../../skeletons/skeletons';
 
-import { ModalWrapper } from '../../CentralModal/CenterModal';
 import { HydrationComponent } from '../../ProductPage/ProductPage';
 import { centerModalControl } from '../../../store';
 
 import type { FilterParameters } from './interface';
 import InputFilter from './InputFilter/InputFilter';
 import CheckboxFilter from './CheckboxFilter/CheckboxFilter';
+import useWindowSize from '../../../hooks/useWindowSize';
+import { AllFilterComponent, ClearFiltersButton } from './AllFilterComponent/AllFilterComponent';
+import { ReactElement } from 'react';
 
 const getFilterParameters = (searchParams: URLSearchParams | ParsedUrlQuery): FilterParameters => {
 	let filterParam: string | null;
@@ -56,250 +50,104 @@ const collectFilterParameters = (filterParam: { [K: string]: string[] } | null):
 	return res;
 };
 
-const useInitialState = (): [boolean, () => void] => {
-	const firstRender = useRef<boolean>(false);
-	return [
-		firstRender.current,
-		() => {
-			firstRender.current = true;
-		},
-	];
+const AllFiltersOpenButton = ({ shortLabel }: { shortLabel: boolean }): ReactElement => {
+	return (
+		<button
+			className="filter__show__all"
+			onClick={() => {
+				centerModalControl.toggle();
+			}}
+		>
+			{shortLabel ? 'Фильтры' : 'Показать все фильтры'}
+		</button>
+	);
 };
 
 function FacetFilter({ initialFilters }: { initialFilters: FilterFetchData }): JSX.Element {
 	const router = useRouter();
 
+	const { width } = useWindowSize();
+
 	const { maincategory, category } = useParams();
 	const searchParams = new URLSearchParams(useSearchParams());
 	const pathname = usePathname();
 
-	let url = '/api/products/filters/';
-	if (maincategory) url += `${maincategory}/`;
-	if (category) url += `${category}/`;
+	let fetchURL = '/api/products/filters/';
+	if (maincategory) fetchURL += `${maincategory}/`;
+	if (category) fetchURL += `${category}/`;
 
-	const getActiveFilters = getFilterParameters(searchParams);
-	const getActiveFiltersLength = Object.keys(getActiveFilters).length;
-
-	const FoundedItemsButton = ({ count, onClick }: { count: number; onClick?: (...args: any[]) => void }): JSX.Element => {
-		if (count === 0) {
-			return (
-				<button className={'filter__founded__items__button filter__founded__items__button__empty filter__modal__button'}>Пустой результат</button>
-			);
-		}
-		return (
-			<button
-				className="filter__founded__items__button filter__modal__button"
-				onClick={() => {
-					if (onClick) onClick();
-					window.scrollTo({
-						behavior: 'smooth',
-						top: 0,
-						left: 0,
-					});
-					router.push(pathname + '?' + searchParams.toString());
-				}}
-			>
-				Показать {count} {declOfNum(count, ['товар', 'товара', 'товаров'])}
-			</button>
-		);
-	};
-
-	const ClearFiltersButton = ({ onClick }: { onClick?: () => void }): JSX.Element => {
-		return (
-			<button
-				className="filter__clear__button filter__modal__button"
-				onClick={() => {
-					window.scrollTo({ behavior: 'smooth', top: 0, left: 0 });
-					searchParams.delete('filter');
-					router.push(pathname + '?' + searchParams.toString());
-					if (onClick) onClick();
-				}}
-			>
-				Очистить фильтры
-			</button>
-		);
-	};
-
-	const AllFilterComponent = ({
-		filterData,
-		currentFilterQuery,
-	}: {
-		filterData: { count: number; filtered: FilterData };
-		currentFilterQuery: string | undefined;
-	}): JSX.Element => {
-		const [FilterData, setFilterData] = useState<{ count: number; filtered: FilterData }>(filterData);
-		const router = useRouter();
-
-		const searchParams = new URLSearchParams(useSearchParams());
-		const pathname = usePathname();
-
-		const currenFilter = useRef<string>(currentFilterQuery ?? '');
-		const randomKey = useRef<string>('');
-
-		const filtersCount = Object.keys(initialFilters?.filtered ?? {}).length;
-		const itemsPerColumn = Math.ceil(filtersCount / 3);
-
-		const fetchData = (searchParams: string) => {
-			axios({
-				method: 'GET',
-				url: url + searchParams,
-			}).then((response) => {
-				setFilterData(response.data);
-			});
-		};
-
-		const Close = (): void => {
-			if (currenFilter.current !== '') {
-				searchParams.set('filter', currenFilter.current);
-			}
-			setFilterData({ ...filterData });
-		};
-
-		return createPortal(
-			<ModalWrapper>
-				<div className="filter__modal__content">
-					<div className="filter__modal__content__header">
-						<div className="content__header__wrapper">
-							<h3 className="filter__modal__content__header">Все фильтры</h3>
-							<p className="filters__modal__count">
-								всего {filtersCount} {declOfNum(filtersCount, ['параметр', 'параметра', 'параметров'])}
-							</p>
-						</div>
-						<div className="filter__modal__close__wrapper">
-							<button className="filter__modal__close__wrapper__button" onClick={() => centerModalControl.toggle()}>
-								<FontAwesomeIcon icon={faXmark} />
-							</button>
-						</div>
-					</div>
-					<hr className="break__line__standard"></hr>
-					<div className="filter__modal__content__items__wrapper">
-						<div className="filter__modal__content__items" key={randomKey.current}>
-							{[1, 2, 3].map((column) => {
-								const start = itemsPerColumn * (column - 1);
-								const end = itemsPerColumn * column;
-								return (
-									<div className="filter__column" key={`filter-column-${column}`}>
-										{Object.entries(FilterData?.filtered ?? {})
-											.slice(start, end)
-											.map(([parentKey, parentValue]) => {
-												const DropdownHeader = <span className="dropdown__label">{parentValue.name}</span>;
-												return (
-													<Dropdown header={DropdownHeader} key={'modal-filter-' + parentKey}>
-														<OverflowContainer maxHeight={290}>
-															{parentValue.valueType === 'string' ? (
-																<CheckboxFilter
-																	config={{
-																		parentKey: parentKey,
-																		filterData: parentValue,
-																		applyFilter: FilterApplyFN.UPDATE,
-																		callback: fetchData,
-																		router: router,
-																		ActiveFilters: getActiveFilters,
-																		searchParams: searchParams,
-																		path: pathname,
-																	}}
-																/>
-															) : (
-																<InputFilter
-																	config={{
-																		parentKey: parentKey,
-																		filterData: parentValue,
-																		applyFilter: FilterApplyFN.UPDATE,
-																		callback: fetchData,
-																		router: router,
-																		ActiveFilters: getActiveFilters,
-																		searchParams: searchParams,
-																		path: pathname,
-																	}}
-																/>
-															)}
-														</OverflowContainer>
-													</Dropdown>
-												);
-											})}
-									</div>
-								);
-							})}
-						</div>
-					</div>
-					<div className="filter__modal__footer__items">
-						<button className="filter__modal__return__button filter__modal__button" onClick={Close}>
-							Возрат
-						</button>
-						<FoundedItemsButton count={FilterData?.count ?? 0} onClick={() => centerModalControl.toggle()} />
-						<ClearFiltersButton onClick={() => centerModalControl.toggle()} />
-					</div>
-				</div>
-			</ModalWrapper>,
-			document.body,
-		);
-	};
+	const ActiveFilters = getFilterParameters(searchParams);
+	const getActiveFiltersLength = Object.keys(ActiveFilters).length;
+	const FilterCount = Object.keys(initialFilters?.filtered ?? {}).length;
 
 	//FilterSkeleton
 	return (
 		<>
-			<div>
-				{initialFilters?.filtered !== undefined ? (
-					Object.entries(initialFilters?.filtered ?? {})
-						.slice(0, 10)
-						.map(([parentKey, parentValue]) => {
-							const DropdownHeader = <span className="dropdown__label">{parentValue.name}</span>;
-							return (
-								<Dropdown header={DropdownHeader} key={'filter-' + parentKey}>
-									<OverflowContainer maxHeight={290}>
-										{parentValue.valueType === 'string' ? (
-											<CheckboxFilter
-												config={{
-													parentKey: parentKey,
-													filterData: parentValue,
-													applyFilter: FilterApplyFN.APPLY,
-													callback: undefined,
-													router: router,
-													ActiveFilters: getActiveFilters,
-													searchParams: searchParams,
-													path: pathname,
-												}}
-											/>
-										) : (
-											<InputFilter
-												config={{
-													parentKey: parentKey,
-													filterData: parentValue,
-													applyFilter: FilterApplyFN.APPLY,
-													callback: undefined,
-													router: router,
-													ActiveFilters: getActiveFilters,
-													searchParams: searchParams,
-													path: pathname,
-												}}
-											/>
-										)}
-									</OverflowContainer>
-								</Dropdown>
-							);
-						})
-				) : (
-					<FilterSkeleton />
-				)}
-
-				<button
-					className="filter__show__all"
-					onClick={() => {
-						centerModalControl.toggle();
-					}}
-				>
-					Показать все фильтры
-				</button>
+			{!width || width > 1024 ? (
+				<>
+					<div className="facet__filters__wrapper">
+						{initialFilters?.filtered !== undefined ? (
+							Object.entries(initialFilters?.filtered ?? {})
+								.slice(0, 10)
+								.map(([parentKey, parentValue]) => {
+									const DropdownHeader = <span className="dropdown__label">{parentValue.name}</span>;
+									return (
+										<Dropdown header={DropdownHeader} key={'filter-' + parentKey}>
+											<OverflowContainer maxHeight={290}>
+												{parentValue.valueType === 'string' ? (
+													<CheckboxFilter
+														config={{
+															parentKey: parentKey,
+															filterData: parentValue,
+															applyFilter: FilterApplyFN.APPLY,
+															callback: undefined,
+															router: router,
+															ActiveFilters: ActiveFilters,
+															searchParams: searchParams,
+															path: pathname,
+														}}
+													/>
+												) : (
+													<InputFilter
+														config={{
+															parentKey: parentKey,
+															filterData: parentValue,
+															applyFilter: FilterApplyFN.APPLY,
+															callback: undefined,
+															router: router,
+															ActiveFilters: ActiveFilters,
+															searchParams: searchParams,
+															path: pathname,
+														}}
+													/>
+												)}
+											</OverflowContainer>
+										</Dropdown>
+									);
+								})
+						) : (
+							<FilterSkeleton />
+						)}
+					</div>
+					{FilterCount > 10 ? <AllFiltersOpenButton /> : null}
+					{getActiveFiltersLength > 0 ? <ClearFiltersButton router={router} searchParams={searchParams} pathname={pathname} /> : null}
+				</>
+			) : null}
+			{(width && width <= 1024) || FilterCount > 10 ? (
 				<HydrationComponent>
-					<AllFilterComponent filterData={initialFilters} currentFilterQuery={searchParams.get('filter') ?? ''} />
+					<AllFilterComponent
+						filterData={initialFilters}
+						currentFilterQuery={searchParams.get('filter') ?? ''}
+						ActiveFilters={ActiveFilters}
+						initialFilters={initialFilters}
+						fetchURL={fetchURL}
+					/>
 				</HydrationComponent>
-				{/* {FilterCount > 10 ? <AllFilterComponent filterData={filters} /> : ''} */}
-				{getActiveFiltersLength > 0 ? <ClearFiltersButton /> : ''}
-			</div>
+			) : null}
 		</>
 	);
 }
 
-export { getFilterParameters, collectFilterParameters };
+export { getFilterParameters, collectFilterParameters, AllFiltersOpenButton };
 export type { FilterFetchData };
 export default FacetFilter;

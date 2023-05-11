@@ -24,13 +24,12 @@
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
-		padding: 0 5%;
 		margin-top: 5px;
 		width: 65%;
 
 		.product__card__info {
 			max-width: 375px;
-			min-width: 325px;
+
 			.product__card__name__wrapper {
 				.product__card__name {
 					font-family: var(--museo_cyrl);
@@ -84,6 +83,7 @@
 		}
 
 		.product__card__functions__wrapper {
+			min-width: 105px;
 			.product__card__price__wrapper {
 				margin: 10px 0px;
 				text-align: right;
@@ -155,6 +155,45 @@
 		.product__card__link:hover {
 			.product__card__name {
 				color: var(--orange-darker-color);
+			}
+		}
+	}
+
+	@media (max-width: 768px) {
+		flex-direction:  column;
+		height: 570px;
+
+		.product__card__image__wrapper{
+			margin: auto;
+		}
+
+		.product__card__main__wrapper{
+			flex-direction: column;
+			width: 100%;
+			gap: 10px;
+			.product__card__info{
+				max-width: 100%;
+			}
+			.product__card__functions__wrapper{
+				display: grid;
+				grid-gap: 5px;
+				grid-template: 
+				"b b c c" 20px            
+				"b b c c" 20px
+				"a a a a" 40px;
+				width: 100%;
+				.product__card__add__to__cart{
+					width: auto;
+					grid-area: a;
+				}
+				.product__card__price__wrapper{
+					grid-area: c;
+				}
+				.product__card__options__wrapper{
+					grid-area: b;
+					justify-content: unset;
+					gap: 10px;
+				}
 			}
 		}
 	}

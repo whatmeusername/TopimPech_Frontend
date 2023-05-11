@@ -1,10 +1,11 @@
-import Catalog, { initData as initDataInterface } from '../../../../components/CatalogPage/catalog';
 import { GetServerSidePropsContext } from 'next';
 
 import { catalogGetServerSideProps } from '../index';
 import { PagePropsContext } from '../../../_app';
+import Catalog from '../../../../components/CatalogPage/catalog';
+import { initData } from '../../../../components/CatalogPage/catalog/interface';
 
-function CatalogPage({ initData }: { initData: initDataInterface }) {
+function CatalogPage({ initData }: { initData: initData }) {
 	return (
 		<PagePropsContext.Provider value={initData}>
 			<Catalog initData={initData} />

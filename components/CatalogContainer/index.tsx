@@ -16,6 +16,7 @@ import { StandardBreakLine } from '../Shared/Lines/StandardBreakLine/StandardBre
 import { CatalogContainerViewedItems } from './CatalogContainerViewedItems/CatalogContainerViewedItems';
 
 import { FetchURLData } from '../CatalogPage/catalog';
+import { AllFiltersOpenButton } from '../CatalogPage/Filter/Filter';
 
 const CatalogContainer = ({
 	CatalogData,
@@ -24,12 +25,6 @@ const CatalogContainer = ({
 	CatalogData: ProductAPIResponse;
 	getFetchURL: (router: FetchURLData) => [string, string];
 }): ReactElement => {
-	// const params = useParams();
-	// const query = useSearchParams();
-
-	//const { maincategory, category } = params;
-
-	// const [CatalogData, setCatalogData] = useState<ProductAPIResponse>(initData?.productsData);
 	const [catalogView, setCatalogView] = useCatalogView();
 
 	const isLoaded = useRef<number>(0);
@@ -40,28 +35,12 @@ const CatalogContainer = ({
 		}
 		return false;
 	};
-
-	//const [fetchURL, SearchParams] = getFetchURL({ params: params, query: query });
-
-	// useEffect(() => {
-	// 	console.log(initData);
-	// 	isLoaded.current = 0;
-	// 	if (initData?.productsData?.products === undefined) {
-	// 		axios({
-	// 			method: 'GET',
-	// 			url: fetchURL,
-	// 		}).then(({ data }: { data: ProductAPIResponse }) => {
-	// 			setCatalogData(data);
-	// 			isLoaded.current = 1;
-	// 		});
-	// 	} else setCatalogData(initData.productsData);
-	// }, [maincategory, category, SearchParams]);
-
 	const isFetched = IsLoaded();
 
 	return (
 		<div className="catalog__wrapper">
 			<ChildCategoriesElement />
+			<AllFiltersOpenButton shortLabel={true} />
 			<ProductCatalogHeader disabled={CatalogData?.products === undefined || CatalogData?.products?.length === 0} setCatalogView={setCatalogView} />
 			<StandardBreakLine />
 			<div className={`catalog__products__container ${catalogView === 'grid' ? 'display__row' : 'display__column'}`}>

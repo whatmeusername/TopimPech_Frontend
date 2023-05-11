@@ -31,7 +31,7 @@ export async function catalogGetServerSideProps({ params, searchParams }: Server
 	const [filterFetchURL] = SearchParamsBuilder(filtersFetchURLRaw, searchParams, 'filter');
 
 	try {
-		[productsData, filtersData] = await Promise.all([getData(productFetchURL, { cache: 'no-store' }), getData(filterFetchURL, { cache: 'reload' })]);
+		[productsData, filtersData] = await Promise.all([getData(productFetchURL), getData(filterFetchURL)]);
 	} catch (err: unknown) {
 		productsData = {
 			products: [],
