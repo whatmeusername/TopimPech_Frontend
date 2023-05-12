@@ -55,7 +55,6 @@ const AllFiltersOpenButton = ({ shortLabel }: { shortLabel?: boolean }): ReactEl
 		<button
 			className="filter__show__all"
 			onClick={() => {
-				console.log('yes');
 				centerModalControl.toggle('FilterModal');
 			}}
 		>

@@ -25,10 +25,9 @@
 		margin-top: 5px;
 		width: 65%;
 
-		.product__card__link{
+		.product__card__link {
 			max-width: calc(100% - 150px);
 			.product__card__info {
-
 				.product__card__name__wrapper {
 					.product__card__name {
 						font-family: var(--museo_cyrl);
@@ -38,7 +37,7 @@
 						transition: 0.1s ease-in-out;
 					}
 				}
-	
+
 				.product__card__manufacturer__data__wrapper {
 					.product__card__manufacturer__data {
 						color: var(--gray-color);
@@ -51,7 +50,7 @@
 						margin: 0px 5px;
 					}
 				}
-	
+
 				.product__features__wrapper {
 					margin-top: 20px;
 					.product__feature__wrapper {
@@ -77,6 +76,13 @@
 								text-transform: capitalize;
 							}
 						}
+					}
+				}
+			}
+			&:hover {
+				.product__card__name__wrapper {
+					.product__card__name {
+						color: var(--orange-darker-color);
 					}
 				}
 			}
@@ -149,12 +155,6 @@
 						color: var(--orange-color);
 					}
 				}
-			}
-		}
-
-		.product__card__link:hover {
-			.product__card__name {
-				color: var(--orange-darker-color);
 			}
 		}
 	}

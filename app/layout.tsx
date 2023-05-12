@@ -11,6 +11,8 @@ import { BreadcrumbContext } from '../context/Breadcrumb/BreadcrumbContext';
 import { CategoriesContext } from '../context/Categories/CategoriesContext';
 
 const PROXY_URL = process.env.PROXY_URL;
+const PRODUCT_PAGE_SUB_LABEL = 'купить в интернет-магазине товаров для бани TopimPech.ru';
+const PAGE_NOT_FOUND = 'Ошибка 404. Страница не была найдена.';
 
 export async function getData(url: string, init?: RequestInit) {
 	const res = await fetch(url, init);
@@ -44,5 +46,5 @@ async function RootLayout({ children }: { children: ReactElement }) {
 }
 
 export type { ServerSideURLProps };
-export { PROXY_URL };
+export { PROXY_URL, PRODUCT_PAGE_SUB_LABEL, PAGE_NOT_FOUND };
 export default RootLayout;

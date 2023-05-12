@@ -16,12 +16,21 @@
 	}
 }
 
-.modal__content{
+.modal__content {
 	background-color: rgb(255, 255, 255);
 	border-radius: 8px;
 	padding: 30px;
 	position: relative;
 	z-index: 1902;
+	transition: width 1s ease, height 1s ease;
+	min-width: 320px;
+	max-width: 100vw;
+	@media (max-width: 768px) {
+		max-width: 100vw;
+		width: 100%;
+		border-radius: unset;
+		height: 100vh;
+	}
 }
 
 .filter__modal__content {
@@ -140,10 +149,6 @@
 	}
 
 	@media (max-width: 768px) {
-		max-width: 100%;
-		width: 100%;
-		border-radius: unset;
-		height: 100vh;
 		.filter__modal__content__items__wrapper {
 			.filter__modal__content__items {
 				display: flex;

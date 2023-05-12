@@ -1,3 +1,17 @@
-.similar__product__modal{
-    height: auto;
+.similar_product__modal {
+	height: auto;
+	.similar_product__modal__header {
+		justify-content: flex-end;
+		display: flex;
+	}
+	.similar_product__modal__content__header {
+		font-family: var(--museo_cyrl);
+		color: var(--primary-color);
+		font-size: var(--headerS);
+	}
+	.similar_product__not__found {
+		font-family: var(--museo_cyrl);
+		color: var(--primary-color);
+		font-size: var(--headerS);
+	}
 }

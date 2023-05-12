@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEquals, faChartColumn, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
-import { ReactElement, useEffect, useState } from 'react';
+import { ReactElement, useEffect, useRef, useState } from 'react';
 import get from 'axios';
 import { ProductData } from '../Cards/interface';
 import { createPortal } from 'react-dom';
@@ -10,36 +10,51 @@ import useToggle from '../../../hooks/useToggle';
 import { centerModalControl } from '../../../store';
 import './SimilarProductsModal.scss';
 import { ProductSlider } from '../../ProductPage/ProductSlider/ProductSlider';
+import { LoadingBar } from '../../Shared/LoadingBar/LoadingBar';
+import { LOADING_LABEL_BASE } from '../../Shared/LoadingBar/LoadingLabels';
 
 function SimilarProductsModal({
 	ProductData,
 	toggle,
+	isFetched,
 }: {
 	ProductData: ProductData[];
 	toggle: (fixedState?: boolean | undefined) => void;
+	isFetched: boolean;
 }): ReactElement {
 	return createPortal(
 		<ModalWrapper id={'SimilarProduct'} toggle={toggle}>
-			<div className="modal__content similar__product__modal">
-				<div className="similar__product__modal__header">
-					<div className="similar__product__modal__close__wrapper">
-						<button
-							className="modal__close__wrapper__button"
-							onClick={() => {
-								toggle();
-								centerModalControl.toggle('SimilarProduct');
-							}}
-						>
-							<FontAwesomeIcon icon={faXmark} />
-						</button>
+			{isFetched ? (
+				<div className="modal__content similar_product__modal">
+					<div className="similar_product__modal__header">
+						<div className="similar_product__modal__close__wrapper">
+							<button
+								className="modal__close__wrapper__button"
+								onClick={() => {
+									toggle();
+									centerModalControl.toggle('SimilarProduct');
+								}}
+							>
+								<FontAwesomeIcon icon={faXmark} />
+							</button>
+						</div>
 					</div>
+					<hr className="break__line__standard"></hr>
+					<div className="similar_product__modal__content__items__wrapper">
+						{ProductData.length > 0 ? (
+							<>
+								<h3 className="similar_product__modal__content__header">Похожие товары</h3>
+								<ProductSlider items={ProductData} URLStartWith="/api" />
+							</>
+						) : (
+							<p className="similar_product__not__found">Упс! К сожалению мы не нашли похожих товаров</p>
+						)}
+					</div>
+					<div className="similar_product__modal__footer__items"></div>
 				</div>
-				<hr className="break__line__standard"></hr>
-				<div className="filter__modal__content__items__wrapper">
-					<ProductSlider items={ProductData} URLStartWith="/api" />
-				</div>
-				<div className="filter__modal__footer__items"></div>
-			</div>
+			) : (
+				<LoadingBar label={LOADING_LABEL_BASE} />
+			)}
 		</ModalWrapper>,
 		document.body,
 	);
@@ -48,11 +63,13 @@ function SimilarProductsModal({
 function SimilarProductsElement({ article }: { article: number }): ReactElement {
 	const [toggle, setToggle] = useToggle();
 	const [products, setProducts] = useState<ProductData[]>(null!);
+	const isFetched = useRef<boolean>(false);
 
 	useEffect(() => {
-		if (toggle && products === null) {
+		if (isFetched.current === false && toggle && products === null) {
 			get(`/api/products/similar/${article}`).then((response) => {
 				setProducts(response.data.data);
+				isFetched.current = true;
 			});
 		}
 	}, [article, toggle]);
@@ -68,7 +85,7 @@ function SimilarProductsElement({ article }: { article: number }): ReactElement 
 			>
 				<FontAwesomeIcon icon={faEquals} />
 			</div>
-			{toggle ? <SimilarProductsModal ProductData={products ?? []} toggle={setToggle} /> : null}
+			{toggle ? <SimilarProductsModal ProductData={products ?? []} toggle={setToggle} isFetched={isFetched.current} /> : null}
 		</>
 	);
 }
