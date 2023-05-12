@@ -55,7 +55,8 @@ const AllFiltersOpenButton = ({ shortLabel }: { shortLabel?: boolean }): ReactEl
 		<button
 			className="filter__show__all"
 			onClick={() => {
-				centerModalControl.toggle();
+				console.log('yes');
+				centerModalControl.toggle('FilterModal');
 			}}
 		>
 			{shortLabel ? 'Фильтры' : 'Показать все фильтры'}
@@ -71,8 +72,6 @@ function FacetFilter({ initialFilters }: { initialFilters: FilterFetchData }): J
 	const { category } = useParams();
 	const searchParams = new URLSearchParams(useSearchParams());
 	const pathname = usePathname();
-
-	let fetchURL = `/api/products/filters/${category}`;
 
 	const ActiveFilters = getFilterParameters(searchParams);
 	const getActiveFiltersLength = Object.keys(ActiveFilters).length;
@@ -98,7 +97,6 @@ function FacetFilter({ initialFilters }: { initialFilters: FilterFetchData }): J
 															parentKey: parentKey,
 															filterData: parentValue,
 															applyFilter: FilterApplyFN.APPLY,
-															callback: undefined,
 															router: router,
 															ActiveFilters: ActiveFilters,
 															searchParams: searchParams,
@@ -111,7 +109,6 @@ function FacetFilter({ initialFilters }: { initialFilters: FilterFetchData }): J
 															parentKey: parentKey,
 															filterData: parentValue,
 															applyFilter: FilterApplyFN.APPLY,
-															callback: undefined,
 															router: router,
 															ActiveFilters: ActiveFilters,
 															searchParams: searchParams,
@@ -138,7 +135,7 @@ function FacetFilter({ initialFilters }: { initialFilters: FilterFetchData }): J
 						currentFilterQuery={searchParams.get('filter') ?? ''}
 						ActiveFilters={ActiveFilters}
 						initialFilters={initialFilters}
-						fetchURL={fetchURL}
+						fetchURL={`/api/products/filters/${category}`}
 					/>
 				</HydrationComponent>
 			) : null}

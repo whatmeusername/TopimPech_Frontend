@@ -21,7 +21,7 @@ const ProductSliderItem = ({ data, URLStartWith }: { data: HistorySliceItem | Pr
 	);
 };
 
-const ProductSlider = ({ items, URLStartWith }: { items: HistorySliceItem[] | ProductData[]; URLStartWith: string }): JSX.Element => {
+const ProductSlider = ({ items, URLStartWith }: { items: HistorySliceItem[] | ProductData[]; URLStartWith?: string }): JSX.Element => {
 	const windowSize = useWindowSize();
 	const width = windowSize.width ?? window.innerWidth;
 	let itemsPerSlide = 6;

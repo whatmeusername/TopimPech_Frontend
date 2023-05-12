@@ -6,11 +6,13 @@ import './AddToCartButton.scss';
 import { observer } from 'mobx-react-lite';
 
 function AddToCartButton({ itemId }: { itemId: number }): JSX.Element {
-	const inCart = userProductCart.has(itemId);
+	const [inCart, setInCart] = useState<boolean>(false);
+	useEffect(() => {
+		setInCart(userProductCart.has(itemId));
+	}, [itemId]);
 
 	return (
 		<button
-			suppressHydrationWarning
 			className={`product__card__add__to__cart ${inCart ? 'product__card__add__to__cart__active' : 'product__card__add__to__cart__inactive'}`}
 			onClick={inCart ? undefined : () => userProductCart.addItem({ id: itemId, count: 1 })}
 		>

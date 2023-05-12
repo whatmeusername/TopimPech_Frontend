@@ -29,7 +29,6 @@ const ChildCategoriesElement = (): ReactElement | null => {
 	const { category } = useParams();
 
 	const currentCategoryAtPage = childCategories?.find(category);
-	console.log(currentCategoryAtPage);
 	if (!currentCategoryAtPage || currentCategoryAtPage.child.length < 1) return null;
 
 	return (

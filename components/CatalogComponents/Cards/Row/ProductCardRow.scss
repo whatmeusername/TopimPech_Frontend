@@ -24,57 +24,58 @@
 		justify-content: space-between;
 		margin-top: 5px;
 		width: 65%;
-		gap: 30px;
 
-		.product__card__info {
-			max-width: 450px;
+		.product__card__link{
+			max-width: calc(100% - 150px);
+			.product__card__info {
 
-			.product__card__name__wrapper {
-				.product__card__name {
-					font-family: var(--museo_cyrl);
-					font-size: var(--fontX);
-					color: var(--primary-color);
-					font-weight: 300;
-					transition: 0.1s ease-in-out;
-				}
-			}
-
-			.product__card__manufacturer__data__wrapper {
-				.product__card__manufacturer__data {
-					color: var(--gray-color);
-					font-size: var(--fontL);
-					font-family: 'Arial';
-				}
-				.product__card__slash {
-					color: var(--gray-color);
-					font-size: var(--fontL);
-					margin: 0px 5px;
-				}
-			}
-
-			.product__features__wrapper {
-				margin-top: 20px;
-				.product__feature__wrapper {
-					display: flex;
-					flex-direction: row;
-					margin: 7.5px 0px;
-					font-family: 'Arial';
-					font-size: var(--fontM);
-					.product__feature__key {
-						color: var(--gray-color);
-						letter-spacing: 0.5px;
-						&::first-letter {
-							text-transform: capitalize;
-						}
+				.product__card__name__wrapper {
+					.product__card__name {
+						font-family: var(--museo_cyrl);
+						font-size: var(--fontX);
+						color: var(--primary-color);
+						font-weight: 300;
+						transition: 0.1s ease-in-out;
 					}
-					.product__feature__value {
-						margin: 0px;
-						margin-left: 5px;
-						overflow: hidden;
-						text-overflow: ellipsis;
-						white-space: nowrap;
-						&::first-letter {
-							text-transform: capitalize;
+				}
+	
+				.product__card__manufacturer__data__wrapper {
+					.product__card__manufacturer__data {
+						color: var(--gray-color);
+						font-size: var(--fontL);
+						font-family: 'Arial';
+					}
+					.product__card__slash {
+						color: var(--gray-color);
+						font-size: var(--fontL);
+						margin: 0px 5px;
+					}
+				}
+	
+				.product__features__wrapper {
+					margin-top: 20px;
+					.product__feature__wrapper {
+						display: flex;
+						flex-direction: row;
+						margin: 7.5px 0px;
+						font-family: 'Arial';
+						font-size: var(--fontM);
+						.product__feature__key {
+							color: var(--gray-color);
+							letter-spacing: 0.5px;
+							&::first-letter {
+								text-transform: capitalize;
+							}
+						}
+						.product__feature__value {
+							margin: 0px;
+							margin-left: 5px;
+							overflow: hidden;
+							text-overflow: ellipsis;
+							white-space: nowrap;
+							&::first-letter {
+								text-transform: capitalize;
+							}
 						}
 					}
 				}

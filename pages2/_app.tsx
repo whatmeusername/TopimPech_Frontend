@@ -8,7 +8,6 @@ import WidthLimiter from '../components/Shared/WidthLimiter/WidthLimiter';
 import type { AppProps } from 'next/app';
 
 import { createContext, useContext } from 'react';
-import { CenterModal } from '../components/CentralModal/CenterModal';
 import { enableStaticRendering } from 'mobx-react-lite';
 import { CategoriesContext } from '../context/Categories';
 import { BreadcrumbContext } from '../context/Breadcrumb';
@@ -31,7 +30,6 @@ function MyApp({ Component, pageProps }: AppProps) {
 						<WidthLimiter>
 							<Component {...pageProps} />
 						</WidthLimiter>
-						<CenterModal />
 					</>
 				</Layout>
 			</BreadcrumbContext>

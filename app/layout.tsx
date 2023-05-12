@@ -4,7 +4,7 @@ import '../components/CatalogComponents/Cards/ProductCardGeneral.scss';
 import '../styles/variables.scss';
 
 import { ReactElement } from 'react';
-import { CenterModal } from '../components/CentralModal/CenterModal';
+
 import WidthLimiter from '../components/Shared/WidthLimiter/WidthLimiter';
 import Layout from '../components/layout/layout';
 import { BreadcrumbContext } from '../context/Breadcrumb/BreadcrumbContext';
@@ -35,7 +35,6 @@ async function RootLayout({ children }: { children: ReactElement }) {
 					<BreadcrumbContext>
 						<Layout>
 							<WidthLimiter>{children}</WidthLimiter>
-							<CenterModal />
 						</Layout>
 					</BreadcrumbContext>
 				</CategoriesContext>

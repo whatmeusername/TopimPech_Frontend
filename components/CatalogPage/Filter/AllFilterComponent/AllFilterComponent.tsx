@@ -118,8 +118,8 @@ const AllFilterComponent = ({
 	};
 
 	return createPortal(
-		<ModalWrapper>
-			<div className="filter__modal__content">
+		<ModalWrapper id={'FilterModal'}>
+			<div className="modal__content filter__modal__content">
 				<div className="filter__modal__content__header">
 					<div className="content__header__wrapper">
 						<h3 className="filter__modal__content__header">Все фильтры</h3>
@@ -128,7 +128,7 @@ const AllFilterComponent = ({
 						</p>
 					</div>
 					<div className="filter__modal__close__wrapper">
-						<button className="filter__modal__close__wrapper__button" onClick={() => centerModalControl.toggle()}>
+						<button className="modal__close__wrapper__button" onClick={() => centerModalControl.toggle('FilterModal')}>
 							<FontAwesomeIcon icon={faXmark} />
 						</button>
 					</div>
@@ -188,12 +188,17 @@ const AllFilterComponent = ({
 					</button>
 					<FoundedItemsButton
 						count={FilterData?.count ?? 0}
-						onClick={() => centerModalControl.toggle()}
+						onClick={() => centerModalControl.toggle('FilterModal')}
 						searchParams={searchParams.current}
 						pathname={pathname}
 						router={router}
 					/>
-					<ClearFiltersButton onClick={() => centerModalControl.toggle()} searchParams={searchParams.current} pathname={pathname} router={router} />
+					<ClearFiltersButton
+						onClick={() => centerModalControl.toggle('FilterModal')}
+						searchParams={searchParams.current}
+						pathname={pathname}
+						router={router}
+					/>
 				</div>
 			</div>
 		</ModalWrapper>,

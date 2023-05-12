@@ -24,7 +24,7 @@ export default function ProductCardGrid({ product, fadeIn }: { product: ProductD
 			<div className="product__card__no__link__wrapper">
 				<AddToCartButton itemId={product.article} />
 			</div>
-			<ProductCardOptions />
+			<ProductCardOptions article={product.article} />
 		</div>
 	);
 }
