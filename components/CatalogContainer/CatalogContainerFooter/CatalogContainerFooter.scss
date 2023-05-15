@@ -1,9 +1,9 @@
-.catalog__footer {
+.catalog__container__wrapper{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    @media(max-width:768px) {
+    @media(max-width: 768px){
         flex-direction: column;
     }
 }

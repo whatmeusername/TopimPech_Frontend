@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import useWindowSize from '../../../hooks/useWindowSize';
+
 import { HistorySliceItem } from '../../../store';
 import PriceElement from '../../CatalogComponents/PriceElement.tsx/PriceElement';
 import { ProductData } from '../../CatalogComponents/Cards/interface';
@@ -22,20 +22,8 @@ const ProductSliderItem = ({ data, URLStartWith }: { data: HistorySliceItem | Pr
 };
 
 const ProductSlider = ({ items, URLStartWith }: { items: HistorySliceItem[] | ProductData[]; URLStartWith?: string }): JSX.Element => {
-	const windowSize = useWindowSize();
-	const width = windowSize.width ?? window.innerWidth;
-	let itemsPerSlide = 6;
-
-	if (width) {
-		if (width < 400) itemsPerSlide = 1;
-		else if (width < 600) itemsPerSlide = 2;
-		else if (width < 800) itemsPerSlide = 3;
-		else if (width < 1000) itemsPerSlide = 4;
-		else if (width < 1200) itemsPerSlide = 5;
-	}
-
 	return (
-		<Slider SliderSettings={{ ItemsPerSlide: itemsPerSlide }}>
+		<Slider SliderSettings={{ ItemsPerSlide: 'auto' }}>
 			<>
 				{items.map((item) => {
 					return (

@@ -9,6 +9,9 @@
 			align-items: center;
 			justify-content: center;
 			gap: 10px;
+			&.slider__main__content__single{
+				justify-content: start;
+			}
 			.slider__content__slide__button {
 				min-width: 35px;
 				max-width: 35px;

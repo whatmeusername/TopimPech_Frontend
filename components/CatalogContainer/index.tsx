@@ -8,8 +8,6 @@ import { useCatalogView } from '../../hooks/useCatalogView';
 import { ProductCatalogHeader } from './ProductCatalogHeader/ProductCatalogHeader';
 import { ProductColumn } from './ProductColumn/ProductColumn';
 
-import { CatalogContainerFooter } from './CatalogContainerFooter/CatalogContainerFooter';
-
 import './CatalogContainer.scss';
 import { ChildCategoriesElement } from './ChildCategoriesElement/ChildCategoriesElement';
 import { StandardBreakLine } from '../Shared/Lines/StandardBreakLine/StandardBreakLine';
@@ -17,6 +15,7 @@ import { CatalogContainerViewedItems } from './CatalogContainerViewedItems/Catal
 
 import { FetchURLData } from '../CatalogPage/catalog';
 import { AllFiltersOpenButton } from '../CatalogPage/Filter/Filter';
+import { CatalogContainerFooter } from './CatalogContainerFooter/CatalogContainerFooter';
 
 const CatalogContainer = ({
 	CatalogData,

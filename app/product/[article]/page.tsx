@@ -1,5 +1,3 @@
-import get from 'axios';
-
 import type { ProductData } from '../../../components/CatalogComponents/Cards/interface';
 import { ProductPage } from '../../../components/ProductPage/ProductPage';
 import { PAGE_NOT_FOUND, PRODUCT_PAGE_SUB_LABEL, PROXY_URL, ServerSideURLProps, getData } from '../../layout';

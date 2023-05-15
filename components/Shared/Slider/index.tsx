@@ -3,6 +3,7 @@ import './Slider.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import useWindowSize from '../../../hooks/useWindowSize';
 
 const ACTIVE_DOT_CLASSNAME = 'slider__dot__active';
 const DISABLED_BUTTON_CLASSNAME = 'slider__button__disabled';
@@ -149,7 +150,7 @@ function ButtonVersionSlider({ children, options }: { children: JSX.Element; opt
 
 	return (
 		<div className="slider__wrapper slider__wrapper__carousel" ref={wrapperRef}>
-			<div className="slider__main__content">
+			<div className={`slider__main__content ${slidesTotal.current === 0 ? 'slider__main__content__single' : ''}`}>
 				{IS_BUTTON_ACTIVE.current ? <SliderButton side={SlideDirection.LEFT} /> : null}
 				<div className="slider__content__wrapper">
 					<div className="slider__content" ref={contentRef}>
@@ -180,7 +181,7 @@ function DragVersionSlider({ children, SliderSettings }: { children: JSX.Element
 		window.addEventListener('mouseup', DragEnd);
 	};
 
-	const DragEnd = (event: MouseEvent) => {
+	const DragEnd = () => {
 		window.removeEventListener('mousemove', DragMove);
 		window.removeEventListener('mouseup', DragMove);
 	};
@@ -204,8 +205,8 @@ function DragVersionSlider({ children, SliderSettings }: { children: JSX.Element
 }
 
 function Slider({ children, SliderSettings }: { children: JSX.Element | ReactElement; SliderSettings?: SliderSettings }) {
-	const windowWidth = typeof window !== 'undefined' ? window.innerWidth : 1080;
-	if (false || SliderSettings?.mobileSize ? windowWidth > SliderSettings?.mobileSize : windowWidth > 720) {
+	const { width } = useWindowSize();
+	if (width && SliderSettings?.mobileSize ? width > SliderSettings?.mobileSize : (width && width > 720) ?? true) {
 		return <ButtonVersionSlider options={SliderSettings}>{children}</ButtonVersionSlider>;
 	} else return <DragVersionSlider SliderSettings={SliderSettings}>{children}</DragVersionSlider>;
 }

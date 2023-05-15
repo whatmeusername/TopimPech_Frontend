@@ -1,9 +1,8 @@
-import { ReactNode, ReactElement } from 'react';
-
+import { ReactElement } from 'react';
 import './CatalogContainerFooter.scss';
 
-const CatalogContainerFooter = ({ children }: { children: ReactNode[] | ReactNode }): ReactElement => {
-	return <div className="catalog__footer">{children}</div>;
-};
+function CatalogContainerFooter({ children }: { children: ReactElement | ReactElement[] }) {
+	return <div className="catalog__container__wrapper">{children}</div>;
+}
 
 export { CatalogContainerFooter };

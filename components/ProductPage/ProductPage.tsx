@@ -9,18 +9,15 @@ import BreadcrumbByURL from '../Shared/breadcrumb/breacrumb';
 import Gallery from './Gallery/gallery';
 import PriceElement from '../CatalogComponents/PriceElement.tsx/PriceElement';
 import { ParsedUrlQuery } from 'querystring';
-import { observer } from 'mobx-react-lite';
+
 import { productHistory } from '../../store';
 import { HydrationComponent } from '../Shared/HydrationComponent/HydrationComponent';
 import { AttributesElement, ShortAttributesElement } from './AttributesElement/AttributesElement';
-import { ProductSlider } from './ProductSlider/ProductSlider';
+
 import { SimilarProductBlock } from './SimilarProductBlock/SimilarProductBlock';
 import { ManufacturerElement } from './ManufacturerElement/ManufacturerElement';
 import AddToCartButton from '../CatalogComponents/AddToCartButton/AddToCartButton';
-
-const HistorySlider = observer(() => {
-	return <ProductSlider items={productHistory.items} URLStartWith={'/api'} key={productHistory.items.length} />;
-});
+import { HistorySlider } from '../HistorySlider/HistorySlider';
 
 function ProductPage({ initData, params }: { initData: ProductData; params: ParsedUrlQuery }): JSX.Element | null {
 	useEffect(() => {
@@ -76,10 +73,12 @@ function ProductPage({ initData, params }: { initData: ProductData; params: Pars
 			</div>
 			<AttributesElement properties={initData.properties ?? []} />
 			<HydrationComponent>
-				<div suppressHydrationWarning className="product__page__card product__page__history">
-					<h3 className="product__page__header__medium">Вы смотрели</h3>
-					{productHistory.items.length > 0 ? <HistorySlider /> : null}
-				</div>
+				{productHistory.items.length > 0 ? (
+					<div className="product__page__card product__page__history">
+						<h3 className="product__page__header__medium">Вы смотрели</h3>
+						<HistorySlider excludeArticle={initData.article} />
+					</div>
+				) : null}
 			</HydrationComponent>
 			<SimilarProductBlock article={initData.article} URLStartWith={'/api'} params={params} />
 		</div>

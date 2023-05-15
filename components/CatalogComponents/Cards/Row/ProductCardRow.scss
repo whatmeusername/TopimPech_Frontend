@@ -35,6 +35,11 @@
 						color: var(--primary-color);
 						font-weight: 300;
 						transition: 0.1s ease-in-out;
+						display: -webkit-box;
+						-webkit-line-clamp: 3;
+  						-webkit-box-orient: vertical;
+						overflow: hidden;
+						text-overflow: ellipsis;
 					}
 				}
 
@@ -161,7 +166,7 @@
 
 	@media (max-width: 768px) {
 		flex-direction: column;
-		height: 570px;
+		height: 600px;
 
 		.product__card__image__wrapper {
 			margin: auto;
@@ -171,6 +176,9 @@
 			flex-direction: column;
 			width: 100%;
 			gap: 10px;
+			.product__card__link{
+				max-width: 100%;
+			}
 			.product__card__info {
 				max-width: 100%;
 			}

@@ -21,6 +21,10 @@ class ProductHistory {
 		});
 	}
 
+	public getWithExclude(article: number): HistorySliceItem[] {
+		return this.items.filter((i) => i.article !== article);
+	}
+
 	@action
 	public add(payload: ProductData): void {
 		const existIdx = this.items.findIndex((i) => i.article === payload.article);
