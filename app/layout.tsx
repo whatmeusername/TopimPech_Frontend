@@ -32,6 +32,9 @@ async function RootLayout({ children }: { children: ReactElement }) {
 	const categories = await getData(`${PROXY_URL}products/categories/`, { cache: 'force-cache', next: { revalidate: 3600 } });
 	return (
 		<html lang="en">
+			<head>
+				<meta name="theme-color" media="(prefers-color-scheme: light)" content="white" />
+			</head>
 			<body>
 				<CategoriesContext initialCategories={categories}>
 					<BreadcrumbContext>

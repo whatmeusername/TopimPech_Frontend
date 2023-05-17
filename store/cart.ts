@@ -13,6 +13,13 @@ class UserProductCart {
 		});
 	}
 
+	public getCount(): number {
+		return this.raw_items.reduce((prev, item) => {
+			prev += item.count;
+			return prev;
+		}, 0);
+	}
+
 	@action
 	public addItem(payload: { id: number; count: number }) {
 		const existing = this.raw_items.find((item) => item.id === payload.id);

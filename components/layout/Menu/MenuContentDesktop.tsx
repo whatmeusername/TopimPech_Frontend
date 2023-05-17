@@ -1,4 +1,4 @@
-import { useState, memo } from 'react';
+import { useState, memo, ReactElement } from 'react';
 import './menu.scss';
 import Link from 'next/link';
 
@@ -52,14 +52,18 @@ const MenuContentDesktop = memo(({ categories }: { categories: CategoryData[] })
 		);
 	}
 
-	function CategoriesBlock({ categories }: { categories: CategoryData[] }): JSX.Element {
+	function CategoriesBlock({ categories }: { categories: CategoryData[] }): ReactElement | null {
 		const category = categories.find((category) => category.slug === selectedCategory);
 
+		if (!category || category.child.length === 0) return null;
+
 		return (
-			<div className="sub__categories_columns">
-				{category?.child?.map((category) => {
-					return <SubCategoryColumn data={category} key={category.slug} />;
-				})}
+			<div className="sub__categories">
+				<div className="sub__categories_columns">
+					{category?.child?.map((category) => {
+						return <SubCategoryColumn data={category} key={category.slug} />;
+					})}
+				</div>
 			</div>
 		);
 	}
@@ -69,13 +73,7 @@ const MenuContentDesktop = memo(({ categories }: { categories: CategoryData[] })
 			<div className="main__categories">
 				<CategoriesColumn categories={categories} CategoryItem={MainCategoryItem} />
 			</div>
-			{selectedCategory ? (
-				<div className="sub__categories">
-					<CategoriesBlock categories={categories} />
-				</div>
-			) : (
-				''
-			)}
+			{selectedCategory ? <CategoriesBlock categories={categories} /> : null}
 		</div>
 	);
 });

@@ -7,9 +7,10 @@ import { observer } from 'mobx-react-lite';
 
 function AddToCartButton({ itemId }: { itemId: number }): JSX.Element {
 	const [inCart, setInCart] = useState<boolean>(false);
+
 	useEffect(() => {
 		setInCart(userProductCart.has(itemId));
-	}, [itemId]);
+	}, []);
 
 	return (
 		<button
