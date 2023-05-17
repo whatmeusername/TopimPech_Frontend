@@ -32,7 +32,7 @@ const SearchItemElement = ({ data, ToggleModal }: { data: ProductData; ToggleMod
 						<span className="search__result__article">Артикул: {data.article}</span>
 					</div>
 					<div className="search__result__price__wrapper">
-						<PriceElement sale={10} price={data.price} />
+						<PriceElement sale={data.sale} price={data.price} />
 					</div>
 				</div>
 			</div>

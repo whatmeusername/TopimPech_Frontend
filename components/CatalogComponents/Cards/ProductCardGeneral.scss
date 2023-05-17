@@ -15,15 +15,9 @@
 	cursor: pointer;
 	transition: 0.1s ease-in-out;
 
-	&__active {
+	&:hover {
 		border-color: var(--orange-color);
 		color: var(--orange-color);
-	}
-	&__inactive {
-		&:hover {
-			border-color: var(--orange-color);
-			color: var(--orange-color);
-		}
 	}
 }
 

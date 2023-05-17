@@ -19,16 +19,14 @@ import { ManufacturerElement } from './ManufacturerElement/ManufacturerElement';
 import AddToCartButton from '../CatalogComponents/AddToCartButton/AddToCartButton';
 import { HistorySlider } from '../HistorySlider/HistorySlider';
 
-function ProductPage({ initData, params }: { initData: ProductData; params: ParsedUrlQuery }): JSX.Element | null {
+function ProductPage({ productData, params }: { productData: ProductData; params: ParsedUrlQuery }): JSX.Element | null {
 	useEffect(() => {
-		if (initData && !(initData as any)?.status) {
-			productHistory.add(initData);
+		if (productData && !(productData as any)?.status) {
+			productHistory.add(productData);
 		}
 	}, [params.article]);
 
-	if (!initData || (initData as any)?.status === 404) return null;
-
-	const galleryItems = initData.images.map((img, i) => {
+	const galleryItems = productData.images.map((img, i) => {
 		return { id: i, path: img.path };
 	});
 
@@ -36,21 +34,21 @@ function ProductPage({ initData, params }: { initData: ProductData; params: Pars
 		<div className="product__page__wrapper">
 			<div className="product__page__head">
 				<div className="product__page__breadcrumb">
-					{initData?.categories ? (
+					{productData?.categories ? (
 						<BreadcrumbByURL
 							settings={{
 								includeHomePage: true,
-								category: initData.categories[initData.categories.length - 1].slug,
+								category: productData.categories[productData.categories.length - 1].slug,
 								includeAtEnd: {
-									label: initData.name,
-									slug: initData.slug,
+									label: productData.name,
+									slug: productData.slug,
 								},
 							}}
 						/>
 					) : null}
 				</div>
 				<div className="product__page__article__wrapper">
-					<span className="product__page__article">Артикул: {initData.article}</span>
+					<span className="product__page__article">Артикул: {productData.article}</span>
 				</div>
 			</div>
 			<div className="product__page__upper">
@@ -58,29 +56,31 @@ function ProductPage({ initData, params }: { initData: ProductData; params: Pars
 					{galleryItems.length > 0 ? <Gallery items={galleryItems} urlStartsWith={'/api'} ration={3} /> : null}
 				</div>
 				<div className=" product__page__card product__page__upper__item product__page__main__info">
-					<h1 className="product__page__header">{initData.name}</h1>
-					<PriceElement price={initData.price} sale={initData.sale} />
-					{initData.manufacturer ? <ManufacturerElement ManufacturerData={initData.manufacturer} /> : null}
+					<h1 className="product__page__header">{productData.name}</h1>
+					<PriceElement price={productData.price} sale={productData.sale} />
+					{productData.manufacturer ? <ManufacturerElement ManufacturerData={productData.manufacturer} /> : null}
 					<div className="product__page__upper__buttons">
-						<AddToCartButton itemId={initData.article} />
+						<AddToCartButton itemId={productData.article} />
 					</div>
-					{initData.properties && initData.properties?.length > 0 ? <ShortAttributesElement properties={initData.properties} take={5} /> : null}
+					{productData.properties && productData.properties?.length > 0 ? (
+						<ShortAttributesElement properties={productData.properties} take={5} />
+					) : null}
 				</div>
 			</div>
 			<div className=" product__page__card product__page__description">
 				<h3 className="product__page__header__medium product__page__description__header">О товаре</h3>
-				<span className="product__page__description">{initData.description}</span>
+				<span className="product__page__description">{productData.description}</span>
 			</div>
-			<AttributesElement properties={initData.properties ?? []} />
+			<AttributesElement properties={productData.properties ?? []} />
 			<HydrationComponent>
 				{productHistory.items.length > 0 ? (
 					<div className="product__page__card product__page__history">
 						<h3 className="product__page__header__medium">Вы смотрели</h3>
-						<HistorySlider excludeArticle={initData.article} />
+						<HistorySlider excludeArticle={productData.article} />
 					</div>
 				) : null}
 			</HydrationComponent>
-			<SimilarProductBlock article={initData.article} URLStartWith={'/api'} params={params} />
+			<SimilarProductBlock article={productData.article} URLStartWith={'/api'} params={params} />
 		</div>
 	);
 }

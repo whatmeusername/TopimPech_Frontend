@@ -15,6 +15,7 @@ import { ReactElement } from 'react';
 import { observer } from 'mobx-react-lite';
 import { userProductCart } from '../../../store';
 import { HydrationComponent } from '../../ProductPage/ProductPage';
+import { favouritesProducts } from '../../../store/favourites';
 
 const HeaderLogo = (): JSX.Element => {
 	return (
@@ -32,7 +33,7 @@ const CartElement = observer((): ReactElement => {
 			<Cart className="header__option__icon" />
 			<p className="header__option__label">Корзина</p>
 			<HydrationComponent>
-				<div className="header__option__count__pin">{userProductCart.getCount()}</div>
+				<div className="header__option__count__pin header__option__count__pin__cart">{userProductCart.getCount()}</div>
 			</HydrationComponent>
 		</button>
 	);
@@ -40,10 +41,13 @@ const CartElement = observer((): ReactElement => {
 
 const FavouriteElement = observer((): ReactElement => {
 	return (
-		<button className="header__option__wrapper">
+		<Link href="/favourites" className="header__option__wrapper">
 			<Heart className="header__option__icon" />
 			<p className="header__option__label">Избранное</p>
-		</button>
+			<HydrationComponent>
+				<div className="header__option__count__pin header__option__count__pin__favourite">{favouritesProducts.getCount()}</div>
+			</HydrationComponent>
+		</Link>
 	);
 });
 

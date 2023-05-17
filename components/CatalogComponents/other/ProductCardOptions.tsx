@@ -12,6 +12,11 @@ import './SimilarProductsModal.scss';
 import { ProductSlider } from '../../ProductPage/ProductSlider/ProductSlider';
 import { LoadingBar } from '../../Shared/LoadingBar/LoadingBar';
 import { LOADING_LABEL_BASE } from '../../Shared/LoadingBar/LoadingLabels';
+import { observer } from 'mobx-react-lite';
+
+import HeartFilled from '../../../public/HeaderOtionsIcons/HeartFilled.svg';
+import HeartNotFilled from '../../../public/HeaderOtionsIcons/HeartNotFilled.svg';
+import { favouritesProducts } from '../../../store/favourites';
 
 function SimilarProductsModal({
 	ProductData,
@@ -77,7 +82,7 @@ function SimilarProductsElement({ article }: { article: number }): ReactElement 
 	return (
 		<>
 			<div
-				className="product__card__option product__card__options__favourite"
+				className="product__card__option product__card__options__similar"
 				onClick={() => {
 					setToggle();
 					centerModalControl.toggle('SimilarProduct');
@@ -90,16 +95,35 @@ function SimilarProductsElement({ article }: { article: number }): ReactElement 
 	);
 }
 
-function ProductCardOptions({ article }: { article: number }): ReactElement {
+const FavouriteProductsElement = observer(({ productData }: { productData: ProductData }) => {
+	const [isSelected, setSelected] = useState<boolean>(false);
+
+	useEffect(() => {
+		setSelected(favouritesProducts.has(productData.article));
+	}, [favouritesProducts.has(productData.article)]);
+
+	return (
+		<div
+			className={`product__card__option product__card__options__favourite ${
+				isSelected ? 'product__card__option__active' : 'product__card__option__inactive'
+			}`}
+			onClick={() => (isSelected ? favouritesProducts.remove(productData) : favouritesProducts.add(productData))}
+		>
+			{isSelected ? <HeartFilled className="product__card__option__icon" /> : <HeartNotFilled className="product__card__option__icon" />}
+		</div>
+	);
+});
+
+function ProductCardOptions({ productData }: { productData: ProductData }): ReactElement {
 	return (
 		<div className="product__card__options__wrapper">
 			<div className="product__card__option product__card__options__favourite">
-				<FontAwesomeIcon icon={faHeart} />
+				<FavouriteProductsElement productData={productData} />
 			</div>
-			<div className="product__card__option product__card__options__favourite">
+			<div className="product__card__option product__card__options__comparison">
 				<FontAwesomeIcon icon={faChartColumn} />
 			</div>
-			<SimilarProductsElement article={article} />
+			<SimilarProductsElement article={productData.article} />
 		</div>
 	);
 }

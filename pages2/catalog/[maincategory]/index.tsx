@@ -17,15 +17,13 @@ function CatalogPage({ initData }: { initData: initData }) {
 }
 
 export async function catalogGetServerSideProps(context: GetServerSidePropsContext) {
-	const { maincategory, category } = context.params as { maincategory: string; category: string };
+	const { category } = context.params as { category: string };
 	const query = context.query;
 
 	let produdctFetchURLRaw = PROXY_URL + 'products/filter/';
-	if (maincategory) produdctFetchURLRaw += `${maincategory}/`;
 	if (category) produdctFetchURLRaw += `${category}/`;
 
 	let filtersFetchURLRaw = PROXY_URL + 'products/filters/';
-	if (maincategory) filtersFetchURLRaw += `${maincategory}/`;
 	if (category) filtersFetchURLRaw += `${category}/`;
 
 	let productsData: ProductAPIResponse;

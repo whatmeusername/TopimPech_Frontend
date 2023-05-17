@@ -8,6 +8,7 @@ import { PAGE_NOT_FOUND, PRODUCT_PAGE_SUB_LABEL, PROXY_URL, ServerSideURLProps, 
 
 import { CatalogView } from '../../../components/CatalogContainer/ChangeProductView/interface';
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 
 async function CatalogPage(context: ServerSideURLProps) {
 	const { initData } = await catalogGetServerSideProps(context);
@@ -42,6 +43,10 @@ export async function catalogGetServerSideProps({ params, searchParams }: Server
 			status: { status: 404, message: '', is404Page: true },
 		};
 		filtersData = { count: 0, filtered: {} };
+	}
+
+	if (productsData.status.is404Page) {
+		notFound();
 	}
 
 	return {

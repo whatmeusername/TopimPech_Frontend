@@ -7,14 +7,14 @@ import { useCategoriesContext } from '../../../context/Categories';
 
 function CatalogHeader({ paginator }: { paginator: PaginatorData }): ReactElement {
 	const breacrumbData = useBreadcrumbContext();
-	const { maincategory, category } = useParams();
+	const { category } = useParams();
 
 	const header = useMemo(() => {
 		const currentBreadcrumbItem = breacrumbData?.getEndWith(category);
 		if (currentBreadcrumbItem) {
 			return currentBreadcrumbItem.data.find((data) => data.slug === category)?.name ?? '';
 		}
-	}, [breacrumbData, maincategory, category]);
+	}, [breacrumbData, category]);
 
 	return (
 		<div className="catalog__header__wrapper">
