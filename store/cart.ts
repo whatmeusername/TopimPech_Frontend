@@ -1,7 +1,7 @@
 import { action, makeObservable, observable, autorun, toJS, extendObservable } from 'mobx';
 
 class UserProductCart {
-	@observable public raw_items: { id: number; count: number }[] = [];
+	@observable public raw_items: { id: string; count: number }[] = [];
 	@observable public data: { [K: string]: any }[] = [];
 	@observable public updated: Date = new Date();
 
@@ -21,7 +21,7 @@ class UserProductCart {
 	}
 
 	@action
-	public addItem(payload: { id: number; count: number }) {
+	public addItem(payload: { id: string; count: number }) {
 		const existing = this.raw_items.find((item) => item.id === payload.id);
 		if (existing) {
 			existing.count += payload.count > 0 ? payload.count : 1;
@@ -31,7 +31,7 @@ class UserProductCart {
 	}
 
 	@action
-	public removeFromItem(payload: { id: number; count: number }) {
+	public removeFromItem(payload: { id: string; count: number }) {
 		const existingIndex = this.raw_items.findIndex((item) => item.id === payload.id);
 		if (existingIndex !== -1) {
 			const cartRawItem = this.raw_items[existingIndex];
@@ -43,14 +43,14 @@ class UserProductCart {
 		}
 	}
 
-	@action public deleteItem(payload: number) {
+	@action public deleteItem(payload: string) {
 		const existingIndex = this.raw_items.findIndex((item) => item.id === payload);
 		if (existingIndex !== -1) {
 			this.raw_items.splice(existingIndex, 1);
 		}
 	}
 
-	public has(id: number): boolean {
+	public has(id: string): boolean {
 		return this.raw_items.find((i) => i.id === id) !== undefined;
 	}
 
@@ -59,7 +59,7 @@ class UserProductCart {
 
 		const data = localStorage.getItem('cart');
 		if (data) {
-			extendObservable(this, JSON.parse(data));
+			//extendObservable(this, JSON.parse(data));
 		}
 	}
 
@@ -73,4 +73,4 @@ class UserProductCart {
 }
 
 const userProductCart = new UserProductCart();
-export { userProductCart };
+export { userProductCart, UserProductCart };

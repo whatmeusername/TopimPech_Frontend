@@ -7,7 +7,7 @@ interface FavouritesItem {
 	images: ProductData['images'];
 	price: number;
 	sale: number;
-	article: number;
+	article: string;
 }
 
 class FavouritesProducts {
@@ -48,7 +48,7 @@ class FavouritesProducts {
 		}
 	}
 
-	public has(article: number): boolean {
+	public has(article: string): boolean {
 		return this.items.find((i) => i.article === article) !== undefined;
 	}
 
@@ -70,5 +70,5 @@ class FavouritesProducts {
 }
 
 const favouritesProducts = new FavouritesProducts();
-export { favouritesProducts };
+export { favouritesProducts, FavouritesProducts };
 export type { FavouritesItem };

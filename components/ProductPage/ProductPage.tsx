@@ -18,6 +18,7 @@ import { SimilarProductBlock } from './SimilarProductBlock/SimilarProductBlock';
 import { ManufacturerElement } from './ManufacturerElement/ManufacturerElement';
 import AddToCartButton from '../CatalogComponents/AddToCartButton/AddToCartButton';
 import { HistorySlider } from '../HistorySlider/HistorySlider';
+import { useStore } from '../../context/MobxStoreContext/MobxStoreContext';
 
 function ProductPage({ productData, params }: { productData: ProductData; params: ParsedUrlQuery }): JSX.Element | null {
 	useEffect(() => {
@@ -60,7 +61,7 @@ function ProductPage({ productData, params }: { productData: ProductData; params
 					<PriceElement price={productData.price} sale={productData.sale} />
 					{productData.manufacturer ? <ManufacturerElement ManufacturerData={productData.manufacturer} /> : null}
 					<div className="product__page__upper__buttons">
-						<AddToCartButton itemId={productData.article} />
+						<AddToCartButton article={productData.article} />
 					</div>
 					{productData.properties && productData.properties?.length > 0 ? (
 						<ShortAttributesElement properties={productData.properties} take={5} />

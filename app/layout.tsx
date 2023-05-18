@@ -9,6 +9,9 @@ import WidthLimiter from '../components/Shared/WidthLimiter/WidthLimiter';
 import Layout from '../components/layout/layout';
 import { BreadcrumbContext } from '../context/Breadcrumb/BreadcrumbContext';
 import { CategoriesContext } from '../context/Categories/CategoriesContext';
+import axios from 'axios';
+import { userProductCart } from '../store';
+import { MobxStoreSessionBasedContext } from '../context/MobxStoreContext/MobxStoreContext';
 
 const PROXY_URL = process.env.PROXY_URL;
 const PRODUCT_PAGE_SUB_LABEL = 'купить в интернет-магазине товаров для бани TopimPech.ru';
@@ -29,7 +32,11 @@ interface ServerSideURLProps {
 }
 
 async function RootLayout({ children }: { children: ReactElement }) {
-	const categories = await getData(`${PROXY_URL}products/categories/`, { cache: 'force-cache', next: { revalidate: 3600 } });
+	const categoriesFetch = getData(`${PROXY_URL}products/categories/`, { cache: 'force-cache', next: { revalidate: 3600 } });
+	const userSessionFetch = getData(`${PROXY_URL}session/get`, { cache: 'no-cache' });
+
+	const [categories, userSession] = await Promise.all([categoriesFetch, userSessionFetch]);
+
 	return (
 		<html lang="en">
 			<head>
@@ -38,9 +45,11 @@ async function RootLayout({ children }: { children: ReactElement }) {
 			<body>
 				<CategoriesContext initialCategories={categories}>
 					<BreadcrumbContext>
-						<Layout>
-							<WidthLimiter>{children}</WidthLimiter>
-						</Layout>
+						<MobxStoreSessionBasedContext>
+							<Layout>
+								<WidthLimiter>{children}</WidthLimiter>
+							</Layout>
+						</MobxStoreSessionBasedContext>
 					</BreadcrumbContext>
 				</CategoriesContext>
 			</body>

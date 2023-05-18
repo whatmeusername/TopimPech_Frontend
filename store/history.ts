@@ -7,7 +7,7 @@ interface HistorySliceItem {
 	image: string | null;
 	price: number;
 	sale: number;
-	article: number;
+	article: string;
 }
 
 class ProductHistory {
@@ -21,7 +21,7 @@ class ProductHistory {
 		});
 	}
 
-	public getWithExclude(article: number): HistorySliceItem[] {
+	public getWithExclude(article: string): HistorySliceItem[] {
 		return this.items.filter((i) => i.article !== article);
 	}
 
@@ -74,5 +74,5 @@ class ProductHistory {
 }
 
 const productHistory = new ProductHistory();
-export { productHistory };
+export { productHistory, ProductHistory };
 export type { HistorySliceItem };

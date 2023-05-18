@@ -28,7 +28,7 @@ export interface Property {
 
 export interface ProductData {
 	name: string;
-	article: number;
+	article: string;
 	price: number;
 	sale: number;
 	images: ProductImage[];

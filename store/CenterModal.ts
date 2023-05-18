@@ -21,4 +21,4 @@ class CenterModalControl {
 }
 
 const centerModalControl = new CenterModalControl();
-export { centerModalControl };
+export { centerModalControl, CenterModalControl };
