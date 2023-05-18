@@ -1,6 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEquals, faChartColumn, faXmark } from '@fortawesome/free-solid-svg-icons';
-import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import { ReactElement, useEffect, useRef, useState } from 'react';
 import get from 'axios';
 import { ProductData } from '../Cards/interface';
@@ -8,15 +7,13 @@ import { createPortal } from 'react-dom';
 import { ModalWrapper } from '../../CentralModal/CenterModal';
 import useToggle from '../../../hooks/useToggle';
 import { centerModalControl } from '../../../store';
-import './SimilarProductsModal.scss';
 import { ProductSlider } from '../../ProductPage/ProductSlider/ProductSlider';
 import { LoadingBar } from '../../Shared/LoadingBar/LoadingBar';
 import { LOADING_LABEL_BASE } from '../../Shared/LoadingBar/LoadingLabels';
-import { observer } from 'mobx-react-lite';
 
-import HeartFilled from '../../../public/HeaderOtionsIcons/HeartFilled.svg';
-import HeartNotFilled from '../../../public/HeaderOtionsIcons/HeartNotFilled.svg';
-import { favouritesProducts } from '../../../store/favourites';
+import { FavouriteButton } from '../FavouriteButton/FavouriteButton';
+
+import './SimilarProductsModal.scss';
 
 function SimilarProductsModal({
 	ProductData,
@@ -95,30 +92,11 @@ function SimilarProductsElement({ article }: { article: number }): ReactElement 
 	);
 }
 
-const FavouriteProductsElement = observer(({ productData }: { productData: ProductData }) => {
-	const [isSelected, setSelected] = useState<boolean>(false);
-
-	useEffect(() => {
-		setSelected(favouritesProducts.has(productData.article));
-	}, [favouritesProducts.has(productData.article)]);
-
-	return (
-		<div
-			className={`product__card__option product__card__options__favourite ${
-				isSelected ? 'product__card__option__active' : 'product__card__option__inactive'
-			}`}
-			onClick={() => (isSelected ? favouritesProducts.remove(productData) : favouritesProducts.add(productData))}
-		>
-			{isSelected ? <HeartFilled className="product__card__option__icon" /> : <HeartNotFilled className="product__card__option__icon" />}
-		</div>
-	);
-});
-
 function ProductCardOptions({ productData }: { productData: ProductData }): ReactElement {
 	return (
 		<div className="product__card__options__wrapper">
 			<div className="product__card__option product__card__options__favourite">
-				<FavouriteProductsElement productData={productData} />
+				<FavouriteButton productData={productData} />
 			</div>
 			<div className="product__card__option product__card__options__comparison">
 				<FontAwesomeIcon icon={faChartColumn} />

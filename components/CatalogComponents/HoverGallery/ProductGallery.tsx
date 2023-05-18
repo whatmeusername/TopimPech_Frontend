@@ -25,6 +25,7 @@ const ProductImageGallery = ({ images, urlStartsWith }: { images: ProductImage[]
 	function onDragStart(event: React.MouseEvent | React.TouchEvent) {
 		const isTouch = (event as React.DragEvent).clientX === undefined;
 		startX = (event as React.TouchEvent)?.touches?.[0]?.clientX ?? (event as React.MouseEvent).clientX;
+		event.preventDefault();
 
 		isTouch ? window.addEventListener('touchmove', onDragEnd) : window.addEventListener('mouseup', onDragEnd);
 	}

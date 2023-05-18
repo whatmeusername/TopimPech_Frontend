@@ -41,7 +41,7 @@ class FavouritesProducts {
 	}
 
 	@action
-	public remove(payload: ProductData): void {
+	public remove(payload: ProductData | FavouritesItem): void {
 		const existIdx = this.items.findIndex((i) => i.article === payload.article);
 		if (existIdx !== -1) {
 			this.items.splice(existIdx, 1);

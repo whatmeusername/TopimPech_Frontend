@@ -17,6 +17,10 @@ import FacetFilter from '../Filter/Filter';
 import { CatalogHeader } from '../CatalogHead/CatalogHeader';
 import { SearchParamsBuilder } from '../../../utils/SearchParamsBuilder';
 import { CatalogHead } from '../CatalogHead/CatalogHead';
+import { productHistory } from '../../../store';
+import { HistorySlider } from '../../HistorySlider/HistorySlider';
+import { HydrationComponent } from '../../ProductPage/ProductPage';
+import { ThinBreakLine } from '../../Shared/Lines/ThinBreakLine/ThinBreakLine';
 
 export interface FetchURLData {
 	params: { [K: string]: string };
@@ -42,6 +46,20 @@ export default function Catalog({ initData }: { initData: initData }): ReactElem
 					<FacetFilter initialFilters={initData?.filtersData} />
 				</div>
 				<CatalogContainer getFetchURL={getFetchURL} CatalogData={initData.productsData} />
+			</div>
+
+			<div className="catalog__footer">
+				<HydrationComponent>
+					{productHistory.items.length > 0 ? (
+						<>
+							<ThinBreakLine />
+							<div className="catalog__page__card catalog__page__history">
+								<h3 className="catalog__page__history__header">Вы смотрели</h3>
+								<HistorySlider />
+							</div>
+						</>
+					) : null}
+				</HydrationComponent>
 			</div>
 		</div>
 	);

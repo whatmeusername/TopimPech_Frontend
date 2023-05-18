@@ -7,9 +7,9 @@ import ProductSearch from '../searchfield/searchfield';
 import Menu from '../Menu/Menu';
 import Logo from '../../../public/images/SiteLogo.png';
 
-import Cart from '../../../public/HeaderOtionsIcons/cart.svg';
-import Comparison from '../../../public/HeaderOtionsIcons/comparison.svg';
-import Heart from '../../../public/HeaderOtionsIcons/HeartNotFilled.svg';
+import Cart from '../../../public/OptionsIcons/cart.svg';
+import Comparison from '../../../public/OptionsIcons/comparison.svg';
+import Heart from '../../../public/OptionsIcons/HeartNotFilled.svg';
 
 import { ReactElement } from 'react';
 import { observer } from 'mobx-react-lite';

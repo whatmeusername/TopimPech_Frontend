@@ -143,6 +143,7 @@
 					align-items: center;
 					cursor: pointer;
 					transition: 0.1s ease-in-out;
+					
 					.product__card__option__icon {
 						width: 20px;
 						height: 20px;
@@ -160,6 +161,9 @@
 						&:hover {
 							border-color: var(--orange-color);
 							color: var(--orange-color);
+							.product__card__option__icon {
+								fill: var(--orange-color);
+							}
 						}
 					}
 				}
