@@ -18,7 +18,6 @@ import { SimilarProductBlock } from './SimilarProductBlock/SimilarProductBlock';
 import { ManufacturerElement } from './ManufacturerElement/ManufacturerElement';
 import AddToCartButton from '../CatalogComponents/AddToCartButton/AddToCartButton';
 import { HistorySlider } from '../HistorySlider/HistorySlider';
-import { useStore } from '../../context/MobxStoreContext/MobxStoreContext';
 
 function ProductPage({ productData, params }: { productData: ProductData; params: ParsedUrlQuery }): JSX.Element | null {
 	useEffect(() => {

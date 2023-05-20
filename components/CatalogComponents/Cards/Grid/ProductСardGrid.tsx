@@ -22,7 +22,7 @@ export default function ProductCardGrid({ product, fadeIn }: { product: ProductD
 				<ManufacturerData product={product} />
 			</Link>
 			<div className="product__card__no__link__wrapper">
-				<AddToCartButton itemId={product.article} />
+				<AddToCartButton article={product.article} />
 			</div>
 			<ProductCardOptions productData={product} />
 		</div>

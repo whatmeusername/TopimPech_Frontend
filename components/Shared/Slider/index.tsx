@@ -45,6 +45,8 @@ function ButtonVersionSlider({ children, options }: { children: JSX.Element; opt
 		const wrapperInnerWidth = contentRef.current.offsetWidth;
 		const contentItems = contentRef.current.childNodes;
 
+		if (contentRef.current.childNodes.length === 0) return;
+
 		itemWidth.current = (contentItems[0] as HTMLElement).offsetWidth;
 
 		itemsPerSlide.current = itemsPerSlide.current === null ? Math.floor(wrapperInnerWidth / itemWidth.current) : itemsPerSlide.current;

@@ -4,7 +4,7 @@ import './FavouritesElement.scss';
 
 import { observer } from 'mobx-react-lite';
 import { ReactElement } from 'react';
-import { favouritesProducts, FavouritesItem } from '../../store/favourites';
+import { FavouritesItem } from '../../store/favourites';
 import ProductImageGallery from '../CatalogComponents/HoverGallery/ProductGallery';
 import { ThinBreakLine } from '../Shared/Lines/ThinBreakLine/ThinBreakLine';
 import AddToCartButton from '../CatalogComponents/AddToCartButton/AddToCartButton';
@@ -12,10 +12,13 @@ import Link from 'next/link';
 
 import TrashBin from '../../public/OptionsIcons/TrashBin.svg';
 import PriceElement from '../CatalogComponents/PriceElement.tsx/PriceElement';
+import { useFavouritesProducts } from '../../context/MobxStoreContext/MobxStoreContext';
 
 const FavouritesItemDeleteBtn = ({ product }: { product: FavouritesItem }) => {
+	const FavouritesProducts = useFavouritesProducts();
+
 	return (
-		<button className="favourites__item__options__btn" onClick={() => favouritesProducts.remove(product)}>
+		<button className="favourites__item__options__btn" onClick={() => FavouritesProducts.remove(product)}>
 			<TrashBin className="favourites__item__options__btn__icon" />
 			<p className="favourites__item__options__btn__label">Удалить</p>
 		</button>
@@ -50,17 +53,18 @@ const FavouritesItem = ({ product }: { product: FavouritesItem }): ReactElement 
 };
 
 const FavouritesElement = observer((): ReactElement => {
+	const FavouritesProducts = useFavouritesProducts();
 	return (
 		<div className="favourites__container">
 			<div className="favourites__header">
-				<h1>Избранные товары {favouritesProducts.getCount()}</h1>
+				<h1>Избранные товары {FavouritesProducts.getCount()}</h1>
 			</div>
 			<div className="favourites__items__wrapper">
-				{favouritesProducts.items.map((product, i) => {
+				{FavouritesProducts.items.map((product, i) => {
 					return (
 						<>
 							<FavouritesItem product={product} key={`favourites__item__${product.article}`} />
-							{i + 1 !== favouritesProducts.items.length ? <ThinBreakLine /> : null}
+							{i + 1 !== FavouritesProducts.items.length ? <ThinBreakLine /> : null}
 						</>
 					);
 				})}

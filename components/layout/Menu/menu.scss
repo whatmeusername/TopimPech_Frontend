@@ -82,26 +82,25 @@
 							margin: 10px 15px;
 							border: 1px solid transparent;
 
+							text-decoration: none;
+							color: var(--primary-color);
+							font-family: var(--museo_cyrl);
+							font-size: var(--fontL);
+							font-weight: 300;
+
+							display: -webkit-box;
+							-webkit-line-clamp: 1;
+							-webkit-box-orient: vertical;
+							overflow: hidden;
+							text-overflow: ellipsis;
+							&::first-letter {
+								text-transform: uppercase;
+							}
+
 							&.main__category__column__item__selected {
 								border: 1px solid var(--primary-color);
 							}
 
-							a {
-								text-decoration: none;
-								color: var(--primary-color);
-								font-family: var(--museo_cyrl);
-								font-size: var(--fontL);
-								font-weight: 300;
-
-								display: -webkit-box;
-								-webkit-line-clamp: 1;
-								-webkit-box-orient: vertical;
-								overflow: hidden;
-								text-overflow: ellipsis;
-								&::first-letter {
-									text-transform: uppercase;
-								}
-							}
 						}
 					}
 				}

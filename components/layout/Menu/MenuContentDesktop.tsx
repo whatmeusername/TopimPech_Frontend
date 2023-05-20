@@ -13,24 +13,25 @@ const MenuContentDesktop = memo(({ categories }: { categories: CategoryData[] })
 
 	const MainCategoryItem = ({ category }: { category: CategoryData }): JSX.Element => {
 		return (
-			<div
+			<Link
+				href={`/catalog/${category.slug}/`}
+				onClick={() => closeModalFunction(false)}
+				prefetch={false}
 				className={`
 					main__category__column__item
 					${selectedCategory === category.slug ? 'main__category__column__item__selected' : ''}
 					`}
 				onMouseEnter={() => setSelectedCategory(category.slug)}
 			>
-				<Link href={`/catalog/${category.slug}/`} onClick={() => closeModalFunction(false)}>
-					{category.name}
-				</Link>
-			</div>
+				{category.name}
+			</Link>
 		);
 	};
 
 	function SubCategoryColumn({ data }: { data: CategoryData }): JSX.Element {
 		function SubCategoryItem({ data, className }: { data: CategoryData; className: string }): JSX.Element {
 			return (
-				<Link href={`/catalog/${data.slug}`} onClick={() => closeModalFunction(false)} className={className}>
+				<Link href={`/catalog/${data.slug}`} onClick={() => closeModalFunction(false)} className={className} prefetch={false}>
 					{data.name}
 				</Link>
 			);

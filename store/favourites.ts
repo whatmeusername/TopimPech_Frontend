@@ -1,5 +1,6 @@
-import { action, makeObservable, observable, autorun, toJS, extendObservable } from 'mobx';
+import { action, makeObservable, observable } from 'mobx';
 import { ProductData } from '../components/CatalogComponents/Cards/interface';
+import axios from 'axios';
 
 interface FavouritesItem {
 	name: string;
@@ -14,11 +15,7 @@ class FavouritesProducts {
 	@observable public items: FavouritesItem[] = [];
 
 	constructor() {
-		this.load();
 		makeObservable(this);
-		autorun(() => {
-			this.save();
-		});
 	}
 
 	public getCount(): number {
@@ -37,6 +34,7 @@ class FavouritesProducts {
 				sale: payload.sale,
 				article: payload.article,
 			});
+			axios({ url: '/api/session/update', method: 'POST', data: { key: 'favourites', items: this.items } });
 		}
 	}
 
@@ -48,27 +46,14 @@ class FavouritesProducts {
 		}
 	}
 
+	public hydrate(data: FavouritesItem[]): void {
+		this.items = data;
+	}
+
 	public has(article: string): boolean {
 		return this.items.find((i) => i.article === article) !== undefined;
 	}
-
-	private load(): void {
-		if (typeof window === 'undefined') return;
-
-		const data = localStorage.getItem('favourites');
-		if (data) {
-			extendObservable(this, JSON.parse(data));
-		}
-	}
-
-	private save(): void {
-		if (typeof window === 'undefined') return;
-
-		const json = JSON.stringify(toJS(this));
-		localStorage.setItem('favourites', json);
-	}
 }
 
-const favouritesProducts = new FavouritesProducts();
-export { favouritesProducts, FavouritesProducts };
+export { FavouritesProducts };
 export type { FavouritesItem };

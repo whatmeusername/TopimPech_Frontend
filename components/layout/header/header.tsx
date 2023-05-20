@@ -13,9 +13,8 @@ import Heart from '../../../public/OptionsIcons/HeartNotFilled.svg';
 
 import { ReactElement } from 'react';
 import { observer } from 'mobx-react-lite';
-import { userProductCart } from '../../../store';
-import { HydrationComponent } from '../../ProductPage/ProductPage';
-import { favouritesProducts } from '../../../store/favourites';
+
+import { useFavouritesProducts, useUserProductCart } from '../../../context/MobxStoreContext/MobxStoreContext';
 
 const HeaderLogo = (): JSX.Element => {
 	return (
@@ -28,25 +27,23 @@ const HeaderLogo = (): JSX.Element => {
 };
 
 const CartElement = observer((): ReactElement => {
+	const ProductCart = useUserProductCart();
 	return (
 		<button className="header__option__wrapper">
 			<Cart className="header__option__icon" />
 			<p className="header__option__label">Корзина</p>
-			<HydrationComponent>
-				<div className="header__option__count__pin header__option__count__pin__cart">{userProductCart.getCount()}</div>
-			</HydrationComponent>
+			<div className="header__option__count__pin header__option__count__pin__cart">{ProductCart.getCount()}</div>
 		</button>
 	);
 });
 
 const FavouriteElement = observer((): ReactElement => {
+	const FavouritesProducts = useFavouritesProducts();
 	return (
 		<Link href="/favourites" className="header__option__wrapper">
 			<Heart className="header__option__icon" />
 			<p className="header__option__label">Избранное</p>
-			<HydrationComponent>
-				<div className="header__option__count__pin header__option__count__pin__favourite">{favouritesProducts.getCount()}</div>
-			</HydrationComponent>
+			<div className="header__option__count__pin header__option__count__pin__favourite">{FavouritesProducts.getCount()}</div>
 		</Link>
 	);
 });
