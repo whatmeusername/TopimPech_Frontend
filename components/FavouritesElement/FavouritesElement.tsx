@@ -13,14 +13,19 @@ import Link from 'next/link';
 import TrashBin from '../../public/OptionsIcons/TrashBin.svg';
 import PriceElement from '../CatalogComponents/PriceElement.tsx/PriceElement';
 import { useFavouritesProducts } from '../../context/MobxStoreContext/MobxStoreContext';
+import { ComparisonButton } from '../CatalogComponents/ComparisonButton/ComparisonButton';
+import { declOfNum } from '../../utils';
+import { ToPreviousPageButton } from '../Shared/ToPreviousPageButton/ToPreviousPageButton';
+
+import HeartNotFilled from '../../public/OptionsIcons/HeartNotFilled.svg';
 
 const FavouritesItemDeleteBtn = ({ product }: { product: FavouritesItem }) => {
 	const FavouritesProducts = useFavouritesProducts();
 
 	return (
-		<button className="favourites__item__options__btn" onClick={() => FavouritesProducts.remove(product)}>
-			<TrashBin className="favourites__item__options__btn__icon" />
-			<p className="favourites__item__options__btn__label">Удалить</p>
+		<button className="product__card__option" onClick={() => FavouritesProducts.remove(product)}>
+			<TrashBin className="product__card__option__icon" />
+			<p className="product__card__option__label">Удалить</p>
 		</button>
 	);
 };
@@ -30,7 +35,7 @@ const FavouritesItem = ({ product }: { product: FavouritesItem }): ReactElement 
 		<div className="favourites__item">
 			<div className="favourites__item__main__content">
 				<div className="favourites__item__gallery__wrapper">
-					<ProductImageGallery images={product?.images} urlStartsWith={'/api'} />
+					<ProductImageGallery images={product.images} urlStartsWith={'/api'} alt={product.name} />
 				</div>
 				<div className="favourites__item__content favourites__item__content__wrapper">
 					<Link href={`/product/${product.article}/`} className="favourites__item__link">
@@ -40,7 +45,7 @@ const FavouritesItem = ({ product }: { product: FavouritesItem }): ReactElement 
 
 					<div className="favourites__item__options">
 						<FavouritesItemDeleteBtn product={product} />
-						<FavouritesItemDeleteBtn product={product} />
+						<ComparisonButton productData={product} withLabel={true} />
 					</div>
 				</div>
 			</div>
@@ -54,20 +59,38 @@ const FavouritesItem = ({ product }: { product: FavouritesItem }): ReactElement 
 
 const FavouritesElement = observer((): ReactElement => {
 	const FavouritesProducts = useFavouritesProducts();
+
+	const itHasItems = FavouritesProducts.items.length > 0;
+
 	return (
 		<div className="favourites__container">
-			<div className="favourites__header">
-				<h1>Избранные товары {FavouritesProducts.getCount()}</h1>
+			<ToPreviousPageButton />
+			<div className="favourites__header__wrapper">
+				<h1 className="favourites__header">{itHasItems ? 'Избранные товары' : 'В избранном пока что ничего нет'}</h1>
+				{itHasItems ? (
+					<span className="favourites__header__count">
+						{FavouritesProducts.getCount()} {declOfNum(FavouritesProducts.getCount(), ['товар', 'товара', 'товаров'])}
+					</span>
+				) : null}
 			</div>
-			<div className="favourites__items__wrapper">
-				{FavouritesProducts.items.map((product, i) => {
-					return (
-						<>
-							<FavouritesItem product={product} key={`favourites__item__${product.article}`} />
-							{i + 1 !== FavouritesProducts.items.length ? <ThinBreakLine /> : null}
-						</>
-					);
-				})}
+
+			<div className={`favourites__items__wrapper ${!itHasItems ? 'favourites__items__wrapper__empty' : ''}`}>
+				{itHasItems ? (
+					<>
+						{FavouritesProducts.items.map((product, i) => {
+							return (
+								<>
+									<FavouritesItem product={product} key={`favourites__item__${product.article}`} />
+									{i + 1 !== FavouritesProducts.items.length ? <ThinBreakLine /> : null}
+								</>
+							);
+						})}
+					</>
+				) : (
+					<p className="favourites__items__empty__label">
+						Добавляйте понравившийся вам товары в избранное с помощью <HeartNotFilled className="favourites__items__empty__label__icon" />
+					</p>
+				)}
 			</div>
 		</div>
 	);

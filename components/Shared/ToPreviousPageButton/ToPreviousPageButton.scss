@@ -1,0 +1,23 @@
+.previous__page__btn{
+    color: var(--orange-color);
+    fill: var(--orange-color);
+    font-family: var(--museo_cyrl);
+    font-size: var(--fontX);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    opacity: 1;
+    transition: opacity 0.15s ease;
+
+    &:hover{
+        opacity: 0.75;
+    }
+
+    .previous__page__icon{
+        width: 25px;
+        height: 25px;
+        transform: rotateY(180deg);
+    }
+}

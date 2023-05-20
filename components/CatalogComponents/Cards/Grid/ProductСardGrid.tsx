@@ -13,7 +13,7 @@ export default function ProductCardGrid({ product, fadeIn }: { product: ProductD
 		<div className={`product__card__wrapper product__card__wrapper__grid ${fadeIn ? 'product__card__fade__in' : ''}`}>
 			<Link href={`/product/${product.article}/`} className="product__card__link__wrapper" prefetch={false}>
 				<div className="product__card__image__wrapper">
-					<ProductImageGallery images={product.images} urlStartsWith={'/api'} />
+					<ProductImageGallery images={product.images} urlStartsWith={'/api'} alt={product.name} />
 				</div>
 				<PriceElement price={product.price} sale={product.sale} />
 				<div className="product__card__name__wrapper">

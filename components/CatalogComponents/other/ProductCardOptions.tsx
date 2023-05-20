@@ -62,7 +62,7 @@ function SimilarProductsModal({
 	);
 }
 
-function SimilarProductsElement({ article }: { article: number }): ReactElement {
+function SimilarProductsElement({ article }: { article: string }): ReactElement {
 	const [toggle, setToggle] = useToggle();
 	const [products, setProducts] = useState<ProductData[]>(null!);
 	const isFetched = useRef<boolean>(false);

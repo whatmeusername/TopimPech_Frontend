@@ -107,7 +107,7 @@ const GalleryDesktop = ({ items, urlStartsWith, ration }: { items: GalleryItem[]
 									onClick={() => setActiveImage(item.id)}
 									data-image-id={item.id}
 								>
-									<img src={(urlStartsWith ?? '') + item.path} alt="" className="gallery__available__item__image" />
+									<img src={(urlStartsWith ?? '') + item.path} alt={item.path} className="gallery__available__item__image" />
 								</div>
 							);
 						})}
@@ -117,7 +117,7 @@ const GalleryDesktop = ({ items, urlStartsWith, ration }: { items: GalleryItem[]
 			<div className="gallery__current__img__holder__wrapper">
 				<div className="gallery__current__img__holder" ref={imageWrapper}>
 					<div className="gallery__current__img__wrapper" onMouseMove={onHover} onMouseEnter={onEnter} onMouseLeave={onHoverLeave}>
-						<img src={activeImagePath} alt="" className="gallery__current__img" ref={imageElement} style={{ display: 'none' }} />
+						<img src={activeImagePath} alt={activeImagePath} className="gallery__current__img" ref={imageElement} style={{ display: 'none' }} />
 						<div ref={zoomPointer} className="gallery__current__zoom__cursor" />
 					</div>
 					<div className="gallery__current__img__zoom" style={{ background: `url(${activeImagePath})` }} ref={zoomImage} />

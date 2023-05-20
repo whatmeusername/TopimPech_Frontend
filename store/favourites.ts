@@ -23,7 +23,7 @@ class FavouritesProducts {
 	}
 
 	@action
-	public add(payload: ProductData): void {
+	public add(payload: ProductData | FavouritesItem): void {
 		const existIdx = this.items.findIndex((i) => i.article === payload.article);
 		if (existIdx === -1) {
 			this.items.unshift({

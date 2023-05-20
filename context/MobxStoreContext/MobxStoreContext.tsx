@@ -41,16 +41,6 @@ interface UserSession {
 	expires: Date;
 }
 
-const SessionTestData = {
-	UID: 'ewgjergjeriw',
-	UserAgent: '',
-	cart: [],
-	favourites: [],
-	comparison: [],
-	expires: new Date(),
-	created: new Date(),
-};
-
 function updateRootStoreData(session?: UserSession): void {
 	if (session) {
 		rootStore.cart.hydrate(session.cart);

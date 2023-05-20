@@ -34,7 +34,7 @@ function ProductCardRow({ product, fadeIn }: { product: ProductData; fadeIn?: bo
 	return (
 		<div className={`product__card__wrapper product__card__wrapper__row ${fadeIn ? 'product__card__fade__in' : ''}`}>
 			<div className="product__card__image__wrapper">
-				<ProductImageGallery images={product?.images} urlStartsWith={'/api'} />
+				<ProductImageGallery images={product.images} urlStartsWith={'/api'} alt={product.name} />
 			</div>
 			<div className="product__card__main__wrapper">
 				<Link href={`/product/${product.article}/`} className="product__card__link" prefetch={false}>

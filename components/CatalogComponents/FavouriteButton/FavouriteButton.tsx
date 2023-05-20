@@ -6,14 +6,14 @@ import { ProductData } from '../Cards/interface';
 
 import { useFavouritesProducts } from '../../../context/MobxStoreContext/MobxStoreContext';
 
-const FavouriteButton = observer(({ productData, withLabel }: { productData: ProductData; withLabel?: boolean }) => {
+const FavouriteButton = observer(({ productData, withLabel, className }: { productData: ProductData; withLabel?: boolean; className?: string }) => {
 	const FavouritesStore = useFavouritesProducts();
 
 	const isSelected = FavouritesStore.has(productData.article);
 
 	return (
 		<div
-			className={`product__card__option product__card__options__favourite ${
+			className={`product__card__option product__card__options__favourite ${className ?? ''} ${
 				isSelected ? 'product__card__option__active' : 'product__card__option__inactive'
 			}`}
 			onClick={() => (isSelected ? FavouritesStore.remove(productData) : FavouritesStore.add(productData))}

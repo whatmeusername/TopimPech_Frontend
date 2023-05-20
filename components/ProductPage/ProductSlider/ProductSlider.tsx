@@ -11,7 +11,7 @@ const ProductSliderItem = ({ data, URLStartWith }: { data: HistorySliceItem | Pr
 	return (
 		<Link href={`/product/${data.article}`} className="product_slider__item">
 			<div className="product_slider__item__image__wrapper">
-				<img src={(URLStartWith ?? '') + image} alt="" className="product_slider__item__image" />
+				<img src={(URLStartWith ?? '') + image} alt={data.name} className="product_slider__item__image" />
 			</div>
 			<div className="product_slider__item__info">
 				<PriceElement price={data.price} sale={data.sale} />

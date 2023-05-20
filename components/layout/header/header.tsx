@@ -8,7 +8,7 @@ import Menu from '../Menu/Menu';
 import Logo from '../../../public/images/SiteLogo.png';
 
 import Cart from '../../../public/OptionsIcons/cart.svg';
-import Comparison from '../../../public/OptionsIcons/comparison.svg';
+import Comparison from '../../../public/OptionsIcons/Comparison.svg';
 import Heart from '../../../public/OptionsIcons/HeartNotFilled.svg';
 
 import { ReactElement } from 'react';
@@ -20,7 +20,7 @@ const HeaderLogo = (): JSX.Element => {
 	return (
 		<Link href="/">
 			<div className="logo__wrapper">
-				<Image src={Logo} className="logo__main" alt=""></Image>
+				<Image src={Logo} className="logo__main" alt="логотип сайта TopimPech.ru"></Image>
 			</div>
 		</Link>
 	);

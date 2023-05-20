@@ -83,7 +83,7 @@ const GalleryMobile = ({ items, urlStartsWith }: { items: GalleryItem[]; urlStar
 					{items.map((item) => {
 						return (
 							<span className="gallery__image__holder" key={`gallery__image__holder__${item.id}`}>
-								<img src={(urlStartsWith ?? '') + item.path} className="gallery__current__image" alt="" />
+								<img src={(urlStartsWith ?? '') + item.path} className="gallery__current__image" alt={item.id} />
 							</span>
 						);
 					})}

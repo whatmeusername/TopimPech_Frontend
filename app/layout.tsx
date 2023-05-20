@@ -12,7 +12,6 @@ import { CategoriesContext } from '../context/Categories/CategoriesContext';
 
 import { MobxStoreSessionBasedContext, UserSession } from '../context/MobxStoreContext/MobxStoreContext';
 import { cookies } from 'next/dist/client/components/headers';
-import { NextRequest, NextResponse } from 'next/server';
 
 const PROXY_URL = process.env.PROXY_URL;
 const PRODUCT_PAGE_SUB_LABEL = 'купить в интернет-магазине товаров для бани TopimPech.ru';

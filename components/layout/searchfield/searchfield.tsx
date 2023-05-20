@@ -24,7 +24,7 @@ const SearchItemElement = ({ data, ToggleModal }: { data: ProductData; ToggleMod
 		>
 			<div className="search__result__item__left">
 				<div className="search__result__item__image__wrapper">
-					<img src={`/api/${data.images.length > 0 ? data.images[0].path : ''}`} alt="" className="search__result__item__image" />
+					<img src={`/api/${data.images.length > 0 ? data.images[0].path : ''}`} alt={data.name} className="search__result__item__image" />
 				</div>
 				<div className="search__result__item__content">
 					<div className="search__result__label__wrapper">
