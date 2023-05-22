@@ -22,8 +22,18 @@ class UserProductCart {
 		if (existing) {
 			existing.count += payload.count > 0 ? payload.count : 1;
 		} else {
-			this.raw_items.push({ id: payload.id, count: payload.count > 0 ? payload.count : 1 });
-			axios({ url: '/api/session/update', method: 'POST', data: { key: 'cart', items: this.raw_items } });
+			axios({
+				url: '/api/session/update',
+				method: 'POST',
+				data: {
+					key: 'cart',
+					items: JSON.parse(JSON.stringify([...this.raw_items, { id: payload.id, count: payload.count > 0 ? payload.count : 1 }])),
+				},
+			}).then((response) => {
+				if (response.data.status === 'OK') {
+					this.raw_items.push({ id: payload.id, count: payload.count > 0 ? payload.count : 1 });
+				}
+			});
 		}
 	}
 

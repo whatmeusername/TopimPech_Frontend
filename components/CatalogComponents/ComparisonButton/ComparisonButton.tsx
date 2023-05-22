@@ -21,7 +21,7 @@ const ComparisonButton = observer(
 				onClick={() => (isSelected ? ComparisonStore.remove(productData) : ComparisonStore.add(productData))}
 			>
 				<ComparisonIcon className="product__card__option__icon" />
-				{withLabel ? <p className="product__card__option__label">{isSelected ? 'В избранном' : 'В избранное'}</p> : null}
+				{withLabel ? <p className="product__card__option__label">{isSelected ? 'В сравнение' : 'Сравнить'}</p> : null}
 			</button>
 		);
 	},

@@ -1,3 +1,4 @@
+import useToggle from '../../../../hooks/useToggle';
 import AddToCartButton from '../../AddToCartButton/AddToCartButton';
 import ProductImageGallery from '../../HoverGallery/ProductGallery';
 import PriceElement from '../../PriceElement.tsx/PriceElement';
@@ -30,11 +31,24 @@ const FeatureWrapper = ({ product, limit }: { product: ProductData; limit: numbe
 	);
 };
 
+function ProductPreview() {
+	const [toggle, setToggle] = useToggle();
+
+	return (
+		<>
+			<button className="product__preview" onClick={() => setToggle(true)}>
+				Предпросмотр
+			</button>
+		</>
+	);
+}
+
 function ProductCardRow({ product, fadeIn }: { product: ProductData; fadeIn?: boolean }): JSX.Element {
 	return (
 		<div className={`product__card__wrapper product__card__wrapper__row ${fadeIn ? 'product__card__fade__in' : ''}`}>
 			<div className="product__card__image__wrapper">
 				<ProductImageGallery images={product.images} urlStartsWith={'/api'} alt={product.name} />
+				<ProductPreview />
 			</div>
 			<div className="product__card__main__wrapper">
 				<Link href={`/product/${product.article}/`} className="product__card__link" prefetch={false}>

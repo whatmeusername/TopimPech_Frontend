@@ -3,7 +3,7 @@
 import './FavouritesElement.scss';
 
 import { observer } from 'mobx-react-lite';
-import { ReactElement } from 'react';
+import { Fragment, ReactElement } from 'react';
 import { FavouritesItem } from '../../store/favourites';
 import ProductImageGallery from '../CatalogComponents/HoverGallery/ProductGallery';
 import { ThinBreakLine } from '../Shared/Lines/ThinBreakLine/ThinBreakLine';
@@ -79,10 +79,10 @@ const FavouritesElement = observer((): ReactElement => {
 					<>
 						{FavouritesProducts.items.map((product, i) => {
 							return (
-								<>
+								<Fragment key={`favourites__item__${product.article}`}>
 									<FavouritesItem product={product} key={`favourites__item__${product.article}`} />
 									{i + 1 !== FavouritesProducts.items.length ? <ThinBreakLine /> : null}
-								</>
+								</Fragment>
 							);
 						})}
 					</>

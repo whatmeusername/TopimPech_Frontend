@@ -22,19 +22,33 @@ class FavouritesProducts {
 		return this.items.length;
 	}
 
+	private parseProductData(payload: ProductData | FavouritesItem): FavouritesItem {
+		return {
+			name: payload.name,
+			categories: payload.categories,
+			images: payload.images,
+			price: payload.price,
+			sale: payload.sale,
+			article: payload.article,
+		};
+	}
+
 	@action
 	public add(payload: ProductData | FavouritesItem): void {
 		const existIdx = this.items.findIndex((i) => i.article === payload.article);
 		if (existIdx === -1) {
-			this.items.unshift({
-				name: payload.name,
-				categories: payload.categories,
-				images: payload.images,
-				price: payload.price,
-				sale: payload.sale,
-				article: payload.article,
+			axios({
+				url: '/api/session/update',
+				method: 'POST',
+				data: {
+					key: 'favourites',
+					items: JSON.parse(JSON.stringify([...this.items, this.parseProductData(payload)])),
+				},
+			}).then((response) => {
+				if (response.data.status === 'OK') {
+					this.items.push(this.parseProductData(payload));
+				}
 			});
-			axios({ url: '/api/session/update', method: 'POST', data: { key: 'favourites', items: this.items } });
 		}
 	}
 

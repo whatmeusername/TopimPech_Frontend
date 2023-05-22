@@ -8,6 +8,7 @@
         .catalog__header {
             color: var(--primary-color);
             font-family: var(--museo_cyrl);
+            font-size: var(--headerX);
             font-weight: 300;
             letter-spacing: 1px;
             margin: 0px;
@@ -21,6 +22,21 @@
             font-family: var(--museo_cyrl);
             color: var(--standard-color);
             font-size: var(--fontM);
+        }
+    }
+    @media(max-width: 768px){
+        .breadcrumb__wrapper{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            .catalog__header{
+                font-size: var(--headerL);
+            }
+        }
+        .catalog__header__wrapper{
+            align-items: center;
+            flex-direction: column;
         }
     }
 }
