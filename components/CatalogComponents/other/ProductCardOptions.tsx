@@ -3,8 +3,7 @@ import { faEquals, faChartColumn, faXmark } from '@fortawesome/free-solid-svg-ic
 import { ReactElement, useEffect, useRef, useState } from 'react';
 import get from 'axios';
 import { ProductData } from '../Cards/interface';
-import { createPortal } from 'react-dom';
-import { ModalWrapper } from '../../CentralModal/CenterModal';
+import { ModalContentWrapper, ModalHead, ModalWrapper } from '../../CentralModal/CenterModal';
 import useToggle from '../../../hooks/useToggle';
 import { centerModalControl } from '../../../store';
 import { ProductSlider } from '../../ProductPage/ProductSlider/ProductSlider';
@@ -24,41 +23,28 @@ function SimilarProductsModal({
 	toggle: (fixedState?: boolean | undefined) => void;
 	isFetched: boolean;
 }): ReactElement {
-	return createPortal(
+	return (
 		<ModalWrapper id={'SimilarProduct'} toggle={toggle}>
 			{isFetched ? (
-				<div className="modal__content similar_product__modal">
-					<div className="similar_product__modal__header">
-						<div className="similar_product__modal__close__wrapper">
-							<button
-								className="modal__close__wrapper__button"
-								onClick={() => {
-									toggle();
-									centerModalControl.toggle('SimilarProduct');
-								}}
-							>
-								<FontAwesomeIcon icon={faXmark} />
-							</button>
+				<ModalContentWrapper className="similar_product__modal">
+					<ModalHead />
+					<div className="modal__content similar_product__modal">
+						<div className="similar_product__modal__content__items__wrapper">
+							{ProductData.length > 0 ? (
+								<>
+									<h3 className="similar_product__modal__content__header">Похожие товары</h3>
+									<ProductSlider items={ProductData} URLStartWith="/api" />
+								</>
+							) : (
+								<p className="similar_product__not__found">Упс! К сожалению мы не нашли похожих товаров</p>
+							)}
 						</div>
 					</div>
-					<hr className="break__line__standard"></hr>
-					<div className="similar_product__modal__content__items__wrapper">
-						{ProductData.length > 0 ? (
-							<>
-								<h3 className="similar_product__modal__content__header">Похожие товары</h3>
-								<ProductSlider items={ProductData} URLStartWith="/api" />
-							</>
-						) : (
-							<p className="similar_product__not__found">Упс! К сожалению мы не нашли похожих товаров</p>
-						)}
-					</div>
-					<div className="similar_product__modal__footer__items"></div>
-				</div>
+				</ModalContentWrapper>
 			) : (
 				<LoadingBar label={LOADING_LABEL_BASE} />
 			)}
-		</ModalWrapper>,
-		document.body,
+		</ModalWrapper>
 	);
 }
 

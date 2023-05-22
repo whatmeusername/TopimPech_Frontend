@@ -8,7 +8,7 @@ import { useState, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { centerModalControl } from '../../../../store';
 import { declOfNum } from '../../../../utils';
-import { ModalWrapper } from '../../../CentralModal/CenterModal';
+import { ModalContentWrapper, ModalFooterWrapper, ModalHead, ModalWrapper } from '../../../CentralModal/CenterModal';
 import Dropdown from '../../../Shared/Dropdown/Dropdown';
 import CheckboxFilter from '../CheckboxFilter/CheckboxFilter';
 import InputFilter from '../InputFilter/InputFilter';
@@ -117,23 +117,18 @@ const AllFilterComponent = ({
 		setFilterData({ ...filterData });
 	};
 
-	return createPortal(
+	return (
 		<ModalWrapper id={'FilterModal'}>
-			<div className="modal__content filter__modal__content">
-				<div className="filter__modal__content__header">
+			<ModalContentWrapper className="filter__modal__content">
+				<ModalHead className="filter__modal__content__header">
 					<div className="content__header__wrapper">
 						<h3 className="filter__modal__content__header">Все фильтры</h3>
 						<p className="filters__modal__count">
 							всего {filtersCount} {declOfNum(filtersCount, ['параметр', 'параметра', 'параметров'])}
 						</p>
 					</div>
-					<div className="filter__modal__close__wrapper">
-						<button className="modal__close__wrapper__button" onClick={() => centerModalControl.toggle('FilterModal')}>
-							<FontAwesomeIcon icon={faXmark} />
-						</button>
-					</div>
-				</div>
-				<hr className="break__line__standard"></hr>
+				</ModalHead>
+
 				<div className="filter__modal__content__items__wrapper">
 					<div className="filter__modal__content__items" key={randomKey.current}>
 						{[1, 2, 3].map((column) => {
@@ -182,7 +177,7 @@ const AllFilterComponent = ({
 						})}
 					</div>
 				</div>
-				<div className="filter__modal__footer__items">
+				<ModalFooterWrapper>
 					<button className="filter__modal__return__button filter__modal__button" onClick={Close}>
 						Возрат
 					</button>
@@ -199,10 +194,9 @@ const AllFilterComponent = ({
 						pathname={pathname}
 						router={router}
 					/>
-				</div>
-			</div>
-		</ModalWrapper>,
-		document.body,
+				</ModalFooterWrapper>
+			</ModalContentWrapper>
+		</ModalWrapper>
 	);
 };
 

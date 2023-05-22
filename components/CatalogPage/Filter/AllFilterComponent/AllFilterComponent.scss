@@ -16,23 +16,6 @@
 	}
 }
 
-.modal__content {
-	background-color: rgb(255, 255, 255);
-	border-radius: 8px;
-	padding: 30px;
-	position: relative;
-	z-index: 1902;
-	transition: width 1s ease, height 1s ease;
-	min-width: 320px;
-	max-width: 100vw;
-	@media (max-width: 768px) {
-		max-width: 100vw;
-		width: 100vw;
-		border-radius: unset;
-		height: 100vh;
-	}
-}
-
 .filter__modal__content {
 	max-width: 1000px;
 	height: 600px;
@@ -82,7 +65,7 @@
 			grid-template-columns: repeat(3, 1fr);
 		}
 	}
-	.filter__modal__footer__items {
+	.modal__footer {
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
@@ -155,7 +138,7 @@
 				flex-direction: column;
 			}
 		}
-		.filter__modal__footer__items {
+		.modal__footer {
 			flex-direction: column;
 			justify-content: unset;
 			.filter__founded__items__button {

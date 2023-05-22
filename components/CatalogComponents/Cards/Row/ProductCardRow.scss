@@ -144,7 +144,7 @@
 					align-items: center;
 					cursor: pointer;
 					transition: 0.1s ease-in-out;
-					
+
 					.product__card__option__icon {
 						width: 20px;
 						height: 20px;
@@ -169,6 +169,12 @@
 					}
 				}
 			}
+		}
+	}
+
+	&:hover {
+		.product__preview {
+			display: block;
 		}
 	}
 
@@ -213,21 +219,4 @@
 			}
 		}
 	}
-}
-
-
-.product__preview{
-	position: absolute;
-	margin-left: auto;
-	margin-right: auto;
-	left: 0;
-	right: 0;
-	top: 50%;
-	text-align: center;
-	background-color: rgba(99, 79, 57, 0.8);
-	color: rgb(255, 255, 255);
-	font-family: var(--museo_cyrl);
-	border-radius: 8px;
-	padding: 8px 15px;
-	width: 120px;
 }

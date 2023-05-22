@@ -7,6 +7,7 @@ import './ProductCardGrid.scss';
 
 import { ProductData } from '../interface';
 import Link from 'next/link';
+import { ProductPreview } from '../../ProductPreview/ProductPreview';
 
 export default function ProductCardGrid({ product, fadeIn }: { product: ProductData; fadeIn?: boolean }): JSX.Element {
 	return (
@@ -14,6 +15,7 @@ export default function ProductCardGrid({ product, fadeIn }: { product: ProductD
 			<Link href={`/product/${product.article}/`} className="product__card__link__wrapper" prefetch={false}>
 				<div className="product__card__image__wrapper">
 					<ProductImageGallery images={product.images} urlStartsWith={'/api'} alt={product.name} />
+					<ProductPreview />
 				</div>
 				<PriceElement price={product.price} sale={product.sale} />
 				<div className="product__card__name__wrapper">

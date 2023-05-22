@@ -2,6 +2,7 @@ import useToggle from '../../../../hooks/useToggle';
 import AddToCartButton from '../../AddToCartButton/AddToCartButton';
 import ProductImageGallery from '../../HoverGallery/ProductGallery';
 import PriceElement from '../../PriceElement.tsx/PriceElement';
+import { ProductPreview } from '../../ProductPreview/ProductPreview';
 import ManufacturerData from '../../other/ManufacturerData';
 import ProductCardOptions from '../../other/ProductCardOptions';
 import { ProductData, Property } from './../interface';
@@ -30,18 +31,6 @@ const FeatureWrapper = ({ product, limit }: { product: ProductData; limit: numbe
 		</div>
 	);
 };
-
-function ProductPreview() {
-	const [toggle, setToggle] = useToggle();
-
-	return (
-		<>
-			<button className="product__preview" onClick={() => setToggle(true)}>
-				Предпросмотр
-			</button>
-		</>
-	);
-}
 
 function ProductCardRow({ product, fadeIn }: { product: ProductData; fadeIn?: boolean }): JSX.Element {
 	return (

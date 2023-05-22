@@ -10,6 +10,7 @@
 	justify-content: space-between;
 
 	.product__card__image__wrapper {
+		position: relative;
 		height: 350px;
 		width: 100%;
 	}
@@ -90,6 +91,12 @@
 		.product__card__option {
 			width: 20px;
 			height: 20px;
+		}
+	}
+
+	&:hover {
+		.product__preview {
+			display: block;
 		}
 	}
 }
