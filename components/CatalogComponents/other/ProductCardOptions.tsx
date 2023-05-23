@@ -70,6 +70,8 @@ function SimilarProductsElement({ article }: { article: string }): ReactElement 
 					setToggle();
 					centerModalControl.toggle('SimilarProduct');
 				}}
+				aria-label="найти похожие товары"
+				title="найти похожие товары"
 			>
 				<FontAwesomeIcon icon={faEquals} />
 			</div>

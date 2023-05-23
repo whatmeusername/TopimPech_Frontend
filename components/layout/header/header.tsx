@@ -20,7 +20,7 @@ const HeaderLogo = (): JSX.Element => {
 	return (
 		<Link href="/">
 			<div className="logo__wrapper">
-				<Image src={Logo} className="logo__main" alt="логотип сайта TopimPech.ru"></Image>
+				<Image src={Logo} className="logo__main" alt="логотип сайта TopimPech.ru" priority={true}></Image>
 			</div>
 		</Link>
 	);

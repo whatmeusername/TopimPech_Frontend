@@ -1,10 +1,9 @@
-
 .product__page__properties__item {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
 	max-width: 500px;
-    width: 100%;
+	width: 100%;
 	position: relative;
 	margin: 0;
 	.product__page__properties__item__key {
@@ -26,7 +25,7 @@
 			content: '';
 			width: 100%;
 			position: absolute;
-			bottom: 0;
+			top: 1rem;
 			border-bottom: 1px dotted var(--gray-color);
 		}
 	}

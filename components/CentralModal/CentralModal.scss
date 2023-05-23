@@ -23,6 +23,11 @@
 		position: absolute;
 	}
 
+	.modal__head {
+		justify-content: flex-end;
+		display: flex;
+	}
+
 	.center__modal__content__wrapper {
 		position: relative;
 		z-index: 10;

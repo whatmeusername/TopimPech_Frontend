@@ -8,7 +8,7 @@ import { FavouritesItem } from '../../../store';
 
 // Change to comparison store
 const ComparisonButton = observer(
-	({ productData, withLabel, className }: { productData: ProductData | FavouritesItem; withLabel: boolean; className?: string }) => {
+	({ productData, withLabel, className }: { productData: ProductData | FavouritesItem; withLabel?: boolean; className?: string }) => {
 		const ComparisonStore = useComparinsonProducts();
 
 		const isSelected = ComparisonStore.has(productData.article);
@@ -19,6 +19,9 @@ const ComparisonButton = observer(
 					isSelected ? 'product__card__option__active' : 'product__card__option__inactive'
 				}`}
 				onClick={() => (isSelected ? ComparisonStore.remove(productData) : ComparisonStore.add(productData))}
+				aria-label={withLabel ? (isSelected ? 'В сравнение' : 'Сравнить') : undefined}
+				aria-aria-pressed={isSelected}
+				title={isSelected ? 'В сравнение' : 'Сравнить'}
 			>
 				<ComparisonIcon className="product__card__option__icon" />
 				{withLabel ? <p className="product__card__option__label">{isSelected ? 'В сравнение' : 'Сравнить'}</p> : null}
