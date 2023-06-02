@@ -4,7 +4,7 @@ import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigat
 import { ParsedUrlQuery } from 'querystring';
 import './Filter.scss';
 
-import { FilterApplyFN, FilterFetchData } from './interface';
+import { FacetType, FilterApplyFN, FilterFetchData, FilterItemNumber, FilterItemObject } from './interface';
 
 import Dropdown from '../../Shared/Dropdown/Dropdown';
 import OverflowContainer from '../../Shared/OverflowContainer/OverflowContainer';
@@ -76,7 +76,6 @@ function FacetFilter({ initialFilters }: { initialFilters: FilterFetchData }): J
 	const getActiveFiltersLength = Object.keys(ActiveFilters).length;
 	const FilterCount = Object.keys(initialFilters?.filtered ?? {}).length;
 
-	//FilterSkeleton
 	return (
 		<>
 			{!width || width > 1024 ? (
@@ -86,15 +85,16 @@ function FacetFilter({ initialFilters }: { initialFilters: FilterFetchData }): J
 							Object.entries(initialFilters?.filtered ?? {})
 								.slice(0, 10)
 								.map(([parentKey, parentValue]) => {
-									const DropdownHeader = <span className="dropdown__label">{parentValue.name}</span>;
+									const DropdownHeader = <span className="dropdown__label">{parentValue.label}</span>;
+
 									return (
 										<Dropdown header={DropdownHeader} key={'filter-' + parentKey}>
 											<OverflowContainer maxHeight={290}>
-												{parentValue.valueType === 'string' ? (
+												{parentValue.type === FacetType.OBJECT ? (
 													<CheckboxFilter
 														config={{
 															parentKey: parentKey,
-															filterData: parentValue,
+															filterData: parentValue as FilterItemObject,
 															applyFilter: FilterApplyFN.APPLY,
 															router: router,
 															ActiveFilters: ActiveFilters,
@@ -106,7 +106,7 @@ function FacetFilter({ initialFilters }: { initialFilters: FilterFetchData }): J
 													<InputFilter
 														config={{
 															parentKey: parentKey,
-															filterData: parentValue,
+															filterData: parentValue as FilterItemNumber,
 															applyFilter: FilterApplyFN.APPLY,
 															router: router,
 															ActiveFilters: ActiveFilters,

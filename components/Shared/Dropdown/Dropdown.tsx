@@ -3,9 +3,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
 
 import './Dropdown.scss';
-import { ReactElement, useEffect, useRef } from 'react';
+import { ReactElement } from 'react';
 
-function Dropdown({ children, header }: { children: JSX.Element; header: JSX.Element }) {
+function Dropdown({ children, header }: { children?: ReactElement | ReactElement[]; header: JSX.Element }) {
 	const [toggled, setToggle] = useToggle();
 
 	return (

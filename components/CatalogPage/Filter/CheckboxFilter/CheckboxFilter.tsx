@@ -41,20 +41,21 @@ const filterOnCheck = (config: FilterElementActionConfig) => {
 const CheckboxFilter = ({ config }: { config: FilterElementConfig }): ReactElement => {
 	return (
 		<div className="facet__filter__wrapper facet__filter__string">
-			{Object.entries(config.filterData.values).map(([key, value], index) => {
-				const isChecked = config.ActiveFilters[config.parentKey] !== undefined && config.ActiveFilters[config.parentKey].includes(key);
+			{config.filterData.items.map((option, index) => {
+				const value = option.value;
+				const isChecked = config.ActiveFilters[config.parentKey] !== undefined && config.ActiveFilters[config.parentKey].includes(value);
 				return (
-					<div className="facet__filter__item" key={`${config.parentKey}-${key}-${isChecked}}`}>
+					<div className="facet__filter__item" key={`${config.parentKey}-${value}-${isChecked}}`}>
 						<input
 							type="checkbox"
-							id={`${key}-${index}-${config.applyFilter}`}
+							id={`${value}-${index}-${config.applyFilter}`}
 							className="filter__custom__checkbox"
 							onClick={
-								value.items !== 0 || isChecked
+								option.count !== 0 || isChecked
 									? (event) =>
 											filterOnCheck({
 												event: event,
-												key: key,
+												key: value,
 												parentKey: config.parentKey,
 												router: config.router,
 												applyFunction: config.applyFilter,
@@ -64,12 +65,12 @@ const CheckboxFilter = ({ config }: { config: FilterElementConfig }): ReactEleme
 											})
 									: undefined
 							}
-							disabled={value.items === 0 && !isChecked}
+							disabled={option.count === 0 && !isChecked}
 							defaultChecked={isChecked}
 						/>
-						<label htmlFor={`${key}-${index}-${config.applyFilter}`} className="facet__filter__item__label">
-							<span className="facet__filter__item__name">{value.name}</span>
-							<span className="facet__filter__item__count">{value.items}</span>
+						<label htmlFor={`${value}-${index}-${config.applyFilter}`} className="facet__filter__item__label">
+							<span className="facet__filter__item__name">{option.label}</span>
+							<span className="facet__filter__item__count">{option.count}</span>
 						</label>
 					</div>
 				);

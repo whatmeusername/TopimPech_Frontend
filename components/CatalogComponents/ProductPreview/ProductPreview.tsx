@@ -12,17 +12,16 @@ import Link from 'next/link';
 
 import AngleArrow from '../../../public/arrows/AngleArrow.svg';
 import { useEffect, useRef, useState } from 'react';
+import { ShortAttributesElement } from '../../ProductPage/AttributesElement/AttributesElement';
 
 function ArrowGallery({ items, urlStartsWith }: { items: ProductImage[]; urlStartsWith?: string }) {
-	const [selectedItem, setSelectedItem] = useState<number>(items.length);
+	const [selectedItem, setSelectedItem] = useState<number>(0);
 	const sliderItemWidth = useRef<number>(0);
 	const sliderItemsRef = useRef<HTMLDivElement>(null!);
 
 	useEffect(() => {
 		sliderItemWidth.current = (sliderItemsRef.current.firstChild as HTMLSpanElement)?.offsetWidth ?? 0;
 	}, []);
-
-	console.log(sliderItemWidth.current);
 
 	const isLeftBTNActive = selectedItem > 0;
 	const isRightBTNActive = selectedItem + 1 < items.length;
@@ -31,7 +30,7 @@ function ArrowGallery({ items, urlStartsWith }: { items: ProductImage[]; urlStar
 			<div className="arrow__gallery__content" ref={sliderItemsRef} style={{ left: `-${sliderItemWidth.current * selectedItem}px` }}>
 				{items.map((image) => {
 					return (
-						<span className="arrow__gallery__image__wrapper">
+						<span className="arrow__gallery__image__wrapper" key={image.name}>
 							<img src={`${urlStartsWith ?? ''}${image.path}`} alt={image.name} className="arrow__gallery__image" key={image.name} />
 						</span>
 					);
@@ -43,7 +42,7 @@ function ArrowGallery({ items, urlStartsWith }: { items: ProductImage[]; urlStar
 						className={`arrow__gallery__btn arrow__gallery__btn__left ${
 							isLeftBTNActive ? 'arrow__gallery__btn__active' : 'arrow__gallery__btn__inactive'
 						}`}
-						onClick={isLeftBTNActive ? (e) => setSelectedItem(selectedItem - 1) : undefined}
+						onClick={isLeftBTNActive ? () => setSelectedItem(selectedItem - 1) : undefined}
 						title={isLeftBTNActive ? 'показать предыдущий слайд' : undefined}
 						aria-label={isLeftBTNActive ? 'показать предыдущий слайд' : undefined}
 						disabled={selectedItem <= 0}
@@ -54,13 +53,18 @@ function ArrowGallery({ items, urlStartsWith }: { items: ProductImage[]; urlStar
 						className={`arrow__gallery__btn arrow__gallery__btn__right ${
 							isRightBTNActive ? 'arrow__gallery__btn__active' : 'arrow__gallery__btn__inactive'
 						}`}
-						onClick={isRightBTNActive ? (e) => setSelectedItem(selectedItem + 1) : undefined}
+						onClick={isRightBTNActive ? () => setSelectedItem(selectedItem + 1) : undefined}
 						title={isRightBTNActive ? 'показать следущий слайд' : undefined}
 						aria-label={isRightBTNActive ? 'показать следущий слайд' : undefined}
 						disabled={selectedItem + 1 > items.length}
 					>
 						<AngleArrow className="arrow__gallery__arrow__icon" />
 					</button>
+					<div className="tabs__wrapper">
+						{items.map((tab, i) => {
+							return <span className={`tab__item ${i === selectedItem ? 'tab__item__active' : ''}`} key={tab.name} />;
+						})}
+					</div>
 				</>
 			) : null}
 		</div>
@@ -72,10 +76,8 @@ function ProductPreviewModal({ id, toggle, productData }: { id: string; toggle: 
 		<ModalWrapper id={id} toggle={toggle}>
 			<ModalContentWrapper className="product__preview__modal">
 				<ModalHead>
-					<div className="modal__header">
-						<h1>{productData.name}</h1>
-						<p>артикул {productData.article}</p>
-					</div>
+					<p className="modal__header">{productData.name}</p>
+					<p className="modal__header__article">Артикул {productData.article}</p>
 				</ModalHead>
 				<div className="modal__content__wrapper">
 					<div className="modal__content__gallery modal__content__block">
@@ -84,10 +86,18 @@ function ProductPreviewModal({ id, toggle, productData }: { id: string; toggle: 
 					<div className="modal__content__info modal__content__block">
 						<div className="modal__content__info__options">
 							<AddToCartButton article={productData.article} />
-							<FavouriteButton productData={productData} withLabel={true} />
-							<ComparisonButton productData={productData} withLabel={true} />
+							<FavouriteButton productData={productData} withLabel={true} useBaseStyle />
+							<ComparisonButton productData={productData} withLabel={true} useBaseStyle />
 						</div>
-						<Link className="product__preview__link" href={`/product/${productData.article}`}>
+						<ShortAttributesElement properties={productData.properties ?? []} showAllBtn={false} take={7} />
+						<Link
+							className="product__preview__link"
+							href={`/product/${productData.article}`}
+							onClick={() => {
+								if (toggle) toggle();
+								centerModalControl.toggle(id);
+							}}
+						>
 							Перейти на страницу товара
 						</Link>
 					</div>

@@ -1,18 +1,15 @@
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
 import { useSearchParams, usePathname } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import { useState, useRef } from 'react';
-import { createPortal } from 'react-dom';
 import { centerModalControl } from '../../../../store';
 import { declOfNum } from '../../../../utils';
 import { ModalContentWrapper, ModalFooterWrapper, ModalHead, ModalWrapper } from '../../../CentralModal/CenterModal';
 import Dropdown from '../../../Shared/Dropdown/Dropdown';
 import CheckboxFilter from '../CheckboxFilter/CheckboxFilter';
 import InputFilter from '../InputFilter/InputFilter';
-import { FilterData, FilterFetchData, FilterParameters, FilterApplyFN } from '../interface';
+import { FacetFiltersData, FilterFetchData, FilterParameters, FilterApplyFN, FacetType, FilterItemObject, FilterItemNumber } from '../interface';
 
 import './AllFilterComponent.scss';
 
@@ -83,13 +80,13 @@ const AllFilterComponent = ({
 	fetchURL,
 	ActiveFilters,
 }: {
-	filterData: { count: number; filtered: FilterData };
+	filterData: { count: number; filtered: FacetFiltersData };
 	currentFilterQuery: string | undefined;
 	initialFilters: FilterFetchData;
 	fetchURL: string;
 	ActiveFilters: FilterParameters;
 }): JSX.Element => {
-	const [FilterData, setFilterData] = useState<{ count: number; filtered: FilterData }>(filterData);
+	const [FilterData, setFilterData] = useState<{ count: number; filtered: FacetFiltersData }>(filterData);
 	const router = useRouter();
 
 	const searchParams = useRef<URLSearchParams>(new URLSearchParams(useSearchParams()));
@@ -139,14 +136,14 @@ const AllFilterComponent = ({
 									{Object.entries(FilterData?.filtered ?? {})
 										.slice(start, end)
 										.map(([parentKey, parentValue]) => {
-											const DropdownHeader = <span className="dropdown__label">{parentValue.name}</span>;
+											const DropdownHeader = <span className="dropdown__label">{parentValue.label}</span>;
 											return (
 												<Dropdown header={DropdownHeader} key={'modal-filter-' + parentKey}>
-													{parentValue.valueType === 'string' ? (
+													{parentValue.type === FacetType.OBJECT ? (
 														<CheckboxFilter
 															config={{
 																parentKey: parentKey,
-																filterData: parentValue,
+																filterData: parentValue as FilterItemObject,
 																applyFilter: FilterApplyFN.UPDATE,
 																callback: fetchData,
 																router: router,
@@ -159,7 +156,7 @@ const AllFilterComponent = ({
 														<InputFilter
 															config={{
 																parentKey: parentKey,
-																filterData: parentValue,
+																filterData: parentValue as FilterItemNumber,
 																applyFilter: FilterApplyFN.UPDATE,
 																callback: fetchData,
 																router: router,

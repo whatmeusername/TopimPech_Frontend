@@ -17,7 +17,7 @@ function ModalHead({ children, className }: { children?: ReactElement | ReactEle
 	return (
 		<>
 			<div className={`modal__head ${className ?? ''}`}>
-				{children ? <div className="modal__header">{children}</div> : null}
+				{children ? <div className="modal__header__wrapper">{children}</div> : null}
 				<div className="modal__close__wrapper">
 					<button
 						className="modal__close__wrapper__button"

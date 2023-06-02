@@ -1,9 +1,9 @@
 import useToggle from '../../../hooks/useToggle';
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, ReactElement } from 'react';
 
 import './OverflowContainer.scss';
 
-export default function OverflowContainer({ children, maxHeight }: { children: JSX.Element; maxHeight: number }): JSX.Element {
+export default function OverflowContainer({ children, maxHeight }: { children?: ReactElement | ReactElement[]; maxHeight: number }): JSX.Element {
 	const [toggled, setToggled] = useToggle();
 	const [overflow, setOverflow] = useState<boolean>();
 	const content = useRef<HTMLDivElement>(null!);

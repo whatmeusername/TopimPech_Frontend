@@ -29,7 +29,7 @@ const AttributesElement = ({ properties }: { properties: Property[] }): ReactEle
 	);
 };
 
-function ShortAttributesElement({ properties, take }: { properties: Property[]; take: number }): ReactElement {
+function ShortAttributesElement({ properties, take, showAllBtn }: { properties: Property[]; take: number; showAllBtn: boolean }): ReactElement {
 	return (
 		<div className="product__page__properties__short">
 			<h5 className="product__page__properties__short__header">Характеристики:</h5>
@@ -39,7 +39,7 @@ function ShortAttributesElement({ properties, take }: { properties: Property[]; 
 					return <AttributeElement item={prop} key={`product__properties__${prop.key.slug}`} />;
 				})}
 			</div>
-			{properties.length > take ? (
+			{showAllBtn && properties.length > take ? (
 				<button
 					className="product__page__properties__short__show__all"
 					onClick={() => {

@@ -63,7 +63,7 @@ function ProductPage({ productData, params }: { productData: ProductData; params
 						<AddToCartButton article={productData.article} />
 					</div>
 					{productData.properties && productData.properties?.length > 0 ? (
-						<ShortAttributesElement properties={productData.properties} take={5} />
+						<ShortAttributesElement properties={productData.properties} take={5} showAllBtn={true} />
 					) : null}
 				</div>
 			</div>

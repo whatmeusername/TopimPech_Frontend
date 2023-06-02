@@ -35,6 +35,45 @@
 	}
 }
 
+
+.product__card__option__base{
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	padding: 0 10px;
+	gap: 10px;
+	border-radius: 8px;
+	cursor: pointer;
+	border: 1px solid var(--gray-color);
+	transition: all 0.15s ease-in-out;
+	font-size: var(--fontM);
+	font-family: var(--museo_cyrl);
+	.product__card__option__icon{
+		fill: var(--gray-color);
+	}
+	&.product__card__option__inactive{
+		&:hover{
+			border: 1px solid var(--orange-color);
+			color: var(--orange-color);
+			.product__card__option__icon{
+				fill: var(--orange-color);
+			}
+		}
+	}
+	&.product__card__option__active{
+		border: 1px solid var(--orange-color);
+		color: var(--orange-color);
+		opacity: 1;
+		.product__card__option__icon{
+			fill: var(--orange-color);
+		}
+		&:hover{
+			opacity: 0.75;
+		}
+	}
+}
+
 @keyframes fadeIn {
 	0% {
 		opacity: 0;

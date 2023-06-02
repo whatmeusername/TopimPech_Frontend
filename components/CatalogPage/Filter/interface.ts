@@ -11,13 +11,34 @@ enum RangeFilterSide {
 	MAX = 'max',
 }
 
-interface FilterItem {
-	valueType: 'number' | 'string';
-	name: string;
-	values: { [K: string]: { items: number; name: string } };
+enum FacetType {
+	OBJECT = 'object',
+	NUMBER = 'number',
 }
-interface FilterData {
-	[K: string]: FilterItem;
+
+interface FilterItemObject {
+	type: FacetType;
+	value: string;
+	label: string;
+	max: number;
+	min: number;
+	items: {
+		value: string;
+		label?: string | null;
+		count: number;
+	}[];
+}
+
+interface FilterItemNumber {
+	type: FacetType;
+	value: string;
+	label: string;
+	max: number;
+	min: number;
+}
+
+interface FacetFiltersData {
+	[K: string]: FilterItemObject | FilterItemNumber;
 }
 
 interface FilterParameters {
@@ -26,7 +47,7 @@ interface FilterParameters {
 
 interface FilterElementConfig {
 	parentKey: string;
-	filterData: FilterItem;
+	filterData: FilterItemObject;
 	applyFilter: FilterApplyFN;
 	callback?: (...args: any[]) => void;
 	ActiveFilters: FilterParameters;
@@ -35,9 +56,13 @@ interface FilterElementConfig {
 	path: string;
 }
 
+interface FilterElementConfigNumber extends Omit<FilterElementConfig, 'filterData'> {
+	filterData: FilterItemNumber;
+}
+
 interface FilterFetchData {
 	count: number;
-	filtered: FilterData;
+	filtered: FacetFiltersData;
 }
 
 interface FilterElementActionConfig {
@@ -54,16 +79,18 @@ interface FilterElementActionConfig {
 interface FilterElementActionConfigRange extends Omit<FilterElementActionConfig, 'event' | 'key'> {
 	event: React.FocusEvent<HTMLInputElement>;
 	side: RangeFilterSide;
-	filterData: FilterItem;
+	filterData: FilterItemNumber;
 }
 
-export { FilterApplyFN, RangeFilterSide };
+export { FilterApplyFN, RangeFilterSide, FacetType };
 export type {
-	FilterItem,
-	FilterData,
 	FilterParameters,
 	FilterElementConfig,
 	FilterFetchData,
 	FilterElementActionConfig,
 	FilterElementActionConfigRange,
+	FilterItemObject,
+	FilterItemNumber,
+	FacetFiltersData,
+	FilterElementConfigNumber,
 };

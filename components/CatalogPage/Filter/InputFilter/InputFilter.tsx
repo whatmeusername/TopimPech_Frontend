@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import { FilterApplyFN, FilterElementActionConfigRange, FilterElementConfig, RangeFilterSide } from '../interface';
+import { FilterApplyFN, FilterElementActionConfigRange, FilterElementConfigNumber, RangeFilterSide } from '../interface';
 
 import { collectFilterParameters, getFilterParameters } from '../Filter';
 
@@ -39,8 +39,8 @@ const filterOnInput = (config: FilterElementActionConfigRange) => {
 
 			applyFilter();
 		} else if (valueIsNumber && valueAsFloat > 0) {
-			const filterMin = config.filterData.values.min as unknown as number;
-			const filterMax = config.filterData.values.max as unknown as number;
+			const filterMin = config.filterData.min;
+			const filterMax = config.filterData.max;
 
 			if (config.side === RangeFilterSide.MIN) {
 				if (valueAsFloat > filterMax) valueAsFloat = filterMax;
@@ -66,12 +66,12 @@ const filterOnInput = (config: FilterElementActionConfigRange) => {
 	}
 };
 
-const RangeFilter = ({ config }: { config: FilterElementConfig }): ReactElement => {
-	const values = config.filterData.values;
+const RangeFilter = ({ config }: { config: FilterElementConfigNumber }): ReactElement => {
+	const values = config.filterData;
 	const defaultValues = config.ActiveFilters[config.parentKey];
 	const defaultValueMin = defaultValues ? parseFloat(defaultValues[0]).toFixed(2) : null;
 	const defaultValueMax = defaultValues ? parseFloat(defaultValues[1]).toFixed(2) : null;
-	const isDisabled = values.min === null || values.max === null || values.min === values.max;
+	const isDisabled = values.min === values.max;
 
 	return (
 		<div className="facet__filter__wrapper facet__filter__number">
