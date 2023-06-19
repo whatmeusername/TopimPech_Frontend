@@ -4,12 +4,14 @@ import { ReactElement, createContext, useContext, useEffect, useState } from 're
 import { enableStaticRendering } from 'mobx-react-lite';
 import { FavouritesItem, FavouritesProducts, UserProductCart } from '../../store';
 import get from 'axios';
+import { ComparisonStore } from '../../store/comparison';
 
 enableStaticRendering(typeof window === 'undefined');
 
 const rootStore = {
 	cart: new UserProductCart(),
 	favourites: new FavouritesProducts(),
+	comparison: new ComparisonStore(),
 };
 type RootStore = typeof rootStore;
 
@@ -27,8 +29,8 @@ const useFavouritesProducts = (): FavouritesProducts => {
 	return useContext(RootStoreContext).favourites;
 };
 
-const useComparinsonProducts = (): FavouritesProducts => {
-	return useContext(RootStoreContext).favourites;
+const useComparinsonProducts = (): ComparisonStore => {
+	return useContext(RootStoreContext).comparison;
 };
 
 interface UserSession {
@@ -45,6 +47,7 @@ function updateRootStoreData(session?: UserSession): void {
 	if (session) {
 		rootStore.cart.hydrate(session.cart);
 		rootStore.favourites.hydrate(session.favourites);
+		rootStore.comparison.hydrate(session.comparison);
 	}
 }
 

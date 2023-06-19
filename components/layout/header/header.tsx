@@ -14,7 +14,7 @@ import Heart from '../../../public/OptionsIcons/HeartNotFilled.svg';
 import { ReactElement } from 'react';
 import { observer } from 'mobx-react-lite';
 
-import { useFavouritesProducts, useUserProductCart } from '../../../context/MobxStoreContext/MobxStoreContext';
+import { useComparinsonProducts, useFavouritesProducts, useUserProductCart } from '../../../context/MobxStoreContext/MobxStoreContext';
 
 const HeaderLogo = (): JSX.Element => {
 	return (
@@ -49,10 +49,12 @@ const FavouriteElement = observer((): ReactElement => {
 });
 
 const ComparisonElement = observer((): ReactElement => {
+	const ComparisonStore = useComparinsonProducts();
 	return (
 		<button className="header__option__wrapper">
 			<Comparison className="header__option__icon" />
 			<p className="header__option__label">Сравнение</p>
+			<div className="header__option__count__pin header__option__count__pin__favourite">{ComparisonStore.getCount()}</div>
 		</button>
 	);
 });

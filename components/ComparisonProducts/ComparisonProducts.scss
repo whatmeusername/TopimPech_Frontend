@@ -1,0 +1,188 @@
+.comparison__products__wrapper{
+    user-select: none;
+
+
+    .comparison__products__header{
+        position: relative;
+        .comparison__products__card__slider__wrapper{
+            overflow: hidden;
+            .comparison__products__card__slider{
+                display:inline-flex;
+                flex-direction: row;
+                justify-content: space-between;
+                gap: 10px;
+                position: relative;
+                .comparison__products__card{
+                    min-width: 200px;
+                    max-width: 200px;
+                    .comparison__products__card__img__wrapper{
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        width: 200px;
+                        height: 200px;
+                        .comparison__products__card__img{
+                            width: auto;
+                            height: auto;
+                            max-width: 100%;
+                            max-height: 100%;
+                            border-radius: 4px;
+                        }
+                    }
+                    .comparison__products__header{
+                        color: var(--primary-color);
+                        font-weight: 300;
+                        font-family: var(--museo_cyrl);
+                        -webkit-line-clamp: 3;
+                        display: -webkit-box;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        -webkit-box-orient: vertical;
+                        height: 55px;
+                        margin: 5px 0;
+                    }
+                    .product__card__price__wrapper{
+                        margin: 0;
+                        .price__tag{
+                            font-size: var(--fontL);
+                        }
+                        .product__card__price__before__sale{
+                            font-size: var(--fontM);
+                        }
+                    }
+                    .product__card__add__to__cart{
+                        width: 100%;
+                        font-size: var(--fontS);
+                        margin: 10px 0 0;
+                        padding: 8px 0;
+                    }
+                }
+    
+            }
+        }
+        .comparison__products__header__arrow{
+            position: absolute;
+            width: 45px;
+            height: 45px;
+            background-color: var(--light-grey-color);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 1;
+
+            .comparison__products__header__arrow__icon{
+                width: 35px;
+                height: 35px;
+            }
+
+
+            &.comparison__products__header__arrow__active{
+                cursor: pointer;
+                transition: opacity 0.15s ease;
+                &:hover{
+                    opacity: 0.9;
+                }
+
+                .comparison__products__header__arrow__icon{
+                    fill: var(--orange-color);
+                }
+            }
+
+            &.comparison__products__header__arrow__inactive{
+                opacity: 0.9;
+                .comparison__products__header__arrow__icon{
+                    fill: var(--gray-color);
+                }
+            }
+
+            &.comparison__products__header__arrow__left{
+                left: -15px;
+                top: 30%;
+                transform: rotateZ(180deg);
+            }
+            &.comparison__products__header__arrow__right{
+                right: -15px;
+                top: 30%;
+            }
+        }
+    }
+
+
+    .comparison__products__data{
+        overflow: hidden;
+        .comparison__products__row{
+            .comparison__products__row__header{
+                font-family: var(--museo_cyrl);
+                color: var(--primary-color);
+                font-size: var(--fontX);
+                text-transform: lowercase;
+                font-weight: 700;
+                letter-spacing: 0.5px;
+                &:first-letter{
+                    text-transform: uppercase;
+                }
+            }
+            .comparison__products__row__values{
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                gap: 10px;
+                position: relative;
+                .comparison__products__row__value{
+                    padding: 5px;
+                    min-width: 200px;
+                    max-width: 200px;
+                    display: flex;
+                    justify-content:  center;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: var(--fontL);
+                    font-weight: 300;
+                    &.comparison__products__raising{
+                        color: var(--green-color);
+                    }
+                    &.comparison__products__decrease{
+                        color: var(--red-color);
+                    }
+                    &.comparison__products__changed{
+                        color: var(--orange-light-color);
+                    }
+                }
+            }
+        }
+    }
+
+    .comparsion__products__info{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 20px;
+        .comparsion__products__info__block{
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            .comparsion__products__info__square{
+                border-radius: 2px;
+                width: 15px;
+                height: 15px;
+                &.comparison__products__raising{
+                    background: var(--green-color);
+                }
+                &.comparison__products__decrease{
+                    background: var(--red-color);
+                }
+                &.comparison__products__changed{
+                    background: var(--orange-light-color);
+                }
+            }
+            .comparsion__products__info__label{
+                color: var(--standard-color);
+                font-family: var(--museo_cyrl);
+                font-weight: 300;
+                font-size: var(--fontM);
+            }
+        }
+    }
+   
+}

@@ -4,7 +4,6 @@ import { ProductData } from '../Cards/interface';
 
 import ComparisonIcon from '../../../public/OptionsIcons/Comparison.svg';
 import { useComparinsonProducts } from '../../../context/MobxStoreContext/MobxStoreContext';
-import { FavouritesItem } from '../../../store';
 
 // Change to comparison store
 const ComparisonButton = observer(
@@ -14,14 +13,14 @@ const ComparisonButton = observer(
 		className,
 		useBaseStyle,
 	}: {
-		productData: ProductData | FavouritesItem;
+		productData: ProductData;
 		withLabel?: boolean;
 		className?: string;
 		useBaseStyle?: boolean;
 	}) => {
 		const ComparisonStore = useComparinsonProducts();
 
-		const isSelected = ComparisonStore.has(productData.article);
+		const isSelected = ComparisonStore.has(productData.id);
 
 		return (
 			<button

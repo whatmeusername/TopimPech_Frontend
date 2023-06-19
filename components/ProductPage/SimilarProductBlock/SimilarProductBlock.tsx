@@ -1,18 +1,18 @@
 import get from 'axios';
 import { ParsedUrlQuery } from 'querystring';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, ReactElement } from 'react';
 import { ProductData } from '../../CatalogComponents/Cards/interface';
-import { ProductSlider } from '../ProductSlider/ProductSlider';
+import { ComparisonProducts } from '../../ComparisonProducts/ComparisonProducts';
 
 function SimilarProductBlock({
 	article,
-	URLStartWith,
 	params,
+	product,
 }: {
 	article: string | number;
-	URLStartWith: string;
 	params: ParsedUrlQuery;
-}): JSX.Element | null {
+	product: ProductData;
+}): ReactElement | null {
 	const [products, setProducts] = useState<ProductData[]>([]);
 	useEffect(() => {
 		get(`/api/products/similar/${article}`).then((response: any) => {
@@ -24,7 +24,16 @@ function SimilarProductBlock({
 		return (
 			<div className="product__page__card product__page__similar">
 				<h3 className="product__page__header__medium">Похожие товары</h3>
-				<ProductSlider items={products} URLStartWith={URLStartWith} key={products.length} />
+				<ComparisonProducts
+					config={{
+						data: products,
+						cards: { show: true },
+						enableCategoryFilter: false,
+						URLstart: '/api',
+						diffWith: product,
+						diffLabels: true,
+					}}
+				/>
 			</div>
 		);
 	} else return null;

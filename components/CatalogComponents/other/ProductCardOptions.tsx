@@ -1,5 +1,3 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEquals, faChartColumn, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { ReactElement, useEffect, useRef, useState } from 'react';
 import get from 'axios';
 import { ProductData } from '../Cards/interface';
@@ -12,7 +10,10 @@ import { LOADING_LABEL_BASE } from '../../Shared/LoadingBar/LoadingLabels';
 
 import { FavouriteButton } from '../FavouriteButton/FavouriteButton';
 
+import SimilarIcon from '../../../public/OptionsIcons/Similar.svg';
+
 import './SimilarProductsModal.scss';
+import { ComparisonButton } from '../ComparisonButton/ComparisonButton';
 
 function SimilarProductsModal({
 	ProductData,
@@ -73,7 +74,7 @@ function SimilarProductsElement({ article }: { article: string }): ReactElement 
 				aria-label="найти похожие товары"
 				title="найти похожие товары"
 			>
-				<FontAwesomeIcon icon={faEquals} />
+				<SimilarIcon className="product__card__option__icon" />
 			</div>
 			{toggle ? <SimilarProductsModal ProductData={products ?? []} toggle={setToggle} isFetched={isFetched.current} /> : null}
 		</>
@@ -87,7 +88,7 @@ function ProductCardOptions({ productData }: { productData: ProductData }): Reac
 				<FavouriteButton productData={productData} />
 			</div>
 			<div className="product__card__option product__card__options__comparison">
-				<FontAwesomeIcon icon={faChartColumn} />
+				<ComparisonButton productData={productData} />
 			</div>
 			<SimilarProductsElement article={productData.article} />
 		</div>

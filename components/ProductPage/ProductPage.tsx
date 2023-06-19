@@ -18,6 +18,8 @@ import { SimilarProductBlock } from './SimilarProductBlock/SimilarProductBlock';
 import { ManufacturerElement } from './ManufacturerElement/ManufacturerElement';
 import AddToCartButton from '../CatalogComponents/AddToCartButton/AddToCartButton';
 import { HistorySlider } from '../HistorySlider/HistorySlider';
+import { ComparisonButton } from '../CatalogComponents/ComparisonButton/ComparisonButton';
+import { FavouriteButton } from '../CatalogComponents/FavouriteButton/FavouriteButton';
 
 function ProductPage({ productData, params }: { productData: ProductData; params: ParsedUrlQuery }): JSX.Element | null {
 	useEffect(() => {
@@ -59,8 +61,12 @@ function ProductPage({ productData, params }: { productData: ProductData; params
 					<h1 className="product__page__header">{productData.name}</h1>
 					<PriceElement price={productData.price} sale={productData.sale} />
 					{productData.manufacturer ? <ManufacturerElement ManufacturerData={productData.manufacturer} /> : null}
-					<div className="product__page__upper__buttons">
+					<div className="product__page__options__wrapper">
 						<AddToCartButton article={productData.article} />
+						<div className="product__page__options__lower">
+							<ComparisonButton productData={productData} withLabel={true} useBaseStyle={true} />
+							<FavouriteButton productData={productData} withLabel={true} useBaseStyle={true} />
+						</div>
 					</div>
 					{productData.properties && productData.properties?.length > 0 ? (
 						<ShortAttributesElement properties={productData.properties} take={5} showAllBtn={true} />
@@ -80,7 +86,7 @@ function ProductPage({ productData, params }: { productData: ProductData; params
 					</div>
 				) : null}
 			</HydrationComponent>
-			<SimilarProductBlock article={productData.article} URLStartWith={'/api'} params={params} />
+			<SimilarProductBlock article={productData.article} params={params} product={productData} />
 		</div>
 	);
 }

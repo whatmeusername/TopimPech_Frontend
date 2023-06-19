@@ -27,6 +27,7 @@ export interface Property {
 }
 
 export interface ProductData {
+	id: number;
 	name: string;
 	article: string;
 	price: number;

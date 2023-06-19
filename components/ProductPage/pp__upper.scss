@@ -109,7 +109,7 @@
 	gap: 20px;
 
 	.product__page__upper__item {
-		min-height: 500px;
+		min-height: 530px;
 		@media (max-width: 768px) {
 			min-height: 200px;
 		}
@@ -149,10 +149,19 @@
 		-webkit-box-orient: vertical;
 	}
 
-	.product__page__upper__buttons {
+	.product__page__options__wrapper {
 		margin: 10px 0;
 		.product__card__add__to__cart {
 			width: 100%;
+		}
+		.product__page__options__lower{
+			display: flex;
+			flex-direction: row;
+			gap: 10px;
+			margin: 10px 0;
+			.product__card__option{
+				flex-grow: 1
+			}
 		}
 	}
 
