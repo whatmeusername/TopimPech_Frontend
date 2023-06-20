@@ -4,6 +4,8 @@ import { useState, useEffect, ReactElement } from 'react';
 import { ProductData } from '../../CatalogComponents/Cards/interface';
 import { ComparisonProducts } from '../../ComparisonProducts/ComparisonProducts';
 
+import './SimilarProductBlock.scss';
+
 function SimilarProductBlock({
 	article,
 	params,

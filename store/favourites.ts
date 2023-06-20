@@ -3,6 +3,7 @@ import { ProductData } from '../components/CatalogComponents/Cards/interface';
 import axios from 'axios';
 
 interface FavouritesItem {
+	id: number;
 	name: string;
 	categories: ProductData['categories'];
 	images: ProductData['images'];
@@ -24,6 +25,7 @@ class FavouritesProducts {
 
 	private parseProductData(payload: ProductData | FavouritesItem): FavouritesItem {
 		return {
+			id: payload.id,
 			name: payload.name,
 			categories: payload.categories,
 			images: payload.images,
@@ -56,7 +58,20 @@ class FavouritesProducts {
 	public remove(payload: ProductData | FavouritesItem): void {
 		const existIdx = this.items.findIndex((i) => i.article === payload.article);
 		if (existIdx !== -1) {
-			this.items.splice(existIdx, 1);
+			const data = JSON.parse(JSON.stringify([...this.items]));
+			data.splice(existIdx, 1);
+			axios({
+				url: '/api/session/update',
+				method: 'POST',
+				data: {
+					key: 'favourites',
+					items: data,
+				},
+			}).then((response) => {
+				if (response.data.status === 'OK') {
+					this.items.splice(existIdx, 1);
+				}
+			});
 		}
 	}
 
