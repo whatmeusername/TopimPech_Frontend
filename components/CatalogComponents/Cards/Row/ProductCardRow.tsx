@@ -1,4 +1,3 @@
-import useToggle from '../../../../hooks/useToggle';
 import AddToCartButton from '../../AddToCartButton/AddToCartButton';
 import ProductImageGallery from '../../HoverGallery/ProductGallery';
 import PriceElement from '../../PriceElement.tsx/PriceElement';

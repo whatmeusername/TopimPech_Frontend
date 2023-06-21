@@ -66,7 +66,7 @@ const CategoriesContext = ({ children, initialCategories }: { children: ReactEle
 				method: 'GET',
 				url: '/api/products/categories/',
 			}).then((response) => {
-				setCategories(new Categories(response.data));
+				setCategories(new Categories(response.data.categories));
 			});
 		}
 	}, []);

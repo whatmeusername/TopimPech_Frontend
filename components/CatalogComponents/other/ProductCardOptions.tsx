@@ -71,7 +71,6 @@ function SimilarProductsElement({ article }: { article: string }): ReactElement 
 					setToggle();
 					centerModalControl.toggle('SimilarProduct');
 				}}
-				aria-label="найти похожие товары"
 				title="найти похожие товары"
 			>
 				<SimilarIcon className="product__card__option__icon" />

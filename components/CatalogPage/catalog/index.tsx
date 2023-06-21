@@ -54,7 +54,7 @@ export default function Catalog({ initData }: { initData: initData }): ReactElem
 						<>
 							<ThinBreakLine />
 							<div className="catalog__page__card catalog__page__history">
-								<h3 className="catalog__page__history__header">Вы смотрели</h3>
+								<p className="catalog__page__history__header">Вы смотрели</p>
 								<HistorySlider />
 							</div>
 						</>

@@ -4,7 +4,7 @@ import { useSearchParams, usePathname } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import { useState, useRef } from 'react';
 import { centerModalControl } from '../../../../store';
-import { declOfNum } from '../../../../utils';
+import { declOfNum, declOfProduct } from '../../../../utils';
 import { ModalContentWrapper, ModalFooterWrapper, ModalHead, ModalWrapper } from '../../../CentralModal/CenterModal';
 import Dropdown from '../../../Shared/Dropdown/Dropdown';
 import CheckboxFilter from '../CheckboxFilter/CheckboxFilter';
@@ -42,7 +42,7 @@ const FoundedItemsButton = ({
 				router.push(pathname + '?' + searchParams.toString());
 			}}
 		>
-			Показать {count} {declOfNum(count, ['товар', 'товара', 'товаров'])}
+			Показать {count} {declOfProduct(count)}
 		</button>
 	);
 };

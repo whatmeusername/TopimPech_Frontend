@@ -20,4 +20,8 @@
         height: 25px;
         transform: rotateY(180deg);
     }
+
+    @media (max-width: 768px) {
+        font-size: var(--fontM);
+    }
 }

@@ -14,7 +14,7 @@ import TrashBin from '../../public/OptionsIcons/TrashBin.svg';
 import PriceElement from '../CatalogComponents/PriceElement.tsx/PriceElement';
 import { useFavouritesProducts } from '../../context/MobxStoreContext/MobxStoreContext';
 import { ComparisonButton } from '../CatalogComponents/ComparisonButton/ComparisonButton';
-import { declOfNum } from '../../utils';
+import { declOfProduct } from '../../utils';
 import { ToPreviousPageButton } from '../Shared/ToPreviousPageButton/ToPreviousPageButton';
 
 import HeartNotFilled from '../../public/OptionsIcons/HeartNotFilled.svg';
@@ -69,7 +69,7 @@ const FavouritesElement = observer((): ReactElement => {
 				<h1 className="favourites__header">{itHasItems ? 'Избранные товары' : 'В избранном пока что ничего нет'}</h1>
 				{itHasItems ? (
 					<span className="favourites__header__count">
-						{FavouritesProducts.getCount()} {declOfNum(FavouritesProducts.getCount(), ['товар', 'товара', 'товаров'])}
+						{FavouritesProducts.getCount()} {declOfProduct(FavouritesProducts.getCount())}
 					</span>
 				) : null}
 			</div>

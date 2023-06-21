@@ -4,6 +4,8 @@ import './ProductCardGallery.scss';
 import { ProductImage } from '../Cards/interface';
 import useWindowSize from '../../../hooks/useWindowSize';
 
+import Image from 'next/image';
+
 const ProductImageGallery = ({ images, urlStartsWith, alt }: { images: ProductImage[]; urlStartsWith?: string; alt?: string }): JSX.Element => {
 	const refImages = useRef<ProductImage[]>(images);
 	const [selectedImage, setSelectedImage] = useState<number>(0);
@@ -37,7 +39,15 @@ const ProductImageGallery = ({ images, urlStartsWith, alt }: { images: ProductIm
 				onTouchStart={width && width <= 768 ? onDragStart : undefined}
 				onMouseDown={width && width <= 768 ? onDragStart : undefined}
 			>
-				<img className="gallery__image" src={(urlStartsWith ?? '') + refImages.current[selectedImage]?.path} alt={alt ?? ''} />
+				<Image
+					className="gallery__image"
+					src={(urlStartsWith ?? '') + refImages.current[selectedImage]?.path}
+					alt={alt ?? ''}
+					loading="lazy"
+					width={400}
+					height={400}
+					style={{ objectFit: 'contain', maxInlineSize: '100%' }}
+				/>
 			</div>
 			{refImages.current.length > 1 ? (
 				<>

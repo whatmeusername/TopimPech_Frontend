@@ -76,11 +76,10 @@ const ComparisonStateInfo = [
 function ComparisonProducts({ config }: { config: ComparisonProductsConfig }): ReactElement {
 	const ProductComparisonData = useRef<ProductComparisonData>(GatherProductComparisonData(config.data, config.diffWith));
 
-	const itemWidth = 200;
+	const itemWidth = useRef<number>(0);
 
 	const cardWrapper = useRef<HTMLDivElement>(null!);
 	const rowsRefs = useRef<HTMLDivElement[]>([]);
-	const rowsWrapper = useRef<HTMLDivElement>(null!);
 	const comparisonWrapper = useRef<HTMLDivElement>(null!);
 
 	const [sliderLength, setSliderLength] = useState<number>(0);
@@ -91,15 +90,16 @@ function ComparisonProducts({ config }: { config: ComparisonProductsConfig }): R
 	let rect: DOMRect | null = null;
 
 	useEffect(() => {
-		console.log(cardWrapper.current.offsetWidth, comparisonWrapper.current.offsetWidth);
-		setSliderLength((cardWrapper.current.offsetWidth - comparisonWrapper.current.offsetWidth) / itemWidth);
+		itemWidth.current = (cardWrapper.current.childNodes[0] as HTMLDivElement).offsetWidth;
+		console.log(itemWidth.current, rowsRefs.current[0]);
+		setSliderLength((cardWrapper.current.offsetWidth - comparisonWrapper.current.offsetWidth) / itemWidth.current);
 		return () => {
-			window.removeEventListener('mousemove', DragMove);
-			window.removeEventListener('mouseup', DragMove);
+			window.removeEventListener('mousemove', onDragMove);
+			window.removeEventListener('mouseup', onDragMove);
 		};
 	}, [config]);
 
-	const DragStart = (event: React.MouseEvent) => {
+	const onDragStart = (event: React.MouseEvent | React.TouchEvent) => {
 		if (cardWrapper.current) {
 			cardWrapper.current.style.transition = 'unset';
 			rowsRefs.current.forEach((row) => {
@@ -107,24 +107,34 @@ function ComparisonProducts({ config }: { config: ComparisonProductsConfig }): R
 			});
 
 			rect = comparisonWrapper.current.getBoundingClientRect();
-			dragOffset = event.clientX - rect.left + itemWidth * current;
+			const isTouch = (event as React.DragEvent).clientX === undefined;
+			const X = (event as React.TouchEvent)?.touches?.[0]?.clientX ?? (event as React.MouseEvent).clientX;
+			dragOffset = X - rect.left + itemWidth.current * current;
 
-			window.addEventListener('mousemove', DragMove);
-			window.addEventListener('mouseup', DragEnd);
+			if (isTouch) {
+				window.addEventListener('touchmove', onDragMove);
+				window.addEventListener('touchend', onDragEnd);
+			} else {
+				window.addEventListener('mousemove', onDragMove);
+				window.addEventListener('mouseup', onDragEnd);
+			}
 		}
 	};
 
 	const removeEvents = () => {
-		window.removeEventListener('mousemove', DragMove);
-		window.removeEventListener('mouseup', DragMove);
+		window.removeEventListener('mousemove', onDragMove);
+		window.removeEventListener('mouseup', onDragEnd);
+		window.removeEventListener('touchmove', onDragMove);
+		window.removeEventListener('touchend', onDragEnd);
 	};
 
 	const SoftMove = (side: 'next' | 'back') => {
 		if (cardWrapper.current) {
+			cardWrapper.current.style.transition = 'left 0.5s ease';
 			rowsRefs.current.forEach((row) => {
-				if (row) row.style.transition = 'left 0.25s ease';
+				row.style.transition = 'left 0.5s ease';
 			});
-			cardWrapper.current.style.transition = 'left 0.25s ease';
+
 			let to = 0;
 			if (side === 'next' && current !== sliderLength) {
 				if (sliderLength - current < 1 && (sliderLength - current) % 1 > 0) {
@@ -144,16 +154,16 @@ function ComparisonProducts({ config }: { config: ComparisonProductsConfig }): R
 		}
 	};
 
-	const DragEnd = () => {
+	const onDragEnd = () => {
 		removeEvents();
 
 		if (cardWrapper.current) {
+			cardWrapper.current.style.transition = 'left 0.5s ease';
 			rowsRefs.current.forEach((row) => {
-				if (row) row.style.transition = 'left 0.25s ease';
+				row.style.transition = 'left 0.5s ease';
 			});
-			cardWrapper.current.style.transition = 'left 0.25s ease';
 
-			const slidesPassedRation = (nextOffset * -1) / itemWidth - current;
+			const slidesPassedRation = (nextOffset * -1) / itemWidth.current - current;
 			const slidesPassed = Math.round(slidesPassedRation);
 
 			if (slidesPassed > 0 && current !== sliderLength) {
@@ -161,23 +171,24 @@ function ComparisonProducts({ config }: { config: ComparisonProductsConfig }): R
 			} else if (slidesPassed < 0 && current !== 0) {
 				setCurrent(current + slidesPassed > 0 ? current + slidesPassed : 0);
 			} else {
-				const prev = `-${itemWidth * current}px`;
+				const next = `-${itemWidth.current * current}px`;
 
 				rowsRefs.current.forEach((row) => {
-					if (row) row.style.left = prev;
+					if (row) row.style.left = next;
 				});
-				cardWrapper.current.style.left = prev;
+				cardWrapper.current.style.left = next;
 			}
 		}
 	};
 
-	const DragMove = (event: MouseEvent) => {
+	const onDragMove = (event: MouseEvent | TouchEvent) => {
 		if (!rect || !cardWrapper.current) {
 			removeEvents();
 			return;
 		}
 
-		nextOffset = event.clientX - rect.left - dragOffset;
+		const X = (event as TouchEvent)?.touches?.[0]?.clientX ?? (event as MouseEvent).clientX;
+		nextOffset = X - rect.left - dragOffset;
 
 		rowsRefs.current.forEach((row) => {
 			row.style.left = `${nextOffset}px`;
@@ -199,34 +210,44 @@ function ComparisonProducts({ config }: { config: ComparisonProductsConfig }): R
 						<div
 							className="comparison__products__card__slider"
 							ref={cardWrapper}
-							onMouseDown={sliderLength > 0 ? DragStart : undefined}
-							style={{ left: `-${current * itemWidth}px` }}
+							onMouseDown={sliderLength > 0 ? onDragStart : undefined}
+							onTouchStart={sliderLength > 0 ? onDragStart : undefined}
+							style={{ left: `-${current * itemWidth.current}px` }}
 						>
 							{config.data.map((product) => {
 								return <ComparisonProductsCardBig product={product} config={config} key={`comparison__card__${product.article}`} />;
 							})}
 						</div>
 					</div>
-					<div
-						className={`comparison__products__header__arrow comparison__products__header__arrow__left ${
-							current > 0 ? 'comparison__products__header__arrow__active' : 'comparison__products__header__arrow__inactive'
-						}`}
-						onClick={current > 0 ? () => SoftMove('back') : undefined}
-					>
-						<Arrow className="comparison__products__header__arrow__icon" />
-					</div>
-					<div
-						className={`comparison__products__header__arrow comparison__products__header__arrow__right ${
-							current !== sliderLength ? 'comparison__products__header__arrow__active' : 'comparison__products__header__arrow__inactive'
-						}`}
-						onClick={current !== sliderLength ? () => SoftMove('next') : undefined}
-					>
-						<Arrow className="comparison__products__header__arrow__icon" />
-					</div>
+
+					{sliderLength > 0 ? (
+						<>
+							<div
+								className={`comparison__products__header__arrow comparison__products__header__arrow__left ${
+									current > 0 ? 'comparison__products__header__arrow__active' : 'comparison__products__header__arrow__inactive'
+								}`}
+								onClick={current > 0 ? () => SoftMove('back') : undefined}
+							>
+								<Arrow className="comparison__products__header__arrow__icon" />
+							</div>
+							<div
+								className={`comparison__products__header__arrow comparison__products__header__arrow__right ${
+									current !== sliderLength ? 'comparison__products__header__arrow__active' : 'comparison__products__header__arrow__inactive'
+								}`}
+								onClick={current !== sliderLength ? () => SoftMove('next') : undefined}
+							>
+								<Arrow className="comparison__products__header__arrow__icon" />
+							</div>
+						</>
+					) : null}
 				</div>
 				<StandardBreakLine />
 
-				<div className="comparison__products__data" onMouseDown={sliderLength > 0 ? DragStart : undefined} ref={rowsWrapper}>
+				<div
+					className="comparison__products__data"
+					onMouseDown={sliderLength > 0 ? onDragStart : undefined}
+					onTouchStart={sliderLength > 0 ? onDragStart : undefined}
+				>
 					{ProductComparisonDataEntries.map(([key, bucket], index) => {
 						return (
 							<Fragment key={`comparison__row__${key}`}>
@@ -235,7 +256,7 @@ function ComparisonProducts({ config }: { config: ComparisonProductsConfig }): R
 									<div
 										className="comparison__products__row__values"
 										ref={(el) => (rowsRefs.current[index] = el as HTMLDivElement)}
-										style={{ left: `-${current * itemWidth}px` }}
+										style={{ left: `-${current * itemWidth.current}px` }}
 									>
 										{bucket.values.map((data, i) => {
 											const value = `${data.value}${!data.isNull ? ` ${bucket.unit}` : ''}`;

@@ -18,7 +18,7 @@ const CategoriesColumn = ({ categories, CategoryItem }: { categories: CategoryDa
 const CloseButton = (): JSX.Element => {
 	const closeModalFunction = useToggleModalContext();
 	return (
-		<button className="menu__content__close__button">
+		<button className="menu__content__close__button" title="закрыть меню">
 			<FontAwesomeIcon icon={faXmark} className="menu__content__close__button__icon" onClick={() => closeModalFunction(false)} />
 		</button>
 	);

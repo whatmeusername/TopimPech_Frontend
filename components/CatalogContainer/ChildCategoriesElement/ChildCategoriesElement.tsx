@@ -6,18 +6,21 @@ import { useCategoriesContext } from '../../../context/Categories';
 import { CategoryData } from '../../layout/Menu/GeneralElements';
 
 import './ChildCategoriesElement.scss';
+import { declOfProduct } from '../../../utils';
 
 const ChildCategoriesChild = ({ category }: { category: CategoryData }): ReactElement => {
 	return (
 		<Link href={`/catalog/${category.slug}`}>
 			<div className="child__category__wrapper">
 				<div className="child__category__image__wrapper">
-					<img
-						className="child__category__image"
-						src="/api/products/images/products/adapter-1-f450-mm-fantastic-700-vysokij/adapter-1-f450-mm-fantastic-700-vysokij_4.jpg"
-					/>
+					<img className="child__category__image" src="/api/images/products/adapter-1-f450-mm-fantastic-700-vysokij/0.jpg" alt={category.name} />
 				</div>
-				<span className="child__category__label">{category.name}</span>
+				<div className="child__category__info__wrapper">
+					<p className="child__category__label">{category.name}</p>
+					<p className="child__category__count">
+						{category.productCount} {declOfProduct(category.productCount)}
+					</p>
+				</div>
 			</div>
 		</Link>
 	);

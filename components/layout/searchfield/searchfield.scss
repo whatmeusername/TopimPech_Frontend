@@ -30,20 +30,26 @@
 	flex-direction: row;
 	width: 100%;
 	height: 40px;
-	border: 2.5px solid var(--primary-color);
-	border-radius: 10px;
+	border: 1.5px solid var(--primary-color);
+	border-radius: 6px;
 	background-color: var(--primary-color);
 
 	.search__field {
 		border: 0px solid transparent;
 		background: var(--white-color);
-		border-radius: 8px;
+		border-radius: 5px;
 		width: calc(100% - 75px);
 		font-size: var(--fontX);
 		outline: 0;
 		color: var(--primary-color);
 		height: 100%;
 		padding: 0 10px;
+		&::placeholder{
+			color: var(gray-color);
+			font-family: var(--museo_cyrl);
+			font-size: var(--fontM);
+			font-weight: 300;
+		}
 	}
 
 	.search__field__button {

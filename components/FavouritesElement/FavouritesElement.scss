@@ -17,6 +17,12 @@
 			font-size: var(--fontL);
 			color: var(--gray-color);
 		}
+
+		@media (max-width: 768px) {
+			.favourites__header{
+				font-size: var(--headerS);
+			}
+		}
 	}
 	.favourites__items__wrapper{
 		padding: 20px 0;

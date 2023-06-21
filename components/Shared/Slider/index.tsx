@@ -126,6 +126,7 @@ function ButtonVersionSlider({ children, options }: { children: JSX.Element; opt
 			<button
 				className={`${isDisabledSide ? DISABLED_BUTTON_CLASSNAME : ''} slider__content__slide__button`}
 				onClick={isDisabledSide ? undefined : () => SlideItem(side, itemsPerSlide.current)}
+				title={`переключиться на ${side === SlideDirection.LEFT ? 'левый' : 'правый'} слайд`}
 			>
 				<FontAwesomeIcon icon={icon} className="slider__content__slide__icon" />
 			</button>

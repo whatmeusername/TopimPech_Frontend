@@ -9,8 +9,10 @@ import get from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import PriceElement from '../../CatalogComponents/PriceElement.tsx/PriceElement';
-import { declOfNum } from '../../../utils';
+import { declOfProduct } from '../../../utils';
 import useToggle from '../../../hooks/useToggle';
+
+import { useGlobalContext } from '../../../context/GlobalContext/GlobalContext';
 
 const SearchItemElement = ({ data, ToggleModal }: { data: ProductData; ToggleModal: (fixedState?: boolean | undefined) => void }) => {
 	return (
@@ -47,6 +49,7 @@ export default function ProductSearch() {
 
 	const timerRef = useRef<ReturnType<typeof setTimeout>>(null!);
 	const inputField = useRef<HTMLInputElement>(null!);
+	const productCount = useGlobalContext().productCount;
 
 	useEffect(() => {
 		if (isToggled) {
@@ -96,8 +99,15 @@ export default function ProductSearch() {
 		<>
 			<div className={`search__field__wrapper ${isToggled ? 'search__field__wrapper__active' : ''}`}>
 				<div className="search__input__wrapper">
-					<input type="text" className="search__field" onFocus={FocusEvent} ref={inputField} onKeyDown={onKeyDown} />
-					<button className="search__field__button">
+					<input
+						type="text"
+						className="search__field"
+						onFocus={FocusEvent}
+						ref={inputField}
+						onKeyDown={onKeyDown}
+						placeholder={`Поиск среди ${productCount} теплых ${declOfProduct(productCount)}`}
+					/>
+					<button className="search__field__button" title="перейти к результатам поиску">
 						<FontAwesomeIcon icon={faMagnifyingGlass} className="search__field__button__icon" />
 					</button>
 				</div>
@@ -106,7 +116,7 @@ export default function ProductSearch() {
 						<div className="search__field__results__content">
 							{results.count > 0 ? (
 								<div className="search__field__results__count">
-									Найдено: {results.count} {declOfNum(results.count, ['товар', 'товара', 'товаров'])}
+									Найдено: {results.count} {declOfProduct(results.count)}
 								</div>
 							) : null}
 							{results.items.map((item) => {

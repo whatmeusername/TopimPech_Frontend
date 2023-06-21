@@ -1,9 +1,8 @@
 import { useParams } from 'next/navigation';
 import { ReactElement, useMemo } from 'react';
-import { declOfNum } from '../../../utils';
+import { declOfProduct } from '../../../utils';
 import { PaginatorData } from '../../CatalogContainer/Paginator/interface';
 import { useBreadcrumbContext } from '../../../context/Breadcrumb';
-import { useCategoriesContext } from '../../../context/Categories';
 
 function CatalogHeader({ paginator }: { paginator: PaginatorData }): ReactElement {
 	const breacrumbData = useBreadcrumbContext();
@@ -20,7 +19,7 @@ function CatalogHeader({ paginator }: { paginator: PaginatorData }): ReactElemen
 		<div className="catalog__header__wrapper">
 			<h1 className="catalog__header">{header}</h1>
 			<span className="catalog__header__count">
-				{paginator.count} {declOfNum(paginator.count, ['товар', 'товара', 'товаров'])}
+				{paginator.count} {declOfProduct(paginator.count)}
 			</span>
 		</div>
 	);

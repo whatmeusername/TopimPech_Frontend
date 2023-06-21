@@ -58,7 +58,7 @@ const BuildBreadcrumbData = (categories: CategoryData[]) => {
 	let data: CategoryDataOmit[];
 
 	const BuildPath = (category: CategoryData) => {
-		const categpryWithoutChild = { name: category.name, slug: category.slug };
+		const categpryWithoutChild = { name: category.name, slug: category.slug, productCount: category.productCount };
 
 		if (category.child.length > 0) {
 			contains.push(categpryWithoutChild.slug);
@@ -90,7 +90,7 @@ const BuildBreadcrumbData = (categories: CategoryData[]) => {
 
 	for (let i = 0; i < categories?.length; i++) {
 		parentCategory = categories[i];
-		const parentWithoutChild = { name: parentCategory.name, slug: parentCategory.slug };
+		const parentWithoutChild = { name: parentCategory.name, slug: parentCategory.slug, productCount: parentCategory.productCount };
 		start = parentCategory.slug;
 		contains = [start];
 

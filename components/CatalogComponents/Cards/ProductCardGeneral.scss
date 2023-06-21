@@ -20,17 +20,27 @@
 	.product__card__option__icon{
 		width: 20px;
 		height: 20px;
-		fill: var(--gray-color);
 		transition: fill 0.15s ease;
+		fill: var(--gray-color);
 	}
 
 
-	&:hover {
-		border-color: var(--orange-color);
+	&.product__card__option__inactive{
+		&:hover{
+			color: var(--orange-color);
+			.product__card__option__icon{
+				fill: var(--orange-color);
+			}
+		}
+	}
+	&.product__card__option__active{
 		color: var(--orange-color);
-
+		opacity: 1;
 		.product__card__option__icon{
 			fill: var(--orange-color);
+		}
+		&:hover{
+			opacity: 0.75;
 		}
 	}
 }
@@ -49,10 +59,10 @@
 	transition: all 0.15s ease-in-out;
 	font-size: var(--fontM);
 	font-family: var(--museo_cyrl);
-	.product__card__option__icon{
-		fill: var(--gray-color);
-	}
 	&.product__card__option__inactive{
+		.product__card__option__icon{
+			fill: var(--gray-color);
+		}
 		&:hover{
 			border: 1px solid var(--orange-color);
 			color: var(--orange-color);

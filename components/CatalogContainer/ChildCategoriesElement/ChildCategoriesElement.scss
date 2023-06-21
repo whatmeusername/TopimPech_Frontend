@@ -12,28 +12,46 @@
 	gap: 10px;
 
 	&:hover {
-		.child__category__label {
-			color: var(--orange-color);
+		.child__category__info__wrapper{
+			.child__category__label {
+				color: var(--orange-color);
+			}
 		}
 	}
 
 	.child__category__image__wrapper {
-		width: 60px;
-		height: 60px;
+		width: 50px;
+		height: 50px;
+		min-height: 50px;
+		min-width: 50px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 		.child__category__image {
 			max-width: 100%;
 			max-height: 100%;
 			border-radius: 8px;
 		}
 	}
-	.child__category__label {
-		width: 135px;
-		font-size: var(--fontMS);
-		font-size: var(--museo_cyrl);
-		color: var(--primary-color);
-		transition: color 0.15s ease;
-		&::first-letter {
-			text-transform: uppercase;
+	.child__category__info__wrapper{
+		display: flex;
+		flex-direction: column;
+		.child__category__label {
+			margin: 0;
+			width: 130px;
+			font-size: var(--fontM);
+			letter-spacing: -0.5px;
+			font-family: var(--museo_cyrl);
+			color: var(--primary-color);
+			transition: color 0.25s ease;
+			&::first-letter {
+				text-transform: uppercase;
+			}
+		}
+		.child__category__count{
+			margin: 0;
+			font-size: var(--fontMS);
+			color: var(--gray-color);
 		}
 	}
 }

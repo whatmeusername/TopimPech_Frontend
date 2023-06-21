@@ -12,6 +12,7 @@ import { CategoriesContext } from '../context/Categories/CategoriesContext';
 
 import { MobxStoreSessionBasedContext, UserSession } from '../context/MobxStoreContext/MobxStoreContext';
 import { cookies } from 'next/dist/client/components/headers';
+import { GlobalContext } from '../context/GlobalContext/GlobalContext';
 
 const PROXY_URL = process.env.PROXY_URL;
 const PRODUCT_PAGE_SUB_LABEL = 'купить в интернет-магазине товаров для бани TopimPech.ru';
@@ -43,7 +44,7 @@ async function getSessionData(): Promise<UserSession> {
 async function RootLayout({ children }: { children: ReactElement }) {
 	const categoriesFetch = getData(`${PROXY_URL}products/categories/`, { next: { revalidate: 3600 } });
 
-	const [categories, userSession] = await Promise.all([categoriesFetch, getSessionData()]);
+	const [categoriesData, userSession] = await Promise.all([categoriesFetch, getSessionData()]);
 
 	return (
 		<html lang="en">
@@ -51,15 +52,17 @@ async function RootLayout({ children }: { children: ReactElement }) {
 				<meta name="theme-color" media="(prefers-color-scheme: light)" content="white" />
 			</head>
 			<body>
-				<CategoriesContext initialCategories={categories}>
-					<BreadcrumbContext>
-						<MobxStoreSessionBasedContext session={userSession}>
-							<Layout>
-								<WidthLimiter>{children}</WidthLimiter>
-							</Layout>
-						</MobxStoreSessionBasedContext>
-					</BreadcrumbContext>
-				</CategoriesContext>
+				<GlobalContext productCount={categoriesData.totalProducts}>
+					<CategoriesContext initialCategories={categoriesData.categories}>
+						<BreadcrumbContext>
+							<MobxStoreSessionBasedContext session={userSession}>
+								<Layout>
+									<WidthLimiter>{children}</WidthLimiter>
+								</Layout>
+							</MobxStoreSessionBasedContext>
+						</BreadcrumbContext>
+					</CategoriesContext>
+				</GlobalContext>
 			</body>
 		</html>
 	);
