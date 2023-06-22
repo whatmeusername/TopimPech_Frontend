@@ -8,8 +8,7 @@ import { StandardBreakLine } from '../Shared/Lines/StandardBreakLine/StandardBre
 import PriceElement from '../CatalogComponents/PriceElement.tsx/PriceElement';
 import AddToCartButton from '../CatalogComponents/AddToCartButton/AddToCartButton';
 import Link from 'next/link';
-
-import Arrow from '../../public/arrows/Arrow.svg';
+import { ArrowIcon } from '../IconsElements';
 
 function GatherProductComparisonData(products: ProductData[], diffWith?: ProductData): ProductComparisonData {
 	const result: ProductComparisonData = {};
@@ -228,7 +227,7 @@ function ComparisonProducts({ config }: { config: ComparisonProductsConfig }): R
 								}`}
 								onClick={current > 0 ? () => SoftMove('back') : undefined}
 							>
-								<Arrow className="comparison__products__header__arrow__icon" />
+								<ArrowIcon className="comparison__products__header__arrow__icon" />
 							</div>
 							<div
 								className={`comparison__products__header__arrow comparison__products__header__arrow__right ${
@@ -236,7 +235,7 @@ function ComparisonProducts({ config }: { config: ComparisonProductsConfig }): R
 								}`}
 								onClick={current !== sliderLength ? () => SoftMove('next') : undefined}
 							>
-								<Arrow className="comparison__products__header__arrow__icon" />
+								<ArrowIcon className="comparison__products__header__arrow__icon" />
 							</div>
 						</>
 					) : null}

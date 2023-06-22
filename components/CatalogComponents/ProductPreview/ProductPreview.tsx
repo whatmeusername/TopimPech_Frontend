@@ -10,9 +10,9 @@ import { FavouriteButton } from '../FavouriteButton/FavouriteButton';
 import { ComparisonButton } from '../ComparisonButton/ComparisonButton';
 import Link from 'next/link';
 
-import AngleArrow from '../../../public/arrows/AngleArrow.svg';
 import { useEffect, useRef, useState } from 'react';
 import { ShortAttributesElement } from '../../ProductPage/AttributesElement/AttributesElement';
+import { AngleArrowIcon } from '../../IconsElements';
 
 function ArrowGallery({ items, urlStartsWith }: { items: ProductImage[]; urlStartsWith?: string }) {
 	const [selectedItem, setSelectedItem] = useState<number>(0);
@@ -47,7 +47,7 @@ function ArrowGallery({ items, urlStartsWith }: { items: ProductImage[]; urlStar
 						aria-label={isLeftBTNActive ? 'показать предыдущий слайд' : undefined}
 						disabled={selectedItem <= 0}
 					>
-						<AngleArrow className="arrow__gallery__arrow__icon" />
+						<AngleArrowIcon className="arrow__gallery__arrow__icon" />
 					</button>
 					<button
 						className={`arrow__gallery__btn arrow__gallery__btn__right ${
@@ -58,7 +58,7 @@ function ArrowGallery({ items, urlStartsWith }: { items: ProductImage[]; urlStar
 						aria-label={isRightBTNActive ? 'показать следущий слайд' : undefined}
 						disabled={selectedItem + 1 > items.length}
 					>
-						<AngleArrow className="arrow__gallery__arrow__icon" />
+						<AngleArrowIcon className="arrow__gallery__arrow__icon" />
 					</button>
 					<div className="tabs__wrapper">
 						{items.map((tab, i) => {

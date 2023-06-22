@@ -1,10 +1,8 @@
-import HeartFilled from '../../../public/OptionsIcons/HeartFilled.svg';
-import HeartNotFilled from '../../../public/OptionsIcons/HeartNotFilled.svg';
-
 import { observer } from 'mobx-react-lite';
 import { ProductData } from '../Cards/interface';
 
 import { useFavouritesProducts } from '../../../context/MobxStoreContext/MobxStoreContext';
+import { HeartFilledIcon, HeartNotFilledIcon } from '../../IconsElements';
 
 const FavouriteButton = observer(
 	({
@@ -32,7 +30,7 @@ const FavouriteButton = observer(
 				aria-pressed={isSelected}
 				title={isSelected ? 'В избранном' : 'В избранное'}
 			>
-				{isSelected ? <HeartFilled className="product__card__option__icon" /> : <HeartNotFilled className="product__card__option__icon" />}
+				{isSelected ? <HeartFilledIcon className="product__card__option__icon" /> : <HeartNotFilledIcon className="product__card__option__icon" />}
 				{withLabel ? <p className="product__card__option__label">{isSelected ? 'В избранном' : 'В избранное'}</p> : null}
 			</button>
 		);

@@ -2,10 +2,9 @@ import { useState, memo, useEffect } from 'react';
 import useWindowSize from '../../../hooks/useWindowSize';
 import './ChangeProductView.scss';
 
-import List from '../../../public/CatalogViewIcons/list.svg';
-import Grid from '../../../public/CatalogViewIcons/grid.svg';
 import { CatalogView, ProductAligmentVariantData } from './interface';
 import { useSearchParams } from 'next/navigation';
+import { GridIcon } from '../../IconsElements';
 
 const getInitialView = (query: URLSearchParams): CatalogView => {
 	const lsv = localStorage.getItem('view');
@@ -15,8 +14,8 @@ const getInitialView = (query: URLSearchParams): CatalogView => {
 };
 
 const AvailableVariant: ProductAligmentVariantData[] = [
-	{ icon: <Grid className="product__view__icon" />, name: CatalogView.GRID },
-	{ icon: <List className="product__view__icon" />, name: CatalogView.ROW },
+	{ icon: <GridIcon className="product__view__icon" />, name: CatalogView.GRID },
+	{ icon: <GridIcon className="product__view__icon" />, name: CatalogView.ROW },
 ];
 
 const ChangeProductView = memo(({ disabled, setCatalogView }: { disabled?: boolean; setCatalogView: (value: CatalogView) => void }) => {

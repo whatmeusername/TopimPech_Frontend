@@ -2,9 +2,9 @@ import { observer } from 'mobx-react-lite';
 
 import { ProductData } from '../Cards/interface';
 
-import ComparisonIcon from '../../../public/OptionsIcons/Comparison.svg';
 import { useComparinsonProducts } from '../../../context/MobxStoreContext/MobxStoreContext';
 import { FavouritesItem } from '../../../store';
+import { ComparisonIcon } from '../../IconsElements';
 
 // Change to comparison store
 const ComparisonButton = observer(

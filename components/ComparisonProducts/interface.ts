@@ -6,6 +6,7 @@ interface ComparisonProductsConfig {
 	enableCategoryFilter: boolean;
 	URLstart?: string;
 	diffLabels?: boolean;
+	mobileVersion?: boolean;
 	cards: {
 		show: boolean;
 		showPrice?: boolean;

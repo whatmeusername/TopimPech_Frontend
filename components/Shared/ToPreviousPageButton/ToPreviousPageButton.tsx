@@ -1,8 +1,7 @@
 import { useRouter } from 'next/navigation';
 import { ReactElement } from 'react';
 import './ToPreviousPageButton.scss';
-
-import Arrow from '../../../public/arrows/Arrow.svg';
+import { ArrowIcon } from '../../IconsElements';
 
 const ToPreviousPageButton = (): ReactElement => {
 	const router = useRouter();
@@ -14,7 +13,7 @@ const ToPreviousPageButton = (): ReactElement => {
 				router.back();
 			}}
 		>
-			<Arrow className="previous__page__icon" />
+			<ArrowIcon className="previous__page__icon" />
 			<span className="previous__page__label">вернуться на предыдущию страницу</span>
 		</button>
 	);

@@ -10,10 +10,9 @@ import { LOADING_LABEL_BASE } from '../../Shared/LoadingBar/LoadingLabels';
 
 import { FavouriteButton } from '../FavouriteButton/FavouriteButton';
 
-import SimilarIcon from '../../../public/OptionsIcons/Similar.svg';
-
 import './SimilarProductsModal.scss';
 import { ComparisonButton } from '../ComparisonButton/ComparisonButton';
+import { SimilarIcon } from '../../IconsElements';
 
 function SimilarProductsModal({
 	ProductData,

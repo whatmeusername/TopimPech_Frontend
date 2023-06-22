@@ -7,14 +7,11 @@ import ProductSearch from '../searchfield/searchfield';
 import Menu from '../Menu/Menu';
 import Logo from '../../../public/images/SiteLogo.png';
 
-import Cart from '../../../public/OptionsIcons/cart.svg';
-import Comparison from '../../../public/OptionsIcons/Comparison.svg';
-import Heart from '../../../public/OptionsIcons/HeartNotFilled.svg';
-
 import { ReactElement } from 'react';
 import { observer } from 'mobx-react-lite';
 
 import { useComparinsonProducts, useFavouritesProducts, useUserProductCart } from '../../../context/MobxStoreContext/MobxStoreContext';
+import { CartIcon, ComparisonIcon, HeartNotFilledIcon } from '../../IconsElements';
 
 const HeaderLogo = (): JSX.Element => {
 	return (
@@ -30,7 +27,7 @@ const CartElement = observer((): ReactElement => {
 	const ProductCart = useUserProductCart();
 	return (
 		<button className="header__option__wrapper">
-			<Cart className="header__option__icon" />
+			<CartIcon className="header__option__icon" />
 			<p className="header__option__label">Корзина</p>
 			<div className="header__option__count__pin header__option__count__pin__cart">{ProductCart.getCount()}</div>
 		</button>
@@ -41,7 +38,7 @@ const FavouriteElement = observer((): ReactElement => {
 	const FavouritesProducts = useFavouritesProducts();
 	return (
 		<Link href="/favourites" className="header__option__wrapper">
-			<Heart className="header__option__icon" />
+			<HeartNotFilledIcon className="header__option__icon" />
 			<p className="header__option__label">Избранное</p>
 			<div className="header__option__count__pin header__option__count__pin__favourite">{FavouritesProducts.getCount()}</div>
 		</Link>
@@ -52,7 +49,7 @@ const ComparisonElement = observer((): ReactElement => {
 	const ComparisonStore = useComparinsonProducts();
 	return (
 		<button className="header__option__wrapper">
-			<Comparison className="header__option__icon" />
+			<ComparisonIcon className="header__option__icon" />
 			<p className="header__option__label">Сравнение</p>
 			<div className="header__option__count__pin header__option__count__pin__favourite">{ComparisonStore.getCount()}</div>
 		</button>

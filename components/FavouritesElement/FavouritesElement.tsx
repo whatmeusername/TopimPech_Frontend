@@ -10,21 +10,19 @@ import { ThinBreakLine } from '../Shared/Lines/ThinBreakLine/ThinBreakLine';
 import AddToCartButton from '../CatalogComponents/AddToCartButton/AddToCartButton';
 import Link from 'next/link';
 
-import TrashBin from '../../public/OptionsIcons/TrashBin.svg';
 import PriceElement from '../CatalogComponents/PriceElement.tsx/PriceElement';
 import { useFavouritesProducts } from '../../context/MobxStoreContext/MobxStoreContext';
 import { ComparisonButton } from '../CatalogComponents/ComparisonButton/ComparisonButton';
 import { declOfProduct } from '../../utils';
 import { ToPreviousPageButton } from '../Shared/ToPreviousPageButton/ToPreviousPageButton';
-
-import HeartNotFilled from '../../public/OptionsIcons/HeartNotFilled.svg';
+import { HeartNotFilledIcon, TrashBinIcon } from '../IconsElements';
 
 const FavouritesItemDeleteBtn = ({ product }: { product: FavouritesItem }) => {
 	const FavouritesProducts = useFavouritesProducts();
 
 	return (
 		<button className="product__card__option" onClick={() => FavouritesProducts.remove(product)}>
-			<TrashBin className="product__card__option__icon" />
+			<TrashBinIcon className="product__card__option__icon" />
 			<p className="product__card__option__label">Удалить</p>
 		</button>
 	);
@@ -88,7 +86,7 @@ const FavouritesElement = observer((): ReactElement => {
 					</>
 				) : (
 					<p className="favourites__items__empty__label">
-						Добавляйте понравившийся вам товары в избранное с помощью <HeartNotFilled className="favourites__items__empty__label__icon" />
+						Добавляйте понравившийся вам товары в избранное с помощью <HeartNotFilledIcon className="favourites__items__empty__label__icon" />
 					</p>
 				)}
 			</div>
