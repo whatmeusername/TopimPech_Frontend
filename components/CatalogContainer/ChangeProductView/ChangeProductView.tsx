@@ -4,7 +4,7 @@ import './ChangeProductView.scss';
 
 import { CatalogView, ProductAligmentVariantData } from './interface';
 import { useSearchParams } from 'next/navigation';
-import { GridIcon } from '../../IconsElements';
+import { GridIcon, ListIcon } from '../../IconsElements';
 
 const getInitialView = (query: URLSearchParams): CatalogView => {
 	const lsv = localStorage.getItem('view');
@@ -15,7 +15,7 @@ const getInitialView = (query: URLSearchParams): CatalogView => {
 
 const AvailableVariant: ProductAligmentVariantData[] = [
 	{ icon: <GridIcon className="product__view__icon" />, name: CatalogView.GRID },
-	{ icon: <GridIcon className="product__view__icon" />, name: CatalogView.ROW },
+	{ icon: <ListIcon className="product__view__icon" />, name: CatalogView.ROW },
 ];
 
 const ChangeProductView = memo(({ disabled, setCatalogView }: { disabled?: boolean; setCatalogView: (value: CatalogView) => void }) => {

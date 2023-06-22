@@ -5,7 +5,8 @@ import './header.scss';
 
 import ProductSearch from '../searchfield/searchfield';
 import Menu from '../Menu/Menu';
-import Logo from '../../../public/images/SiteLogo.png';
+
+import SiteLogo from '../../../public/logo/SiteLogo.png';
 
 import { ReactElement } from 'react';
 import { observer } from 'mobx-react-lite';
@@ -17,7 +18,7 @@ const HeaderLogo = (): JSX.Element => {
 	return (
 		<Link href="/">
 			<div className="logo__wrapper">
-				<Image src={Logo} className="logo__main" alt="логотип сайта TopimPech.ru" priority={true}></Image>
+				<Image src={SiteLogo} className="logo__main" alt="логотип сайта TopimPech.ru" priority={true}></Image>
 			</div>
 		</Link>
 	);
@@ -56,25 +57,42 @@ const ComparisonElement = observer((): ReactElement => {
 	);
 });
 
-function Header() {
+function HeaderDesktop() {
 	return (
 		<div className="header__wrapper">
-			<header className="header">
-				<HeaderLogo />
-				<div className="flex__items__center">
-					<Menu />
+			<div className="header__content__wrapper">
+				<div className="header__info">
+					<div className="header__info__content">
+						<Link href="/" className="header__info__link">
+							Доставка
+						</Link>
+						<Link href="/" className="header__info__link">
+							Как заказать
+						</Link>
+						<Link href="/" className="header__info__link">
+							Контакты
+						</Link>
+					</div>
 				</div>
-				<div className="center__wrapper flex__items__center">
-					<ProductSearch />
+				<div className="header__main">
+					<header className="header">
+						<HeaderLogo />
+						<div className="flex__items__center">
+							<Menu />
+						</div>
+						<div className="center__wrapper flex__items__center">
+							<ProductSearch />
+						</div>
+						<div className="right__wrapper">
+							<FavouriteElement />
+							<ComparisonElement />
+							<CartElement />
+						</div>
+					</header>
 				</div>
-				<div className="right__wrapper">
-					<FavouriteElement />
-					<ComparisonElement />
-					<CartElement />
-				</div>
-			</header>
+			</div>
 		</div>
 	);
 }
 
-export { Header };
+export { HeaderDesktop };

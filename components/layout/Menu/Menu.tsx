@@ -4,13 +4,11 @@ import './menu.scss';
 import useToggle from '../../../hooks/useToggle';
 import useWindowSize from '../../../hooks/useWindowSize';
 
-import { faBars } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 import MenuContentMobile from './MenuContentMobile';
 import MenuContentDesktop from './MenuContentDesktop';
 import { CloseButton } from './GeneralElements';
 import { useCategoriesContext } from '../../../context/Categories';
+import { MenuIcon } from '../../IconsElements';
 
 export const ToggleModalContext = createContext<(fixedState?: boolean) => void>(null!);
 
@@ -67,7 +65,7 @@ export default function Menu() {
 	return (
 		<>
 			<button className="menu__button" onClick={() => setModalActive(false)}>
-				<FontAwesomeIcon icon={faBars} className="menu__button__icon" />
+				<MenuIcon className="menu__button__icon" />
 				<p className="menu__button__label">Каталог</p>
 			</button>
 			<div

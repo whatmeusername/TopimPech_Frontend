@@ -8,9 +8,36 @@
 	width: 100%;
 	padding-top: 20px;
 
-	.header {
+
+	.header__info{
+		margin-bottom: 5px;
+		.header__info__content{
+			display: flex;
+			flex-direction: row;
+			gap: 20px;
+			justify-content: flex-end;
+			.header__info__link{
+				color: var(--standard-color);
+				font-weight: 300;
+				font-size: var(--fontM);
+				font-family: var(--museo_cyrl);
+				cursor: pointer;
+				transition: color 0.25s ease;
+				&:hover{
+					color: var(--orange-color);
+				}
+			}
+		}
+	}
+
+	.header__content__wrapper{
 		margin: 0 auto;
 		max-width: 1440px;
+	}
+
+	.header {
+		margin: 0 auto;
+		width: 100%;
 		display: grid;
 		grid-template-columns: 1fr 1fr 4fr 2fr;
 
@@ -37,9 +64,9 @@
 	.right__wrapper {
 		display: flex;
 		flex-direction: row;
-		gap: 20px;
 		align-items: center;
-		justify-content: center;
+		justify-content: space-between;
+		padding: 0 0 0 80px;
 	}
 }
 

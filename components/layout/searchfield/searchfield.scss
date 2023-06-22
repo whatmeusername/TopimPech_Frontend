@@ -28,17 +28,17 @@
 	z-index: 30;
 	display: flex;
 	flex-direction: row;
+	align-items: center;
 	width: 100%;
 	height: 40px;
 	border: 1.5px solid var(--primary-color);
 	border-radius: 6px;
-	background-color: var(--primary-color);
 
 	.search__field {
 		border: 0px solid transparent;
 		background: var(--white-color);
 		border-radius: 5px;
-		width: calc(100% - 75px);
+		width: calc(100% - 40px);
 		font-size: var(--fontX);
 		outline: 0;
 		color: var(--primary-color);
@@ -53,13 +53,20 @@
 	}
 
 	.search__field__button {
-		width: 75px;
+		width: 32px;
 		border: none;
-		background: transparent;
+		background: var(--primary-color);
 		cursor: pointer;
-		min-height: 100%;
+		min-height: 32px;
+		max-height: 32px;
 		margin: 0;
 		padding: 0;
+		border-radius: 4px;
+		opacity: 1;
+		transition: opacity 0.25s ease;
+		&:hover{
+			opacity: 0.9;
+		}
 		.search__field__button__icon {
 			font-size: var(--fontL);
 			width: 20px;

@@ -1,13 +1,13 @@
 'use client';
 
-import { Header } from './header/header';
+import { HeaderDesktop } from './header/header';
 import { Footer } from './footer/footer';
 import { ReactElement } from 'react';
 
 function Layout({ children }: { children: ReactElement | ReactElement[] }): ReactElement {
 	return (
 		<>
-			<Header />
+			<HeaderDesktop />
 			{children}
 			<Footer />
 		</>
