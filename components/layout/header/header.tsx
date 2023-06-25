@@ -12,7 +12,7 @@ import { ReactElement } from 'react';
 import { observer } from 'mobx-react-lite';
 
 import { useComparinsonProducts, useFavouritesProducts, useUserProductCart } from '../../../context/MobxStoreContext/MobxStoreContext';
-import { CartIcon, ComparisonIcon, HeartNotFilledIcon } from '../../IconsElements';
+import { CartFilledIcon, CartIcon, ComparisonIcon, HeartFilledIcon, HeartNotFilledIcon, HomeIcon, SearchIcon } from '../../IconsElements';
 
 const HeaderLogo = (): JSX.Element => {
 	return (
@@ -57,7 +57,52 @@ const ComparisonElement = observer((): ReactElement => {
 	);
 });
 
-function HeaderDesktop() {
+function SearchMobileButton(): ReactElement {
+	return (
+		<div className="header__mobile__search__button">
+			<SearchIcon className="header__mobile__search__button__icon" />
+		</div>
+	);
+}
+
+function HeaderMobile(): ReactElement {
+	console.log(location.pathname);
+	return (
+		<div className="header__mobile__wrapper">
+			<div className="header__mobile__upper">
+				<div className="header__mobile__upper__content">
+					<Link href="/">
+						<Image src={SiteLogo} className="header__mobile__upper__logo" alt="логотип сайта TopimPech.ru" priority={false} />
+					</Link>
+					<SearchMobileButton />
+				</div>
+			</div>
+			<div className="header__mobile__lower">
+				<div className="header__mobile__lower__content">
+					<Link href="/" className={`header__mobile__lower__link ${location.pathname === '/' ? 'header__mobile__lower__icon__active' : ''}`}>
+						<HomeIcon className="header__mobile__lower__icon" />
+					</Link>
+					<Menu mobile={true} />
+
+					<Link
+						href="/favourites"
+						className={`header__mobile__lower__link ${location.pathname === '/favourites' ? 'header__mobile__lower__icon__active' : ''}`}
+					>
+						<HeartFilledIcon className="header__mobile__lower__icon" />
+					</Link>
+					<Link href="/comparison" className="header__mobile__lower__link">
+						<ComparisonIcon className="header__mobile__lower__icon" />
+					</Link>
+					<Link href="/cart" className="header__mobile__lower__link">
+						<CartFilledIcon className="header__mobile__lower__icon" />
+					</Link>
+				</div>
+			</div>
+		</div>
+	);
+}
+
+function HeaderDesktop(): ReactElement {
 	return (
 		<div className="header__wrapper">
 			<div className="header__content__wrapper">
@@ -78,7 +123,7 @@ function HeaderDesktop() {
 					<header className="header">
 						<HeaderLogo />
 						<div className="flex__items__center">
-							<Menu />
+							<Menu mobile={false} />
 						</div>
 						<div className="center__wrapper flex__items__center">
 							<ProductSearch />
@@ -95,4 +140,4 @@ function HeaderDesktop() {
 	);
 }
 
-export { HeaderDesktop };
+export { HeaderDesktop, HeaderMobile };

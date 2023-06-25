@@ -1,32 +1,36 @@
 .menu__button {
-	background-color: var(--primary-color);
-	border-radius: 8px;
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	align-items: center;
-	gap: 10px;
-	height: 40px;
-	padding: 0 15px;
-	cursor: pointer;
-	opacity: 1;
-	transition: opacity 0.25s ease;
-	.menu__button__icon {
-		width: var(--fontX);
-		margin: 0;
-		margin-top: calc(var(--fontX - 1rem));
-		fill: var(--white-color);
+
+	&.menu__button__mobile__desktop{
+		background-color: var(--primary-color);
+		border-radius: 8px;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		gap: 10px;
+		height: 40px;
+		padding: 0 15px;
+		cursor: pointer;
+		opacity: 1;
+		transition: opacity 0.25s ease;
+		.menu__button__icon {
+			width: var(--fontX);
+			margin: 0;
+			margin-top: calc(var(--fontX - 1rem));
+			fill: var(--white-color);
+		}
+		.menu__button__label {
+			letter-spacing: 1px;
+			font-size: var(--fontX);
+			font-family: var(--museo_cyrl);
+			font-weight: 300;
+			color: var(--white-color);
+		}
+		&:hover{
+			opacity: 0.9;
+		}
 	}
-	.menu__button__label {
-		letter-spacing: 1px;
-		font-size: var(--fontX);
-		font-family: var(--museo_cyrl);
-		font-weight: 300;
-		color: var(--white-color);
-	}
-	&:hover{
-		opacity: 0.9;
-	}
+
 }
 
 .menu__content__active__blackscreen {
@@ -39,7 +43,7 @@
 	}
 
 	position: absolute;
-	z-index: 900;
+	z-index: var(--zIndexBig);
 	left: 0;
 	top: 0;
 	height: 100vh;
@@ -56,8 +60,8 @@
 		left: 0;
 	}
 
-	position: absolute;
-	z-index: 901;
+	position: fixed;
+	z-index: var(--zIndexBig);
 	display: flex;
 	flex-direction: row;
 	left: 0;
@@ -243,7 +247,7 @@
 						position: relative;
 						top: 0;
 						left: 0;
-						z-index: 1000;
+						z-index: var(--zIndexBig);
 
 						blackscreen__active .menu__category__column {
 							padding-bottom: 70px;
@@ -275,7 +279,6 @@
 			}
 
 			.menu__content__upper__wrapper {
-				user-select: none;
 				display: flex;
 				flex-direction: row;
 				align-items: center;
@@ -298,6 +301,7 @@
 					justify-self: end;
 					position: absolute;
 					right: 10px;
+					cursor: pointer;
 					.menu__content__close__button__icon {
 						font-size: 32px;
 						color: var(--primary-color);

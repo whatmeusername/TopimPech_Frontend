@@ -2,20 +2,18 @@ import { useState, memo, ReactElement } from 'react';
 import './menu.scss';
 import Link from 'next/link';
 
-import { useToggleModalContext } from './Menu';
-
 import { CategoriesColumn } from './GeneralElements';
 import type { CategoryData } from './GeneralElements';
+import { menuModalControl } from '../../../store/MenuModal';
 
 const MenuContentDesktop = memo(({ categories }: { categories: CategoryData[] }): JSX.Element => {
-	const closeModalFunction = useToggleModalContext();
 	const [selectedCategory, setSelectedCategory] = useState<string>('');
 
 	const MainCategoryItem = ({ category }: { category: CategoryData }): JSX.Element => {
 		return (
 			<Link
 				href={`/catalog/${category.slug}/`}
-				onClick={() => closeModalFunction(false)}
+				onClick={() => menuModalControl.toggle(false)}
 				prefetch={false}
 				className={`
 					main__category__column__item
@@ -31,7 +29,7 @@ const MenuContentDesktop = memo(({ categories }: { categories: CategoryData[] })
 	function SubCategoryColumn({ data }: { data: CategoryData }): JSX.Element {
 		function SubCategoryItem({ data, className }: { data: CategoryData; className: string }): JSX.Element {
 			return (
-				<Link href={`/catalog/${data.slug}`} onClick={() => closeModalFunction(false)} className={className} prefetch={false}>
+				<Link href={`/catalog/${data.slug}`} onClick={() => menuModalControl.toggle(false)} className={className} prefetch={false}>
 					{data.name}
 				</Link>
 			);

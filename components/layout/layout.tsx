@@ -1,13 +1,16 @@
 'use client';
 
-import { HeaderDesktop } from './header/header';
+import { HeaderDesktop, HeaderMobile } from './header/header';
 import { Footer } from './footer/footer';
 import { ReactElement } from 'react';
+import useWindowSize from '../../hooks/useWindowSize';
 
 function Layout({ children }: { children: ReactElement | ReactElement[] }): ReactElement {
+	const { width } = useWindowSize();
+
 	return (
 		<>
-			<HeaderDesktop />
+			{width && width <= 768 ? <HeaderMobile /> : <HeaderDesktop />}
 			{children}
 			<Footer />
 		</>

@@ -24,19 +24,31 @@
             font-size: var(--fontM);
         }
     }
+
     @media(max-width: 768px){
+        
         .breadcrumb__wrapper{
             display: flex;
             align-items: center;
             justify-content: center;
             flex-wrap: wrap;
-            .catalog__header{
-                font-size: var(--headerL);
-            }
         }
         .catalog__header__wrapper{
             align-items: center;
             flex-direction: column;
+            .catalog__header{
+                font-size: var(--headerL);
+                text-align: center;
+            }
+        }
+    }
+    @media(max-width: 368px){
+        
+
+        .catalog__header__wrapper{
+            .catalog__header{
+                font-size: var(--headerS);
+            }
         }
     }
 }

@@ -1,7 +1,8 @@
-import { useEffect, memo, createContext, useContext } from 'react';
+'use client';
+
+import { memo } from 'react';
 import './menu.scss';
 
-import useToggle from '../../../hooks/useToggle';
 import useWindowSize from '../../../hooks/useWindowSize';
 
 import MenuContentMobile from './MenuContentMobile';
@@ -9,12 +10,8 @@ import MenuContentDesktop from './MenuContentDesktop';
 import { CloseButton } from './GeneralElements';
 import { useCategoriesContext } from '../../../context/Categories';
 import { MenuIcon } from '../../IconsElements';
-
-export const ToggleModalContext = createContext<(fixedState?: boolean) => void>(null!);
-
-export const useToggleModalContext = (): ((fixedState?: boolean) => void) => {
-	return useContext(ToggleModalContext);
-};
+import { menuModalControl } from '../../../store/MenuModal';
+import { observer } from 'mobx-react-lite';
 
 const MenuContent = memo((): JSX.Element => {
 	const { width } = useWindowSize();
@@ -51,32 +48,32 @@ const MenuContent = memo((): JSX.Element => {
 
 MenuContent.displayName = 'MenuContent';
 
-export default function Menu() {
-	const [modalActive, setModalActive] = useToggle();
-
-	useEffect(() => {
-		if (modalActive) {
-			document.body.style.overflow = 'hidden';
-		} else {
-			document.body.style.overflow = 'unset';
-		}
-	}, [modalActive]);
-
+export default function Menu({ mobile }: { mobile: boolean }) {
 	return (
 		<>
-			<button className="menu__button" onClick={() => setModalActive(false)}>
-				<MenuIcon className="menu__button__icon" />
-				<p className="menu__button__label">Каталог</p>
+			<button
+				className={`menu__button ${mobile ? 'menu__button__mobile header__mobile__lower__link' : 'menu__button__mobile__desktop'}`}
+				onClick={() => menuModalControl.toggle()}
+			>
+				<MenuIcon className={`menu__button__icon ${mobile ? 'header__mobile__lower__icon' : ''}`} />
+				{mobile ? null : <p className="menu__button__label">Каталог</p>}
 			</button>
-			<div
-				className={`menu__content__active__blackscreen ${modalActive ? 'blackscreen__inactive' : 'blackscreen__active'}`}
-				onClick={() => setModalActive(false)}
-			></div>
-			<div className={`menu__content__modal ${modalActive ? 'modal__unhidden' : 'modal__hidden'}`}>
-				<ToggleModalContext.Provider value={setModalActive}>
-					<MenuContent />
-				</ToggleModalContext.Provider>
-			</div>
 		</>
 	);
 }
+
+const MenuModal = observer(() => {
+	return (
+		<>
+			<div
+				className={`menu__content__active__blackscreen ${menuModalControl.toggled ? 'blackscreen__inactive' : 'blackscreen__active'}`}
+				onClick={() => menuModalControl.toggle(false)}
+			></div>
+			<div className={`menu__content__modal ${menuModalControl.toggled ? 'modal__unhidden' : 'modal__hidden'}`}>
+				<MenuContent />
+			</div>
+		</>
+	);
+});
+
+export { MenuModal };

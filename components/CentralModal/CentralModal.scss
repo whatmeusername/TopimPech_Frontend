@@ -6,7 +6,7 @@
 	position: fixed;
 	top: 0;
 	left: 0;
-	z-index: 1000;
+	z-index: var(--zIndexMax);
 	display: none;
 	justify-content: center;
 	align-items: center;
@@ -18,7 +18,7 @@
 		height: 100%;
 		top: 0;
 		left: 0;
-		z-index: 1;
+		z-index: var(--zIndexSmall);
 		background-color: var(--primary_hidder_bg);
 		position: absolute;
 	}
@@ -30,7 +30,7 @@
 
 	.center__modal__content__wrapper {
 		position: relative;
-		z-index: 10;
+		z-index: var(--zIndexSmall);
 	}
 
 	.modal__content {
@@ -38,7 +38,7 @@
 		border-radius: 8px;
 		padding: 30px;
 		position: relative;
-		z-index: 1902;
+		z-index: var(--zIndexBig);
 		transition: width 1s ease, height 1s ease;
 		min-width: 320px;
 		@media (max-width: 768px) {

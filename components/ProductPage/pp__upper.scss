@@ -64,7 +64,7 @@
 			font-size: var(--fontX);
 			color: var(--gray-color);
 			position: relative;
-			z-index: 1;
+			z-index: var(--zIndexMinimum);
 			&::before {
 				content: '';
 				position: absolute;

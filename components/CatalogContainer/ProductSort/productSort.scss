@@ -51,7 +51,7 @@
 	.product__sort__modal {
 		display: none;
 		position: absolute;
-		z-index: 100;
+		z-index: var(--zIndexMedium);
 		background-color: rgb(255, 255, 255);
 		box-shadow: 0 0 8px 8px rgb(77, 77, 77, 0.2);
 		width: 100%;

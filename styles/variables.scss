@@ -48,5 +48,12 @@ body {
 	--headerX: 36px;
 	--museo_cyrl: 'MuseoCyrl', 'Arial';
 
+
+	--zIndexMinium: 1;
+	--zIndexLow: 10;
+	--zIndexMedium: 100;
+	--zIndexBig: 1000;
+	--zIndexMax: 10000;
+
 	--paginator__item__hover: rgb(220, 220, 220, 0.5);
 }

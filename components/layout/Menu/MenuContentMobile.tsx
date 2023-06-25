@@ -5,10 +5,9 @@ import Link from 'next/link';
 import { faAngleRight, faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { useToggleModalContext } from './Menu';
-
 import { CategoriesColumn } from './GeneralElements';
 import type { CategoryData } from './GeneralElements';
+import { menuModalControl } from '../../../store/MenuModal';
 
 type BurgerData = { parent: CategoryData | undefined; child: CategoryData[]; id: string };
 const PrepareBurgersData = (categories: CategoryData[]): BurgerData[] => {
@@ -26,7 +25,6 @@ const PrepareBurgersData = (categories: CategoryData[]): BurgerData[] => {
 };
 
 const MenuContentMobile = memo(({ categories }: { categories: CategoryData[] }): JSX.Element => {
-	const closeModalFunction = useToggleModalContext();
 	const SubModals = useRef<HTMLDivElement>(null!);
 	const hasActiveBurger = useRef<boolean>(false);
 
@@ -54,7 +52,7 @@ const MenuContentMobile = memo(({ categories }: { categories: CategoryData[] }):
 	const MainCategoryItem = ({ category }: { category: CategoryData }): JSX.Element => {
 		return (
 			<div className="mobile__category__item">
-				<Link href={`/catalog/${category.slug}/`} className="mobile__category__item__link" onClick={() => closeModalFunction(false)}>
+				<Link href={`/catalog/${category.slug}/`} className="mobile__category__item__link" onClick={() => menuModalControl.toggle(false)}>
 					{category.name}
 				</Link>
 				{category.child.length > 0 ? (
@@ -71,7 +69,7 @@ const MenuContentMobile = memo(({ categories }: { categories: CategoryData[] }):
 	const SubCategoryItem = ({ category }: { category: CategoryData }): JSX.Element => {
 		return (
 			<div className="mobile__category__item">
-				<Link href={`/catalog/${category.slug}/`} onClick={() => closeModalFunction(false)} className="mobile__category__item__link">
+				<Link href={`/catalog/${category.slug}/`} onClick={() => menuModalControl.toggle(false)} className="mobile__category__item__link">
 					{category.name}
 				</Link>
 				{category.child.length > 0 ? (

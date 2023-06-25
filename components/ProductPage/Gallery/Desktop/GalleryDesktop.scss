@@ -57,7 +57,7 @@
 				position: absolute;
 				top: 0;
 				left: 0;
-				z-index: 10;
+				z-index: var(--zIndexSmall);
 				opacity: 0;
 				border: 2px solid rgba(135, 190, 255, 0.9);
 				transition: opacity 0.15s ease-in-out;
@@ -74,7 +74,7 @@
 				display: none;
 				border-radius: 8px;
 				box-shadow: 0 8px 36px 0 rgb(77, 77, 77, 0.5);
-				z-index: 10;
+				z-index: var(--zIndexSmall);
 				&.image__zoom__active {
 					display: block;
 				}
