@@ -19,6 +19,7 @@
 .filter__modal__content {
 	max-width: 1000px;
 	height: 600px;
+	position: relative;
 
 	.filter__modal__content__header {
 		display: flex;
@@ -70,6 +71,11 @@
 		flex-direction: row;
 		justify-content: space-between;
 		align-items: center;
+
+
+		width: 100%;
+		padding: 0 10px;
+
 		margin-top: 5px;
 		gap: 10px;
 
@@ -136,11 +142,20 @@
 			.filter__modal__content__items {
 				display: flex;
 				flex-direction: column;
+				padding: 0 0 80px;
 			}
 		}
 		.modal__footer {
 			flex-direction: column;
 			justify-content: unset;
+
+			&.modal__footer__fixed{
+				background-color: rgb(255, 255, 255);
+				z-index: var(--zIndexSmall);
+				position: fixed;
+				bottom: 20px;
+				left: 0;
+			}
 			.filter__founded__items__button {
 				width: 100%;
 			}

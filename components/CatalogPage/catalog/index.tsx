@@ -27,6 +27,28 @@ export interface FetchURLData {
 	query: URLSearchParams;
 }
 
+// WAITING FOR NEXT 1.3.4.9 WILL BE RELEASED (GET SCROLL FALSE )
+// const getFetchURL = (router: FetchURLData): [string, string] => {
+// 	const { category } = router.params;
+// 	let url = '/api/products/filter/';
+// 	if (category) url += `${category}/`;
+// 	return SearchParamsBuilder(url, router.query, 'page', 'items_per_page', 'order', 'filter');
+// };
+
+// useEffect(() => {
+// 	isLoaded.current = 0;
+// 	if (initData?.productsData?.products === undefined) {
+// 		axios({
+// 			method: 'GET',
+// 			url: fetchUrl,
+// 		}).then(({ data }: { data: ProductAPIResponse }) => {
+// 			setCatalogData(data);
+// 			isLoaded.current = 1;
+// 		});
+// 	} else setCatalogData(initData.productsData);
+// 	//eslint-disable-next-line
+// }, [maincategory, category, SearchParams]);
+
 const getFetchURL = (router: FetchURLData): [string, string] => {
 	const { category } = router.params;
 	let url = '/api/products/filter/';

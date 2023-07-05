@@ -3,8 +3,6 @@
 import { memo } from 'react';
 import './menu.scss';
 
-import useWindowSize from '../../../hooks/useWindowSize';
-
 import MenuContentMobile from './MenuContentMobile';
 import MenuContentDesktop from './MenuContentDesktop';
 import { CloseButton } from './GeneralElements';
@@ -12,13 +10,14 @@ import { useCategoriesContext } from '../../../context/Categories';
 import { MenuIcon } from '../../IconsElements';
 import { menuModalControl } from '../../../store/MenuModal';
 import { observer } from 'mobx-react-lite';
+import { useMobile } from '../../../context/MobileContext/MobileContext';
 
 const MenuContent = memo((): JSX.Element => {
-	const { width } = useWindowSize();
+	const isMobile = useMobile(1024);
 
 	const categories = useCategoriesContext()?.get();
 
-	if (width === undefined || width >= 1024) {
+	if (!isMobile) {
 		return (
 			<>
 				<div className="menu__content__wrapper">
@@ -55,8 +54,10 @@ export default function Menu({ mobile }: { mobile: boolean }) {
 				className={`menu__button ${mobile ? 'menu__button__mobile header__mobile__lower__link' : 'menu__button__mobile__desktop'}`}
 				onClick={() => menuModalControl.toggle()}
 			>
-				<MenuIcon className={`menu__button__icon ${mobile ? 'header__mobile__lower__icon' : ''}`} />
-				{mobile ? null : <p className="menu__button__label">Каталог</p>}
+				<div className={`${mobile ? 'header__mobile__lower__icon__wrapper' : 'menu__button__mobile__desktop__icon__wrapper'}`}>
+					<MenuIcon className={`menu__button__icon ${mobile ? 'header__mobile__lower__icon' : ''}`} />
+				</div>
+				<p className={`${mobile ? 'header__mobile__lower__label' : 'menu__button__label'}`}>Каталог</p>
 			</button>
 		</>
 	);

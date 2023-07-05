@@ -13,6 +13,7 @@ import { observer } from 'mobx-react-lite';
 
 import { useComparinsonProducts, useFavouritesProducts, useUserProductCart } from '../../../context/MobxStoreContext/MobxStoreContext';
 import { CartFilledIcon, CartIcon, ComparisonIcon, HeartFilledIcon, HeartNotFilledIcon, HomeIcon, SearchIcon } from '../../IconsElements';
+import { usePathname } from 'next/navigation';
 
 const HeaderLogo = (): JSX.Element => {
 	return (
@@ -66,7 +67,7 @@ function SearchMobileButton(): ReactElement {
 }
 
 function HeaderMobile(): ReactElement {
-	console.log(location.pathname);
+	const pathname = usePathname();
 	return (
 		<div className="header__mobile__wrapper">
 			<div className="header__mobile__upper">
@@ -79,22 +80,36 @@ function HeaderMobile(): ReactElement {
 			</div>
 			<div className="header__mobile__lower">
 				<div className="header__mobile__lower__content">
-					<Link href="/" className={`header__mobile__lower__link ${location.pathname === '/' ? 'header__mobile__lower__icon__active' : ''}`}>
-						<HomeIcon className="header__mobile__lower__icon" />
+					<Link href="/" className={`header__mobile__lower__link ${pathname === '/' ? 'header__mobile__lower__icon__active' : ''}`}>
+						<div className="header__mobile__lower__icon__wrapper">
+							<HomeIcon className="header__mobile__lower__icon" />
+						</div>
+						<p className="header__mobile__lower__label">Главная</p>
 					</Link>
 					<Menu mobile={true} />
-
 					<Link
 						href="/favourites"
-						className={`header__mobile__lower__link ${location.pathname === '/favourites' ? 'header__mobile__lower__icon__active' : ''}`}
+						className={`header__mobile__lower__link ${pathname.includes('/favourites') ? 'header__mobile__lower__icon__active' : ''}`}
 					>
-						<HeartFilledIcon className="header__mobile__lower__icon" />
+						<div className="header__mobile__lower__icon__wrapper">
+							<HeartNotFilledIcon className="header__mobile__lower__icon" />
+						</div>
+						<p className="header__mobile__lower__label">Избранное</p>
 					</Link>
-					<Link href="/comparison" className="header__mobile__lower__link">
-						<ComparisonIcon className="header__mobile__lower__icon" />
+					<Link
+						href="/comparison"
+						className={`header__mobile__lower__link ${pathname.includes('/comparison') ? 'header__mobile__lower__icon__active' : ''}`}
+					>
+						<div className="header__mobile__lower__icon__wrapper">
+							<ComparisonIcon className="header__mobile__lower__icon" />
+						</div>
+						<p className="header__mobile__lower__label">Сравнение</p>
 					</Link>
-					<Link href="/cart" className="header__mobile__lower__link">
-						<CartFilledIcon className="header__mobile__lower__icon" />
+					<Link href="/cart" className={`header__mobile__lower__link ${pathname.includes('/cart') ? 'header__mobile__lower__icon__active' : ''}`}>
+						<div className="header__mobile__lower__icon__wrapper">
+							<CartIcon className="header__mobile__lower__icon" />
+						</div>
+						<p className="header__mobile__lower__label">Корзина</p>
 					</Link>
 				</div>
 			</div>
@@ -118,6 +133,7 @@ function HeaderDesktop(): ReactElement {
 							Контакты
 						</Link>
 					</div>
+					<p className="header__info__contact__phone">+7 (999) 999 99 99</p>
 				</div>
 				<div className="header__main">
 					<header className="header">

@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import useToggle from '../../../hooks/useToggle';
-import useWindowSize from '../../../hooks/useWindowSize';
+
 import { centerModalControl } from '../../../store';
 import { ModalContentWrapper, ModalHead, ModalWrapper } from '../../CentralModal/CenterModal';
 import './ProductPreview.scss';
@@ -13,6 +13,7 @@ import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { ShortAttributesElement } from '../../ProductPage/AttributesElement/AttributesElement';
 import { AngleArrowIcon } from '../../IconsElements';
+import { useMobile } from '../../../context/MobileContext/MobileContext';
 
 function ArrowGallery({ items, urlStartsWith }: { items: ProductImage[]; urlStartsWith?: string }) {
 	const [selectedItem, setSelectedItem] = useState<number>(0);
@@ -108,10 +109,10 @@ function ProductPreviewModal({ id, toggle, productData }: { id: string; toggle: 
 }
 
 const ProductPreview = observer(({ productData }: { productData: ProductData }) => {
-	const { width } = useWindowSize();
+	const isMobile = useMobile(768);
 	const [toggle, setToggle] = useToggle();
 
-	if (width && width <= 768) return null;
+	if (isMobile) return null;
 	const id = 'ProductPreview';
 
 	return (
@@ -134,9 +135,9 @@ const ProductPreview = observer(({ productData }: { productData: ProductData }) 
 });
 
 const ProductPreviewBTN = observer(({ setToggle }: { setToggle: (fixedState?: boolean | undefined) => void }) => {
-	const { width } = useWindowSize();
+	const isMobile = useMobile(768);
 
-	if (width && width <= 768) return null;
+	if (isMobile) return null;
 
 	return (
 		<>

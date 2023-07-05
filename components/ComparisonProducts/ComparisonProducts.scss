@@ -17,6 +17,7 @@
                     min-width: 180px;
                     max-width: 180px;
                     padding: 0 10px;
+                    box-sizing: content-box;
                     .comparison__products__card__link{
                         cursor: pointer;
                         .comparison__products__card__img__wrapper{
@@ -142,8 +143,8 @@
                 position: relative;
                 .comparison__products__row__value{
                     padding: 5px 10px;
-                    min-width: 180px;
-                    max-width: 180px;
+                    min-width: 200px;
+                    max-width: 200px;
                     display: flex;
                     justify-content:  center;
                     align-items: center;
@@ -175,8 +176,10 @@
             gap: 10px;
             .comparsion__products__info__square{
                 border-radius: 2px;
-                width: 15px;
-                height: 15px;
+                min-width: 15px;
+                max-width: 15px;
+                min-height: 15px;
+                max-height: 15px;
                 &.comparison__products__raising{
                     background: var(--green-color);
                 }
@@ -200,12 +203,33 @@
     &.comparison__products__wrapper__adaptive{
         @media (max-width: 400px) {
             .comparison__products__container{
-                width: 200px;
+                width: 300px;
                 margin: 0 auto;
             }
-            .comparison__products__card{
-                box-sizing: content-box;
+            .comparison__products__header{
+                .comparison__products__card__slider{
+                    .comparison__products__card{
+                        min-width: 130px;
+                        max-width: 130px;
+                        .comparison__products__header{
+                            font-size: var(--fontS);
+                        }
+                        .comparison__products__card__img__wrapper{
+                            min-width: 130px;
+                            max-width: 130px;
+                        }
+                    }
+                }
             }
+            .comparison__products__data{
+                .comparison__products__row__values{
+                    .comparison__products__row__value{
+                        min-width: 150px;
+                        max-width: 150px;
+                    }
+                }
+            }
+
 
 
         }

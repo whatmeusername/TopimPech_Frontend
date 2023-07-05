@@ -21,13 +21,21 @@ const ProductSliderItem = ({ data, URLStartWith }: { data: HistorySliceItem | Pr
 	);
 };
 
-const ProductSlider = ({ items, URLStartWith }: { items: HistorySliceItem[] | ProductData[]; URLStartWith?: string }): JSX.Element => {
+const ProductSlider = ({
+	items,
+	URLStartWith,
+	onClick,
+}: {
+	items: HistorySliceItem[] | ProductData[];
+	URLStartWith?: string;
+	onClick?: (...args: any[]) => void;
+}): JSX.Element => {
 	return (
 		<Slider SliderSettings={{ ItemsPerSlide: 'auto' }}>
 			<>
 				{items.map((item) => {
 					return (
-						<Slider.Item key={`product_slider__item__${item.article}`} className="product_slider__item__wrapper">
+						<Slider.Item key={`product_slider__item__${item.article}`} className="product_slider__item__wrapper" onClick={onClick}>
 							<ProductSliderItem data={item} URLStartWith={URLStartWith} />
 						</Slider.Item>
 					);

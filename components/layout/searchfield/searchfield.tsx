@@ -1,5 +1,4 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+
 
 import './searchfield.scss';
 import { useRef, useState, useEffect } from 'react';
@@ -13,6 +12,7 @@ import { declOfProduct } from '../../../utils';
 import useToggle from '../../../hooks/useToggle';
 
 import { useGlobalContext } from '../../../context/GlobalContext/GlobalContext';
+import { SearchIcon } from '../../IconsElements';
 
 const SearchItemElement = ({ data, ToggleModal }: { data: ProductData; ToggleModal: (fixedState?: boolean | undefined) => void }) => {
 	return (
@@ -108,7 +108,7 @@ export default function ProductSearch() {
 						placeholder={`Поиск среди ${productCount} теплых ${declOfProduct(productCount)}`}
 					/>
 					<button className="search__field__button" title="перейти к результатам поиску">
-						<FontAwesomeIcon icon={faMagnifyingGlass} className="search__field__button__icon" />
+						<SearchIcon className="search__field__button__icon" />
 					</button>
 				</div>
 				{isToggled ? (

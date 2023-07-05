@@ -5,12 +5,13 @@ import { ProductImage } from '../Cards/interface';
 import useWindowSize from '../../../hooks/useWindowSize';
 
 import Image from 'next/image';
+import { useMobile, useMobileContext } from '../../../context/MobileContext/MobileContext';
 
 const ProductImageGallery = ({ images, urlStartsWith, alt }: { images: ProductImage[]; urlStartsWith?: string; alt?: string }): JSX.Element => {
 	const refImages = useRef<ProductImage[]>(images);
 	const [selectedImage, setSelectedImage] = useState<number>(0);
 
-	const { width } = useWindowSize();
+	const isMobile = useMobile(768);
 
 	let startX: number;
 
@@ -34,11 +35,7 @@ const ProductImageGallery = ({ images, urlStartsWith, alt }: { images: ProductIm
 
 	return (
 		<div className="hover__image__gallery__wrapper">
-			<div
-				className="gallery__image__wrapper"
-				onTouchStart={width && width <= 768 ? onDragStart : undefined}
-				onMouseDown={width && width <= 768 ? onDragStart : undefined}
-			>
+			<div className="gallery__image__wrapper" onTouchStart={isMobile ? onDragStart : undefined} onMouseDown={isMobile ? onDragStart : undefined}>
 				<Image
 					className="gallery__image"
 					src={(urlStartsWith ?? '') + refImages.current[selectedImage]?.path}
@@ -51,7 +48,7 @@ const ProductImageGallery = ({ images, urlStartsWith, alt }: { images: ProductIm
 			</div>
 			{refImages.current.length > 1 ? (
 				<>
-					{width && width > 768 ? (
+					{!isMobile ? (
 						<div className="gallery__image__change_zones__wrapper" onMouseLeave={() => setSelectedImage(0)}>
 							{refImages.current.map((zone: ProductImage, index: number) => {
 								return <span className="gallery__image__change_zone" onMouseEnter={() => setSelectedImage(index)} key={'image-zone-' + zone.name} />;

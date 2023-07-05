@@ -84,6 +84,9 @@
 						display: flex;
 						flex-direction: row;
 						gap: 10px;
+						.product__card__option{
+							width: 50%;
+						}
 					}
 				}
 			}
@@ -178,9 +181,6 @@
 				}
 				.favourites__item__gallery__wrapper{
 					margin: auto;
-				}
-				.favourites__item__options__btn{
-					width: 50%;
 				}
 				.favourites__item__main__options{
 					width: 100%;

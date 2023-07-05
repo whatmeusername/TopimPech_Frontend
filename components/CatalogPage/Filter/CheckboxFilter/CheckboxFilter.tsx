@@ -32,7 +32,7 @@ const filterOnCheck = (config: FilterElementActionConfig) => {
 
 	if (config.applyFunction === FilterApplyFN.APPLY) {
 		config.searchParams.set('page', '1');
-		config.router.replace(`${config.path}?${config.searchParams.toString()}`);
+		config.router.replace(`${config.path}?${config.searchParams.toString()}`, { scroll: false });
 	} else if (config.applyFunction === FilterApplyFN.UPDATE && config.callback) {
 		config.callback(`?filter=${searchParamsSTR}`);
 	}

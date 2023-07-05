@@ -4,6 +4,7 @@ import './Slider.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import useWindowSize from '../../../hooks/useWindowSize';
+import { useMobile } from '../../../context/MobileContext/MobileContext';
 
 const ACTIVE_DOT_CLASSNAME = 'slider__dot__active';
 const DISABLED_BUTTON_CLASSNAME = 'slider__button__disabled';
@@ -208,14 +209,18 @@ function DragVersionSlider({ children, SliderSettings }: { children: JSX.Element
 }
 
 function Slider({ children, SliderSettings }: { children: JSX.Element | ReactElement; SliderSettings?: SliderSettings }) {
-	const { width } = useWindowSize();
-	if (width && SliderSettings?.mobileSize ? width > SliderSettings?.mobileSize : (width && width > 720) ?? true) {
+	const isMobile = useMobile(SliderSettings?.mobileSize ?? 720);
+	if (!isMobile) {
 		return <ButtonVersionSlider options={SliderSettings}>{children}</ButtonVersionSlider>;
 	} else return <DragVersionSlider SliderSettings={SliderSettings}>{children}</DragVersionSlider>;
 }
 
-function Item({ children, className }: { children: ReactElement; className?: string }) {
-	return <span className={`slider__item__wrapper ${className ?? ''}`}>{children}</span>;
+function Item({ children, className, onClick }: { children: ReactElement; className?: string; onClick?: (...args: any[]) => void }) {
+	return (
+		<span onClick={onClick ? onClick : undefined} className={`slider__item__wrapper ${className ?? ''}`}>
+			{children}
+		</span>
+	);
 }
 
 Slider.Item = Item;

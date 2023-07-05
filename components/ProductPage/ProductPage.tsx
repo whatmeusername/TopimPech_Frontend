@@ -79,7 +79,7 @@ function ProductPage({ productData, params }: { productData: ProductData; params
 			</div>
 			<AttributesElement properties={productData.properties ?? []} />
 			<HydrationComponent>
-				{productHistory.items.length > 0 ? (
+				{productHistory.items.length > 1 ? (
 					<div className="product__page__card product__page__history">
 						<h3 className="product__page__header__medium">Вы смотрели</h3>
 						<HistorySlider excludeArticle={productData.article} />

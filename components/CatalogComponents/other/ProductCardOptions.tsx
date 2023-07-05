@@ -23,6 +23,11 @@ function SimilarProductsModal({
 	toggle: (fixedState?: boolean | undefined) => void;
 	isFetched: boolean;
 }): ReactElement {
+	const ModalToggle = () => {
+		toggle();
+		centerModalControl.toggle('SimilarProduct');
+	};
+
 	return (
 		<ModalWrapper id={'SimilarProduct'} toggle={toggle}>
 			{isFetched ? (
@@ -33,7 +38,7 @@ function SimilarProductsModal({
 							{ProductData.length > 0 ? (
 								<>
 									<h3 className="similar_product__modal__content__header">Похожие товары</h3>
-									<ProductSlider items={ProductData} URLStartWith="/api" />
+									<ProductSlider items={ProductData} URLStartWith="/api" onClick={ModalToggle} />
 								</>
 							) : (
 								<p className="similar_product__not__found">Упс! К сожалению мы не нашли похожих товаров</p>
@@ -70,9 +75,10 @@ function SimilarProductsElement({ article }: { article: string }): ReactElement 
 					setToggle();
 					centerModalControl.toggle('SimilarProduct');
 				}}
-				title="найти похожие товары"
 			>
-				<SimilarIcon className="product__card__option__icon" />
+				<button className="product__card__option product__card__option__inactive" title="найти похожие товары">
+					<SimilarIcon className="product__card__option__icon" />
+				</button>
 			</div>
 			{toggle ? <SimilarProductsModal ProductData={products ?? []} toggle={setToggle} isFetched={isFetched.current} /> : null}
 		</>

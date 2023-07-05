@@ -39,8 +39,16 @@ function ModalContentWrapper({ children, className }: { children?: ReactElement 
 	return <div className={`modal__content ${className ?? ''}`}>{children}</div>;
 }
 
-function ModalFooterWrapper({ children, className }: { children?: ReactElement | ReactElement[] | null; className?: string }): ReactElement {
-	return <div className={`modal__footer ${className ?? ''}`}>{children}</div>;
+function ModalFooterWrapper({
+	children,
+	className,
+	isFixed,
+}: {
+	children?: ReactElement | ReactElement[] | null;
+	className?: string;
+	isFixed?: boolean;
+}): ReactElement {
+	return <div className={`modal__footer ${className ?? ''} ${isFixed ? 'modal__footer__fixed' : ''}`}>{children}</div>;
 }
 
 const ModalWrapper = observer(({ children, id, toggle }: { children?: ReactElement; id: string; toggle?: any }): ReactElement => {

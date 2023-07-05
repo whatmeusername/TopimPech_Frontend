@@ -17,9 +17,9 @@ import { centerModalControl } from '../../../store';
 import type { FilterParameters } from './interface';
 import InputFilter from './InputFilter/InputFilter';
 import CheckboxFilter from './CheckboxFilter/CheckboxFilter';
-import useWindowSize from '../../../hooks/useWindowSize';
 import { AllFilterComponent, ClearFiltersButton } from './AllFilterComponent/AllFilterComponent';
 import { ReactElement } from 'react';
+import { useMobile } from '../../../context/MobileContext/MobileContext';
 
 const getFilterParameters = (searchParams: URLSearchParams | ParsedUrlQuery): FilterParameters => {
 	let filterParam: string | null;
@@ -58,7 +58,7 @@ const AllFiltersOpenButton = ({ shortLabel }: { shortLabel?: boolean }): ReactEl
 				centerModalControl.toggle('FilterModal');
 			}}
 		>
-			{shortLabel ? 'Фильтры' : 'Показать все фильтры'}
+			<p className="filter__show__all__label"> {shortLabel ? 'Фильтры' : 'Показать все фильтры'}</p>
 		</button>
 	);
 };
@@ -66,7 +66,7 @@ const AllFiltersOpenButton = ({ shortLabel }: { shortLabel?: boolean }): ReactEl
 function FacetFilter({ initialFilters }: { initialFilters: FilterFetchData }): JSX.Element {
 	const router = useRouter();
 
-	const { width } = useWindowSize();
+	const isMobile = useMobile(1024);
 
 	const { category } = useParams();
 	const searchParams = new URLSearchParams(useSearchParams());
@@ -78,7 +78,7 @@ function FacetFilter({ initialFilters }: { initialFilters: FilterFetchData }): J
 
 	return (
 		<>
-			{!width || width > 1024 ? (
+			{!isMobile ? (
 				<>
 					<div className="facet__filters__wrapper">
 						{initialFilters?.filtered !== undefined ? (
@@ -127,7 +127,7 @@ function FacetFilter({ initialFilters }: { initialFilters: FilterFetchData }): J
 					{getActiveFiltersLength > 0 ? <ClearFiltersButton router={router} searchParams={searchParams} pathname={pathname} /> : null}
 				</>
 			) : null}
-			{(width && width <= 1024) || FilterCount > 10 ? (
+			{isMobile || FilterCount > 10 ? (
 				<HydrationComponent>
 					<AllFilterComponent
 						filterData={initialFilters}

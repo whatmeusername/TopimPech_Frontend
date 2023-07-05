@@ -2,18 +2,16 @@ import './gallery.scss';
 import { GalleryDesktop } from './Desktop/GalleryDesktop';
 import { GalleryItem } from './interface';
 import { GalleryMobile } from './Mobile/GalleryMobile';
-import useWindowSize from '../../../hooks/useWindowSize';
-import { ReactElement, useEffect, useRef, useState } from 'react';
+import { ReactElement, useEffect, useRef } from 'react';
+import { useMobile } from '../../../context/MobileContext/MobileContext';
 
 function Gallery({ items, urlStartsWith, ration }: { items: GalleryItem[]; urlStartsWith?: string; ration?: number }): ReactElement {
 	const galleryWrapperRef = useRef<HTMLDivElement>(null!);
-	const { width } = useWindowSize();
-	const [isMobile, setIsMobile] = useState<boolean>(false);
+	const isMobile = useMobile(1024);
 
 	useEffect(() => {
-		setIsMobile(window.innerWidth <= 1024);
 		galleryWrapperRef.current.style.display = 'flex';
-	}, [width]);
+	}, []);
 
 	return (
 		<div

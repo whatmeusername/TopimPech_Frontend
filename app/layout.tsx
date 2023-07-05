@@ -2,6 +2,7 @@ import '../styles/globals.scss';
 import '../styles/FontFace/MuseoCyrl.scss';
 import '../components/CatalogComponents/Cards/ProductCardGeneral.scss';
 import '../styles/variables.scss';
+import { headers } from 'next/headers';
 
 import { ReactElement } from 'react';
 
@@ -14,6 +15,7 @@ import { MobxStoreSessionBasedContext, UserSession } from '../context/MobxStoreC
 import { cookies } from 'next/dist/client/components/headers';
 import { GlobalContext } from '../context/GlobalContext/GlobalContext';
 import { MenuModal } from '../components/layout/Menu/Menu';
+import { MobileContext } from '../context/MobileContext/MobileContext';
 
 const PROXY_URL = process.env.PROXY_URL;
 const PRODUCT_PAGE_SUB_LABEL = 'купить в интернет-магазине товаров для бани TopimPech.ru';
@@ -44,7 +46,7 @@ async function getSessionData(): Promise<UserSession> {
 
 async function RootLayout({ children }: { children: ReactElement }) {
 	const categoriesFetch = getData(`${PROXY_URL}products/categories/`, { next: { revalidate: 3600 } });
-
+	const userAgentString = headers().get('user-agent') ?? '';
 	const [categoriesData, userSession] = await Promise.all([categoriesFetch, getSessionData()]);
 
 	return (
@@ -54,16 +56,18 @@ async function RootLayout({ children }: { children: ReactElement }) {
 			</head>
 			<body>
 				<GlobalContext productCount={categoriesData.totalProducts}>
-					<CategoriesContext initialCategories={categoriesData.categories}>
-						<BreadcrumbContext>
-							<MobxStoreSessionBasedContext session={userSession}>
-								<Layout>
-									<WidthLimiter>{children}</WidthLimiter>
-								</Layout>
-								<MenuModal />
-							</MobxStoreSessionBasedContext>
-						</BreadcrumbContext>
-					</CategoriesContext>
+					<MobileContext userAgentString={userAgentString}>
+						<CategoriesContext initialCategories={categoriesData.categories}>
+							<BreadcrumbContext>
+								<MobxStoreSessionBasedContext session={userSession}>
+									<Layout>
+										<WidthLimiter>{children}</WidthLimiter>
+									</Layout>
+									<MenuModal />
+								</MobxStoreSessionBasedContext>
+							</BreadcrumbContext>
+						</CategoriesContext>
+					</MobileContext>
 				</GlobalContext>
 			</body>
 		</html>

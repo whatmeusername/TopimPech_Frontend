@@ -4,13 +4,14 @@ import { HeaderDesktop, HeaderMobile } from './header/header';
 import { Footer } from './footer/footer';
 import { ReactElement } from 'react';
 import useWindowSize from '../../hooks/useWindowSize';
+import { useMobile } from '../../context/MobileContext/MobileContext';
 
 function Layout({ children }: { children: ReactElement | ReactElement[] }): ReactElement {
-	const { width } = useWindowSize();
+	const isMobile = useMobile(768);
 
 	return (
 		<>
-			{width && width <= 768 ? <HeaderMobile /> : <HeaderDesktop />}
+			{isMobile ? <HeaderMobile /> : <HeaderDesktop />}
 			{children}
 			<Footer />
 		</>

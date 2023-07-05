@@ -174,7 +174,7 @@ const AllFilterComponent = ({
 						})}
 					</div>
 				</div>
-				<ModalFooterWrapper>
+				<ModalFooterWrapper isFixed={true}>
 					<button className="filter__modal__return__button filter__modal__button" onClick={Close}>
 						Возрат
 					</button>
