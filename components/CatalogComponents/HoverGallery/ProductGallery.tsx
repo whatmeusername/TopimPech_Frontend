@@ -2,10 +2,9 @@ import { useRef, useState } from 'react';
 
 import './ProductCardGallery.scss';
 import { ProductImage } from '../Cards/interface';
-import useWindowSize from '../../../hooks/useWindowSize';
 
 import Image from 'next/image';
-import { useMobile, useMobileContext } from '../../../context/MobileContext/MobileContext';
+import { useMobile } from '../../../context/MobileContext/MobileContext';
 
 const ProductImageGallery = ({ images, urlStartsWith, alt }: { images: ProductImage[]; urlStartsWith?: string; alt?: string }): JSX.Element => {
 	const refImages = useRef<ProductImage[]>(images);

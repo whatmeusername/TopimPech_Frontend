@@ -53,6 +53,7 @@ async function RootLayout({ children }: { children: ReactElement }) {
 		<html lang="en">
 			<head>
 				<meta name="theme-color" media="(prefers-color-scheme: light)" content="white" />
+				<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
 			</head>
 			<body>
 				<GlobalContext productCount={categoriesData.totalProducts}>

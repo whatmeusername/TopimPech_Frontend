@@ -3,7 +3,6 @@ import './Slider.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
-import useWindowSize from '../../../hooks/useWindowSize';
 import { useMobile } from '../../../context/MobileContext/MobileContext';
 
 const ACTIVE_DOT_CLASSNAME = 'slider__dot__active';
@@ -168,7 +167,7 @@ function ButtonVersionSlider({ children, options }: { children: JSX.Element; opt
 	);
 }
 
-function DragVersionSlider({ children, SliderSettings }: { children: JSX.Element; SliderSettings?: SliderSettings }) {
+function DragVersionSlider({ children }: { children: JSX.Element }) {
 	const contentWrapperRef = useRef<HTMLDivElement>(null!);
 	const contentRef = useRef<HTMLDivElement>(null!);
 
@@ -212,7 +211,7 @@ function Slider({ children, SliderSettings }: { children: JSX.Element | ReactEle
 	const isMobile = useMobile(SliderSettings?.mobileSize ?? 720);
 	if (!isMobile) {
 		return <ButtonVersionSlider options={SliderSettings}>{children}</ButtonVersionSlider>;
-	} else return <DragVersionSlider SliderSettings={SliderSettings}>{children}</DragVersionSlider>;
+	} else return <DragVersionSlider>{children}</DragVersionSlider>;
 }
 
 function Item({ children, className, onClick }: { children: ReactElement; className?: string; onClick?: (...args: any[]) => void }) {

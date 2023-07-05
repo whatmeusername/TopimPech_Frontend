@@ -17,7 +17,7 @@
 	}
 	&.product__card__add__to__cart__inactive {
 		background-color: var(--orange-color);
-		color: rgb(255, 255, 255);
+		color: var(--white-color);
 		&:hover {
 			background-color: var(--orange-darker-color);
 		}

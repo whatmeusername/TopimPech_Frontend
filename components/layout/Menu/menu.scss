@@ -79,7 +79,7 @@
 				.main__categories {
 					height: 100vh;
 					width: 300px;
-					background-color: rgb(255, 255, 255);
+					background-color: var(--white-color);
 					border-right: 2px solid rgb(200, 200, 200);
 					.menu__category__column {
 						display: flex;
@@ -118,7 +118,7 @@
 				.sub__categories {
 					width: 500px;
 					height: 100vh;
-					background-color: rgb(255, 255, 255);
+					background-color: var(--white-color);
 					.sub__categories_columns {
 						column-count: 2;
 						column-gap: 20px;
@@ -186,7 +186,7 @@
 					.menu__content__close__button__icon {
 						width: 30px;
 						height: 30px;
-						color: rgb(255, 255, 255);
+						color: var(--white-color);
 					}
 				}
 			}
@@ -195,7 +195,7 @@
 		.menu__content__mobile__wrapper {
 			height: 100vh;
 			width: 100vw;
-			background-color: rgb(255, 255, 255);
+			background-color: var(--white-color);
 			display: grid;
 			grid-template-rows: 50px calc(100% - 50px);
 
@@ -223,7 +223,7 @@
 
 							color: var(--primary-color);
 							font-family: var(--museo_cyrl);
-							font-size: var(--fontM);
+							font-size: var(--fontL);
 							letter-spacing: 0.5px;
 
 							display: -webkit-box;
@@ -250,7 +250,7 @@
 						overflow: scroll;
 
 						width: 100vw;
-						background-color: rgb(255, 255, 255);
+						background-color: var(--white-color);
 						display: none;
 						position: relative;
 						top: 0;

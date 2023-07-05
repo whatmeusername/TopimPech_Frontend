@@ -1,51 +1,20 @@
-
-
-import './searchfield.scss';
+import './SearchField.scss';
 import { useRef, useState, useEffect } from 'react';
-import { toggleWindowScroll } from '../../../utils/enableWindowScroll';
-import { ProductData } from '../../CatalogComponents/Cards/interface';
-import get from 'axios';
-import Link from 'next/link';
+import { toggleWindowScroll } from '../../../../utils/enableWindowScroll';
+import { ProductData } from '../../../CatalogComponents/Cards/interface';
+import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import PriceElement from '../../CatalogComponents/PriceElement.tsx/PriceElement';
-import { declOfProduct } from '../../../utils';
-import useToggle from '../../../hooks/useToggle';
+import { declOfProduct } from '../../../../utils';
+import useToggle from '../../../../hooks/useToggle';
 
-import { useGlobalContext } from '../../../context/GlobalContext/GlobalContext';
-import { SearchIcon } from '../../IconsElements';
-
-const SearchItemElement = ({ data, ToggleModal }: { data: ProductData; ToggleModal: (fixedState?: boolean | undefined) => void }) => {
-	return (
-		<Link
-			className="search__result__item"
-			href={`/product/${data.article}/`}
-			onClick={() => {
-				ToggleModal(false);
-				toggleWindowScroll(true);
-			}}
-		>
-			<div className="search__result__item__left">
-				<div className="search__result__item__image__wrapper">
-					<img src={`/api/${data.images.length > 0 ? data.images[0].path : ''}`} alt={data.name} className="search__result__item__image" />
-				</div>
-				<div className="search__result__item__content">
-					<div className="search__result__label__wrapper">
-						<span className="search__result__label">{data.name}</span>
-						<span className="search__result__article">Артикул: {data.article}</span>
-					</div>
-					<div className="search__result__price__wrapper">
-						<PriceElement sale={data.sale} price={data.price} />
-					</div>
-				</div>
-			</div>
-		</Link>
-	);
-};
+import { useGlobalContext } from '../../../../context/GlobalContext/GlobalContext';
+import { SearchIcon } from '../../../IconsElements';
+import { SearchItemElement } from '../SearchItemElement/SearchItemElement';
 
 export default function ProductSearch() {
 	const router = useRouter();
 	const [isToggled, Toggle] = useToggle();
-	const [results, setResults] = useState<{ items: ProductData[]; count: number }>({ items: [], count: 0 });
+	const [results, setResults] = useState<{ data: ProductData[]; count: number }>({ data: [], count: 0 });
 
 	const timerRef = useRef<ReturnType<typeof setTimeout>>(null!);
 	const inputField = useRef<HTMLInputElement>(null!);
@@ -56,7 +25,7 @@ export default function ProductSearch() {
 			if (results.count === 1) {
 				const enterHandler = (e: KeyboardEvent) => {
 					if (e.code === 'Enter') {
-						router.push(`/product/${results.items[0].article}`);
+						router.push(`/product/${results.data[0].article}`);
 						Toggle(false);
 						toggleWindowScroll(true);
 					}
@@ -75,8 +44,11 @@ export default function ProductSearch() {
 	const FetchResult = () => {
 		const value = inputField.current.value.trim();
 		if (value !== '') {
-			get(`/api/products/search/name/${value}`).then((res) => {
-				setResults({ items: res.data.data, count: res.data.count });
+			axios({
+				method: 'GET',
+				url: `/api/products/search/name/${value}`,
+			}).then((res) => {
+				setResults({ ...res.data });
 			});
 		}
 	};
@@ -106,6 +78,10 @@ export default function ProductSearch() {
 						ref={inputField}
 						onKeyDown={onKeyDown}
 						placeholder={`Поиск среди ${productCount} теплых ${declOfProduct(productCount)}`}
+						autoComplete="false"
+						autoCapitalize="false"
+						autoCorrect="false"
+						spellCheck="false"
 					/>
 					<button className="search__field__button" title="перейти к результатам поиску">
 						<SearchIcon className="search__field__button__icon" />
@@ -119,7 +95,7 @@ export default function ProductSearch() {
 									Найдено: {results.count} {declOfProduct(results.count)}
 								</div>
 							) : null}
-							{results.items.map((item) => {
+							{(results.data ?? []).map((item) => {
 								return <SearchItemElement data={item} key={`search__field__item__${item.article}`} ToggleModal={Toggle} />;
 							})}
 						</div>

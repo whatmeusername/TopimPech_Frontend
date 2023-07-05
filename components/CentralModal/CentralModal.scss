@@ -13,6 +13,25 @@
 	&.center__modal__wrapper__active {
 		display: flex;
 	}
+
+	.modal__close__wrapper__button {
+		color: var(--primary-color);
+		border: none;
+		font-size: var(--headerL);
+		background: transparent;
+		cursor: pointer;
+		width: 40px;
+		height: 40px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border-radius: 50%;
+		transition: background 0.15s ease;
+		&:hover {
+			background: var(--primary_link_hover);
+		}
+	}
+
 	.center__modal__hidder {
 		width: 100%;
 		height: 100%;
@@ -34,7 +53,7 @@
 	}
 
 	.modal__content {
-		background-color: rgb(255, 255, 255);
+		background-color: var(--white-color);
 		border-radius: 8px;
 		padding: 30px;
 		position: relative;
@@ -46,6 +65,17 @@
 			width: 100vw;
 			border-radius: unset;
 			height: 100vh;
+			padding: 20px 10px;
+		}
+	}
+	.modal__footer{
+		&.modal__footer__fixed{
+			background-color: var(--white-color);
+			z-index: var(--zIndexSmall);
+			position: fixed;
+			bottom: 0;
+			left: 0;
+			padding-bottom: 20px;
 		}
 	}
 }

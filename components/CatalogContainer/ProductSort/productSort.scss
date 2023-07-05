@@ -23,9 +23,9 @@
 		&:hover {
 			border: 1.5px solid var(--orange-color);
 			background-color: var(--orange-color);
-			color: rgb(255, 255, 255);
+			color: var(--white-color);
 			.product__sort__button__icon {
-				color: rgb(255, 255, 255);
+				color: var(--white-color);
 			}
 		}
 
@@ -41,9 +41,9 @@
 		&.product__sort__button__active {
 			border: 1.5px solid var(--orange-color);
 			background-color: var(--orange-color);
-			color: rgb(255, 255, 255);
+			color: var(--white-color);
 			.product__sort__button__icon {
-				color: rgb(255, 255, 255);
+				color: var(--white-color);
 				transform: rotateZ(180deg);
 			}
 		}
@@ -52,7 +52,7 @@
 		display: none;
 		position: absolute;
 		z-index: var(--zIndexMedium);
-		background-color: rgb(255, 255, 255);
+		background-color: var(--white-color);
 		box-shadow: 0 0 8px 8px rgb(77, 77, 77, 0.2);
 		width: 100%;
 		margin-top: 2.5px;

@@ -3,7 +3,6 @@ import Image from 'next/image';
 
 import './header.scss';
 
-import ProductSearch from '../searchfield/searchfield';
 import Menu from '../Menu/Menu';
 
 import SiteLogo from '../../../public/logo/SiteLogo.png';
@@ -12,8 +11,10 @@ import { ReactElement } from 'react';
 import { observer } from 'mobx-react-lite';
 
 import { useComparinsonProducts, useFavouritesProducts, useUserProductCart } from '../../../context/MobxStoreContext/MobxStoreContext';
-import { CartFilledIcon, CartIcon, ComparisonIcon, HeartFilledIcon, HeartNotFilledIcon, HomeIcon, SearchIcon } from '../../IconsElements';
+import { CartIcon, ComparisonIcon, HeartNotFilledIcon, HomeIcon } from '../../IconsElements';
 import { usePathname } from 'next/navigation';
+import ProductSearch from '../searchfield/SearchFieldDesktop/SearchField';
+import { SearchMobile } from '../searchfield/SearchFieldMobile/SearchFieldMobile';
 
 const HeaderLogo = (): JSX.Element => {
 	return (
@@ -58,13 +59,49 @@ const ComparisonElement = observer((): ReactElement => {
 	);
 });
 
-function SearchMobileButton(): ReactElement {
-	return (
-		<div className="header__mobile__search__button">
-			<SearchIcon className="header__mobile__search__button__icon" />
-		</div>
-	);
-}
+// useEffect(() => {
+// 	if (isToggled) {
+// 		if (results.count === 1) {
+// 			const enterHandler = (e: KeyboardEvent) => {
+// 				if (e.code === 'Enter') {
+// 					router.push(`/product/${results.items[0].article}`);
+// 					Toggle(false);
+// 					toggleWindowScroll(true);
+// 				}
+// 			};
+// 			window.addEventListener('keydown', enterHandler);
+// 			return () => window.removeEventListener('keydown', enterHandler);
+// 		}
+// 	}
+// }, [isToggled, results.count]);
+
+// const FocusEvent = (): void => {
+// 	Toggle(true);
+// 	toggleWindowScroll(false);
+// };
+
+// const FetchResult = () => {
+// 	const value = inputField.current.value.trim();
+// 	if (value !== '') {
+// 		get(`/api/products/search/name/${value}`).then((res) => {
+// 			setResults({ items: res.data.data, count: res.data.count });
+// 		});
+// 	}
+// };
+
+// const onKeyDown = (e: React.KeyboardEvent): void => {
+// 	const value = inputField.current.value.trim();
+// 	if (e.key === 'Enter' && value) {
+// 		router.push(`/catalog/search/${value}`);
+// 	} else if (!isToggled) {
+// 		Toggle(true);
+// 		toggleWindowScroll(false);
+// 	}
+// 	clearTimeout(timerRef?.current);
+// 	timerRef.current = setTimeout(() => {
+// 		FetchResult();
+// 	}, 500);
+// };
 
 function HeaderMobile(): ReactElement {
 	const pathname = usePathname();
@@ -75,7 +112,7 @@ function HeaderMobile(): ReactElement {
 					<Link href="/">
 						<Image src={SiteLogo} className="header__mobile__upper__logo" alt="логотип сайта TopimPech.ru" priority={false} />
 					</Link>
-					<SearchMobileButton />
+					<SearchMobile />
 				</div>
 			</div>
 			<div className="header__mobile__lower">

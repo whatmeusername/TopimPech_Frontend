@@ -8,6 +8,7 @@ import './CentralModal.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { createContext } from 'react';
+import { StandardBreakLine } from '../Shared/Lines/StandardBreakLine/StandardBreakLine';
 
 const ModalContext = createContext<{ id: string; toggle: any }>(null!);
 
@@ -30,12 +31,18 @@ function ModalHead({ children, className }: { children?: ReactElement | ReactEle
 					</button>
 				</div>
 			</div>
-			<hr className="break__line__standard" />
+			<StandardBreakLine />
 		</>
 	);
 }
 
-function ModalContentWrapper({ children, className }: { children?: ReactElement | ReactElement[] | null; className?: string }): ReactElement {
+function ModalContentWrapper({
+	children,
+	className,
+}: {
+	children?: (ReactElement | ReactElement | null)[] | null;
+	className?: string;
+}): ReactElement {
 	return <div className={`modal__content ${className ?? ''}`}>{children}</div>;
 }
 
@@ -51,7 +58,7 @@ function ModalFooterWrapper({
 	return <div className={`modal__footer ${className ?? ''} ${isFixed ? 'modal__footer__fixed' : ''}`}>{children}</div>;
 }
 
-const ModalWrapper = observer(({ children, id, toggle }: { children?: ReactElement; id: string; toggle?: any }): ReactElement => {
+const ModalWrapper = observer(({ children, id, toggle }: { children?: ReactElement | ReactElement[]; id: string; toggle?: any }): ReactElement => {
 	return createPortal(
 		<div className={`center__modal__wrapper ${centerModalControl.getModal(id) ? 'center__modal__wrapper__active' : ''}`} id="center__modal">
 			<div
