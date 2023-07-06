@@ -1,3 +1,5 @@
+import { ProductImage } from '../../components/CatalogComponents/Cards/interface';
+
 export interface CategoryData {
 	name: string;
 	slug: string;
@@ -5,4 +7,5 @@ export interface CategoryData {
 	href?: string;
 	parentCategory?: CategoryData;
 	productCount: number;
+	image?: ProductImage;
 }

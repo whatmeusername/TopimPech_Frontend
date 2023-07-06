@@ -1,4 +1,4 @@
-export interface ProductImage {
+interface ProductImage {
 	id: number;
 	name: string;
 	path: string;
@@ -6,27 +6,33 @@ export interface ProductImage {
 	dir: string;
 }
 
-export interface ProductBaseData {
+interface ProductBaseData {
 	id: number;
 	name: string;
 	slug: string;
 }
 
-export interface FeatureKey {
+interface FeatureKey {
 	slug: string;
 	name: string;
 	valueUnit: string;
 	valueType: 0 | 1;
 }
 
-export interface Property {
+interface Property {
 	value: string;
 	slug: string;
 	valueType: 0 | 1;
 	key: FeatureKey;
 }
 
-export interface ProductData {
+interface MappedProductsResponse {
+	count: number;
+	data: ProductData[];
+	total: number;
+}
+
+interface ProductData {
 	id: number;
 	name: string;
 	article: string;
@@ -34,9 +40,11 @@ export interface ProductData {
 	sale: number;
 	images: ProductImage[];
 	manufacturer: ProductBaseData;
-	categories?: ProductBaseData[];
+	categories: ProductBaseData[];
 	type?: ProductBaseData;
 	properties?: Property[];
 	slug: string;
 	description?: string;
 }
+
+export type { MappedProductsResponse, ProductData, Property, FeatureKey, ProductImage, ProductBaseData };

@@ -15,6 +15,8 @@ import { ShortAttributesElement } from '../../ProductPage/AttributesElement/Attr
 import { AngleArrowIcon } from '../../IconsElements';
 import { useMobile } from '../../../context/MobileContext/MobileContext';
 
+import Image from 'next/image';
+
 function ArrowGallery({ items, urlStartsWith }: { items: ProductImage[]; urlStartsWith?: string }) {
 	const [selectedItem, setSelectedItem] = useState<number>(0);
 	const sliderItemWidth = useRef<number>(0);
@@ -32,7 +34,16 @@ function ArrowGallery({ items, urlStartsWith }: { items: ProductImage[]; urlStar
 				{items.map((image) => {
 					return (
 						<span className="arrow__gallery__image__wrapper" key={image.name}>
-							<img src={`${urlStartsWith ?? ''}${image.path}`} alt={image.name} className="arrow__gallery__image" key={image.name} />
+							<Image
+								key={image.name}
+								className="child__category__image"
+								src={`${urlStartsWith ?? ''}${image.path}`}
+								alt={image.name}
+								loading="lazy"
+								width={500}
+								height={500}
+								style={{ objectFit: 'contain', maxInlineSize: '100%' }}
+							/>
 						</span>
 					);
 				})}

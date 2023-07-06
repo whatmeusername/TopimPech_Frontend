@@ -7,14 +7,29 @@ import { CategoryData } from '../../layout/Menu/GeneralElements';
 
 import './ChildCategoriesElement.scss';
 import { declOfProduct } from '../../../utils';
+import { Number404 } from '../../Shared/Number404/Number404';
+
+import Image from 'next/image';
 
 const ChildCategoriesChild = ({ category }: { category: CategoryData }): ReactElement => {
 	return (
 		<Link href={`/catalog/${category.slug}`}>
 			<div className="child__category__wrapper">
-				<div className="child__category__image__wrapper">
-					<img className="child__category__image" src="/api/images/products/adapter-1-f450-mm-fantastic-700-vysokij/0.jpg" alt={category.name} />
-				</div>
+				{category.image ? (
+					<div className="child__category__image__wrapper">
+						<Image
+							className="child__category__image"
+							src={`/api${category.image.path}`}
+							alt={category.name}
+							loading="lazy"
+							width={50}
+							height={50}
+							style={{ objectFit: 'contain', maxInlineSize: '100%' }}
+						/>
+					</div>
+				) : (
+					<Number404 size={'small'} />
+				)}
 				<div className="child__category__info__wrapper">
 					<p className="child__category__label">{category.name}</p>
 					<p className="child__category__count">

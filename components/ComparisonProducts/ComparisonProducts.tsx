@@ -1,4 +1,4 @@
-import { Fragment, ReactElement, useEffect, useRef, useState } from 'react';
+import { Dispatch, Fragment, ReactElement, SetStateAction, useEffect, useRef, useState } from 'react';
 import { ProductData } from '../CatalogComponents/Cards/interface';
 import { ProductComparisonData, ComparisonProductsConfig, ComparisonState } from './interface';
 
@@ -9,6 +9,7 @@ import PriceElement from '../CatalogComponents/PriceElement.tsx/PriceElement';
 import AddToCartButton from '../CatalogComponents/AddToCartButton/AddToCartButton';
 import Link from 'next/link';
 import { ArrowIcon } from '../IconsElements';
+import { headerSticky } from '../../store/HeaderSticky';
 
 function GatherProductComparisonData(products: ProductData[], diffWith?: ProductData): ProductComparisonData {
 	const result: ProductComparisonData = {};
@@ -72,31 +73,111 @@ const ComparisonStateInfo = [
 	{ text: 'Значение характеристки ниже относительно текущего товара', class: 'comparison__products__decrease' },
 	{ text: 'Значение характеристки отличается от текущего товара', class: 'comparison__products__changed' },
 ];
+
+function ComparisonProductsCategories({
+	data,
+	setCategory,
+	currentCategory,
+}: {
+	data: ProductData[];
+	setCategory: Dispatch<SetStateAction<string | null>>;
+	currentCategory: null | string;
+}): ReactElement {
+	const groups: { [K: string]: number } = {};
+	data.forEach((product) => {
+		const category = product.categories[product.categories.length > 1 ? 1 : 0];
+		groups[category.name] = groups[category.name] ? groups[category.name] + 1 : 1;
+	});
+
+	const entries = Object.entries(groups);
+	const isSingle = entries.length === 1;
+
+	return (
+		<div className="comparison__products__categories">
+			{!isSingle ? (
+				<button
+					className={`comparison__products__categories__item ${!currentCategory ? 'comparison__products__categories__item__active' : ''}`}
+					onClick={() => setCategory(null)}
+				>
+					<p className="comparison__products__categories__item__label">Все</p>
+					<span className="comparison__products__categories__item__count">{data.length}</span>
+				</button>
+			) : null}
+			{Object.entries(groups).map(([category, count]) => {
+				return (
+					<button
+						className={`comparison__products__categories__item ${
+							currentCategory === category ? 'comparison__products__categories__item__active' : ''
+						}`}
+						key={`comparison__item__${category}`}
+						onClick={() => setCategory(category)}
+					>
+						<p className="comparison__products__categories__item__label">{category}</p>
+						<span className="comparison__products__categories__item__count">{count}</span>
+					</button>
+				);
+			})}
+		</div>
+	);
+}
+
 function ComparisonProducts({ config }: { config: ComparisonProductsConfig }): ReactElement {
-	const ProductComparisonData = useRef<ProductComparisonData>(GatherProductComparisonData(config.data, config.diffWith));
+	const [productsData, setProductsData] = useState<ProductData[]>(config.data);
+	const [ProductComparisonData, setProductComparisonData] = useState<ProductComparisonData>(
+		GatherProductComparisonData(productsData, config.diffWith),
+	);
 
 	const itemWidth = useRef<number>(0);
 
+	const observePoint = useRef<HTMLElement>(null!);
+	const headerRef = useRef<HTMLDivElement>(null!);
 	const cardWrapper = useRef<HTMLDivElement>(null!);
 	const rowsRefs = useRef<HTMLDivElement[]>([]);
 	const comparisonWrapper = useRef<HTMLDivElement>(null!);
 
 	const [sliderLength, setSliderLength] = useState<number>(0);
 	const [current, setCurrent] = useState<number>(0);
+	const [currentCategory, setCurrentCategory] = useState<string | null>(null);
 
 	let nextOffset = 0;
 	let dragOffset = 0;
 	let rect: DOMRect | null = null;
 
 	useEffect(() => {
+		if (config.cards.isSticky) {
+			headerSticky.toggle(false);
+			const observer = new IntersectionObserver(
+				([e]) => {
+					headerRef.current?.classList?.toggle('sticky__enabled', e.intersectionRatio < 0.5);
+				},
+				{ threshold: 0.3, rootMargin: '-50px' },
+			);
+			observer.observe(observePoint.current);
+			return () => {
+				if (observePoint.current) observer.unobserve(observePoint.current);
+				observer.disconnect();
+				headerSticky.toggle(true);
+			};
+		}
+	}, [config]);
+
+	useEffect(() => {
+		const nextData = currentCategory ? config.data.filter((p) => p.categories.some((c) => c.name === currentCategory)) : config.data;
+		if (currentCategory) {
+			setProductsData(nextData);
+		} else setProductsData(nextData);
+		setProductComparisonData(GatherProductComparisonData(nextData, config.diffWith));
+		setCurrent(0);
+	}, [currentCategory]);
+
+	useEffect(() => {
 		itemWidth.current = (cardWrapper.current.childNodes[0] as HTMLDivElement).offsetWidth;
-		console.log(itemWidth.current, rowsRefs.current[0]);
 		setSliderLength((cardWrapper.current.offsetWidth - comparisonWrapper.current.offsetWidth) / itemWidth.current);
 		return () => {
 			window.removeEventListener('mousemove', onDragMove);
 			window.removeEventListener('mouseup', onDragMove);
 		};
-	}, [config]);
+	}, [config, productsData]);
 
 	const onDragStart = (event: React.MouseEvent | React.TouchEvent) => {
 		if (cardWrapper.current) {
@@ -195,7 +276,7 @@ function ComparisonProducts({ config }: { config: ComparisonProductsConfig }): R
 		cardWrapper.current.style.left = `${nextOffset}px`;
 	};
 
-	const ProductComparisonDataEntries = Object.entries(ProductComparisonData.current);
+	const ProductComparisonDataEntries = Object.entries(ProductComparisonData);
 
 	return (
 		<div
@@ -204,7 +285,10 @@ function ComparisonProducts({ config }: { config: ComparisonProductsConfig }): R
 			}`}
 		>
 			<div className="comparison__products__container" ref={comparisonWrapper}>
-				<div className="comparison__products__header">
+				{config.enableCategoryFilter ? (
+					<ComparisonProductsCategories data={config.data} setCategory={setCurrentCategory} currentCategory={currentCategory} />
+				) : null}
+				<div className="comparison__products__header" ref={headerRef}>
 					<div className="comparison__products__card__slider__wrapper">
 						<div
 							className="comparison__products__card__slider"
@@ -213,7 +297,7 @@ function ComparisonProducts({ config }: { config: ComparisonProductsConfig }): R
 							onTouchStart={sliderLength > 0 ? onDragStart : undefined}
 							style={{ left: `-${current * itemWidth.current}px` }}
 						>
-							{config.data.map((product) => {
+							{productsData.map((product) => {
 								return <ComparisonProductsCardBig product={product} config={config} key={`comparison__card__${product.article}`} />;
 							})}
 						</div>
@@ -240,7 +324,7 @@ function ComparisonProducts({ config }: { config: ComparisonProductsConfig }): R
 						</>
 					) : null}
 				</div>
-				<StandardBreakLine />
+				<StandardBreakLine ref={observePoint} />
 
 				<div
 					className="comparison__products__data"

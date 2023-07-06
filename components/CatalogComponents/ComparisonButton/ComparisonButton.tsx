@@ -21,7 +21,7 @@ const ComparisonButton = observer(
 	}) => {
 		const ComparisonStore = useComparinsonProducts();
 
-		const isSelected = ComparisonStore.has(productData.id);
+		const isSelected = ComparisonStore.has(productData.article);
 
 		return (
 			<button

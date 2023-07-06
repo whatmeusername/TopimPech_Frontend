@@ -60,7 +60,7 @@ function SimilarProductsElement({ article }: { article: string }): ReactElement 
 
 	useEffect(() => {
 		if (isFetched.current === false && toggle && products === null) {
-			get(`/api/products/similar/${article}`).then((response) => {
+			get(`/api/products/search/similar/${article}`).then((response) => {
 				setProducts(response.data.data);
 				isFetched.current = true;
 			});

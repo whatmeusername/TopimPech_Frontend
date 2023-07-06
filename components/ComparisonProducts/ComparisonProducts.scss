@@ -6,6 +6,18 @@
 
     .comparison__products__header{
         position: relative;
+        background-color: var(--white-color);
+        &.sticky__enabled{
+            position: sticky;
+            top: 0;
+            left: 0;
+            z-index: var(--zIndexMedium);
+            box-shadow: 16p 0 8px rgb(77, 77, 77, 0.2);
+            padding-bottom: 5px;
+            .product__card__add__to__cart{
+                display: none;
+            }
+        }
         .comparison__products__card__slider__wrapper{
             overflow: hidden;
             .comparison__products__card__slider{
@@ -121,6 +133,39 @@
         }
     }
 
+    .comparison__products__categories{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 10px 0;
+        .comparison__products__categories__item{
+            padding: 8px 10px;
+            border: 2px solid var(--primary-color);
+            border-radius: 4px;
+            font-family: var(--museo_cyrl);
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 20px;
+            cursor: pointer;
+            .comparison__products__categories__item__label{
+                color: var(--primary-color);
+                font-size: var(--fontL);
+                margin: 0;
+            }
+            .comparison__products__categories__item__count{
+                color: var(--gray-color);
+                font-size: var(--fontM);
+            }
+            &.comparison__products__categories__item__active{
+                border-color: var(--orange-color);
+                .comparison__products__categories__item__label{
+                    color: var(--orange-color);
+                }
+            }
+        }
+    }
 
     .comparison__products__data{
         overflow: hidden;
@@ -139,7 +184,6 @@
             .comparison__products__row__values{
                 display: flex;
                 flex-direction: row;
-                justify-content: space-between;
                 position: relative;
                 .comparison__products__row__value{
                     padding: 5px 10px;

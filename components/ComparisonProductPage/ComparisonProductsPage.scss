@@ -1,0 +1,31 @@
+.product__comparison__page{
+    padding: 30px 0;
+    min-height: calc(100vh - 300px);
+    .product__comparison__page__head{
+        padding: 0 10px;
+        .product__comparison__header{
+            font-size: var(--headerM);
+            font-family: var(--museo_cyrl);
+            color: var(--primary-color);
+            font-weight: 300;
+            margin: 10px 0 40px;
+        }
+    }
+    .comparison__products__container{
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+    .comparison__items__empty__label{
+        color: var(--standard-color);
+        fill: var(--standard-color);
+        font-size: var(--fontX);
+
+        .comparison__items__empty__label__icon{
+            width:20px;
+            height: 20px;
+            position: relative;
+            top: 5px;
+        }
+    }
+}

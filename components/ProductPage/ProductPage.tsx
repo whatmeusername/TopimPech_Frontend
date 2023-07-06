@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import type { ProductData } from '../CatalogComponents/Cards/interface';
+import type { MappedProductsResponse, ProductData } from '../CatalogComponents/Cards/interface';
 
 import './pp__upper.scss';
 
@@ -21,14 +21,21 @@ import { HistorySlider } from '../HistorySlider/HistorySlider';
 import { ComparisonButton } from '../CatalogComponents/ComparisonButton/ComparisonButton';
 import { FavouriteButton } from '../CatalogComponents/FavouriteButton/FavouriteButton';
 
-function ProductPage({ productData, params }: { productData: ProductData; params: ParsedUrlQuery }): JSX.Element | null {
+interface ProductPageResponse {
+	data: ProductData;
+	similar: MappedProductsResponse;
+}
+
+function ProductPage({ productData, params }: { productData: ProductPageResponse; params: ParsedUrlQuery }): JSX.Element | null {
 	useEffect(() => {
 		if (productData && !(productData as any)?.status) {
-			productHistory.add(productData);
+			productHistory.add(productData.data);
 		}
 	}, [params.article]);
 
-	const galleryItems = productData.images.map((img, i) => {
+	const product = productData.data;
+
+	const galleryItems = product.images.map((img, i) => {
 		return { id: i, path: img.path };
 	});
 
@@ -36,21 +43,21 @@ function ProductPage({ productData, params }: { productData: ProductData; params
 		<div className="product__page__wrapper">
 			<div className="product__page__head">
 				<div className="product__page__breadcrumb">
-					{productData?.categories ? (
+					{product?.categories ? (
 						<BreadcrumbByURL
 							settings={{
 								includeHomePage: true,
-								category: productData.categories[productData.categories.length - 1].slug,
+								category: product.categories[product.categories.length - 1].slug,
 								includeAtEnd: {
-									label: productData.name,
-									slug: productData.slug,
+									label: product.name,
+									slug: product.slug,
 								},
 							}}
 						/>
 					) : null}
 				</div>
 				<div className="product__page__article__wrapper">
-					<span className="product__page__article">Артикул: {productData.article}</span>
+					<span className="product__page__article">Артикул: {product.article}</span>
 				</div>
 			</div>
 			<div className="product__page__upper">
@@ -58,37 +65,38 @@ function ProductPage({ productData, params }: { productData: ProductData; params
 					{galleryItems.length > 0 ? <Gallery items={galleryItems} urlStartsWith={'/api'} ration={3} /> : null}
 				</div>
 				<div className=" product__page__card product__page__upper__item product__page__main__info">
-					<h1 className="product__page__header">{productData.name}</h1>
-					<PriceElement price={productData.price} sale={productData.sale} />
-					{productData.manufacturer ? <ManufacturerElement ManufacturerData={productData.manufacturer} /> : null}
+					<h1 className="product__page__header">{product.name}</h1>
+					<PriceElement price={product.price} sale={product.sale} />
+					{product.manufacturer ? <ManufacturerElement ManufacturerData={product.manufacturer} /> : null}
 					<div className="product__page__options__wrapper">
-						<AddToCartButton article={productData.article} />
+						<AddToCartButton article={product.article} />
 						<div className="product__page__options__lower">
-							<ComparisonButton productData={productData} withLabel={true} useBaseStyle={true} />
-							<FavouriteButton productData={productData} withLabel={true} useBaseStyle={true} />
+							<ComparisonButton productData={product} withLabel={true} useBaseStyle={true} />
+							<FavouriteButton productData={product} withLabel={true} useBaseStyle={true} />
 						</div>
 					</div>
-					{productData.properties && productData.properties?.length > 0 ? (
-						<ShortAttributesElement properties={productData.properties} take={5} showAllBtn={true} />
+					{product.properties && product.properties?.length > 0 ? (
+						<ShortAttributesElement properties={product.properties} take={5} showAllBtn={true} />
 					) : null}
 				</div>
 			</div>
 			<div className=" product__page__card product__page__description">
 				<h3 className="product__page__header__medium product__page__description__header">О товаре</h3>
-				<span className="product__page__description">{productData.description}</span>
+				<span className="product__page__description">{product.description}</span>
 			</div>
-			<AttributesElement properties={productData.properties ?? []} />
+			<AttributesElement properties={product.properties ?? []} />
 			<HydrationComponent>
 				{productHistory.items.length > 1 ? (
 					<div className="product__page__card product__page__history">
 						<h3 className="product__page__header__medium">Вы смотрели</h3>
-						<HistorySlider excludeArticle={productData.article} />
+						<HistorySlider excludeArticle={product.article} />
 					</div>
 				) : null}
 			</HydrationComponent>
-			<SimilarProductBlock article={productData.article} params={params} product={productData} />
+			<SimilarProductBlock DiffProduct={product} SimilarProductsData={productData.similar} />
 		</div>
 	);
 }
 
 export { HydrationComponent, ProductPage };
+export type { ProductPageResponse };

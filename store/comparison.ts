@@ -4,38 +4,38 @@ import { ProductData } from '../components/CatalogComponents/Cards/interface';
 import { FavouritesItem } from './favourites';
 
 class ComparisonStore {
-	@observable public productsID: number[] = [];
+	@observable public productsArticles: string[] = [];
 
 	constructor() {
 		makeObservable(this);
 	}
 
 	@action
-	public add(payload: number | ProductData | FavouritesItem) {
-		payload = typeof payload === 'number' ? payload : payload.id;
-		const existing = this.productsID.find((id) => id === payload);
+	public add(payload: string | ProductData | FavouritesItem) {
+		const payloadArticle = typeof payload === 'string' ? payload : payload.article;
+		const existing = this.productsArticles.find((article) => article === payloadArticle);
 		if (!existing) {
 			axios({
 				url: '/api/session/update',
 				method: 'POST',
 				data: {
 					key: 'comparison',
-					items: JSON.parse(JSON.stringify([...this.productsID, payload])),
+					items: JSON.parse(JSON.stringify([...this.productsArticles, payloadArticle])),
 				},
 			}).then((response) => {
 				if (response.data.status === 'OK') {
-					this.productsID.push(payload as number);
+					this.productsArticles.push(payloadArticle);
 				}
 			});
 		}
 	}
 
 	@action
-	public remove(payload: number | ProductData | FavouritesItem) {
-		payload = typeof payload === 'number' ? payload : payload.id;
-		const existingIndex = this.productsID.findIndex((id) => id === payload);
+	public remove(payload: string | ProductData | FavouritesItem) {
+		const payloadArticle = typeof payload === 'string' ? payload : payload.article;
+		const existingIndex = this.productsArticles.findIndex((id) => id === payloadArticle);
 		if (existingIndex !== -1) {
-			const data = JSON.parse(JSON.stringify([...this.productsID]));
+			const data = JSON.parse(JSON.stringify([...this.productsArticles]));
 			data.splice(existingIndex, 1);
 			axios({
 				url: '/api/session/update',
@@ -46,22 +46,22 @@ class ComparisonStore {
 				},
 			}).then((response) => {
 				if (response.data.status === 'OK') {
-					this.productsID.splice(existingIndex, 1);
+					this.productsArticles.splice(existingIndex, 1);
 				}
 			});
 		}
 	}
 
-	public hydrate(data: number[]): void {
-		this.productsID = data;
+	public hydrate(data: string[]): void {
+		this.productsArticles = data;
 	}
 
 	public getCount(): number {
-		return this.productsID.length;
+		return this.productsArticles.length;
 	}
 
-	public has(payload: number): boolean {
-		return this.productsID.find((id) => id === payload) !== undefined;
+	public has(payload: string): boolean {
+		return this.productsArticles.find((article) => article === payload) !== undefined;
 	}
 }
 

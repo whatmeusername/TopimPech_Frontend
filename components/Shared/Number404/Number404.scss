@@ -1,0 +1,20 @@
+.number__404__label{
+    color: var(--orange-color);
+    font-weight: 300;
+    &.number__404__size__icon{
+        font-size: var(--fontS);
+        padding: 5px;
+    }
+    &.number__404__size__small{
+        font-size: var(--fontL);
+        padding: 10px;
+    }
+    &.number__404__size__medium{
+        font-size: var(--fontX);
+        padding: 15px;
+    }
+    &.number__404__size__large{
+        font-size: var(--headerM);
+        padding: 20px;
+    }
+}

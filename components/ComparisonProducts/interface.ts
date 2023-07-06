@@ -9,6 +9,7 @@ interface ComparisonProductsConfig {
 	mobileVersion?: boolean;
 	cards: {
 		show: boolean;
+		isSticky?: boolean;
 		showPrice?: boolean;
 	};
 }

@@ -7,7 +7,7 @@ import Menu from '../Menu/Menu';
 
 import SiteLogo from '../../../public/logo/SiteLogo.png';
 
-import { ReactElement } from 'react';
+import { ReactElement, useEffect, useRef } from 'react';
 import { observer } from 'mobx-react-lite';
 
 import { useComparinsonProducts, useFavouritesProducts, useUserProductCart } from '../../../context/MobxStoreContext/MobxStoreContext';
@@ -15,6 +15,7 @@ import { CartIcon, ComparisonIcon, HeartNotFilledIcon, HomeIcon } from '../../Ic
 import { usePathname } from 'next/navigation';
 import ProductSearch from '../searchfield/SearchFieldDesktop/SearchField';
 import { SearchMobile } from '../searchfield/SearchFieldMobile/SearchFieldMobile';
+import { headerSticky } from '../../../store/HeaderSticky';
 
 const HeaderLogo = (): JSX.Element => {
 	return (
@@ -51,57 +52,13 @@ const FavouriteElement = observer((): ReactElement => {
 const ComparisonElement = observer((): ReactElement => {
 	const ComparisonStore = useComparinsonProducts();
 	return (
-		<button className="header__option__wrapper">
+		<Link href="/comparison" className="header__option__wrapper">
 			<ComparisonIcon className="header__option__icon" />
 			<p className="header__option__label">Сравнение</p>
 			<div className="header__option__count__pin header__option__count__pin__favourite">{ComparisonStore.getCount()}</div>
-		</button>
+		</Link>
 	);
 });
-
-// useEffect(() => {
-// 	if (isToggled) {
-// 		if (results.count === 1) {
-// 			const enterHandler = (e: KeyboardEvent) => {
-// 				if (e.code === 'Enter') {
-// 					router.push(`/product/${results.items[0].article}`);
-// 					Toggle(false);
-// 					toggleWindowScroll(true);
-// 				}
-// 			};
-// 			window.addEventListener('keydown', enterHandler);
-// 			return () => window.removeEventListener('keydown', enterHandler);
-// 		}
-// 	}
-// }, [isToggled, results.count]);
-
-// const FocusEvent = (): void => {
-// 	Toggle(true);
-// 	toggleWindowScroll(false);
-// };
-
-// const FetchResult = () => {
-// 	const value = inputField.current.value.trim();
-// 	if (value !== '') {
-// 		get(`/api/products/search/name/${value}`).then((res) => {
-// 			setResults({ items: res.data.data, count: res.data.count });
-// 		});
-// 	}
-// };
-
-// const onKeyDown = (e: React.KeyboardEvent): void => {
-// 	const value = inputField.current.value.trim();
-// 	if (e.key === 'Enter' && value) {
-// 		router.push(`/catalog/search/${value}`);
-// 	} else if (!isToggled) {
-// 		Toggle(true);
-// 		toggleWindowScroll(false);
-// 	}
-// 	clearTimeout(timerRef?.current);
-// 	timerRef.current = setTimeout(() => {
-// 		FetchResult();
-// 	}, 500);
-// };
 
 function HeaderMobile(): ReactElement {
 	const pathname = usePathname();
@@ -154,43 +111,68 @@ function HeaderMobile(): ReactElement {
 	);
 }
 
-function HeaderDesktop(): ReactElement {
+const HeaderDesktop = observer((): ReactElement => {
+	const headerRef = useRef<HTMLDivElement>(null!);
+	const observePoint = useRef<HTMLDivElement>(null!);
+
+	useEffect(() => {
+		const observer = new IntersectionObserver(
+			([e]) => {
+				headerRef.current?.classList?.toggle('header__sticky__enabled', e.intersectionRatio === 0);
+			},
+			{ threshold: 0.1, rootMargin: '50px' },
+		);
+		if (headerSticky.toggled) {
+			observer.observe(observePoint.current);
+		} else {
+			headerRef.current?.classList?.remove('header__sticky__enabled');
+			observer.unobserve(observePoint.current);
+		}
+		return () => {
+			if (observePoint.current) observer.unobserve(observePoint.current);
+			observer.disconnect();
+		};
+	}, [headerSticky.toggled]);
+
 	return (
-		<div className="header__wrapper">
-			<div className="header__content__wrapper">
-				<div className="header__info">
-					<div className="header__info__content">
-						<Link href="/" className="header__info__link">
-							Доставка
-						</Link>
-						<Link href="/" className="header__info__link">
-							Как заказать
-						</Link>
-						<Link href="/" className="header__info__link">
-							Контакты
-						</Link>
+		<>
+			<div className="header__wrapper" ref={headerRef}>
+				<div className="header__content__wrapper">
+					<div className="header__info">
+						<div className="header__info__content">
+							<Link href="/" className="header__info__link">
+								Доставка
+							</Link>
+							<Link href="/" className="header__info__link">
+								Как заказать
+							</Link>
+							<Link href="/" className="header__info__link">
+								Контакты
+							</Link>
+						</div>
+						<p className="header__info__contact__phone">+7 (999) 999 99 99</p>
 					</div>
-					<p className="header__info__contact__phone">+7 (999) 999 99 99</p>
-				</div>
-				<div className="header__main">
-					<header className="header">
-						<HeaderLogo />
-						<div className="flex__items__center">
-							<Menu mobile={false} />
-						</div>
-						<div className="center__wrapper flex__items__center">
-							<ProductSearch />
-						</div>
-						<div className="right__wrapper">
-							<FavouriteElement />
-							<ComparisonElement />
-							<CartElement />
-						</div>
-					</header>
+					<div className="header__main">
+						<header className="header">
+							<HeaderLogo />
+							<div className="flex__items__center">
+								<Menu mobile={false} />
+							</div>
+							<div className="center__wrapper flex__items__center">
+								<ProductSearch />
+							</div>
+							<div className="right__wrapper">
+								<FavouriteElement />
+								<ComparisonElement />
+								<CartElement />
+							</div>
+						</header>
+					</div>
 				</div>
 			</div>
-		</div>
+			<div className="header__wrapper__observer__point" ref={observePoint} />
+		</>
 	);
-}
+});
 
 export { HeaderDesktop, HeaderMobile };

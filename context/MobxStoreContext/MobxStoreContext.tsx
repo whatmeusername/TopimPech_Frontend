@@ -38,7 +38,7 @@ interface UserSession {
 	UserAgent: string;
 	cart: { id: string; count: number }[];
 	favourites: FavouritesItem[];
-	comparison: number[];
+	comparison: string[];
 	created: Date;
 	expires: Date;
 }
