@@ -1,6 +1,10 @@
 .number__404__label{
-    color: var(--orange-color);
     font-weight: 300;
+    margin: 0;
+    font-size: 72px;
+    background: -webkit-linear-gradient(180deg, var(--white-color), var(--orange-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     &.number__404__size__icon{
         font-size: var(--fontS);
         padding: 5px;
@@ -14,7 +18,7 @@
         padding: 15px;
     }
     &.number__404__size__large{
-        font-size: var(--headerM);
+        font-size: 180px;
         padding: 20px;
     }
 }

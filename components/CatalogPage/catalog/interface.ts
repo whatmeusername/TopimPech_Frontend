@@ -1,5 +1,4 @@
 import { ProductData } from '../../CatalogComponents/Cards/interface';
-import { CatalogView } from '../../CatalogContainer/ChangeProductView/interface';
 import { PaginatorData } from '../../CatalogContainer/Paginator/interface';
 import { FilterFetchData } from '../Filter/Filter';
 
@@ -12,8 +11,9 @@ interface ProductAPIResponse {
 interface initData {
 	productsData: ProductAPIResponse;
 	filtersData: FilterFetchData;
-	view: CatalogView;
 	order: string;
+	searchHeader?: string;
+	isSearch: boolean;
 }
 
 export type { ProductAPIResponse, initData };

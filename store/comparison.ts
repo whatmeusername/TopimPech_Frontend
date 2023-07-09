@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { observable, makeObservable, action } from 'mobx';
+import { observable, makeObservable, action, runInAction } from 'mobx';
 import { ProductData } from '../components/CatalogComponents/Cards/interface';
 import { FavouritesItem } from './favourites';
 
@@ -24,7 +24,9 @@ class ComparisonStore {
 				},
 			}).then((response) => {
 				if (response.data.status === 'OK') {
-					this.productsArticles.push(payloadArticle);
+					runInAction(() => {
+						this.productsArticles.push(payloadArticle);
+					});
 				}
 			});
 		}
@@ -46,14 +48,18 @@ class ComparisonStore {
 				},
 			}).then((response) => {
 				if (response.data.status === 'OK') {
-					this.productsArticles.splice(existingIndex, 1);
+					runInAction(() => {
+						this.productsArticles.splice(existingIndex, 1);
+					});
 				}
 			});
 		}
 	}
 
 	public hydrate(data: string[]): void {
-		this.productsArticles = data;
+		runInAction(() => {
+			this.productsArticles = data;
+		});
 	}
 
 	public getCount(): number {

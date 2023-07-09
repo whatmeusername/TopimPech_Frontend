@@ -1,4 +1,4 @@
-import { action, makeObservable, observable } from 'mobx';
+import { action, makeObservable, observable, runInAction } from 'mobx';
 import { ProductData } from '../components/CatalogComponents/Cards/interface';
 import axios from 'axios';
 
@@ -48,7 +48,9 @@ class FavouritesProducts {
 				},
 			}).then((response) => {
 				if (response.data.status === 'OK') {
-					this.items.push(this.parseProductData(payload));
+					runInAction(() => {
+						this.items.push(this.parseProductData(payload));
+					});
 				}
 			});
 		}
@@ -69,14 +71,18 @@ class FavouritesProducts {
 				},
 			}).then((response) => {
 				if (response.data.status === 'OK') {
-					this.items.splice(existIdx, 1);
+					runInAction(() => {
+						this.items.splice(existIdx, 1);
+					});
 				}
 			});
 		}
 	}
 
 	public hydrate(data: FavouritesItem[]): void {
-		this.items = data;
+		runInAction(() => {
+			this.items = data;
+		});
 	}
 
 	public has(article: string): boolean {

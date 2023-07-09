@@ -12,6 +12,7 @@ import InputFilter from '../InputFilter/InputFilter';
 import { FacetFiltersData, FilterFetchData, FilterParameters, FilterApplyFN, FacetType, FilterItemObject, FilterItemNumber } from '../interface';
 
 import './AllFilterComponent.scss';
+import { useMobile } from '../../../../context/MobileContext/MobileContext';
 
 const FoundedItemsButton = ({
 	count,
@@ -88,6 +89,7 @@ const AllFilterComponent = ({
 }): JSX.Element => {
 	const [FilterData, setFilterData] = useState<{ count: number; filtered: FacetFiltersData }>(filterData);
 	const router = useRouter();
+	const isMobile = useMobile(768);
 
 	const searchParams = useRef<URLSearchParams>(new URLSearchParams(useSearchParams()));
 	const pathname = usePathname();
@@ -174,7 +176,7 @@ const AllFilterComponent = ({
 						})}
 					</div>
 				</div>
-				<ModalFooterWrapper isFixed={true}>
+				<ModalFooterWrapper isFixed={isMobile}>
 					<button className="filter__modal__return__button filter__modal__button" onClick={Close}>
 						Возрат
 					</button>

@@ -58,6 +58,7 @@ function ButtonVersionSlider({ children, options }: { children: JSX.Element; opt
 		IS_BUTTON_ACTIVE.current = itemsCount > 0 ? true : false;
 
 		setItemsCount(itemsCount);
+		validateButtons();
 	}, []);
 
 	useEffect(() => {

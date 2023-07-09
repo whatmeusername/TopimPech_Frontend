@@ -80,10 +80,12 @@ function ProductPage({ productData, params }: { productData: ProductPageResponse
 					) : null}
 				</div>
 			</div>
-			<div className=" product__page__card product__page__description">
-				<h3 className="product__page__header__medium product__page__description__header">О товаре</h3>
-				<span className="product__page__description">{product.description}</span>
-			</div>
+			{product.description ? (
+				<div className=" product__page__card product__page__description">
+					<h3 className="product__page__header__medium product__page__description__header">О товаре</h3>
+					<span className="product__page__description">{product.description}</span>
+				</div>
+			) : null}
 			<AttributesElement properties={product.properties ?? []} />
 			<HydrationComponent>
 				{productHistory.items.length > 1 ? (

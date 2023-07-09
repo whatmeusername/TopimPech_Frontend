@@ -1,14 +1,10 @@
 import { CatalogView } from '../components/CatalogContainer/ChangeProductView/interface';
-import { useEffect, useState } from 'react';
-import { getInitialView } from '../components/CatalogContainer/ChangeProductView/ChangeProductView';
-import { useSearchParams } from 'next/navigation';
+import { useState } from 'react';
+import { useGlobalContext } from '../context/GlobalContext/GlobalContext';
 
-function useCatalogView(initial?: CatalogView): [CatalogView, (value: CatalogView) => void] {
-	const query = useSearchParams();
-	const [catalogView, setCatalogView] = useState<CatalogView>(initial ?? CatalogView.ROW);
-	useEffect(() => {
-		setCatalogView(getInitialView(query));
-	}, []);
+function useCatalogView(): [CatalogView, (value: CatalogView) => void] {
+	const view = useGlobalContext().view;
+	const [catalogView, setCatalogView] = useState<CatalogView>(view ?? CatalogView.ROW);
 
 	return [catalogView, setCatalogView];
 }

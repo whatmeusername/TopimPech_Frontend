@@ -11,50 +11,6 @@ import axios from 'axios';
 import { SearchItemElement } from '../SearchItemElement/SearchItemElement';
 import Link from 'next/link';
 
-// useEffect(() => {
-// 	if (isToggled) {
-// 		if (results.count === 1) {
-// 			const enterHandler = (e: KeyboardEvent) => {
-// 				if (e.code === 'Enter') {
-// 					router.push(`/product/${results.items[0].article}`);
-// 					Toggle(false);
-// 					toggleWindowScroll(true);
-// 				}
-// 			};
-// 			window.addEventListener('keydown', enterHandler);
-// 			return () => window.removeEventListener('keydown', enterHandler);
-// 		}
-// 	}
-// }, [isToggled, results.count]);
-
-// const FocusEvent = (): void => {
-// 	Toggle(true);
-// 	toggleWindowScroll(false);
-// };
-
-// const FetchResult = () => {
-// 	const value = inputField.current.value.trim();
-// 	if (value !== '') {
-// 		get(`/api/products/search/name/${value}`).then((res) => {
-// 			setResults({ items: res.data.data, count: res.data.count });
-// 		});
-// 	}
-// };
-
-// const onKeyDown = (e: React.KeyboardEvent): void => {
-// 	const value = inputField.current.value.trim();
-// 	if (e.key === 'Enter' && value) {
-// 		router.push(`/catalog/search/${value}`);
-// 	} else if (!isToggled) {
-// 		Toggle(true);
-// 		toggleWindowScroll(false);
-// 	}
-// 	clearTimeout(timerRef?.current);
-// 	timerRef.current = setTimeout(() => {
-// 		FetchResult();
-// 	}, 500);
-// };
-
 function SearchModal({ modalId }: { modalId: string }): ReactElement {
 	const productCount = useGlobalContext().productCount;
 	const router = useRouter();
@@ -65,7 +21,7 @@ function SearchModal({ modalId }: { modalId: string }): ReactElement {
 
 	const FetchResult = () => {
 		const value = inputField.current.value.trim();
-		if (value !== '') {
+		if (value !== '' && value.length > 1) {
 			axios({
 				method: 'GET',
 				url: `/api/products/search/name/${value}`,
@@ -78,7 +34,8 @@ function SearchModal({ modalId }: { modalId: string }): ReactElement {
 	const onKeyDown = (e: React.KeyboardEvent): void => {
 		const value = inputField.current.value.trim();
 		if (e.key === 'Enter' && value) {
-			router.push(`/catalog/search/${value}`);
+			router.push(`/catalog/search/?search=${value}`);
+			centerModalControl.toggle(modalId);
 		}
 		clearTimeout(timerRef?.current);
 		timerRef.current = setTimeout(() => {

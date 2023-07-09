@@ -36,7 +36,7 @@ const useComparinsonProducts = (): ComparisonStore => {
 interface UserSession {
 	UID: string;
 	UserAgent: string;
-	cart: { id: string; count: number }[];
+	cart: { article: string; count: number }[];
 	favourites: FavouritesItem[];
 	comparison: string[];
 	created: Date;

@@ -16,6 +16,7 @@ import { usePathname } from 'next/navigation';
 import ProductSearch from '../searchfield/SearchFieldDesktop/SearchField';
 import { SearchMobile } from '../searchfield/SearchFieldMobile/SearchFieldMobile';
 import { headerSticky } from '../../../store/HeaderSticky';
+import { useGlobalContext } from '../../../context/GlobalContext/GlobalContext';
 
 const HeaderLogo = (): JSX.Element => {
 	return (
@@ -30,11 +31,11 @@ const HeaderLogo = (): JSX.Element => {
 const CartElement = observer((): ReactElement => {
 	const ProductCart = useUserProductCart();
 	return (
-		<button className="header__option__wrapper">
+		<Link className="header__option__wrapper" href={'/cart'}>
 			<CartIcon className="header__option__icon" />
 			<p className="header__option__label">Корзина</p>
 			<div className="header__option__count__pin header__option__count__pin__cart">{ProductCart.getCount()}</div>
-		</button>
+		</Link>
 	);
 });
 
@@ -112,6 +113,7 @@ function HeaderMobile(): ReactElement {
 }
 
 const HeaderDesktop = observer((): ReactElement => {
+	const globalContext = useGlobalContext();
 	const headerRef = useRef<HTMLDivElement>(null!);
 	const observePoint = useRef<HTMLDivElement>(null!);
 
@@ -150,7 +152,7 @@ const HeaderDesktop = observer((): ReactElement => {
 								Контакты
 							</Link>
 						</div>
-						<p className="header__info__contact__phone">+7 (999) 999 99 99</p>
+						<p className="header__info__contact__phone">{globalContext.basePhoneNumber}</p>
 					</div>
 					<div className="header__main">
 						<header className="header">

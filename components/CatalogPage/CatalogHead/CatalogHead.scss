@@ -18,13 +18,35 @@
                 text-transform: capitalize;
             }
         }
+        
         .catalog__header__count {
             margin-left: 5px;
             font-family: var(--museo_cyrl);
             color: var(--standard-color);
             font-size: var(--fontM);
         }
+
+        &.catalog__header__search__wrapper{
+            flex-direction: column;
+            .catalog__header{
+                display: flex;
+                flex-direction: row;
+                font-size: var(--headerS);
+                gap: 5px;
+                margin: 0;
+                .catalog__header__bold{
+                    font-weight: 600;
+                    color: var(--orange-color);
+                    margin: 0;
+                }
+            }
+            .catalog__header__count{
+                margin: 0;
+            }
+        }
     }
+
+
 
     @media(max-width: 768px){
         

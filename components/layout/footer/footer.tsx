@@ -6,6 +6,7 @@ import Image from 'next/image';
 
 import SiteLogo from '../../../public/logo/SiteLogo.png';
 import { ThinBreakLine } from '../../Shared/Lines/ThinBreakLine/ThinBreakLine';
+import { useGlobalContext } from '../../../context/GlobalContext/GlobalContext';
 
 const COPYRIGHTS_LABEL =
 	'Представленная информация на сайте носит чисто информационный смысл, материалы и цены, размещенные на сайте, не являются публичной офертой. Подробную информацию уточняйте у продавца.';
@@ -82,12 +83,12 @@ function FooterLogo(): ReactElement {
 }
 
 function ContactsColumn(): ReactElement {
+	const PhoneNumber = useGlobalContext();
 	return (
 		<div className="footer__contacts__wrapper">
 			<div className="footer__contacts__content__wrapper footer__contacts__phone__wrapper">
 				<p className="footer__contacts__data__header">Контактный номер</p>
-				<p className="footer__contacts__data">+7 (999) 999-99-99</p>
-				<p className="footer__contacts__data">+7 (999) 999-99-99</p>
+				<p className="footer__contacts__data">{PhoneNumber.basePhoneNumber}</p>
 			</div>
 			<div className="footer__contacts__content__wrapper">
 				<p className="footer__contacts__data__header">Электронная почта</p>

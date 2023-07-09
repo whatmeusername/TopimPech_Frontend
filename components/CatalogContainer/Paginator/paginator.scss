@@ -33,7 +33,7 @@
 			background-color: rgba(238, 115, 14, 0.25);
 			transition: 0.5s ease-in-out;
 			&:hover {
-				background-color: rgba(238, 115, 14, 0.4);
+				background-color: var(--orange-color-bg);
 			}
 			&.paginator__link__disabled {
 				background-color: var(--grey-color);

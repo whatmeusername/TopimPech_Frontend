@@ -25,9 +25,7 @@ export default function ProductSearch() {
 			if (results.count === 1) {
 				const enterHandler = (e: KeyboardEvent) => {
 					if (e.code === 'Enter') {
-						router.push(`/product/${results.data[0].article}`);
-						Toggle(false);
-						toggleWindowScroll(true);
+						NavigateIn();
 					}
 				};
 				window.addEventListener('keydown', enterHandler);
@@ -43,7 +41,7 @@ export default function ProductSearch() {
 
 	const FetchResult = () => {
 		const value = inputField.current.value.trim();
-		if (value !== '') {
+		if (value !== '' && value.length > 1) {
 			axios({
 				method: 'GET',
 				url: `/api/products/search/name/${value}`,
@@ -53,13 +51,25 @@ export default function ProductSearch() {
 		}
 	};
 
+	const NavigateIn = (): void => {
+		const value = inputField.current?.value;
+		if (results.count === 1) {
+			router.push(`/product/${results.data[0].article}`);
+			Toggle(false);
+			toggleWindowScroll(true);
+		} else if (value && value.length > 1 && results.count > 1) {
+			router.push(`/catalog/search/?search=${value}`);
+			Toggle(false);
+			toggleWindowScroll(true);
+		}
+	};
+
 	const onKeyDown = (e: React.KeyboardEvent): void => {
 		const value = inputField.current.value.trim();
 		if (e.key === 'Enter' && value) {
-			router.push(`/catalog/search/${value}`);
+			NavigateIn();
 		} else if (!isToggled) {
-			Toggle(true);
-			toggleWindowScroll(false);
+			FocusEvent();
 		}
 		clearTimeout(timerRef?.current);
 		timerRef.current = setTimeout(() => {
@@ -83,7 +93,7 @@ export default function ProductSearch() {
 						autoCorrect="false"
 						spellCheck="false"
 					/>
-					<button className="search__field__button" title="перейти к результатам поиску">
+					<button className="search__field__button" title="перейти к результатам поиску" onClick={NavigateIn}>
 						<SearchIcon className="search__field__button__icon" />
 					</button>
 				</div>

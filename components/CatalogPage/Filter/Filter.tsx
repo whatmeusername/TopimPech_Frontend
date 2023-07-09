@@ -79,7 +79,7 @@ function FacetFilter({ initialFilters }: { initialFilters: FilterFetchData }): J
 	return (
 		<>
 			{!isMobile ? (
-				<>
+				<div className="facet__filters__container">
 					<div className="facet__filters__wrapper">
 						{initialFilters?.filtered !== undefined ? (
 							Object.entries(initialFilters?.filtered ?? {})
@@ -125,7 +125,7 @@ function FacetFilter({ initialFilters }: { initialFilters: FilterFetchData }): J
 					</div>
 					{FilterCount > 10 ? <AllFiltersOpenButton /> : null}
 					{getActiveFiltersLength > 0 ? <ClearFiltersButton router={router} searchParams={searchParams} pathname={pathname} /> : null}
-				</>
+				</div>
 			) : null}
 			{isMobile || FilterCount > 10 ? (
 				<HydrationComponent>

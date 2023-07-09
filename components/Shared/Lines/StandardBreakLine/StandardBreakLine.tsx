@@ -1,4 +1,4 @@
-import { MutableRefObject, forwardRef } from 'react';
+import { forwardRef } from 'react';
 import './StandardBreakLine.scss';
 
 const StandardBreakLine = forwardRef((_, ref: any) => {

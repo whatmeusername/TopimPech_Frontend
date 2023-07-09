@@ -1,4 +1,3 @@
-import Head from 'next/head';
 import { FilterFetchData } from '../../../components/CatalogPage/Filter/Filter';
 import Catalog from '../../../components/CatalogPage/catalog/index';
 
@@ -28,8 +27,9 @@ async function CatalogPage(context: ServerSideURLProps) {
 	return <Catalog initData={initData} />;
 }
 
-export async function generateMetadata({ params }: ServerSideURLProps): Promise<Metadata> {
-	const productsData: ProductAPIResponse = await getData(`${PROXY_URL}products/filter/${params.category}`, {
+export async function generateMetadata({ params, searchParams }: ServerSideURLProps): Promise<Metadata> {
+	const searchString = searchParams['search'];
+	const productsData: ProductAPIResponse = await getData(`${PROXY_URL}products/filter/?search=${searchString}`, {
 		cache: 'force-cache',
 		next: { revalidate: 60 },
 	});
@@ -57,14 +57,14 @@ export async function generateMetadata({ params }: ServerSideURLProps): Promise<
 }
 
 export async function catalogGetServerSideProps({ params, searchParams }: ServerSideURLProps) {
-	const productFetchURLRaw = `${PROXY_URL}products/filter/${params.category}`;
-	const filtersFetchURLRaw = `${PROXY_URL}products/filters/${params.category}`;
+	const productFetchURLRaw = `${PROXY_URL}products/filter/`;
+	const filtersFetchURLRaw = `${PROXY_URL}products/filters/`;
 
 	let productsData: ProductAPIResponse;
 	let filtersData: FilterFetchData;
 
-	const [productFetchURL] = SearchParamsBuilder(productFetchURLRaw, searchParams, 'page', 'items_per_page', 'order', 'filter');
-	const [filterFetchURL] = SearchParamsBuilder(filtersFetchURLRaw, searchParams, 'filter');
+	const [productFetchURL] = SearchParamsBuilder(productFetchURLRaw, searchParams, 'page', 'items_per_page', 'order', 'filter', 'search');
+	const [filterFetchURL] = SearchParamsBuilder(filtersFetchURLRaw, searchParams, 'filter', 'search');
 
 	try {
 		[productsData, filtersData] = await Promise.all([
@@ -91,7 +91,8 @@ export async function catalogGetServerSideProps({ params, searchParams }: Server
 			productsData: productsData,
 			filtersData: filtersData,
 			order: searchParams['order'] ?? 'id',
-			isSearch: false,
+			searchHeader: searchParams['search'],
+			isSearch: true,
 		},
 	};
 }

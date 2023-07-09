@@ -17,6 +17,9 @@ import GridIcon from '../../public/CatalogViewIcons/grid.svg';
 import HomeIcon from '../../public/OptionsIcons/Home.svg';
 import SearchIcon from '../../public/OptionsIcons/Search.svg';
 
+import MinusIcon from '../../public/OptionsIcons/Minus.svg';
+import PlusIcon from '../../public/OptionsIcons/Plus.svg';
+
 export {
 	MenuIcon,
 	SimilarIcon,
@@ -33,4 +36,6 @@ export {
 	HomeIcon,
 	CartFilledIcon,
 	SearchIcon,
+	MinusIcon,
+	PlusIcon,
 };

@@ -2,16 +2,10 @@ import { useState, memo, useEffect } from 'react';
 import useWindowSize from '../../../hooks/useWindowSize';
 import './ChangeProductView.scss';
 
-import { CatalogView, ProductAligmentVariantData } from './interface';
+import { CATALOG_VIEW_COOKIE, CatalogView, ProductAligmentVariantData } from './interface';
 import { useSearchParams } from 'next/navigation';
 import { GridIcon, ListIcon } from '../../IconsElements';
-
-const getInitialView = (query: URLSearchParams): CatalogView => {
-	const lsv = localStorage.getItem('view');
-	const view = (lsv ?? query.get('view') ?? CatalogView.ROW) as CatalogView;
-	if (!lsv) localStorage.setItem('view', view);
-	return view;
-};
+import { useGlobalContext } from '../../../context/GlobalContext/GlobalContext';
 
 const AvailableVariant: ProductAligmentVariantData[] = [
 	{ icon: <GridIcon className="product__view__icon" />, name: CatalogView.GRID },
@@ -19,27 +13,15 @@ const AvailableVariant: ProductAligmentVariantData[] = [
 ];
 
 const ChangeProductView = memo(({ disabled, setCatalogView }: { disabled?: boolean; setCatalogView: (value: CatalogView) => void }) => {
-	const { width } = useWindowSize();
+	const view = useGlobalContext().view;
 
-	const query = useSearchParams();
-
-	const [selectedView, setSelectedView] = useState<CatalogView | undefined>(undefined);
-
-	useEffect(() => {
-		setSelectedView(getInitialView(query));
-	}, []);
+	const [selectedView, setSelectedView] = useState<CatalogView | undefined>(view);
 
 	const setView = (variant: CatalogView) => {
+		document.cookie = `${CATALOG_VIEW_COOKIE}=${variant}`;
 		localStorage.setItem('view', variant);
 		setCatalogView(variant);
 	};
-
-	const getNextView = () => {
-		const selectedIndex = AvailableVariant.findIndex((view) => view.name === selectedView);
-		return selectedIndex === AvailableVariant.length - 1 ? AvailableVariant[0] : AvailableVariant[selectedIndex + 1];
-	};
-
-	const nextView = getNextView();
 
 	return (
 		<div className={`prdouct__views__wrapper ${disabled ? 'prdouct__views__wrapper__disabled' : ''}`}>
@@ -65,5 +47,5 @@ const ChangeProductView = memo(({ disabled, setCatalogView }: { disabled?: boole
 
 ChangeProductView.displayName = 'ChangeProductView';
 
-export { getInitialView, CatalogView };
+export { CatalogView };
 export default ChangeProductView;

@@ -14,7 +14,7 @@ import { initData } from './interface';
 import { CatalogContainer } from '../../CatalogContainer/index';
 import FacetFilter from '../Filter/Filter';
 
-import { CatalogHeader } from '../CatalogHead/CatalogHeader';
+import { CatalogHeader, CatalogHeaderSearch } from '../CatalogHead/CatalogHeader';
 import { SearchParamsBuilder } from '../../../utils/SearchParamsBuilder';
 import { CatalogHead } from '../CatalogHead/CatalogHead';
 import { productHistory } from '../../../store';
@@ -61,7 +61,11 @@ export default function Catalog({ initData }: { initData: initData }): ReactElem
 		<div className="catalog__page__wrapper">
 			<CatalogHead>
 				<BreadcrumbByURL settings={{ includeHomePage: true }} />
-				<CatalogHeader paginator={initData.productsData.paginator} />
+				{initData.isSearch && initData.searchHeader ? (
+					<CatalogHeaderSearch searchString={initData.searchHeader} paginator={initData.productsData.paginator} />
+				) : (
+					<CatalogHeader paginator={initData.productsData.paginator} />
+				)}
 			</CatalogHead>
 			<div className="catalog__body">
 				<div className="catalog__filters__wrapper">

@@ -39,7 +39,7 @@
 		left: 0;
 		z-index: var(--zIndexSmall);
 		background-color: var(--primary_hidder_bg);
-		position: absolute;
+		position: fixed;
 	}
 
 	.modal__head {
