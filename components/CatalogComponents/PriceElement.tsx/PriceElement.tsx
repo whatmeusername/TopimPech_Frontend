@@ -1,5 +1,10 @@
-const PriceElement = ({ price, sale = 0 }: { price: number; sale: number }) => {
-	const PriceTag = sale > 0 ? Number((price - (price * sale) / 100).toFixed(0)) : price;
+const CalculateSale = (price: number, amount: number): number => {
+	return price - (price * amount) / 100;
+};
+
+const PriceElement = ({ price, sale = 0, quantity = 1 }: { price: number; sale: number; quantity?: number }) => {
+	let PriceTag = sale > 0 ? Number(CalculateSale(price, sale).toFixed(0)) : price;
+	PriceTag = quantity > 0 ? PriceTag * quantity : PriceTag;
 	return (
 		<div className="product__card__price__wrapper">
 			<span className={`${sale > 0 ? 'product__card__price__sale' : 'product__card__price'} price__tag`}>{PriceTag.toLocaleString('ru')} </span>
@@ -7,5 +12,7 @@ const PriceElement = ({ price, sale = 0 }: { price: number; sale: number }) => {
 		</div>
 	);
 };
+
+export { CalculateSale };
 
 export default PriceElement;

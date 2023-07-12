@@ -164,6 +164,9 @@
                     color: var(--orange-color);
                 }
             }
+            &.comparison__products__categories__item__single{
+                cursor: unset;
+            }
         }
     }
 

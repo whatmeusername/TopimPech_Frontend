@@ -73,7 +73,6 @@ function GetCatalogView(): CatalogView {
 
 export const metadata: Metadata = {
 	title: `${DOMAIN_NAME_LOCALE} это интернет магазин товаров для бани, дома и строительства. Помогаем с подбором товаров`,
-	applicationName: DOMAIN_NAME,
 	openGraph: { ...OPENGRAPH_BASE, url: FULL_DOMAIN },
 };
 

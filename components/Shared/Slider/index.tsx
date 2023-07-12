@@ -4,6 +4,7 @@ import './Slider.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { useMobile } from '../../../context/MobileContext/MobileContext';
+import { AngleArrowIcon, ArrowIcon } from '../../IconsElements';
 
 const ACTIVE_DOT_CLASSNAME = 'slider__dot__active';
 const DISABLED_BUTTON_CLASSNAME = 'slider__button__disabled';
@@ -28,7 +29,7 @@ function ButtonVersionSlider({ children, options }: { children: JSX.Element; opt
 	const wrapperRef = useRef<HTMLDivElement>(null!);
 	const contentRef = useRef<HTMLDivElement>(null!);
 
-	const [LBDisabled, setLBDisabled] = useState<boolean>(false);
+	const [LBDisabled, setLBDisabled] = useState<boolean>(true);
 	const [RBDisabled, setRBDisabled] = useState<boolean>(false);
 
 	const currentSlide = useRef<number>(0);
@@ -120,16 +121,16 @@ function ButtonVersionSlider({ children, options }: { children: JSX.Element; opt
 	};
 
 	const SliderButton = ({ side }: { side: SlideDirection }): ReactElement => {
-		const icon = side === SlideDirection.LEFT ? faAngleLeft : faAngleRight;
 		const isDisabledSide = side === SlideDirection.LEFT ? LBDisabled : RBDisabled;
+		const sideClass = side === SlideDirection.LEFT ? 'slider__content__slide__button__left' : 'slider__content__slide__button__right';
 
 		return (
 			<button
-				className={`${isDisabledSide ? DISABLED_BUTTON_CLASSNAME : ''} slider__content__slide__button`}
+				className={`${isDisabledSide ? DISABLED_BUTTON_CLASSNAME : ''} slider__content__slide__button ${sideClass}`}
 				onClick={isDisabledSide ? undefined : () => SlideItem(side, itemsPerSlide.current)}
 				title={`переключиться на ${side === SlideDirection.LEFT ? 'левый' : 'правый'} слайд`}
 			>
-				<FontAwesomeIcon icon={icon} className="slider__content__slide__icon" />
+				<ArrowIcon className={`slider__content__slide__icon ${sideClass}`} />
 			</button>
 		);
 	};
@@ -155,14 +156,14 @@ function ButtonVersionSlider({ children, options }: { children: JSX.Element; opt
 	return (
 		<div className="slider__wrapper slider__wrapper__carousel" ref={wrapperRef}>
 			<div className={`slider__main__content ${slidesTotal.current === 0 ? 'slider__main__content__single' : ''}`}>
-				{IS_BUTTON_ACTIVE.current ? <SliderButton side={SlideDirection.LEFT} /> : null}
+				{IS_BUTTON_ACTIVE.current && !LBDisabled ? <SliderButton side={SlideDirection.LEFT} /> : null}
 				<div className="slider__content__wrapper">
 					<div className="slider__content" ref={contentRef}>
 						{children}
 					</div>
 					{IS_BUTTON_ACTIVE.current ? <DotsElement /> : null}
 				</div>
-				{IS_BUTTON_ACTIVE.current ? <SliderButton side={SlideDirection.RIGHT} /> : null}
+				{IS_BUTTON_ACTIVE.current && !RBDisabled ? <SliderButton side={SlideDirection.RIGHT} /> : null}
 			</div>
 		</div>
 	);

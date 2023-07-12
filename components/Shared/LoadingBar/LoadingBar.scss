@@ -3,6 +3,8 @@
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
+
+
 	.loading_bar__roller {
 		display: inline-block;
 		position: relative;
@@ -84,6 +86,17 @@
 		color: var(--light-grey-color);
 		font-family: var(--museo_cyrl);
 		font-weight: 700;
+	}
+
+	&.loading_bar__wrapper__primary__color{
+		.loading_bar__label {
+			color: var(--primary-color);
+		}
+		div{
+			&:after{
+				background: var(--primary-color);
+			}
+		}
 	}
 }
 

@@ -63,6 +63,13 @@ const ComparisonElement = observer((): ReactElement => {
 
 function HeaderMobile(): ReactElement {
 	const pathname = usePathname();
+
+	const isMenuActive = pathname.includes('catalog') || pathname.includes('product');
+	const isHome = pathname === '/';
+	const isFavourite = pathname.includes('/favourites');
+	const isComparison = pathname.includes('/comparison');
+	const isCart = pathname.includes('/cart');
+
 	return (
 		<div className="header__mobile__wrapper">
 			<div className="header__mobile__upper">
@@ -75,32 +82,26 @@ function HeaderMobile(): ReactElement {
 			</div>
 			<div className="header__mobile__lower">
 				<div className="header__mobile__lower__content">
-					<Link href="/" className={`header__mobile__lower__link ${pathname === '/' ? 'header__mobile__lower__icon__active' : ''}`}>
+					<Link href="/" className={`header__mobile__lower__link ${isHome ? 'header__mobile__lower__icon__active' : ''}`}>
 						<div className="header__mobile__lower__icon__wrapper">
 							<HomeIcon className="header__mobile__lower__icon" />
 						</div>
 						<p className="header__mobile__lower__label">Главная</p>
 					</Link>
-					<Menu mobile={true} />
-					<Link
-						href="/favourites"
-						className={`header__mobile__lower__link ${pathname.includes('/favourites') ? 'header__mobile__lower__icon__active' : ''}`}
-					>
+					<Menu mobile={true} isActive={isMenuActive} />
+					<Link href="/favourites" className={`header__mobile__lower__link ${isFavourite ? 'header__mobile__lower__icon__active' : ''}`}>
 						<div className="header__mobile__lower__icon__wrapper">
 							<HeartNotFilledIcon className="header__mobile__lower__icon" />
 						</div>
 						<p className="header__mobile__lower__label">Избранное</p>
 					</Link>
-					<Link
-						href="/comparison"
-						className={`header__mobile__lower__link ${pathname.includes('/comparison') ? 'header__mobile__lower__icon__active' : ''}`}
-					>
+					<Link href="/comparison" className={`header__mobile__lower__link ${isComparison ? 'header__mobile__lower__icon__active' : ''}`}>
 						<div className="header__mobile__lower__icon__wrapper">
 							<ComparisonIcon className="header__mobile__lower__icon" />
 						</div>
 						<p className="header__mobile__lower__label">Сравнение</p>
 					</Link>
-					<Link href="/cart" className={`header__mobile__lower__link ${pathname.includes('/cart') ? 'header__mobile__lower__icon__active' : ''}`}>
+					<Link href="/cart" className={`header__mobile__lower__link ${isCart ? 'header__mobile__lower__icon__active' : ''}`}>
 						<div className="header__mobile__lower__icon__wrapper">
 							<CartIcon className="header__mobile__lower__icon" />
 						</div>

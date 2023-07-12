@@ -1,4 +1,3 @@
-import Head from 'next/head';
 import { FilterFetchData } from '../../../components/CatalogPage/Filter/Filter';
 import Catalog from '../../../components/CatalogPage/catalog/index';
 
@@ -39,7 +38,7 @@ export async function generateMetadata({ params }: ServerSideURLProps): Promise<
 	const categoryName = category?.name ?? '';
 	const categorySlug = category?.slug ?? '';
 
-	const description = META_PAGE_DESCRIPTION(product.name ?? 'товары для бани и дома');
+	const description = META_PAGE_DESCRIPTION(product?.name ?? 'товары для бани и дома');
 	const ogTitle = productsData.status.is404Page ? 'товары для бани и дома' : `${categoryName} ${PRODUCT_PAGE_SUB_LABEL}`;
 
 	return {

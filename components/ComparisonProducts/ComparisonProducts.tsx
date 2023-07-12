@@ -108,9 +108,9 @@ function ComparisonProductsCategories({
 					<button
 						className={`comparison__products__categories__item ${
 							currentCategory === category ? 'comparison__products__categories__item__active' : ''
-						}`}
+						} ${isSingle ? 'comparison__products__categories__item__single' : ''}`}
 						key={`comparison__item__${category}`}
-						onClick={() => setCategory(category)}
+						onClick={!isSingle ? () => setCategory(category) : undefined}
 					>
 						<p className="comparison__products__categories__item__label">{category}</p>
 						<span className="comparison__products__categories__item__count">{count}</span>

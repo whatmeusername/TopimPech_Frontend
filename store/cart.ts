@@ -6,7 +6,7 @@ interface CartItem {
 	count: number;
 }
 class UserProductCart {
-	@observable public raw_items: CartItem[] = [];
+	@observable public items: CartItem[] = [];
 	@observable public updated: Date = new Date();
 	private timeout: ReturnType<typeof setTimeout> | undefined;
 
@@ -15,7 +15,7 @@ class UserProductCart {
 	}
 
 	public getCount(): number {
-		return this.raw_items.reduce((prev, item) => {
+		return this.items.reduce((prev, item) => {
 			prev += item.count;
 			return prev;
 		}, 0);
@@ -23,19 +23,19 @@ class UserProductCart {
 
 	@action
 	public add(payload: CartItem) {
-		const existing = this.raw_items.find((item) => item.article === payload.article);
+		const existing = this.items.find((item) => item.article === payload.article);
 		if (!existing) {
 			axios({
 				url: '/api/session/update',
 				method: 'POST',
 				data: {
 					key: 'cart',
-					items: JSON.parse(JSON.stringify([...this.raw_items, { article: payload.article, count: payload.count > 0 ? payload.count : 1 }])),
+					items: JSON.parse(JSON.stringify([...this.items, { article: payload.article, count: payload.count > 0 ? payload.count : 1 }])),
 				},
 			}).then((response) => {
 				if (response.data.status === 'OK') {
 					runInAction(() => {
-						this.raw_items.push({ article: payload.article, count: payload.count > 0 ? payload.count : 1 });
+						this.items.push({ article: payload.article, count: payload.count > 0 ? payload.count : 1 });
 					});
 				}
 			});
@@ -48,15 +48,14 @@ class UserProductCart {
 			method: 'POST',
 			data: {
 				key: 'cart',
-				items: JSON.parse(JSON.stringify(this.raw_items)),
+				items: JSON.parse(JSON.stringify(this.items)),
 			},
 		});
 	}
 
 	@action
 	public increment(payload: CartItem) {
-		const existing = this.raw_items.find((item) => item.article === payload.article);
-		console.log(this.raw_items.length);
+		const existing = this.items.find((item) => item.article === payload.article);
 		if (existing) {
 			clearTimeout(this.timeout);
 			existing.count += payload.count > 0 ? payload.count : 1;
@@ -66,7 +65,7 @@ class UserProductCart {
 
 	@action
 	public decrement(payload: CartItem) {
-		const existing = this.raw_items.find((item) => item.article === payload.article);
+		const existing = this.items.find((item) => item.article === payload.article);
 		if (existing && existing.count > payload.count) {
 			clearTimeout(this.timeout);
 			existing.count -= payload.count > 0 ? payload.count : 1;
@@ -79,9 +78,9 @@ class UserProductCart {
 
 	@action
 	public delete(payload: string) {
-		const existingIndex = this.raw_items.findIndex((item) => item.article === payload);
+		const existingIndex = this.items.findIndex((item) => item.article === payload);
 		if (existingIndex !== -1) {
-			const dataCopy = JSON.parse(JSON.stringify(this.raw_items));
+			const dataCopy = JSON.parse(JSON.stringify(this.items));
 			dataCopy.splice(existingIndex, 1);
 			axios({
 				url: '/api/session/update',
@@ -93,7 +92,7 @@ class UserProductCart {
 			}).then((response) => {
 				if (response.data.status === 'OK') {
 					runInAction(() => {
-						this.raw_items = dataCopy;
+						this.items = dataCopy;
 					});
 				}
 			});
@@ -102,21 +101,25 @@ class UserProductCart {
 
 	@action
 	public clear() {
-		this.raw_items = [];
+		this.items = [];
 	}
 
 	public hydrate(data: { article: string; count: number }[]): void {
 		runInAction(() => {
-			this.raw_items = data;
+			this.items = data;
 		});
 	}
 
 	public has(article: string): boolean {
-		return this.raw_items.find((i) => i.article === article) !== undefined;
+		return this.items.find((i) => i.article === article) !== undefined;
+	}
+
+	public isEmpty(): boolean {
+		return this.items.length === 0;
 	}
 
 	public get(article: string): CartItem | undefined {
-		return this.raw_items.find((i) => i.article === article);
+		return this.items.find((i) => i.article === article);
 	}
 }
 

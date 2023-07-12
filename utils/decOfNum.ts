@@ -8,7 +8,7 @@ function declOfNum(n: number, forms: string[]) {
 	} else if (n1 === 1) {
 		return forms[0];
 	}
-	return forms[2];
+	return forms[forms.length === 3 ? 2 : 1];
 }
 
 const declOfProduct = (n: number) => declOfNum(n, ['товар', 'товара', 'товаров']);

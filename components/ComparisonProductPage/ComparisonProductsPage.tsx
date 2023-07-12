@@ -20,7 +20,7 @@ function ComparisonProductsPageContent({ initData }: { initData: MappedProductsR
 	} else {
 		return (
 			<p className="comparison__items__empty__label">
-				Добавляйте товары, которые вы бы хотели ссравнить с помощью <ComparisonIcon className="comparison__items__empty__label__icon" />
+				Добавляйте товары, которые вы бы хотели сравнить с помощью <ComparisonIcon className="comparison__items__empty__label__icon" />
 			</p>
 		);
 	}

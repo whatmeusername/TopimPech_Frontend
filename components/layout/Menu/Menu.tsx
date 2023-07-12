@@ -47,11 +47,15 @@ const MenuContent = memo((): JSX.Element => {
 
 MenuContent.displayName = 'MenuContent';
 
-export default function Menu({ mobile }: { mobile: boolean }) {
+export default function Menu({ mobile, isActive }: { mobile: boolean; isActive?: boolean }) {
 	return (
 		<>
 			<button
-				className={`menu__button ${mobile ? 'menu__button__mobile header__mobile__lower__link' : 'menu__button__mobile__desktop'}`}
+				className={`menu__button ${
+					mobile
+						? `menu__button__mobile header__mobile__lower__link ${isActive ? 'menu__button__mobile__acitve' : ''}`
+						: 'menu__button__mobile__desktop'
+				}`}
 				onClick={() => menuModalControl.toggle()}
 			>
 				<div className={`${mobile ? 'header__mobile__lower__icon__wrapper' : 'menu__button__mobile__desktop__icon__wrapper'}`}>
