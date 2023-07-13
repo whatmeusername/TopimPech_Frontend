@@ -106,7 +106,7 @@ export default function ProductSearch() {
 								</div>
 							) : null}
 							{(results.data ?? []).map((item) => {
-								return <SearchItemElement data={item} key={`search__field__item__${item.article}`} ToggleModal={Toggle} />;
+								return <SearchItemElement product={item} key={`search__field__item__${item.article}`} ToggleModal={Toggle} />;
 							})}
 						</div>
 					</div>

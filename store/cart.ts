@@ -104,10 +104,9 @@ class UserProductCart {
 		this.items = [];
 	}
 
+	@action
 	public hydrate(data: { article: string; count: number }[]): void {
-		runInAction(() => {
-			this.items = data;
-		});
+		this.items = data;
 	}
 
 	public has(article: string): boolean {

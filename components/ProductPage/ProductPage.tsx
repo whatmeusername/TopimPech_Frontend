@@ -10,7 +10,6 @@ import Gallery from './Gallery/gallery';
 import PriceElement from '../CatalogComponents/PriceElement.tsx/PriceElement';
 import { ParsedUrlQuery } from 'querystring';
 
-import { productHistory } from '../../store';
 import { HydrationComponent } from '../Shared/HydrationComponent/HydrationComponent';
 import { AttributesElement, ShortAttributesElement } from './AttributesElement/AttributesElement';
 
@@ -20,6 +19,7 @@ import AddToCartButton from '../CatalogComponents/AddToCartButton/AddToCartButto
 import { HistorySlider } from '../HistorySlider/HistorySlider';
 import { ComparisonButton } from '../CatalogComponents/ComparisonButton/ComparisonButton';
 import { FavouriteButton } from '../CatalogComponents/FavouriteButton/FavouriteButton';
+import { useProductHistory } from '../../context/MobxStoreContext/MobxStoreContext';
 
 interface ProductPageResponse {
 	data: ProductData;
@@ -27,17 +27,17 @@ interface ProductPageResponse {
 }
 
 function ProductPage({ productData, params }: { productData: ProductPageResponse; params: ParsedUrlQuery }): JSX.Element | null {
+	const productHistory = useProductHistory();
+	const product = productData.data;
+	const galleryItems = product.images.map((img, i) => {
+		return { id: i, path: img.path };
+	});
+
 	useEffect(() => {
 		if (productData && !(productData as any)?.status) {
 			productHistory.add(productData.data);
 		}
 	}, [params.article]);
-
-	const product = productData.data;
-
-	const galleryItems = product.images.map((img, i) => {
-		return { id: i, path: img.path };
-	});
 
 	return (
 		<div className="product__page__wrapper">
@@ -66,7 +66,7 @@ function ProductPage({ productData, params }: { productData: ProductPageResponse
 				</div>
 				<div className=" product__page__card product__page__upper__item product__page__main__info">
 					<h1 className="product__page__header">{product.name}</h1>
-					<PriceElement price={product.price} sale={product.sale} />
+					<PriceElement product={product} />
 					{product.manufacturer ? <ManufacturerElement ManufacturerData={product.manufacturer} /> : null}
 					<div className="product__page__options__wrapper">
 						<AddToCartButton article={product.article} />

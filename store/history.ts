@@ -1,46 +1,55 @@
-import { action, makeObservable, observable, autorun, toJS, extendObservable } from 'mobx';
-import { ProductData } from '../components/CatalogComponents/Cards/interface';
-
-interface HistorySliceItem {
-	name: string;
-	categories: ProductData['categories'];
-	image: string | null;
-	price: number;
-	sale: number;
-	article: string;
-}
+import { action, makeObservable, observable } from 'mobx';
+import { ProductData, ProductDataShort } from '../components/CatalogComponents/Cards/interface';
+import axios from 'axios';
 
 class ProductHistory {
-	@observable public items: HistorySliceItem[] = [];
+	@observable public items: ProductDataShort[] = [];
+	private isHydrated = false;
+	private limit = 16;
 
 	constructor() {
-		this.load();
 		makeObservable(this);
-		autorun(() => {
-			this.save();
-		});
 	}
 
-	public getWithExclude(article: string): HistorySliceItem[] {
+	private GetHistorySliceItem(product: ProductData): ProductDataShort {
+		return {
+			id: product.id,
+			slug: product.slug,
+			name: product.name,
+			categories: product.categories,
+			images: product.images,
+			price: product.price,
+			sale: product.sale,
+			article: product.article,
+		};
+	}
+
+	public getWithExclude(article: string): ProductDataShort[] {
 		return this.items.filter((i) => i.article !== article);
 	}
 
 	@action
 	public add(payload: ProductData): void {
+		if (!this.isHydrated) return;
+
 		const existIdx = this.items.findIndex((i) => i.article === payload.article);
 		if (existIdx === -1) {
-			const image = payload.images.length > 0 ? payload.images[0].path : null;
-			this.items.unshift({
-				name: payload.name,
-				categories: payload.categories,
-				image: image,
-				price: payload.price,
-				sale: payload.sale,
-				article: payload.article,
-			});
-			if (this.items.length > 18) {
-				this.items = this.items.slice(0, 16);
+			const data = this.GetHistorySliceItem(payload);
+			this.items.unshift(data);
+
+			if (this.items.length > this.limit) {
+				this.items = this.items.slice(0, this.limit);
 			}
+
+			console.log(JSON.parse(JSON.stringify([...this.items])));
+			axios({
+				url: '/api/session/update',
+				method: 'POST',
+				data: {
+					key: 'history',
+					items: JSON.parse(JSON.stringify([...this.items])),
+				},
+			});
 		} else {
 			const d = this.items[existIdx];
 			this.items.splice(existIdx, 1);
@@ -56,23 +65,11 @@ class ProductHistory {
 		}
 	}
 
-	private load(): void {
-		if (typeof window === 'undefined') return;
-
-		const data = localStorage.getItem('history');
-		if (data) {
-			extendObservable(this, JSON.parse(data));
-		}
-	}
-
-	private save(): void {
-		if (typeof window === 'undefined') return;
-
-		const json = JSON.stringify(toJS(this));
-		localStorage.setItem('history', json);
+	@action
+	public hydrate(payload: ProductDataShort[]) {
+		this.items = payload;
+		this.isHydrated = true;
 	}
 }
 
-const productHistory = new ProductHistory();
-export { productHistory, ProductHistory };
-export type { HistorySliceItem };
+export { ProductHistory };

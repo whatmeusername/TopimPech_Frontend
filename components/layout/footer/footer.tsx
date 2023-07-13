@@ -88,7 +88,13 @@ function ContactsColumn(): ReactElement {
 		<div className="footer__contacts__wrapper">
 			<div className="footer__contacts__content__wrapper footer__contacts__phone__wrapper">
 				<p className="footer__contacts__data__header">Контактный номер</p>
-				<p className="footer__contacts__data">{PhoneNumber.basePhoneNumber}</p>
+				{PhoneNumber.basePhoneNumber.map((phone, i) => {
+					return (
+						<p className="footer__contacts__data" key={`contacts__phone__${i}`}>
+							{phone}
+						</p>
+					);
+				})}
 			</div>
 			<div className="footer__contacts__content__wrapper">
 				<p className="footer__contacts__data__header">Электронная почта</p>

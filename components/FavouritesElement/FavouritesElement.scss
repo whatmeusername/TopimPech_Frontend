@@ -31,9 +31,6 @@
 		flex-direction: column;
 		align-items: center;
 
-		&.favourites__items__wrapper__empty{
-			align-items: start;
-		}
 	
 		.favourites__item {
 			height: 250px;
@@ -198,18 +195,6 @@
 			}
 		}
 
-		.favourites__items__empty__label{
-			color: var(--standard-color);
-			fill: var(--standard-color);
-			font-size: var(--fontX);
-
-			.favourites__items__empty__label__icon{
-				width:20px;
-				height: 20px;
-				position: relative;
-				top: 5px;
-			}
-		}
 
 	}
 }

@@ -46,12 +46,13 @@
 			display: block;
 			margin: auto;
 			border-radius: 4px;
+			height: auto;
 		}
 	}
 	.gallery__images__dots {
 		display: flex;
 		flex-direction: row;
-		margin-top: 25px;
+		margin-top: 5px;
 		justify-content: center;
 		text-align: center;
 		.image__dot {

@@ -90,7 +90,7 @@ const CartItemElementDesktop = observer(({ productData, cartItem }: { productDat
 			</div>
 			<div className="cart__item__quanity__block">
 				<div className="cart__item__price__wrapper">
-					<PriceElement price={productData.price} sale={productData.sale} quantity={cartItem.count} />
+					<PriceElement product={productData} quantity={cartItem.count} />
 				</div>
 				<CartQuanityElement productData={productData} />
 			</div>
@@ -115,7 +115,7 @@ const CartItemElementMobile = observer(({ productData, cartItem }: { productData
 				<div className="cart__item__main__info">
 					<Link href={`/product/${productData.article}`} className="cart__item__link">
 						<p className="cart__item__link__label">{productData.name}</p>
-						<PriceElement price={productData.price} sale={productData.sale} quantity={cartItem.count} />
+						<PriceElement product={productData} quantity={cartItem.count} />
 					</Link>
 
 					<div className="cart__item__options">

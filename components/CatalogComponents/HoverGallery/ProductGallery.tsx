@@ -6,7 +6,17 @@ import { ProductImage } from '../Cards/interface';
 import Image from 'next/image';
 import { useMobile } from '../../../context/MobileContext/MobileContext';
 
-const ProductImageGallery = ({ images, urlStartsWith, alt }: { images: ProductImage[]; urlStartsWith?: string; alt?: string }): JSX.Element => {
+const ProductImageGallery = ({
+	images,
+	urlStartsWith,
+	alt,
+	size,
+}: {
+	images: ProductImage[];
+	urlStartsWith?: string;
+	alt?: string;
+	size?: number;
+}): JSX.Element => {
 	const refImages = useRef<ProductImage[]>(images);
 	const [selectedImage, setSelectedImage] = useState<number>(0);
 
@@ -40,8 +50,8 @@ const ProductImageGallery = ({ images, urlStartsWith, alt }: { images: ProductIm
 					src={(urlStartsWith ?? '') + refImages.current[selectedImage]?.path}
 					alt={alt ?? ''}
 					loading="lazy"
-					width={400}
-					height={400}
+					width={size ?? 400}
+					height={size ?? 400}
 					style={{ objectFit: 'contain', maxInlineSize: '100%' }}
 				/>
 			</div>

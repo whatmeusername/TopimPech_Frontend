@@ -17,12 +17,13 @@ import ProductSearch from '../searchfield/SearchFieldDesktop/SearchField';
 import { SearchMobile } from '../searchfield/SearchFieldMobile/SearchFieldMobile';
 import { headerSticky } from '../../../store/HeaderSticky';
 import { useGlobalContext } from '../../../context/GlobalContext/GlobalContext';
+import axios from 'axios';
 
 const HeaderLogo = (): JSX.Element => {
 	return (
 		<Link href="/">
 			<div className="logo__wrapper">
-				<Image src={SiteLogo} className="logo__main" alt="логотип сайта TopimPech.ru" priority={true}></Image>
+				<Image src={SiteLogo} className="logo__main" alt="логотип сайта TopimPech.ru" priority={true} />
 			</div>
 		</Link>
 	);
@@ -119,11 +120,20 @@ const HeaderDesktop = observer((): ReactElement => {
 	const observePoint = useRef<HTMLDivElement>(null!);
 
 	useEffect(() => {
+		axios({
+			method: 'GET',
+			url: '/api/products/session/recomendation',
+		}).then((res) => {
+			console.log(res);
+		});
+	}, []);
+
+	useEffect(() => {
 		const observer = new IntersectionObserver(
 			([e]) => {
 				headerRef.current?.classList?.toggle('header__sticky__enabled', e.intersectionRatio === 0);
 			},
-			{ threshold: 0.1, rootMargin: '50px' },
+			{ threshold: 0.1 },
 		);
 		if (headerSticky.toggled) {
 			observer.observe(observePoint.current);
@@ -153,7 +163,15 @@ const HeaderDesktop = observer((): ReactElement => {
 								Контакты
 							</Link>
 						</div>
-						<p className="header__info__contact__phone">{globalContext.basePhoneNumber}</p>
+						<div className="header__info__contact__phone__wrapper">
+							{globalContext.basePhoneNumber.map((phone, i) => {
+								return (
+									<p className="header__info__contact__phone" key={`contact__phone__${i}`}>
+										{phone}
+									</p>
+								);
+							})}
+						</div>
 					</div>
 					<div className="header__main">
 						<header className="header">

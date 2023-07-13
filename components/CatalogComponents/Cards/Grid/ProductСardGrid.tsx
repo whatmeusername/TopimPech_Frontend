@@ -19,7 +19,7 @@ export default function ProductCardGrid({ product, fadeIn }: { product: ProductD
 					<ProductImageGallery images={product.images} urlStartsWith={'/api'} alt={product.name} />
 					<ProductPreviewBTN setToggle={setToggle} />
 				</div>
-				<PriceElement price={product.price} sale={product.sale} />
+				<PriceElement product={product} />
 				<div className="product__card__name__wrapper">
 					<span className="product__card__name">{product.name}</span>
 				</div>

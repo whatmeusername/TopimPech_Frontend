@@ -27,6 +27,11 @@
 		box-shadow: 12px 0 32px rgba(77, 77, 77, 0.2);
 		.header__info{
 			max-height: 0px;
+			height: 0;
+			transition: none;
+		}
+		~ .width__limiter{
+			margin-top: 100px;
 		}
 	}
 
@@ -44,7 +49,7 @@
 		font-family: var(--museo_cyrl);
 		
 
-		transition: max-height 0.5s ease;
+		transition: max-height 0.6s ease;
 		
 		.header__info__content{
 			display: flex;
@@ -58,8 +63,12 @@
 				}
 			}
 		}
-		.header__info__contact__phone{
-			margin: 0;
+		.header__info__contact__phone__wrapper{
+			display: flex;
+			gap: 10px;
+			.header__info__contact__phone{
+				margin: 0;
+			}
 		}
 	}
 

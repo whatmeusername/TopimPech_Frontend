@@ -1,21 +1,22 @@
 import Link from 'next/link';
 
-import { HistorySliceItem } from '../../../store';
 import PriceElement from '../../CatalogComponents/PriceElement.tsx/PriceElement';
-import { ProductData } from '../../CatalogComponents/Cards/interface';
+import { ProductData, ProductDataShort } from '../../CatalogComponents/Cards/interface';
 import Slider from '../../Shared/Slider';
 import './ProductSlider.scss';
+import { ReactElement } from 'react';
 
-const ProductSliderItem = ({ data, URLStartWith }: { data: HistorySliceItem | ProductData; URLStartWith?: string }): JSX.Element => {
-	const image = Array.isArray((data as ProductData).images) ? (data as any).images[0]?.path : (data as any).image;
+const ProductSliderItem = ({ product, URLStartWith }: { product: ProductData | ProductDataShort; URLStartWith?: string }): ReactElement | null => {
+	if (!product) return null;
+	const image = product.images[0].path;
 	return (
-		<Link href={`/product/${data.article}`} className="product_slider__item">
+		<Link href={`/product/${product.article}`} className="product_slider__item">
 			<div className="product_slider__item__image__wrapper">
-				<img src={(URLStartWith ?? '') + image} alt={data.name} className="product_slider__item__image" />
+				<img src={(URLStartWith ?? '') + image} alt={product.name} className="product_slider__item__image" />
 			</div>
 			<div className="product_slider__item__info">
-				<PriceElement price={data.price} sale={data.sale} />
-				<span className="product_slider__item__label">{data.name}</span>
+				<PriceElement product={product} />
+				<span className="product_slider__item__label">{product.name}</span>
 			</div>
 		</Link>
 	);
@@ -26,7 +27,7 @@ const ProductSlider = ({
 	URLStartWith,
 	onClick,
 }: {
-	items: HistorySliceItem[] | ProductData[];
+	items: ProductDataShort[] | ProductData[];
 	URLStartWith?: string;
 	onClick?: (...args: any[]) => void;
 }): JSX.Element => {
@@ -36,7 +37,7 @@ const ProductSlider = ({
 				{items.map((item) => {
 					return (
 						<Slider.Item key={`product_slider__item__${item.article}`} className="product_slider__item__wrapper" onClick={onClick}>
-							<ProductSliderItem data={item} URLStartWith={URLStartWith} />
+							<ProductSliderItem product={item} URLStartWith={URLStartWith} />
 						</Slider.Item>
 					);
 				})}

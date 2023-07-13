@@ -28,8 +28,6 @@
 					display: grid;
 					grid-template-columns: repeat(12, 1fr);
 					justify-items: center;
-					flex-direction: row;
-					flex-wrap: wrap;
 
 					@media (max-width: 1024px) {
 						display: grid;
@@ -38,6 +36,9 @@
 
 					@media(max-width: 648px) {
 						display: flex;
+						flex-direction: column;
+						align-items:center;
+						flex-wrap: wrap;
 
 					}
 
@@ -50,7 +51,7 @@
 				&.display__column {
 					display: flex;
 					flex-direction: column;
-					padding-left: 15px;
+
 				}
 			}
 			.filter__show__all{

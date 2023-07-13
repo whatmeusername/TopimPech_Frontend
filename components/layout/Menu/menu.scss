@@ -141,20 +141,28 @@
 								&:hover {
 									color: var(--orange-color);
 								}
+								.sub__categories__column__item__count{
+									color: var(--gray-color);
+									font-size: var(--fontS);
+									border: 1px solid var(--grey-color);
+									border-radius: 4px;
+									padding: 0 10px;
+									margin: 0 10px;
+								}
 							}
 							.sub__categories__column__sub__wrapper {
 								margin-top: 10px;
 								display: flex;
 								flex-direction: column;
+								gap: 10px;
 
 								.sub__categories__column__item__sub {
-									margin-bottom: 10px;
 									color: var(--standard-color);
 									text-decoration: none;
 									font-size: var(--fontL);
-									font-weight: 400;
-									font-family: 'Arial';
-									transition: color 0.1s ease-in-out;
+									font-weight: 300;
+									font-family: var(--museo_cyrl);
+									transition: color 0.25s ease;
 									text-transform: capitalize;
 									&:hover {
 										color: var(--orange-color);

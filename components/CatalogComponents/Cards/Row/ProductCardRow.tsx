@@ -49,7 +49,7 @@ function ProductCardRow({ product, fadeIn }: { product: ProductData; fadeIn?: bo
 					</div>
 				</Link>
 				<div className="product__card__functions__wrapper">
-					<PriceElement price={product.price} sale={product.sale} />
+					<PriceElement product={product} />
 					<AddToCartButton article={product.article} />
 					<ProductCardOptions productData={product} />
 				</div>

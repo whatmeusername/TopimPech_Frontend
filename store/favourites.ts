@@ -1,19 +1,9 @@
 import { action, makeObservable, observable, runInAction } from 'mobx';
-import { ProductData } from '../components/CatalogComponents/Cards/interface';
+import { ProductData, ProductDataShort } from '../components/CatalogComponents/Cards/interface';
 import axios from 'axios';
 
-interface FavouritesItem {
-	id: number;
-	name: string;
-	categories: ProductData['categories'];
-	images: ProductData['images'];
-	price: number;
-	sale: number;
-	article: string;
-}
-
 class FavouritesProducts {
-	@observable public items: FavouritesItem[] = [];
+	@observable public items: ProductDataShort[] = [];
 
 	constructor() {
 		makeObservable(this);
@@ -23,7 +13,7 @@ class FavouritesProducts {
 		return this.items.length;
 	}
 
-	private parseProductData(payload: ProductData | FavouritesItem): FavouritesItem {
+	private parseProductData(payload: ProductData | ProductDataShort): ProductDataShort {
 		return {
 			id: payload.id,
 			name: payload.name,
@@ -32,11 +22,12 @@ class FavouritesProducts {
 			price: payload.price,
 			sale: payload.sale,
 			article: payload.article,
+			slug: payload.slug,
 		};
 	}
 
 	@action
-	public add(payload: ProductData | FavouritesItem): void {
+	public add(payload: ProductData | ProductDataShort): void {
 		const existIdx = this.items.findIndex((i) => i.article === payload.article);
 		if (existIdx === -1) {
 			axios({
@@ -57,7 +48,7 @@ class FavouritesProducts {
 	}
 
 	@action
-	public remove(payload: ProductData | FavouritesItem): void {
+	public remove(payload: ProductData | ProductDataShort): void {
 		const existIdx = this.items.findIndex((i) => i.article === payload.article);
 		if (existIdx !== -1) {
 			const data = JSON.parse(JSON.stringify([...this.items]));
@@ -79,10 +70,9 @@ class FavouritesProducts {
 		}
 	}
 
-	public hydrate(data: FavouritesItem[]): void {
-		runInAction(() => {
-			this.items = data;
-		});
+	@action
+	public hydrate(data: ProductDataShort[]): void {
+		this.items = data;
 	}
 
 	public has(article: string): boolean {
@@ -91,4 +81,3 @@ class FavouritesProducts {
 }
 
 export { FavouritesProducts };
-export type { FavouritesItem };

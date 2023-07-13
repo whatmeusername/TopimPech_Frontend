@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { observable, makeObservable, action, runInAction } from 'mobx';
-import { ProductData } from '../components/CatalogComponents/Cards/interface';
-import { FavouritesItem } from './favourites';
+import { ProductData, ProductDataShort } from '../components/CatalogComponents/Cards/interface';
 
 class ComparisonStore {
 	@observable public productsArticles: string[] = [];
@@ -11,7 +10,7 @@ class ComparisonStore {
 	}
 
 	@action
-	public add(payload: string | ProductData | FavouritesItem) {
+	public add(payload: string | ProductData | ProductDataShort) {
 		const payloadArticle = typeof payload === 'string' ? payload : payload.article;
 		const existing = this.productsArticles.find((article) => article === payloadArticle);
 		if (!existing) {
@@ -33,7 +32,7 @@ class ComparisonStore {
 	}
 
 	@action
-	public remove(payload: string | ProductData | FavouritesItem) {
+	public remove(payload: string | ProductData | ProductDataShort) {
 		const payloadArticle = typeof payload === 'string' ? payload : payload.article;
 		const existingIndex = this.productsArticles.findIndex((id) => id === payloadArticle);
 		if (existingIndex !== -1) {
@@ -55,11 +54,9 @@ class ComparisonStore {
 			});
 		}
 	}
-
+	@action
 	public hydrate(data: string[]): void {
-		runInAction(() => {
-			this.productsArticles = data;
-		});
+		this.productsArticles = data;
 	}
 
 	public getCount(): number {

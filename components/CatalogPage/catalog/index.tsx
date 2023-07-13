@@ -17,10 +17,11 @@ import FacetFilter from '../Filter/Filter';
 import { CatalogHeader, CatalogHeaderSearch } from '../CatalogHead/CatalogHeader';
 import { SearchParamsBuilder } from '../../../utils/SearchParamsBuilder';
 import { CatalogHead } from '../CatalogHead/CatalogHead';
-import { productHistory } from '../../../store';
 import { HistorySlider } from '../../HistorySlider/HistorySlider';
 import { HydrationComponent } from '../../ProductPage/ProductPage';
 import { ThinBreakLine } from '../../Shared/Lines/ThinBreakLine/ThinBreakLine';
+import { RecomendationElement } from '../../RecomendationElement/RecomendationElement';
+import { useProductHistory } from '../../../context/MobxStoreContext/MobxStoreContext';
 
 export interface FetchURLData {
 	params: { [K: string]: string };
@@ -56,6 +57,19 @@ const getFetchURL = (router: FetchURLData): [string, string] => {
 	return SearchParamsBuilder(url, router.query, 'page', 'items_per_page', 'order', 'filter');
 };
 
+function HistoryComponent() {
+	const productHistory = useProductHistory();
+	if (productHistory.items.length === 0) return null;
+	return (
+		<>
+			<ThinBreakLine />
+			<div className="catalog__page__card catalog__page__history">
+				<h2 className="catalog__page__history__header">Вы смотрели ранее</h2>
+				<HistorySlider />
+			</div>
+		</>
+	);
+}
 export default function Catalog({ initData }: { initData: initData }): ReactElement {
 	return (
 		<div className="catalog__page__wrapper">
@@ -76,16 +90,9 @@ export default function Catalog({ initData }: { initData: initData }): ReactElem
 
 			<div className="catalog__footer">
 				<HydrationComponent>
-					{productHistory.items.length > 0 ? (
-						<>
-							<ThinBreakLine />
-							<div className="catalog__page__card catalog__page__history">
-								<p className="catalog__page__history__header">Вы смотрели</p>
-								<HistorySlider />
-							</div>
-						</>
-					) : null}
+					<HistoryComponent />
 				</HydrationComponent>
+				<RecomendationElement limit={12} />
 			</div>
 		</div>
 	);

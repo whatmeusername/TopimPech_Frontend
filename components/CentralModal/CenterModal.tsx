@@ -58,22 +58,25 @@ function ModalFooterWrapper({
 	return <div className={`modal__footer ${className ?? ''} ${isFixed ? 'modal__footer__fixed' : ''}`}>{children}</div>;
 }
 
-const ModalWrapper = observer(({ children, id, toggle }: { children?: ReactElement | ReactElement[]; id: string; toggle?: any }): ReactElement => {
-	return createPortal(
-		<div className={`center__modal__wrapper ${centerModalControl.getModal(id) ? 'center__modal__wrapper__active' : ''}`} id="center__modal">
-			<div
-				className="center__modal__hidder"
-				onClick={() => {
-					centerModalControl.toggle(id);
-					if (toggle) toggle();
-				}}
-			/>
-			<div className="center__modal__content__wrapper">
-				<ModalContext.Provider value={{ id: id, toggle: toggle }}>{children}</ModalContext.Provider>
-			</div>
-		</div>,
-		document.body,
-	);
-});
+const ModalWrapper = observer(
+	({ children, id, toggle }: { children?: ReactElement | ReactElement[]; id: string; toggle?: any }): ReactElement | null => {
+		if (!document) return null;
+		return createPortal(
+			<div className={`center__modal__wrapper ${centerModalControl.getModal(id) ? 'center__modal__wrapper__active' : ''}`} id="center__modal">
+				<div
+					className="center__modal__hidder"
+					onClick={() => {
+						centerModalControl.toggle(id);
+						if (toggle) toggle();
+					}}
+				/>
+				<div className="center__modal__content__wrapper">
+					<ModalContext.Provider value={{ id: id, toggle: toggle }}>{children}</ModalContext.Provider>
+				</div>
+			</div>,
+			document.body,
+		);
+	},
+);
 
 export { ModalWrapper, ModalHead, ModalContentWrapper, ModalFooterWrapper };

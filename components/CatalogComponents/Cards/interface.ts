@@ -26,10 +26,21 @@ interface Property {
 	key: FeatureKey;
 }
 
-interface MappedProductsResponse {
+interface MappedProductsResponse<IS_SHORT extends boolean = false> {
 	count: number;
-	data: ProductData[];
+	data: IS_SHORT extends true ? ProductDataShort[] : ProductData[];
 	total: number;
+}
+
+interface ProductDataShort {
+	id: number;
+	slug: string;
+	name: string;
+	categories: ProductData['categories'];
+	images: ProductData['images'];
+	price: number;
+	sale: number;
+	article: string;
 }
 
 interface ProductData {
@@ -47,4 +58,4 @@ interface ProductData {
 	description?: string;
 }
 
-export type { MappedProductsResponse, ProductData, Property, FeatureKey, ProductImage, ProductBaseData };
+export type { MappedProductsResponse, ProductData, Property, FeatureKey, ProductImage, ProductBaseData, ProductDataShort };

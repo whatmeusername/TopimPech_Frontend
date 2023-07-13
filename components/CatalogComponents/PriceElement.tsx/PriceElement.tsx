@@ -1,8 +1,12 @@
+import { ProductData, ProductDataShort } from '../Cards/interface';
+
 const CalculateSale = (price: number, amount: number): number => {
 	return price - (price * amount) / 100;
 };
 
-const PriceElement = ({ price, sale = 0, quantity = 1 }: { price: number; sale: number; quantity?: number }) => {
+const PriceElement = ({ product, quantity = 1 }: { product: ProductData | ProductDataShort; quantity?: number }) => {
+	const price = product.price;
+	const sale = product.sale;
 	let PriceTag = sale > 0 ? Number(CalculateSale(price, sale).toFixed(0)) : price;
 	PriceTag = quantity > 0 ? PriceTag * quantity : PriceTag;
 	return (

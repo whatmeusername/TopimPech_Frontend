@@ -22,6 +22,7 @@ import { Metadata } from 'next/types';
 const PROXY_URL = process.env.PROXY_URL;
 const PROXY_URL_SLICED = PROXY_URL ? PROXY_URL.slice(0, PROXY_URL.length - 1) : '';
 const BASE_PHONE = '+7 (916) 926-96-66';
+const SECOND_PHONE = '+7 (915) 018-27-74';
 const DOMAIN_NAME = 'TopimPech.ru';
 const DOMAIN_NAME_LOCALE = 'ТопимПечь.ру';
 const FULL_DOMAIN = `https://${DOMAIN_NAME}`;
@@ -54,13 +55,11 @@ interface ServerSideURLProps {
 	searchParams: { [K: string]: string };
 }
 
-async function getSessionData(): Promise<UserSession> {
+async function getSessionData(): Promise<UserSession | undefined> {
 	const UserUID = cookies().get('UID_TOKEN');
-	let userSessionFetch;
 	if (UserUID) {
-		userSessionFetch = getData(`${PROXY_URL}session/get`, { headers: { Cookie: cookies().toString() } });
+		return getData(`${PROXY_URL}session/get`, { headers: { Cookie: cookies().toString() } });
 	}
-	return userSessionFetch;
 }
 
 function GetCatalogView(): CatalogView {
@@ -78,8 +77,13 @@ export const metadata: Metadata = {
 
 async function RootLayout({ children }: { children: ReactElement }) {
 	const categoriesFetch = getData(`${PROXY_URL}products/categories/`, { next: { revalidate: 3600 } });
+	const recomendationFetch = getData(`${PROXY_URL}products/session/recomendation/`, {
+		next: { revalidate: 120 },
+		headers: { Cookie: cookies().toString() },
+	});
 	const userAgentString = headers().get('user-agent') ?? '';
-	const [categoriesData, userSession] = await Promise.all([categoriesFetch, getSessionData()]);
+
+	const [categoriesData, userSession, recomendationData] = await Promise.all([categoriesFetch, getSessionData(), recomendationFetch]);
 
 	return (
 		<html lang="en">
@@ -88,7 +92,12 @@ async function RootLayout({ children }: { children: ReactElement }) {
 				<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 			</head>
 			<body>
-				<GlobalContext productCount={categoriesData.totalProducts} view={GetCatalogView()} basePhoneNumber={BASE_PHONE}>
+				<GlobalContext
+					productCount={categoriesData.totalProducts}
+					view={GetCatalogView()}
+					basePhoneNumber={[BASE_PHONE, SECOND_PHONE]}
+					recomendation={recomendationData}
+				>
 					<MobileContext userAgentString={userAgentString}>
 						<CategoriesContext initialCategories={categoriesData.categories}>
 							<BreadcrumbContext>

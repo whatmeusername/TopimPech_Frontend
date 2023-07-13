@@ -60,10 +60,10 @@ function SearchModal({ modalId }: { modalId: string }): ReactElement {
 					/>
 				</ModalHead>
 				<div className="modal__search__modal__results">
-					{([...results.data, ...results.data] ?? []).map((item, i) => {
+					{(results.data ?? []).map((item, i) => {
 						return (
 							<SearchItemElement
-								data={item}
+								product={item}
 								key={`search__field__item__${item.article + i}`}
 								ToggleModal={() => centerModalControl.toggle(modalId)}
 							/>

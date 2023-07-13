@@ -29,8 +29,7 @@ async function CatalogPage(context: ServerSideURLProps) {
 
 export async function generateMetadata({ params }: ServerSideURLProps): Promise<Metadata> {
 	const productsData: ProductAPIResponse = await getData(`${PROXY_URL}products/filter/${params.category}`, {
-		cache: 'force-cache',
-		next: { revalidate: 60 },
+		next: { revalidate: 3600 },
 	});
 
 	const product = productsData.products?.[0];
@@ -68,9 +67,9 @@ export async function catalogGetServerSideProps({ params, searchParams }: Server
 	try {
 		[productsData, filtersData] = await Promise.all([
 			getData(productFetchURL, {
-				cache: 'no-cache',
+				next: { revalidate: 3600 },
 			}),
-			getData(filterFetchURL, { cache: 'no-cache' }),
+			getData(filterFetchURL, { next: { revalidate: 3600 } }),
 		]);
 	} catch (err: unknown) {
 		productsData = {

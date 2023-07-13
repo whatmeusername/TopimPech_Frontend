@@ -9,6 +9,7 @@ import './ComparisonProductsPage.scss';
 import { ComparisonIcon } from '../IconsElements';
 import axios from 'axios';
 import { LoadingBar } from '../Shared/LoadingBar/LoadingBar';
+import { OptionEmptyPage } from '../Shared/OptionEmptyPage/OptionEmptyPage';
 
 function ComparisonProductsPageContent({ initData }: { initData: MappedProductsResponse | null }): ReactElement {
 	if (!initData) {
@@ -18,11 +19,7 @@ function ComparisonProductsPageContent({ initData }: { initData: MappedProductsR
 			<ComparisonProducts config={{ data: initData.data, enableCategoryFilter: true, URLstart: '/api', cards: { show: true, isSticky: true } }} />
 		);
 	} else {
-		return (
-			<p className="comparison__items__empty__label">
-				Добавляйте товары, которые вы бы хотели сравнить с помощью <ComparisonIcon className="comparison__items__empty__label__icon" />
-			</p>
-		);
+		return <OptionEmptyPage page={'comparison'} />;
 	}
 }
 function ComparisonProductsPage(): ReactElement {

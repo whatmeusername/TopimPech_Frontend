@@ -4,6 +4,7 @@ import './GalleryDesktop.scss';
 
 const GalleryDesktop = ({ items, urlStartsWith, ration }: { items: GalleryItem[]; urlStartsWith?: string; ration?: number }): JSX.Element => {
 	const [current, setCurrent] = useState<number>(items[0].id);
+	const [allowZoom, setAllowZoom] = useState<boolean>(false);
 
 	const imageWrapper = useRef<HTMLDivElement>(null!);
 	const imageBar = useRef<HTMLDivElement>(null!);
@@ -24,6 +25,7 @@ const GalleryDesktop = ({ items, urlStartsWith, ration }: { items: GalleryItem[]
 			imageElement.current.style.maxWidth = 'auto';
 			imageElement.current.style.maxHeight = 'auto';
 		}
+		setAllowZoom(imageElement.current.naturalHeight >= 400 && imageElement.current.naturalWidth >= 400);
 	};
 
 	useEffect(() => {
@@ -116,9 +118,14 @@ const GalleryDesktop = ({ items, urlStartsWith, ration }: { items: GalleryItem[]
 			</div>
 			<div className="gallery__current__img__holder__wrapper">
 				<div className="gallery__current__img__holder" ref={imageWrapper}>
-					<div className="gallery__current__img__wrapper" onMouseMove={onHover} onMouseEnter={onEnter} onMouseLeave={onHoverLeave}>
+					<div
+						className="gallery__current__img__wrapper"
+						onMouseMove={allowZoom ? onHover : undefined}
+						onMouseEnter={allowZoom ? onEnter : undefined}
+						onMouseLeave={allowZoom ? onHoverLeave : undefined}
+					>
 						<img src={activeImagePath} alt={activeImagePath} className="gallery__current__img" ref={imageElement} style={{ display: 'none' }} />
-						<div ref={zoomPointer} className="gallery__current__zoom__cursor" />
+						{allowZoom ? <div ref={zoomPointer} className="gallery__current__zoom__cursor" /> : null}
 					</div>
 					<div className="gallery__current__img__zoom" style={{ background: `url(${activeImagePath})` }} ref={zoomImage} />
 				</div>

@@ -62,7 +62,7 @@ function ComparisonProductsCardBig({ product, config }: { product: ProductData; 
 				</div>
 				<p className="comparison__products__header">{product.name}</p>
 			</Link>
-			<PriceElement price={product.price} sale={10} />
+			<PriceElement product={product} />
 			<AddToCartButton article={product.article} />
 		</div>
 	);

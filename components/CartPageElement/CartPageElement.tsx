@@ -18,6 +18,8 @@ import InputMask from 'react-input-mask';
 import { Column, Section, Row, Img, Container, Text, Hr, Heading, Link as ELink } from '@react-email/components';
 import { useMobile } from '../../context/MobileContext/MobileContext';
 import { LoadingBar } from '../Shared/LoadingBar/LoadingBar';
+import { CartFilledIcon } from '../IconsElements';
+import { OptionEmptyPage } from '../Shared/OptionEmptyPage/OptionEmptyPage';
 
 interface MappedProductsResponseCart extends MappedProductsResponse {
 	cart: null | CartItem[];
@@ -102,7 +104,7 @@ function UserAggrementElement({
 				/>
 				<label htmlFor={'user__aggremenet'} className="custom__checkbox__label order__element__user__aggrement__label">
 					- Я ознакомлен и согласен с{' '}
-					<Link href={'/'} className="custom__checkbox__label__link order__element__user__aggrement__link">
+					<Link href={'/'} className="custom__checkbox__label__link order__element__user__aggrement__link" prefetch={false}>
 						политикой конфиденциальности
 					</Link>
 				</label>
@@ -124,6 +126,7 @@ interface OrderFormState {
 	address: OrderFormStateItem;
 	mail: OrderFormStateItem;
 	aggrement: boolean;
+	message: string;
 }
 
 const FIELD_CANT_BE_EMPTY = 'Данное поле не должно быть пустым';
@@ -195,6 +198,7 @@ function OrderElementForm(): ReactElement {
 			},
 		},
 		aggrement: true,
+		message: '',
 	});
 
 	function Submit() {
@@ -257,7 +261,17 @@ function OrderElementForm(): ReactElement {
 					<input type="text" className="order__element__form__item__input" onChange={(e) => onChange(e, 'name', inputState, setInputState)} />
 					{!inputState.mail.passed ? <p className="order__element__form__item__info">{inputState.mail.errorLabel}</p> : null}
 				</div>
+				<div className="order__element__form__item__wrapper order__element__form__item__wrapper__message">
+					<div className="order__element__form__item__label__wrappper">
+						<p className="order__element__form__item__label">Комментарий к заказу</p>
+					</div>
+					<textarea className="order__element__form__item__input" onChange={(e) => setInputState({ ...inputState, message: e.target.value })} />
+				</div>
 				<UserAggrementElement inputState={inputState} setInputState={setInputState} />
+				<p className="order__element__info">
+					После оформления заказа вы получите всю информацию о заказе на электронную почту указанную вам, мы свяжемся с вами для подтверждения заказа
+					и уточнения деталей
+				</p>
 				<button className={`order__element__send ${!inputState.aggrement ? 'order__element__send__wrong' : ''}`} type="submit">
 					{inputState.aggrement ? 'Оформить заказ' : 'вы должны быть ознакомлены с политикой конфиденциальности '}
 				</button>
@@ -441,7 +455,7 @@ function CartPageElement() {
 				<h1 className="cart__head__header cart__page__block__header">Корзина</h1>
 			</div>
 			{userCart.isEmpty() ? (
-				<LoadingBar label={'Ищем товары из вашей корзины'} usePrimaryColor={true} />
+				<OptionEmptyPage page={'cart'} />
 			) : !isLoading.current ? (
 				<LoadingBar label={'Ищем товары из вашей корзины'} usePrimaryColor={true} />
 			) : cartProducts && cartProducts.cart ? (
