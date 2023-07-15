@@ -5,25 +5,22 @@ import './header.scss';
 
 import Menu from '../Menu/Menu';
 
-import SiteLogo from '../../../public/logo/SiteLogo.png';
-
 import { ReactElement, useEffect, useRef } from 'react';
 import { observer } from 'mobx-react-lite';
 
 import { useComparinsonProducts, useFavouritesProducts, useUserProductCart } from '../../../context/MobxStoreContext/MobxStoreContext';
-import { CartIcon, ComparisonIcon, HeartNotFilledIcon, HomeIcon } from '../../IconsElements';
+import { CartIcon, ComparisonIcon, HeartNotFilledIcon, HomeIcon, SiteLogo } from '../../IconsElements';
 import { usePathname } from 'next/navigation';
 import ProductSearch from '../searchfield/SearchFieldDesktop/SearchField';
 import { SearchMobile } from '../searchfield/SearchFieldMobile/SearchFieldMobile';
 import { headerSticky } from '../../../store/HeaderSticky';
 import { useGlobalContext } from '../../../context/GlobalContext/GlobalContext';
-import axios from 'axios';
 
 const HeaderLogo = (): JSX.Element => {
 	return (
 		<Link href="/">
 			<div className="logo__wrapper">
-				<Image src={SiteLogo} className="logo__main" alt="логотип сайта TopimPech.ru" priority={true} />
+				<SiteLogo className="logo__main" />
 			</div>
 		</Link>
 	);
@@ -76,7 +73,7 @@ function HeaderMobile(): ReactElement {
 			<div className="header__mobile__upper">
 				<div className="header__mobile__upper__content">
 					<Link href="/">
-						<Image src={SiteLogo} className="header__mobile__upper__logo" alt="логотип сайта TopimPech.ru" priority={false} />
+						<SiteLogo className="header__mobile__upper__logo" />
 					</Link>
 					<SearchMobile />
 				</div>
@@ -118,15 +115,6 @@ const HeaderDesktop = observer((): ReactElement => {
 	const globalContext = useGlobalContext();
 	const headerRef = useRef<HTMLDivElement>(null!);
 	const observePoint = useRef<HTMLDivElement>(null!);
-
-	useEffect(() => {
-		axios({
-			method: 'GET',
-			url: '/api/products/session/recomendation',
-		}).then((res) => {
-			console.log(res);
-		});
-	}, []);
 
 	useEffect(() => {
 		const observer = new IntersectionObserver(

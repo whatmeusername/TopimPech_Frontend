@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { GalleryItem } from '../interface';
 import './GalleryDesktop.scss';
+import { NO_IMAGE_SRC } from '../../../const';
 
 const GalleryDesktop = ({ items, urlStartsWith, ration }: { items: GalleryItem[]; urlStartsWith?: string; ration?: number }): JSX.Element => {
 	const [current, setCurrent] = useState<number>(items[0].id);
@@ -14,7 +15,11 @@ const GalleryDesktop = ({ items, urlStartsWith, ration }: { items: GalleryItem[]
 	const zoomPointer = useRef<HTMLDivElement>(null!);
 	const imageElement = useRef<HTMLImageElement>(null!);
 
-	const Ration = !ration ? 2.5 : ration;
+	const Ration = ration ? ration : 2.5;
+	const activeImagePath = `${urlStartsWith ?? ''}${items.find((i) => i.id === current)?.path ?? ''}`;
+
+	let rect: DOMRect = null!;
+	const sideTop = useRef<number>(0);
 
 	const OnLoad = () => {
 		imageElement.current.style.display = 'unset';
@@ -25,15 +30,12 @@ const GalleryDesktop = ({ items, urlStartsWith, ration }: { items: GalleryItem[]
 			imageElement.current.style.maxWidth = 'auto';
 			imageElement.current.style.maxHeight = 'auto';
 		}
-		setAllowZoom(imageElement.current.naturalHeight >= 400 && imageElement.current.naturalWidth >= 400);
+		setAllowZoom(imageElement.current.naturalHeight >= 400 && imageElement.current.naturalWidth >= 400 && items.length > 1);
 	};
 
 	useEffect(() => {
 		OnLoad();
 	}, [current]);
-
-	let rect: DOMRect = null!;
-	const sideTop = useRef<number>(0);
 
 	const setActiveImage = (id: number): void => {
 		setCurrent(id);
@@ -92,8 +94,6 @@ const GalleryDesktop = ({ items, urlStartsWith, ration }: { items: GalleryItem[]
 		zoomPointer.current.classList.remove('image__zoom__active');
 	};
 
-	const activeImagePath = `${urlStartsWith ?? ''}${items.find((i) => i.id === current)?.path ?? ''}`;
-
 	return (
 		<>
 			<div className="gallery__available__items__wrapper" ref={imageBar}>
@@ -109,7 +109,12 @@ const GalleryDesktop = ({ items, urlStartsWith, ration }: { items: GalleryItem[]
 									onClick={() => setActiveImage(item.id)}
 									data-image-id={item.id}
 								>
-									<img src={(urlStartsWith ?? '') + item.path} alt={item.path} className="gallery__available__item__image" />
+									<img
+										src={(urlStartsWith ?? '') + item.path}
+										alt={item.path}
+										className="gallery__available__item__image"
+										onError={(e) => ((e.target as HTMLImageElement).src = NO_IMAGE_SRC)}
+									/>
 								</div>
 							);
 						})}
@@ -124,7 +129,14 @@ const GalleryDesktop = ({ items, urlStartsWith, ration }: { items: GalleryItem[]
 						onMouseEnter={allowZoom ? onEnter : undefined}
 						onMouseLeave={allowZoom ? onHoverLeave : undefined}
 					>
-						<img src={activeImagePath} alt={activeImagePath} className="gallery__current__img" ref={imageElement} style={{ display: 'none' }} />
+						<img
+							src={activeImagePath}
+							alt={activeImagePath}
+							className="gallery__current__img"
+							ref={imageElement}
+							style={{ display: 'none' }}
+							onError={(e) => ((e.target as HTMLImageElement).src = NO_IMAGE_SRC)}
+						/>
 						{allowZoom ? <div ref={zoomPointer} className="gallery__current__zoom__cursor" /> : null}
 					</div>
 					<div className="gallery__current__img__zoom" style={{ background: `url(${activeImagePath})` }} ref={zoomImage} />

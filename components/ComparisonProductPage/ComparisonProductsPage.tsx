@@ -10,22 +10,9 @@ import { ComparisonIcon } from '../IconsElements';
 import axios from 'axios';
 import { LoadingBar } from '../Shared/LoadingBar/LoadingBar';
 import { OptionEmptyPage } from '../Shared/OptionEmptyPage/OptionEmptyPage';
+import { useComparinsonProducts } from '../../context/MobxStoreContext/MobxStoreContext';
 
-function ComparisonProductsPageContent({ initData }: { initData: MappedProductsResponse | null }): ReactElement {
-	if (!initData) {
-		return <LoadingBar />;
-	} else if (initData.count > 0) {
-		return (
-			<ComparisonProducts config={{ data: initData.data, enableCategoryFilter: true, URLstart: '/api', cards: { show: true, isSticky: true } }} />
-		);
-	} else {
-		return <OptionEmptyPage page={'comparison'} />;
-	}
-}
-function ComparisonProductsPage(): ReactElement {
-	// FILLED COMPARISON ICON
-	// MOBILE COMPARISON ELEMENT
-
+function ComparisonProductsPageContent(): ReactElement | null {
 	const [compariosonData, setCompariosonData] = useState<MappedProductsResponse | null>(null);
 
 	useEffect(() => {
@@ -37,6 +24,20 @@ function ComparisonProductsPage(): ReactElement {
 		});
 	}, []);
 
+	if (!compariosonData) {
+		return <LoadingBar />;
+	} else if (compariosonData.count > 0) {
+		return (
+			<ComparisonProducts
+				config={{ data: compariosonData.data, enableCategoryFilter: true, URLstart: '/api', cards: { show: true, isSticky: true, canDelete: true } }}
+			/>
+		);
+	}
+	return null;
+}
+function ComparisonProductsPage(): ReactElement {
+	const compariosonStore = useComparinsonProducts();
+
 	return (
 		<div className="product__comparison__page">
 			<div className="product__comparison__page__head">
@@ -44,7 +45,7 @@ function ComparisonProductsPage(): ReactElement {
 				<h1 className="product__comparison__header">Сравнение товаров</h1>
 			</div>
 
-			<ComparisonProductsPageContent initData={compariosonData} />
+			{compariosonStore.productsArticles.length > 0 ? <ComparisonProductsPageContent /> : <OptionEmptyPage page={'comparison'} />}
 		</div>
 	);
 }

@@ -24,6 +24,7 @@ import { useProductHistory } from '../../context/MobxStoreContext/MobxStoreConte
 interface ProductPageResponse {
 	data: ProductData;
 	similar: MappedProductsResponse;
+	status: { status: number; message: any };
 }
 
 function ProductPage({ productData, params }: { productData: ProductPageResponse; params: ParsedUrlQuery }): JSX.Element | null {
@@ -34,7 +35,7 @@ function ProductPage({ productData, params }: { productData: ProductPageResponse
 	});
 
 	useEffect(() => {
-		if (productData && !(productData as any)?.status) {
+		if (productData.status.status !== 404) {
 			productHistory.add(productData.data);
 		}
 	}, [params.article]);
@@ -62,7 +63,7 @@ function ProductPage({ productData, params }: { productData: ProductPageResponse
 			</div>
 			<div className="product__page__upper">
 				<div className="product__page__card product__page__upper__item product__page__gallery__wrapper">
-					{galleryItems.length > 0 ? <Gallery items={galleryItems} urlStartsWith={'/api'} ration={3} /> : null}
+					<Gallery items={galleryItems} urlStartsWith={'/api'} ration={3} />
 				</div>
 				<div className=" product__page__card product__page__upper__item product__page__main__info">
 					<h1 className="product__page__header">{product.name}</h1>

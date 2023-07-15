@@ -40,8 +40,6 @@ class ProductHistory {
 			if (this.items.length > this.limit) {
 				this.items = this.items.slice(0, this.limit);
 			}
-
-			console.log(JSON.parse(JSON.stringify([...this.items])));
 			axios({
 				url: '/api/session/update',
 				method: 'POST',

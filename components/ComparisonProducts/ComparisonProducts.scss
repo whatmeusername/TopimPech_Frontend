@@ -67,6 +67,42 @@
                             }
                         }
                     }
+                    .comparison__products__options{
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        gap: 10px;
+                        width: 100%;
+                        margin: 10px 0 0;
+                        .product__card__add__to__cart{
+                            width: 100%;
+                            font-size: var(--fontS);
+                            padding: 8px 0;
+                        }
+                        .comparison__products__options__remove{
+                            width: 32px;
+                            height: 32px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            border: 2px solid var(--gray-color);
+                            border-radius: 8px;
+                            transition: border 0.25s ease;
+                            cursor: pointer;
+                            .comparison__products__options__remove__icon{
+                                width: 32px;
+                                height: 32px;
+                                fill: var(--gray-color);
+                                transition: fill 0.25s ease;
+                            }
+                            &:hover{
+                                border: 2px solid var(--grey-color);
+                                .comparison__products__options__remove__icon{
+                                    fill: var(--grey-color);
+                                }
+                            }
+                        }
+                    }
                     .product__card__price__wrapper{
                         margin: 0;
                         .price__tag{
@@ -75,12 +111,6 @@
                         .product__card__price__before__sale{
                             font-size: var(--fontM);
                         }
-                    }
-                    .product__card__add__to__cart{
-                        width: 100%;
-                        font-size: var(--fontS);
-                        margin: 10px 0 0;
-                        padding: 8px 0;
                     }
                 }
     

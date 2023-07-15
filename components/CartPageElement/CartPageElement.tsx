@@ -18,7 +18,6 @@ import InputMask from 'react-input-mask';
 import { Column, Section, Row, Img, Container, Text, Hr, Heading, Link as ELink } from '@react-email/components';
 import { useMobile } from '../../context/MobileContext/MobileContext';
 import { LoadingBar } from '../Shared/LoadingBar/LoadingBar';
-import { CartFilledIcon } from '../IconsElements';
 import { OptionEmptyPage } from '../Shared/OptionEmptyPage/OptionEmptyPage';
 
 interface MappedProductsResponseCart extends MappedProductsResponse {

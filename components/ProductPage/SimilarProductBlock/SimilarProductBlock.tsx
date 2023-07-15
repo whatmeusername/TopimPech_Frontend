@@ -20,7 +20,7 @@ function SimilarProductBlock({
 				<ComparisonProducts
 					config={{
 						data: SimilarProductsData.data,
-						cards: { show: true },
+						cards: { show: true, canDelete: false },
 						enableCategoryFilter: false,
 						URLstart: '/api',
 						diffWith: DiffProduct,

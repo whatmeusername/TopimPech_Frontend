@@ -4,6 +4,7 @@ import { ProductData } from '../../../CatalogComponents/Cards/interface';
 import PriceElement from '../../../CatalogComponents/PriceElement.tsx/PriceElement';
 
 import './SearchItemElement.scss';
+import { NO_IMAGE_SRC } from '../../../const';
 
 function SearchItemElement({ product, ToggleModal }: { product: ProductData; ToggleModal: (fixedState?: boolean | undefined) => void }) {
 	return (
@@ -17,7 +18,12 @@ function SearchItemElement({ product, ToggleModal }: { product: ProductData; Tog
 		>
 			<div className="search__result__item__left">
 				<div className="search__result__item__image__wrapper">
-					<img src={`/api/${product.images.length > 0 ? product.images[0].path : ''}`} alt={product.name} className="search__result__item__image" />
+					<img
+						src={product.images.length > 0 ? `/api${product.images[0].path}` : NO_IMAGE_SRC}
+						alt={product.name}
+						className="search__result__item__image"
+						onError={(e) => ((e.target as HTMLImageElement).src = NO_IMAGE_SRC)}
+					/>
 				</div>
 				<div className="search__result__item__content">
 					<div className="search__result__label__wrapper">

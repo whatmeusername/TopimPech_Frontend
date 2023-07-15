@@ -16,6 +16,7 @@ import { AngleArrowIcon } from '../../IconsElements';
 import { useMobile } from '../../../context/MobileContext/MobileContext';
 
 import Image from 'next/image';
+import { NO_IMAGE_SRC } from '../../const';
 
 function ArrowGallery({ items, urlStartsWith }: { items: ProductImage[]; urlStartsWith?: string }) {
 	const [selectedItem, setSelectedItem] = useState<number>(0);
@@ -28,6 +29,7 @@ function ArrowGallery({ items, urlStartsWith }: { items: ProductImage[]; urlStar
 
 	const isLeftBTNActive = selectedItem > 0;
 	const isRightBTNActive = selectedItem + 1 < items.length;
+
 	return (
 		<div className="arrow__gallery__wrapper">
 			<div className="arrow__gallery__content" ref={sliderItemsRef} style={{ left: `-${sliderItemWidth.current * selectedItem}px` }}>
@@ -43,6 +45,7 @@ function ArrowGallery({ items, urlStartsWith }: { items: ProductImage[]; urlStar
 								width={500}
 								height={500}
 								style={{ objectFit: 'contain', maxInlineSize: '100%' }}
+								onError={(e) => ((e.target as HTMLImageElement).src = NO_IMAGE_SRC)}
 							/>
 						</span>
 					);

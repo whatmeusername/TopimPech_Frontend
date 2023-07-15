@@ -42,7 +42,7 @@ class ComparisonStore {
 				url: '/api/session/update',
 				method: 'POST',
 				data: {
-					key: 'favourites',
+					key: 'comparison',
 					items: data,
 				},
 			}).then((response) => {

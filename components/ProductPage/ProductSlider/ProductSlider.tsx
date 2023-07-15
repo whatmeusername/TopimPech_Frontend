@@ -5,14 +5,15 @@ import { ProductData, ProductDataShort } from '../../CatalogComponents/Cards/int
 import Slider from '../../Shared/Slider';
 import './ProductSlider.scss';
 import { ReactElement } from 'react';
+import { NO_IMAGE_SRC } from '../../const';
 
 const ProductSliderItem = ({ product, URLStartWith }: { product: ProductData | ProductDataShort; URLStartWith?: string }): ReactElement | null => {
 	if (!product) return null;
-	const image = product.images[0].path;
+	const image = product?.images?.[0]?.path;
 	return (
 		<Link href={`/product/${product.article}`} className="product_slider__item">
 			<div className="product_slider__item__image__wrapper">
-				<img src={(URLStartWith ?? '') + image} alt={product.name} className="product_slider__item__image" />
+				<img src={image ? (URLStartWith ?? '') + image : NO_IMAGE_SRC} alt={product.name} className="product_slider__item__image" />
 			</div>
 			<div className="product_slider__item__info">
 				<PriceElement product={product} />

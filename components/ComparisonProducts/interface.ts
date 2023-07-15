@@ -11,6 +11,7 @@ interface ComparisonProductsConfig {
 		show: boolean;
 		isSticky?: boolean;
 		showPrice?: boolean;
+		canDelete: boolean;
 	};
 }
 

@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { GalleryItem } from '../interface';
 import './GalleryMobile.scss';
+import { NO_IMAGE_SRC } from '../../../const';
 
 const GalleryMobile = ({ items, urlStartsWith }: { items: GalleryItem[]; urlStartsWith?: string }): JSX.Element | null => {
 	const [current, setCurrent] = useState<number>(items[0].id);
@@ -83,7 +84,12 @@ const GalleryMobile = ({ items, urlStartsWith }: { items: GalleryItem[]; urlStar
 					{items.map((item) => {
 						return (
 							<span className="gallery__image__holder" key={`gallery__image__holder__${item.id}`}>
-								<img src={(urlStartsWith ?? '') + item.path} className="gallery__current__image" alt={item.path} />
+								<img
+									src={(urlStartsWith ?? '') + item.path}
+									className="gallery__current__image"
+									alt={item.path}
+									onError={(e) => ((e.target as HTMLImageElement).src = NO_IMAGE_SRC)}
+								/>
 							</span>
 						);
 					})}
@@ -100,7 +106,11 @@ const GalleryMobile = ({ items, urlStartsWith }: { items: GalleryItem[]; urlStar
 									current === item.id ? 'gallery__available__item__selected' : 'gallery__available__item__inactive'
 								}`}
 							>
-								<img src={(urlStartsWith ?? '') + item.path} className="gallery__available__item__image" />
+								<img
+									src={(urlStartsWith ?? '') + item.path}
+									className="gallery__available__item__image"
+									onError={(e) => ((e.target as HTMLImageElement).src = NO_IMAGE_SRC)}
+								/>
 							</div>
 						);
 					})}

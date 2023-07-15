@@ -5,6 +5,7 @@ import { useProductHistory } from '../../context/MobxStoreContext/MobxStoreConte
 
 const HistorySlider = observer(({ excludeArticle }: { excludeArticle?: string }) => {
 	const productHistory = useProductHistory();
+	console.log(productHistory);
 	return (
 		<ProductSlider
 			items={excludeArticle !== undefined ? productHistory.getWithExclude(excludeArticle) : productHistory.items}

@@ -16,6 +16,7 @@ import './CartItemsElement.scss';
 import Image from 'next/image';
 import { MappedProductsResponseCart } from '../CartPageElement';
 import { useMobile } from '../../../context/MobileContext/MobileContext';
+import { NO_IMAGE_SRC } from '../../const';
 
 const CartClearButton = observer((): ReactElement => {
 	const productCart = useUserProductCart();
@@ -64,13 +65,15 @@ const CartDeleteItemButton = ({ productData }: { productData: ProductData }): Re
 };
 
 const CartItemElementDesktop = observer(({ productData, cartItem }: { productData: ProductData; cartItem: CartItem }): ReactElement => {
+	const imageSrc = productData.images?.[0]?.path ? `/api${productData.images[0].path}` : NO_IMAGE_SRC;
 	return (
 		<div className="cart__page__cart__item__desktop">
 			<div className="cart__item__main">
 				<div className="cart__item__image__wrapper">
 					<Image
 						className="cart__item__image"
-						src={`/api${productData.images[0].path}`}
+						onError={(e) => ((e.target as HTMLImageElement).src = NO_IMAGE_SRC)}
+						src={imageSrc}
 						alt={productData.name}
 						width={150}
 						height={150}
@@ -99,13 +102,15 @@ const CartItemElementDesktop = observer(({ productData, cartItem }: { productDat
 });
 
 const CartItemElementMobile = observer(({ productData, cartItem }: { productData: ProductData; cartItem: CartItem }): ReactElement => {
+	const imageSrc = productData.images?.[0]?.path ? `/api${productData.images[0].path}` : NO_IMAGE_SRC;
 	return (
 		<div className="cart__page__cart__item__mobile">
 			<div className="cart__item__main">
 				<div className="cart__item__image__wrapper">
 					<Image
 						className="cart__item__image"
-						src={`/api${productData.images[0].path}`}
+						onError={(e) => ((e.target as HTMLImageElement).src = NO_IMAGE_SRC)}
+						src={imageSrc}
 						alt={productData.name}
 						width={150}
 						height={150}

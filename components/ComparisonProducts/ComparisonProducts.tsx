@@ -8,8 +8,11 @@ import { StandardBreakLine } from '../Shared/Lines/StandardBreakLine/StandardBre
 import PriceElement from '../CatalogComponents/PriceElement.tsx/PriceElement';
 import AddToCartButton from '../CatalogComponents/AddToCartButton/AddToCartButton';
 import Link from 'next/link';
-import { ArrowIcon } from '../IconsElements';
+import { ArrowIcon, TrashBinIcon } from '../IconsElements';
 import { headerSticky } from '../../store/HeaderSticky';
+import { useComparinsonProducts } from '../../context/MobxStoreContext/MobxStoreContext';
+import { observer } from 'mobx-react-lite';
+import { NO_IMAGE_SRC } from '../const';
 
 function GatherProductComparisonData(products: ProductData[], diffWith?: ProductData): ProductComparisonData {
 	const result: ProductComparisonData = {};
@@ -54,16 +57,28 @@ function GatherProductComparisonData(products: ProductData[], diffWith?: Product
 }
 
 function ComparisonProductsCardBig({ product, config }: { product: ProductData; config: ComparisonProductsConfig }): ReactElement {
+	const comparisonStore = useComparinsonProducts();
 	return (
 		<div className="comparison__products__card" key={`comparison__card__${product.article}`}>
 			<Link href={`/product/${product.article}`} className="comparison__products__card__link">
 				<div className="comparison__products__card__img__wrapper">
-					<img src={`${config.URLstart ?? ''}${product.images[0].path}`} className="comparison__products__card__img" />
+					<img
+						src={`${config.URLstart ?? ''}${product.images?.[0]?.path ?? NO_IMAGE_SRC}`}
+						className="comparison__products__card__img"
+						onError={(e) => ((e.target as HTMLImageElement).src = NO_IMAGE_SRC)}
+					/>
 				</div>
 				<p className="comparison__products__header">{product.name}</p>
 			</Link>
 			<PriceElement product={product} />
-			<AddToCartButton article={product.article} />
+			<div className="comparison__products__options">
+				<AddToCartButton article={product.article} />
+				{config.cards.canDelete ? (
+					<button className="comparison__products__options__remove" onClick={() => comparisonStore.remove(product)}>
+						<TrashBinIcon className="comparison__products__options__remove__icon" />
+					</button>
+				) : null}
+			</div>
 		</div>
 	);
 }
@@ -121,7 +136,8 @@ function ComparisonProductsCategories({
 	);
 }
 
-function ComparisonProducts({ config }: { config: ComparisonProductsConfig }): ReactElement {
+const ComparisonProducts = observer(({ config }: { config: ComparisonProductsConfig }): ReactElement | null => {
+	const comparisonStore = useComparinsonProducts();
 	const [productsData, setProductsData] = useState<ProductData[]>(config.data);
 	const [ProductComparisonData, setProductComparisonData] = useState<ProductComparisonData>(
 		GatherProductComparisonData(productsData, config.diffWith),
@@ -162,13 +178,17 @@ function ComparisonProducts({ config }: { config: ComparisonProductsConfig }): R
 	}, [config]);
 
 	useEffect(() => {
-		const nextData = currentCategory ? config.data.filter((p) => p.categories.some((c) => c.name === currentCategory)) : config.data;
-		if (currentCategory) {
-			setProductsData(nextData);
-		} else setProductsData(nextData);
+		let nextData = config.data;
+		if (config.enableCategoryFilter) {
+			nextData = currentCategory ? config.data.filter((p) => p.categories.some((c) => c.name === currentCategory)) : config.data;
+		}
+		if (!config.diffWith) {
+			nextData = nextData.filter((p) => comparisonStore.has(p.article));
+		}
+		setProductsData(nextData);
 		setProductComparisonData(GatherProductComparisonData(nextData, config.diffWith));
 		setCurrent(0);
-	}, [currentCategory]);
+	}, [currentCategory, comparisonStore.productsArticles.length]);
 
 	useEffect(() => {
 		itemWidth.current = (cardWrapper.current.childNodes[0] as HTMLDivElement).offsetWidth;
@@ -288,88 +308,91 @@ function ComparisonProducts({ config }: { config: ComparisonProductsConfig }): R
 				{config.enableCategoryFilter ? (
 					<ComparisonProductsCategories data={config.data} setCategory={setCurrentCategory} currentCategory={currentCategory} />
 				) : null}
-				<div className="comparison__products__header" ref={headerRef}>
-					<div className="comparison__products__card__slider__wrapper">
+				{productsData.length > 0 ? (
+					<>
+						<div className="comparison__products__header" ref={headerRef}>
+							<div className="comparison__products__card__slider__wrapper">
+								<div
+									className="comparison__products__card__slider"
+									ref={cardWrapper}
+									onMouseDown={sliderLength > 0 ? onDragStart : undefined}
+									onTouchStart={sliderLength > 0 ? onDragStart : undefined}
+									style={{ left: `-${current * itemWidth.current}px` }}
+								>
+									{productsData.map((product) => {
+										return <ComparisonProductsCardBig product={product} config={config} key={`comparison__card__${product.article}`} />;
+									})}
+								</div>
+							</div>
+
+							{sliderLength > 0 ? (
+								<>
+									<div
+										className={`comparison__products__header__arrow comparison__products__header__arrow__left ${
+											current > 0 ? 'comparison__products__header__arrow__active' : 'comparison__products__header__arrow__inactive'
+										}`}
+										onClick={current > 0 ? () => SoftMove('back') : undefined}
+									>
+										<ArrowIcon className="comparison__products__header__arrow__icon" />
+									</div>
+									<div
+										className={`comparison__products__header__arrow comparison__products__header__arrow__right ${
+											current !== sliderLength ? 'comparison__products__header__arrow__active' : 'comparison__products__header__arrow__inactive'
+										}`}
+										onClick={current !== sliderLength ? () => SoftMove('next') : undefined}
+									>
+										<ArrowIcon className="comparison__products__header__arrow__icon" />
+									</div>
+								</>
+							) : null}
+						</div>
+						<StandardBreakLine ref={observePoint} />
 						<div
-							className="comparison__products__card__slider"
-							ref={cardWrapper}
+							className="comparison__products__data"
 							onMouseDown={sliderLength > 0 ? onDragStart : undefined}
 							onTouchStart={sliderLength > 0 ? onDragStart : undefined}
-							style={{ left: `-${current * itemWidth.current}px` }}
 						>
-							{productsData.map((product) => {
-								return <ComparisonProductsCardBig product={product} config={config} key={`comparison__card__${product.article}`} />;
+							{ProductComparisonDataEntries.map(([key, bucket], index) => {
+								return (
+									<Fragment key={`comparison__row__${key}`}>
+										<div className="comparison__products__row">
+											<p className="comparison__products__row__header">{key}</p>
+											<div
+												className="comparison__products__row__values"
+												ref={(el) => (rowsRefs.current[index] = el as HTMLDivElement)}
+												style={{ left: `-${current * itemWidth.current}px` }}
+											>
+												{bucket.values.map((data, i) => {
+													const value = `${data.value}${!data.isNull ? ` ${bucket.unit}` : ''}`;
+													let StateClass = '';
+													let postValue = '';
+													if (data.state && data.state !== ComparisonState.SAME) {
+														if (data.state === ComparisonState.DECREASE) {
+															postValue = `(-${data.distance}${bucket.unit ? ` ${bucket.unit}` : ''})`;
+															StateClass = 'comparison__products__decrease';
+														} else if (data.state === ComparisonState.RAISING) {
+															postValue = `(+${data.distance}${bucket.unit ? ` ${bucket.unit}` : ''})`;
+															StateClass = 'comparison__products__raising';
+														} else if (data.state === ComparisonState.CHANGED) {
+															StateClass = 'comparison__products__changed';
+														}
+													}
+
+													return (
+														<span className={`comparison__products__row__value ${StateClass}`} key={`comparison__row__${key}__value__${i}`}>
+															{value} {postValue}
+														</span>
+													);
+												})}
+											</div>
+										</div>
+										{index !== ProductComparisonDataEntries.length - 1 ? <ThinBreakLine /> : null}
+									</Fragment>
+								);
 							})}
 						</div>
-					</div>
-
-					{sliderLength > 0 ? (
-						<>
-							<div
-								className={`comparison__products__header__arrow comparison__products__header__arrow__left ${
-									current > 0 ? 'comparison__products__header__arrow__active' : 'comparison__products__header__arrow__inactive'
-								}`}
-								onClick={current > 0 ? () => SoftMove('back') : undefined}
-							>
-								<ArrowIcon className="comparison__products__header__arrow__icon" />
-							</div>
-							<div
-								className={`comparison__products__header__arrow comparison__products__header__arrow__right ${
-									current !== sliderLength ? 'comparison__products__header__arrow__active' : 'comparison__products__header__arrow__inactive'
-								}`}
-								onClick={current !== sliderLength ? () => SoftMove('next') : undefined}
-							>
-								<ArrowIcon className="comparison__products__header__arrow__icon" />
-							</div>
-						</>
-					) : null}
-				</div>
-				<StandardBreakLine ref={observePoint} />
-
-				<div
-					className="comparison__products__data"
-					onMouseDown={sliderLength > 0 ? onDragStart : undefined}
-					onTouchStart={sliderLength > 0 ? onDragStart : undefined}
-				>
-					{ProductComparisonDataEntries.map(([key, bucket], index) => {
-						return (
-							<Fragment key={`comparison__row__${key}`}>
-								<div className="comparison__products__row">
-									<p className="comparison__products__row__header">{key}</p>
-									<div
-										className="comparison__products__row__values"
-										ref={(el) => (rowsRefs.current[index] = el as HTMLDivElement)}
-										style={{ left: `-${current * itemWidth.current}px` }}
-									>
-										{bucket.values.map((data, i) => {
-											const value = `${data.value}${!data.isNull ? ` ${bucket.unit}` : ''}`;
-											let StateClass = '';
-											let postValue = '';
-											if (data.state && data.state !== ComparisonState.SAME) {
-												if (data.state === ComparisonState.DECREASE) {
-													postValue = `(-${data.distance}${bucket.unit ? ` ${bucket.unit}` : ''})`;
-													StateClass = 'comparison__products__decrease';
-												} else if (data.state === ComparisonState.RAISING) {
-													postValue = `(+${data.distance}${bucket.unit ? ` ${bucket.unit}` : ''})`;
-													StateClass = 'comparison__products__raising';
-												} else if (data.state === ComparisonState.CHANGED) {
-													StateClass = 'comparison__products__changed';
-												}
-											}
-
-											return (
-												<span className={`comparison__products__row__value ${StateClass}`} key={`comparison__row__${key}__value__${i}`}>
-													{value} {postValue}
-												</span>
-											);
-										})}
-									</div>
-								</div>
-								{index !== ProductComparisonDataEntries.length - 1 ? <ThinBreakLine /> : null}
-							</Fragment>
-						);
-					})}
-				</div>
+					</>
+				) : null}
 			</div>
 			{config.diffLabels ? (
 				<>
@@ -388,6 +411,6 @@ function ComparisonProducts({ config }: { config: ComparisonProductsConfig }): R
 			) : null}
 		</div>
 	);
-}
+});
 
 export { ComparisonProducts };

@@ -4,9 +4,9 @@ import { useCategoriesContext } from '../../../context/Categories';
 import Link from 'next/link';
 import Image from 'next/image';
 
-import SiteLogo from '../../../public/logo/SiteLogo.png';
 import { ThinBreakLine } from '../../Shared/Lines/ThinBreakLine/ThinBreakLine';
 import { useGlobalContext } from '../../../context/GlobalContext/GlobalContext';
+import { SiteLogo } from '../../IconsElements';
 
 const COPYRIGHTS_LABEL =
 	'Представленная информация на сайте носит чисто информационный смысл, материалы и цены, размещенные на сайте, не являются публичной офертой. Подробную информацию уточняйте у продавца.';
@@ -77,7 +77,7 @@ function OrderBlock(): ReactElement {
 function FooterLogo(): ReactElement {
 	return (
 		<div className="footer__logo__wrapper">
-			<Image src={SiteLogo} className="footer__logo" alt="логотип сайта TopimPech.ru" priority={false} />
+			<SiteLogo className="footer__logo" />
 		</div>
 	);
 }

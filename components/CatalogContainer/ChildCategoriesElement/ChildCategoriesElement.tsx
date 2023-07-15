@@ -10,6 +10,7 @@ import { declOfProduct } from '../../../utils';
 import { Number404 } from '../../Shared/Number404/Number404';
 
 import Image from 'next/image';
+import { NO_IMAGE_SRC } from '../../const';
 
 const ChildCategoriesChild = ({ category }: { category: CategoryData }): ReactElement => {
 	return (
@@ -25,6 +26,7 @@ const ChildCategoriesChild = ({ category }: { category: CategoryData }): ReactEl
 							width={50}
 							height={50}
 							style={{ objectFit: 'contain', maxInlineSize: '100%' }}
+							onError={(e) => ((e.target as HTMLImageElement).src = NO_IMAGE_SRC)}
 						/>
 					</div>
 				) : (

@@ -5,6 +5,7 @@ import { ProductImage } from '../Cards/interface';
 
 import Image from 'next/image';
 import { useMobile } from '../../../context/MobileContext/MobileContext';
+import { NO_IMAGE_SRC } from '../../const';
 
 const ProductImageGallery = ({
 	images,
@@ -42,17 +43,19 @@ const ProductImageGallery = ({
 		isTouch ? window.addEventListener('touchmove', onDragEnd) : window.addEventListener('mouseup', onDragEnd);
 	}
 
+	const imageSrc = refImages.current[selectedImage]?.path ? `${urlStartsWith ?? ''}${refImages.current[selectedImage].path}` : NO_IMAGE_SRC;
 	return (
 		<div className="hover__image__gallery__wrapper">
 			<div className="gallery__image__wrapper" onTouchStart={isMobile ? onDragStart : undefined} onMouseDown={isMobile ? onDragStart : undefined}>
 				<Image
 					className="gallery__image"
-					src={(urlStartsWith ?? '') + refImages.current[selectedImage]?.path}
+					src={imageSrc}
 					alt={alt ?? ''}
 					loading="lazy"
 					width={size ?? 400}
 					height={size ?? 400}
 					style={{ objectFit: 'contain', maxInlineSize: '100%' }}
+					onError={(e) => ((e.target as HTMLImageElement).src = NO_IMAGE_SRC)}
 				/>
 			</div>
 			{refImages.current.length > 1 ? (

@@ -20,6 +20,8 @@ import SearchIcon from '../../public/OptionsIcons/Search.svg';
 import MinusIcon from '../../public/OptionsIcons/Minus.svg';
 import PlusIcon from '../../public/OptionsIcons/Plus.svg';
 
+import SiteLogo from '../../public/logo/SiteLogo.svg';
+
 export {
 	MenuIcon,
 	SimilarIcon,
@@ -37,5 +39,6 @@ export {
 	CartFilledIcon,
 	SearchIcon,
 	MinusIcon,
+	SiteLogo,
 	PlusIcon,
 };
