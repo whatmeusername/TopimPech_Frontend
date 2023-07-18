@@ -40,7 +40,7 @@ function ModalContentWrapper({
 	children,
 	className,
 }: {
-	children?: (ReactElement | ReactElement | null)[] | null;
+	children?: (ReactElement | ReactElement | null)[] | ReactElement | null;
 	className?: string;
 }): ReactElement {
 	return <div className={`modal__content ${className ?? ''}`}>{children}</div>;

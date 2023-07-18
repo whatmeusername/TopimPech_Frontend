@@ -26,22 +26,21 @@
 	height: 700px;
 	.modal__head {
 		justify-content: space-between;
-		.modal__header__wrapper{
-			width: 90%;
+		.modal__header__wrapper {
+			padding: 0 10px;
 			display: flex;
 			flex-direction: column;
 
-			.modal__header{
+			.modal__header {
 				font-size: var(--headerS);
 				color: var(--primary-color);
 				font-family: var(--museo_cyrl);
 				font-weight: 200;
 				margin: 0;
 			}
-			.modal__header__article{
+			.modal__header__article {
 				font-size: var(--fontS);
 				color: var(--gray-color);
-
 			}
 		}
 	}
@@ -55,26 +54,24 @@
 		.modal__content__block {
 			padding: 10px;
 			width: 50%;
-
 		}
 
-		.modal__content__info{
-
-			.modal__content__info__options{
+		.modal__content__info {
+			.modal__content__info__options {
 				display: flex;
 				flex-direction: row;
 				flex-wrap: wrap;
 				align-items: center;
 				justify-content: center;
 				gap: 10px;
-				.product__card__add__to__cart{
+				.product__card__add__to__cart {
 					width: 100%;
 				}
-				.product__card__option{
+				.product__card__option {
 					flex-grow: 1;
 				}
 			}
-			.product__preview__link{
+			.product__preview__link {
 				width: 100%;
 				display: flex;
 				align-items: center;
@@ -88,7 +85,7 @@
 				border-radius: 8px;
 				opacity: 1;
 				transition: opacity 0.15s ease;
-				&:hover{
+				&:hover {
 					opacity: 0.75;
 				}
 			}
@@ -166,22 +163,22 @@
 		}
 	}
 
-	.tabs__wrapper{
+	.tabs__wrapper {
 		position: absolute;
 		bottom: 10px;
 		display: flex;
 		flex-direction: row;
-		align-items:  center;
+		align-items: center;
 		justify-content: center;
 		gap: 10px;
 		width: 100%;
-		.tab__item{
+		.tab__item {
 			width: 20px;
 			height: 5px;
 			background-color: var(--gray-color);
 			border-radius: 8px;
 			display: block;
-			&.tab__item__active{
+			&.tab__item__active {
 				background-color: var(--orange-color);
 			}
 		}

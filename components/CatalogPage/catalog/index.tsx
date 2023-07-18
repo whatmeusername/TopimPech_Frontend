@@ -62,11 +62,11 @@ function HistoryComponent() {
 	if (productHistory.items.length === 0) return null;
 	return (
 		<>
-			<ThinBreakLine />
 			<div className="catalog__page__card catalog__page__history">
 				<h2 className="catalog__page__history__header">Вы смотрели ранее</h2>
 				<HistorySlider />
 			</div>
+			<ThinBreakLine />
 		</>
 	);
 }

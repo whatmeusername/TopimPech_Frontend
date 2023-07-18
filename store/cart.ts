@@ -101,7 +101,20 @@ class UserProductCart {
 
 	@action
 	public clear() {
-		this.items = [];
+		axios({
+			url: '/api/session/update',
+			method: 'POST',
+			data: {
+				key: 'cart',
+				items: [],
+			},
+		}).then((response) => {
+			if (response.data.status === 'OK') {
+				runInAction(() => {
+					this.items = [];
+				});
+			}
+		});
 	}
 
 	@action

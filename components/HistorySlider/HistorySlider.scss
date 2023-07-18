@@ -1,0 +1,9 @@
+.product__history__slider__wrapper {
+	display: flex;
+	flex-direction: column;
+	.product__history__slider__header {
+		font-family: var(--museo_cyrl);
+		color: var(--primary-color);
+		font-weight: 300;
+	}
+}

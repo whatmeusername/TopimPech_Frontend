@@ -11,6 +11,7 @@ import axios from 'axios';
 import { LoadingBar } from '../Shared/LoadingBar/LoadingBar';
 import { OptionEmptyPage } from '../Shared/OptionEmptyPage/OptionEmptyPage';
 import { useComparinsonProducts } from '../../context/MobxStoreContext/MobxStoreContext';
+import { HistorySlider } from '../HistorySlider/HistorySlider';
 
 function ComparisonProductsPageContent(): ReactElement | null {
 	const [compariosonData, setCompariosonData] = useState<MappedProductsResponse | null>(null);
@@ -46,6 +47,7 @@ function ComparisonProductsPage(): ReactElement {
 			</div>
 
 			{compariosonStore.productsArticles.length > 0 ? <ComparisonProductsPageContent /> : <OptionEmptyPage page={'comparison'} />}
+			<HistorySlider includeHeader={true} />
 		</div>
 	);
 }

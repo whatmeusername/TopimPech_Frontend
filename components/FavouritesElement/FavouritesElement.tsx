@@ -18,6 +18,7 @@ import { ToPreviousPageButton } from '../Shared/ToPreviousPageButton/ToPreviousP
 import { HeartNotFilledIcon, TrashBinIcon } from '../IconsElements';
 import { ProductDataShort } from '../CatalogComponents/Cards/interface';
 import { OptionEmptyPage } from '../Shared/OptionEmptyPage/OptionEmptyPage';
+import { HistorySlider } from '../HistorySlider/HistorySlider';
 
 const FavouritesItemDeleteBtn = ({ product }: { product: ProductDataShort }) => {
 	const FavouritesProducts = useFavouritesProducts();
@@ -66,7 +67,7 @@ const FavouritesElement = observer((): ReactElement => {
 		<div className="favourites__container">
 			<ToPreviousPageButton />
 			<div className="favourites__header__wrapper">
-				<h1 className="favourites__header">{itHasItems ? 'Избранные товары' : 'В избранном пока что ничего нет'}</h1>
+				<h1 className="favourites__header">Избранные товары</h1>
 				{itHasItems ? (
 					<span className="favourites__header__count">
 						{FavouritesProducts.getCount()} {declOfProduct(FavouritesProducts.getCount())}
@@ -88,6 +89,7 @@ const FavouritesElement = observer((): ReactElement => {
 			) : (
 				<OptionEmptyPage page={'favourite'} />
 			)}
+			<HistorySlider includeHeader={true} />
 		</div>
 	);
 });

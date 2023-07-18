@@ -19,6 +19,7 @@ import SearchIcon from '../../public/OptionsIcons/Search.svg';
 
 import MinusIcon from '../../public/OptionsIcons/Minus.svg';
 import PlusIcon from '../../public/OptionsIcons/Plus.svg';
+import CheckmarkIcon from '../../public/OptionsIcons/checkmark.svg';
 
 import SiteLogo from '../../public/logo/SiteLogo.svg';
 
@@ -41,4 +42,5 @@ export {
 	MinusIcon,
 	SiteLogo,
 	PlusIcon,
+	CheckmarkIcon,
 };
