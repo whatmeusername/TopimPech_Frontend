@@ -62,7 +62,7 @@ function HistoryComponent() {
 	if (productHistory.items.length === 0) return null;
 	return (
 		<>
-			<div className="catalog__page__card catalog__page__history">
+			<div className="catalog__page__card slider__history__wrapper">
 				<h2 className="catalog__page__history__header">Вы смотрели ранее</h2>
 				<HistorySlider />
 			</div>

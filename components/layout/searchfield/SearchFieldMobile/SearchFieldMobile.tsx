@@ -21,7 +21,7 @@ function SearchModal({ modalId }: { modalId: string }): ReactElement {
 
 	const FetchResult = () => {
 		const value = inputField.current.value.trim();
-		if (value !== '' && value.length > 1) {
+		if (value !== '' && value.length > 2) {
 			axios({
 				method: 'GET',
 				url: `/api/products/search/name/${value}`,
@@ -33,7 +33,7 @@ function SearchModal({ modalId }: { modalId: string }): ReactElement {
 
 	const onKeyDown = (e: React.KeyboardEvent): void => {
 		const value = inputField.current.value.trim();
-		if (e.key === 'Enter' && value) {
+		if (e.key === 'Enter' && value.length > 2) {
 			router.push(`/catalog/search/?search=${value}`);
 			centerModalControl.toggle(modalId);
 		}

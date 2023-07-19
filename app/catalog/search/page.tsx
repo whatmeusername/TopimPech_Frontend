@@ -35,22 +35,20 @@ export async function generateMetadata({ params, searchParams }: ServerSideURLPr
 	});
 
 	const product = productsData.products?.[0];
-	const category = product?.categories?.find((i) => i.slug === params.category);
-	const categoryName = category?.name ?? '';
-	const categorySlug = category?.slug ?? '';
+	const searchResult = searchString ?? 'товары для бани и дома';
 
-	const description = META_PAGE_DESCRIPTION(product.name ?? 'товары для бани и дома');
-	const ogTitle = productsData.status.is404Page ? 'товары для бани и дома' : `${categoryName} ${PRODUCT_PAGE_SUB_LABEL}`;
+	const description = META_PAGE_DESCRIPTION(searchResult);
+	const ogTitle = productsData.status.is404Page ? 'товары для бани и дома' : `${searchResult} ${PRODUCT_PAGE_SUB_LABEL}`;
 
 	return {
-		title: productsData.status.is404Page ? PAGE_NOT_FOUND : `${categoryName} ${PRODUCT_PAGE_SUB_LABEL}`,
+		title: productsData.status.is404Page ? PAGE_NOT_FOUND : `${searchResult} ${PRODUCT_PAGE_SUB_LABEL}`,
 		description: description,
 		keywords: `${ogTitle}, Купить ${ogTitle}, цена ${ogTitle}, товары для бани и дома`,
 		openGraph: {
 			title: ogTitle,
 			description: description,
 			images: [`${PROXY_URL_SLICED}${product?.images?.[0]?.path}`],
-			url: productsData.status.is404Page ? DOMAIN_NAME : `${FULL_DOMAIN}/category/${categorySlug}`,
+			url: productsData.status.is404Page ? DOMAIN_NAME : `${FULL_DOMAIN}/catalog/search/?search=${searchString}`,
 			...OPENGRAPH_BASE,
 		},
 	};

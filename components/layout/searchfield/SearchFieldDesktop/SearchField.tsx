@@ -41,7 +41,7 @@ export default function ProductSearch() {
 
 	const FetchResult = () => {
 		const value = inputField.current.value.trim();
-		if (value !== '' && value.length > 1) {
+		if (value !== '' && value.length > 2) {
 			axios({
 				method: 'GET',
 				url: `/api/products/search/name/${value}`,
@@ -57,7 +57,7 @@ export default function ProductSearch() {
 			router.push(`/product/${results.data[0].article}`);
 			Toggle(false);
 			toggleWindowScroll(true);
-		} else if (value && value.length > 1 && results.count > 1) {
+		} else if (value && value.length > 2 && results.count > 1) {
 			router.push(`/catalog/search/?search=${value}`);
 			Toggle(false);
 			toggleWindowScroll(true);

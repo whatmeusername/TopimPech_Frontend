@@ -20,6 +20,7 @@ import { OptionEmptyPage } from '../Shared/OptionEmptyPage/OptionEmptyPage';
 import { CheckmarkIcon } from '../IconsElements';
 import { OrderElementForm } from './OrderElementForm/OrderElementForm';
 import { HistorySlider } from '../HistorySlider/HistorySlider';
+import { PrimaryPageHeader } from '../Shared/PrimaryPageHeader/PrimaryPageHeader';
 
 interface MappedProductsResponseCart extends MappedProductsResponse {
 	cart: null | CartItem[];
@@ -295,10 +296,7 @@ const CartPageElement = observer(() => {
 				<OrderSuccessElement loaded={isOrderSuccces} />
 			) : (
 				<div className="cart__page__container">
-					<div className="cart__head__wrapper">
-						<ToPreviousPageButton />
-						<h1 className="cart__head__header cart__page__block__header">Корзина</h1>
-					</div>
+					<PrimaryPageHeader header={'Корзина'} />
 					{userCart.isEmpty() ? (
 						<OptionEmptyPage page={'cart'} />
 					) : !isLoading.current ? (

@@ -32,27 +32,22 @@ function CatalogBlock(): ReactElement {
 function OrderBlock(): ReactElement {
 	const OrderDataLinks = [
 		{
-			link: 'info/payment',
-			slug: 'payment',
-			name: 'Оплата',
-		},
-		{
-			link: 'info/delivery',
+			link: '/info/delivery',
 			slug: 'delivery',
-			name: 'Доставка',
+			name: 'Доставка и оплата',
 		},
 		{
-			link: 'info/contacts',
+			link: '/info/contacts',
 			slug: 'contacts',
 			name: 'Контакты',
 		},
 		{
-			link: 'info/order',
+			link: '/info/order',
 			slug: 'order',
 			name: 'Как заказать',
 		},
 		{
-			link: 'info/policy',
+			link: '/info/policy',
 			slug: 'policy',
 			name: 'Политика конфиденциальности',
 		},
@@ -64,7 +59,7 @@ function OrderBlock(): ReactElement {
 			<div className="footer__content__block__column">
 				{OrderDataLinks.map((data) => {
 					return (
-						<Link href={`/catalog/${data.link}`} key={`footer__catalog__${data.slug}`} className="footer__content__block__column__item">
+						<Link href={data.link} key={`footer__catalog__${data.slug}`} className="footer__content__block__column__item">
 							{data.name}
 						</Link>
 					);

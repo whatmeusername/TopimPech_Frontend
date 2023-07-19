@@ -1,28 +1,6 @@
 .favourites__container {
 	padding: 15px;
-	.favourites__header__wrapper {
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		gap: 10px;
-		font-family: var(--museo_cyrl);
-		margin: 10px 0;
-		.favourites__header {
-			color: var(--primary-color);
-			font-weight: 300;
-			margin: 0;
-		}
-		.favourites__header__count {
-			font-size: var(--fontL);
-			color: var(--gray-color);
-		}
 
-		@media (max-width: 768px) {
-			.favourites__header {
-				font-size: var(--headerS);
-			}
-		}
-	}
 	.favourites__items__wrapper {
 		padding: 20px 0;
 		min-height: calc(100vh - 300px);

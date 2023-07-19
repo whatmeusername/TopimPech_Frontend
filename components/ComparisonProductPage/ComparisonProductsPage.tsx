@@ -12,6 +12,7 @@ import { LoadingBar } from '../Shared/LoadingBar/LoadingBar';
 import { OptionEmptyPage } from '../Shared/OptionEmptyPage/OptionEmptyPage';
 import { useComparinsonProducts } from '../../context/MobxStoreContext/MobxStoreContext';
 import { HistorySlider } from '../HistorySlider/HistorySlider';
+import { PrimaryPageHeader } from '../Shared/PrimaryPageHeader/PrimaryPageHeader';
 
 function ComparisonProductsPageContent(): ReactElement | null {
 	const [compariosonData, setCompariosonData] = useState<MappedProductsResponse | null>(null);
@@ -41,11 +42,7 @@ function ComparisonProductsPage(): ReactElement {
 
 	return (
 		<div className="product__comparison__page">
-			<div className="product__comparison__page__head">
-				<ToPreviousPageButton />
-				<h1 className="product__comparison__header">Сравнение товаров</h1>
-			</div>
-
+			<PrimaryPageHeader header={'Сравнение товаров'} />
 			{compariosonStore.productsArticles.length > 0 ? <ComparisonProductsPageContent /> : <OptionEmptyPage page={'comparison'} />}
 			<HistorySlider includeHeader={true} />
 		</div>

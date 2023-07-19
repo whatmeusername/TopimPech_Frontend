@@ -48,7 +48,7 @@ export async function generateMetadata({ params }: ServerSideURLProps): Promise<
 			title: ogTitle,
 			description: description,
 			images: [`${PROXY_URL_SLICED}${product?.images?.[0]?.path}`],
-			url: productsData.status.is404Page ? DOMAIN_NAME : `${FULL_DOMAIN}/category/${categorySlug}`,
+			url: productsData.status.is404Page ? DOMAIN_NAME : `${FULL_DOMAIN}/catalog/category/${categorySlug}`,
 			...OPENGRAPH_BASE,
 		},
 	};
@@ -67,7 +67,7 @@ export async function catalogGetServerSideProps({ params, searchParams }: Server
 	try {
 		[productsData, filtersData] = await Promise.all([
 			getData(productFetchURL, {
-				next: { revalidate: 3600 },
+				cache: 'reload',
 			}),
 			getData(filterFetchURL, { next: { revalidate: 3600 } }),
 		]);

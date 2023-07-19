@@ -1,0 +1,16 @@
+.primary__page__header {
+	padding: 0 20px;
+	.primary__page__header {
+		font-family: var(--museo_cyrl);
+		color: var(--primary-color);
+		font-size: var(--headerL);
+		font-weight: 300;
+		margin: 0 0 20px;
+		padding: 0;
+	}
+	@media (max-width: 768px) {
+		.primary__page__header {
+			font-size: var(--headerS);
+		}
+	}
+}

@@ -5,6 +5,11 @@
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	.not__found__icon {
+		fill: var(--orange-color);
+		width: 150px;
+		height: 150px;
+	}
 	.page__not__found {
 		text-align: center;
 		.page__not__found__text {
@@ -22,7 +27,7 @@
 			font-weight: 300;
 			font-size: var(--fontX);
 			color: var(--white-color);
-			transition: 0.25s ease-in;
+			transition: background-color 0.25s ease-in;
 			&:hover {
 				background-color: var(--orange-darker-color);
 			}

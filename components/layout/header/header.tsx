@@ -140,8 +140,8 @@ const HeaderDesktop = observer((): ReactElement => {
 				<div className="header__content__wrapper">
 					<div className="header__info">
 						<div className="header__info__content">
-							<Link href="/" className="header__info__link">
-								Доставка
+							<Link href="/info/delivery" className="header__info__link">
+								Доставка и оплата
 							</Link>
 							<Link href="/" className="header__info__link">
 								Как заказать
