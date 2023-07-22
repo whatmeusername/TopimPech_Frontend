@@ -96,7 +96,7 @@ function ContactsColumn(): ReactElement {
 				<p className="footer__contacts__data">info@topimpech.ru</p>
 			</div>
 			<div className="footer__contacts__content__wrapper">
-				<p className="footer__contacts__data">Рабочее время: c 9.00 - 18.00</p>
+				<p className="footer__contacts__data">Рабочее время: c 10.00 - 18.00</p>
 			</div>
 		</div>
 	);
@@ -119,7 +119,7 @@ function Footer(): ReactElement {
 			<ThinBreakLine />
 			<div className="footer__copyrights__wrapper">
 				<div className="footer__copyrights">
-					<p className="footer__copyrights__watermark">2019-{new Date().getFullYear()} © - TopimPech.ru товары для бани и вашего дома</p>
+					<p className="footer__copyrights__watermark">© {new Date().getFullYear()} - TopimPech.ru товары для бани и вашего дома</p>
 					<p className="footer__copyrights__content">{COPYRIGHTS_LABEL}</p>
 				</div>
 			</div>

@@ -30,8 +30,8 @@ function RecomendationElement({ limit }: { limit?: number }) {
 
 	return (
 		<div className="recomendation__products__wrapper">
-			<div className="recomendation__products__header">
-				<h2 className="recomendation__products__head">Рекомендуем вам</h2>
+			<div className="recomendation__products__head">
+				<h2 className="recomendation__products__header">Рекомендуем вам</h2>
 			</div>
 			<div className="recomendation__products__content">
 				{recomendationProducts.map((product) => {

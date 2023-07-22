@@ -2,7 +2,7 @@ import { DeliveryPageElement } from '../../../components/DeliveryPageElement/Del
 import { PROXY_URL, getData } from '../../layout';
 
 async function DeliveryPage() {
-	const deliveryData = await getData(`${PROXY_URL}info/delivery`);
+	const deliveryData = await getData(`${PROXY_URL}info/delivery`, { cache: 'no-store' });
 	return <DeliveryPageElement deliveryData={deliveryData} />;
 }
 

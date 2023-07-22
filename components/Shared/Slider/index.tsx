@@ -1,10 +1,8 @@
 import { useRef, useState, useEffect, ReactElement } from 'react';
 import './Slider.scss';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { useMobile } from '../../../context/MobileContext/MobileContext';
-import { AngleArrowIcon, ArrowIcon } from '../../IconsElements';
+import { ArrowIcon } from '../../IconsElements';
 
 const ACTIVE_DOT_CLASSNAME = 'slider__dot__active';
 const DISABLED_BUTTON_CLASSNAME = 'slider__button__disabled';
@@ -20,7 +18,8 @@ enum SlideDirection {
 	RIGHT = 'right',
 }
 
-function ButtonVersionSlider({ children, options }: { children: JSX.Element; options?: SliderSettings }) {
+function ButtonVersionSlider({ children, options }: { children: ReactElement[]; options?: SliderSettings }) {
+	const isSingleSlide = options?.ItemsPerSlide === 1;
 	const [current, setCurrent] = useState<number>(0);
 
 	const IS_BUTTON_ACTIVE = useRef<boolean>(options?.enableSlideButtons ?? true);
@@ -33,7 +32,7 @@ function ButtonVersionSlider({ children, options }: { children: JSX.Element; opt
 	const [RBDisabled, setRBDisabled] = useState<boolean>(false);
 
 	const currentSlide = useRef<number>(0);
-	const slidesTotal = useRef<number>(0);
+	const slidesTotal = useRef<number>(isSingleSlide ? children.length : 0);
 
 	const [itemsCount, setItemsCount] = useState<number>(-1);
 	const itemsPerSlide = useRef<number>(options?.ItemsPerSlide === 'auto' ? null! : options?.ItemsPerSlide ?? null!);
@@ -169,7 +168,7 @@ function ButtonVersionSlider({ children, options }: { children: JSX.Element; opt
 	);
 }
 
-function DragVersionSlider({ children }: { children: JSX.Element }) {
+function DragVersionSlider({ children }: { children: ReactElement | ReactElement[] }) {
 	const contentWrapperRef = useRef<HTMLDivElement>(null!);
 	const contentRef = useRef<HTMLDivElement>(null!);
 
@@ -209,7 +208,7 @@ function DragVersionSlider({ children }: { children: JSX.Element }) {
 	);
 }
 
-function Slider({ children, SliderSettings }: { children: JSX.Element | ReactElement; SliderSettings?: SliderSettings }) {
+function Slider({ children, SliderSettings }: { children: ReactElement[]; SliderSettings?: SliderSettings }) {
 	const isMobile = useMobile(SliderSettings?.mobileSize ?? 720);
 	if (!isMobile) {
 		return <ButtonVersionSlider options={SliderSettings}>{children}</ButtonVersionSlider>;

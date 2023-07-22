@@ -10,7 +10,7 @@
 			justify-content: center;
 			gap: 10px;
 			position: relative;
-			&.slider__main__content__single{
+			&.slider__main__content__single {
 				justify-content: start;
 			}
 			.slider__content__slide__button {
@@ -25,17 +25,16 @@
 				border: none;
 				cursor: pointer;
 				position: absolute;
+				z-index: var(--zIndexLow);
 
 				background-color: var(--white-color);
-				box-shadow: 0 4px 16px 1px rgba(0,26,52,.16);
-	
-				z-index: var(--zIndexMedium);
+				box-shadow: 0 4px 16px 1px rgba(0, 26, 52, 0.16);
 
-				&.slider__content__slide__button__left{
+				&.slider__content__slide__button__left {
 					left: 20px;
 					transform: rotateZ(180deg);
 				}
-				&.slider__content__slide__button__right{
+				&.slider__content__slide__button__right {
 					right: 20px;
 				}
 
@@ -53,8 +52,8 @@
 						fill: var(--grey-color);
 					}
 				}
-				&:not(&.slider__button__disabled){
-					&:hover{
+				&:not(&.slider__button__disabled) {
+					&:hover {
 						.slider__content__slide__icon {
 							fill: var(--orange-color);
 						}

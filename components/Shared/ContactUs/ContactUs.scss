@@ -1,0 +1,132 @@
+.contact__us__wrapper {
+	background-image: url(../../../public/other/PechBackground05.png);
+	width: 100%;
+	background-size: 60%;
+	border-radius: 4px;
+	border: 2px solid var(--grey-color);
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 10px;
+	justify-content: space-between;
+	padding: 10px 40px;
+	margin-top: 30px;
+	.contact__us__icon__wrapper {
+		position: relative;
+		.contact__us__icon {
+			fill: var(--orange-color);
+			width: 150px;
+			height: 150px;
+		}
+		.contact__us__icon__inner {
+			position: absolute;
+			left: 10px;
+			width: 100px;
+			height: 100px;
+			fill: var(--orange-color);
+		}
+	}
+	.contact__us__content {
+		font-family: var(--museo_cyrl);
+		display: flex;
+		flex-direction: row;
+		align-items: baseline;
+		gap: 15px;
+		.contact__us__content__info {
+			display: flex;
+			flex-direction: column;
+			width: 400px;
+			.contact__us__content__header {
+				font-size: var(--headerS);
+				font-weight: 700;
+				margin: 0 0 5px;
+				color: var(--orange-color);
+			}
+			.contact__us__description {
+				margin: 0;
+			}
+		}
+		.contact__us__phones__wrapper {
+			display: flex;
+			flex-direction: column;
+			width: 250px;
+			text-align: right;
+			.contact__us__phones__header {
+				margin: 0 0 5px;
+				font-size: var(--headerS);
+				color: var(--orange-color);
+				font-weight: 700;
+			}
+			.contact__us__phones {
+				display: flex;
+				flex-direction: column;
+				gap: 10px;
+				.contact__us__phones__item {
+					margin: 0;
+					font-size: var(--fontX);
+					color: var(--standard-color);
+				}
+			}
+		}
+	}
+
+	@media (max-width: 1248px) {
+		padding: 10px 20px;
+		.contact__us__icon__wrapper {
+			.contact__us__icon {
+				width: 120px;
+				height: 120px;
+			}
+			.contact__us__icon__inner {
+				left: 15px;
+				top: 5px;
+				width: 70px;
+				height: 70px;
+			}
+		}
+		.contact__us__content {
+			.contact__us__content__info {
+				width: 320px;
+			}
+		}
+	}
+
+	@media (max-width: 1100px) {
+		.contact__us__content {
+			.contact__us__content__info {
+				width: 400px;
+				.contact__us__content__header {
+					font-size: var(--fontX);
+				}
+				.contact__us__description {
+					font-size: var(--fontM);
+				}
+			}
+			.contact__us__phones__wrapper {
+				width: 200px;
+				.contact__us__phones__header {
+					font-size: var(--fontX);
+				}
+			}
+		}
+	}
+
+	@media (max-width: 768px) {
+		flex-direction: column;
+		justify-content: unset;
+	}
+
+	@media (max-width: 660px) {
+		.contact__us__content {
+			flex-direction: column;
+			align-items: center;
+			.contact__us__content__info {
+				width: 100%;
+				text-align: center;
+			}
+			.contact__us__phones__wrapper {
+				text-align: center;
+			}
+		}
+	}
+}

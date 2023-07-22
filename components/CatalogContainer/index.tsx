@@ -16,6 +16,7 @@ import { CatalogContainerViewedItems } from './CatalogContainerViewedItems/Catal
 import { FetchURLData } from '../CatalogPage/catalog';
 import { AllFiltersOpenButton } from '../CatalogPage/Filter/Filter';
 import { CatalogContainerFooter } from './CatalogContainerFooter/CatalogContainerFooter';
+import { ContactUs } from '../Shared/ContactUs/ContactUs';
 
 const CatalogContainer = ({
 	CatalogData,
@@ -52,6 +53,7 @@ const CatalogContainer = ({
 						<Paginator PaginatorData={CatalogData.paginator} />
 						<CatalogContainerViewedItems PaginatorData={CatalogData.paginator} />
 					</CatalogContainerFooter>
+					<ContactUs />
 				</>
 			) : null}
 		</div>

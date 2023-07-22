@@ -54,15 +54,13 @@ const ChildCategoriesElement = (): ReactElement | null => {
 	return (
 		<div className="child__categories__wrapper">
 			<Slider SliderSettings={{ ItemsPerSlide: 'auto' }}>
-				<>
-					{currentCategoryAtPage.child.map((child) => {
-						return (
-							<Slider.Item key={`categories__child__${child.slug}`}>
-								<ChildCategoriesChild category={child} />
-							</Slider.Item>
-						);
-					})}
-				</>
+				{currentCategoryAtPage.child.map((child) => {
+					return (
+						<Slider.Item key={`categories__child__${child.slug}`}>
+							<ChildCategoriesChild category={child} />
+						</Slider.Item>
+					);
+				})}
 			</Slider>
 		</div>
 	);

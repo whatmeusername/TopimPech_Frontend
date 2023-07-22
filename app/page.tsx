@@ -1,5 +1,7 @@
+import { HomePageElement } from '../components/HomePageElement/HomePageElement';
+
 function MainPage() {
-	return <span>Hello world</span>;
+	return <HomePageElement />;
 }
 
 export default MainPage;

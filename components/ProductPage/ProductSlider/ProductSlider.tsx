@@ -34,15 +34,13 @@ const ProductSlider = ({
 }): JSX.Element => {
 	return (
 		<Slider SliderSettings={{ ItemsPerSlide: 'auto' }}>
-			<>
-				{items.map((item) => {
-					return (
-						<Slider.Item key={`product_slider__item__${item.article}`} className="product_slider__item__wrapper" onClick={onClick}>
-							<ProductSliderItem product={item} URLStartWith={URLStartWith} />
-						</Slider.Item>
-					);
-				})}
-			</>
+			{items.map((item) => {
+				return (
+					<Slider.Item key={`product_slider__item__${item.article}`} className="product_slider__item__wrapper" onClick={onClick}>
+						<ProductSliderItem product={item} URLStartWith={URLStartWith} />
+					</Slider.Item>
+				);
+			})}
 		</Slider>
 	);
 };

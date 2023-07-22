@@ -5,87 +5,83 @@
 	padding: 10px 50px 20px;
 	border-radius: 25px 25px 0 0;
 
-
-
-	
-
-	.footer__content__wrapper{
+	.footer__content__wrapper {
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
 		margin: 20px 0 30px;
-		.footer__content__block__header{
+		.footer__content__block__header {
 			color: var(--orange-color);
 			font-size: var(--headerS);
-			margin:0;
+			margin: 0;
 			font-family: var(--museo_cyrl);
 		}
-		.footer__content__main{
+		.footer__content__main {
 			display: flex;
 			flex-direction: row;
 			gap: 100px;
-			.footer__content__block{
+			.footer__content__block {
 				width: 300px;
 				display: flex;
 				flex-direction: column;
 				gap: 10px;
 				font-family: var(--museo_cyrl);
-				.footer__content__block__column{
+				.footer__content__block__column {
 					display: flex;
 					flex-direction: column;
 					gap: 8px;
-					.footer__content__block__column__item{
+					.footer__content__block__column__item {
 						font-size: var(--fontM);
 						color: var(--grey-color);
 						font-weight: 300;
 						transition: color 0.25s ease;
-						&::first-letter{
+						&::first-letter {
 							text-transform: uppercase;
 						}
-						&:hover{
+						&:hover {
 							color: var(--white-color);
 						}
 					}
 				}
 			}
 		}
-		.footer__content__contacts{
+		.footer__content__contacts {
 			display: flex;
 			flex-direction: column;
 			gap: 20px;
 			align-items: flex-end;
 			width: 300px;
-			.footer__logo__wrapper{
+			.footer__logo__wrapper {
 				width: 200px;
 				padding: 5px;
 				cursor: pointer;
 				background-color: var(--white-color);
 				border-radius: 8px;
-				.footer__logo{
+				.footer__logo {
 					max-width: 100%;
 					max-height: 100%;
 					width: auto;
 					height: auto;
 				}
 			}
-			.footer__contacts__wrapper{
+			.footer__contacts__wrapper {
 				display: flex;
 				flex-direction: column;
 				gap: 30px;
 				color: var(--white-color);
 				font-family: var(--museo_cyrl);
-				.footer__contacts__content__wrapper{
+				.footer__contacts__content__wrapper {
 					display: flex;
 					flex-direction: column;
 					gap: 10px;
 					text-align: right;
 				}
-				.footer__contacts__data__header{
+				.footer__contacts__data__header {
 					font-size: var(--fontX);
 					font-weight: 600;
 					margin: 0;
 				}
-				.footer__contacts__data{
+				.footer__contacts__data {
 					font-size: var(--fontL);
 					margin: 0;
 					font-weight: 300;
@@ -96,21 +92,21 @@
 		@media (max-width: 1024px) {
 			flex-wrap: wrap;
 			justify-content: center;
-			.footer__content__main{
+			.footer__content__main {
 				width: 100%;
 			}
-			.footer__content__block__header{
+			.footer__content__block__header {
 				font-size: var(--fontXL);
 			}
-			.footer__content__main{
+			.footer__content__main {
 				margin-bottom: 30px;
 				justify-content: space-between;
 			}
-			.footer__content__contacts{
+			.footer__content__contacts {
 				text-align: center;
 				justify-content: center;
 				align-items: center;
-				.footer__contacts__content__wrapper{
+				.footer__contacts__content__wrapper {
 					text-align: center;
 					justify-content: center;
 					align-items: center;
@@ -120,19 +116,15 @@
 
 		@media (max-width: 768px) {
 			flex-direction: column;
-			justify-content: center;
-			align-items: center;
-			.footer__content__main{
+			.footer__content__main {
 				flex-direction: column;
-				justify-content: center;
-				align-items: center;
 				gap: 20px;
 			}
-			.footer__content__contacts{
+			.footer__content__contacts {
 				justify-content: flex-start;
 				align-items: flex-start;
-				.footer__contacts__wrapper{
-					.footer__contacts__content__wrapper{
+				.footer__contacts__wrapper {
+					.footer__contacts__content__wrapper {
 						text-align: left;
 						justify-content: unset;
 						align-items: unset;
@@ -141,45 +133,42 @@
 			}
 		}
 	}
-	.footer__copyrights__wrapper{
+	.footer__copyrights__wrapper {
 		display: flex;
 		flex-direction: column;
-		.footer__copyrights{
+		.footer__copyrights {
 			display: flex;
 			flex-direction: column;
 			gap: 5px;
 			color: var(--light-grey-color);
 			font-family: var(--museo_cyrl);
-			.footer__copyrights__watermark{
+			.footer__copyrights__watermark {
 				margin: 0;
 				font-size: var(--fontM);
 			}
-			.footer__copyrights__content{
+			.footer__copyrights__content {
 				font-size: var(--fontS);
 				width: 100%;
 				margin: 0;
 			}
 		}
 		@media (max-width: 1024px) {
-			.footer__copyrights{
+			.footer__copyrights {
 				text-align: center;
 			}
 		}
 		@media (max-width: 368px) {
-			.footer__copyrights__content{
+			.footer__copyrights__content {
 				font-size: var(--fontT);
 			}
 		}
-
 	}
 
-
-	@media(max-width: 1024px){
+	@media (max-width: 1024px) {
 		min-height: 200px;
 		height: 100%;
 	}
 	@media (max-width: 768px) {
 		padding: 30px 30px 60px;
 	}
-
 }
