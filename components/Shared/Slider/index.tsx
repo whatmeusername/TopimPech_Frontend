@@ -3,6 +3,7 @@ import './Slider.scss';
 
 import { useMobile } from '../../../context/MobileContext/MobileContext';
 import { ArrowIcon } from '../../IconsElements';
+import useWindowSize from '../../../hooks/useWindowSize';
 
 const ACTIVE_DOT_CLASSNAME = 'slider__dot__active';
 const DISABLED_BUTTON_CLASSNAME = 'slider__button__disabled';
@@ -11,6 +12,11 @@ interface SliderSettings {
 	ItemsPerSlide?: number | 'auto';
 	mobileSize?: number;
 	enableSlideButtons?: boolean;
+	returnToOtherSide?: boolean;
+	auto?: {
+		// direction?: SlideDirection;
+		timeMS: number;
+	};
 }
 
 enum SlideDirection {
@@ -19,19 +25,23 @@ enum SlideDirection {
 }
 
 function ButtonVersionSlider({ children, options }: { children: ReactElement[]; options?: SliderSettings }) {
+	const { width } = useWindowSize();
 	const isSingleSlide = options?.ItemsPerSlide === 1;
+
 	const [current, setCurrent] = useState<number>(0);
 
+	const slideTimer = useRef<ReturnType<typeof setTimeout>>(null!);
 	const IS_BUTTON_ACTIVE = useRef<boolean>(options?.enableSlideButtons ?? true);
 
 	const dotsRef = useRef<HTMLDivElement>(null!);
 	const wrapperRef = useRef<HTMLDivElement>(null!);
 	const contentRef = useRef<HTMLDivElement>(null!);
 
-	const [LBDisabled, setLBDisabled] = useState<boolean>(true);
+	const [LBDisabled, setLBDisabled] = useState<boolean>(options?.returnToOtherSide ? false : true);
 	const [RBDisabled, setRBDisabled] = useState<boolean>(false);
 
 	const currentSlide = useRef<number>(0);
+	const sliderMaxWidth = useRef<number>(0);
 	const slidesTotal = useRef<number>(isSingleSlide ? children.length : 0);
 
 	const [itemsCount, setItemsCount] = useState<number>(-1);
@@ -41,39 +51,81 @@ function ButtonVersionSlider({ children, options }: { children: ReactElement[]; 
 	const DOTS_COUNT = Math.ceil(itemsCount / (itemsPerSlide.current ?? 1)) + 1;
 	const dots = Array.from(Array(DOTS_COUNT).keys());
 
-	useEffect(() => {
-		const wrapperInnerWidth = contentRef.current.offsetWidth;
-		const contentItems = contentRef.current.childNodes;
+	function setSliderTimeout() {
+		if (options?.auto) {
+			slideTimer.current = setTimeout(() => {
+				SlideItem(SlideDirection.RIGHT);
+			}, options.auto.timeMS);
+		}
+	}
 
+	function clearSliderTimeout(reset: boolean) {
+		if (options?.auto) {
+			if (slideTimer.current) {
+				clearTimeout(slideTimer.current);
+				slideTimer.current = null!;
+			}
+			if (reset) {
+				setSliderTimeout();
+			}
+		}
+	}
+
+	useEffect(() => {
 		if (contentRef.current.childNodes.length === 0) return;
 
-		itemWidth.current = (contentItems[0] as HTMLElement).offsetWidth;
+		const wrapperInnerWidth = wrapperRef.current.offsetWidth;
+		const contentItems = contentRef.current.childNodes;
 
+		itemWidth.current = (contentItems[0] as HTMLElement).offsetWidth;
 		itemsPerSlide.current = itemsPerSlide.current === null ? Math.floor(wrapperInnerWidth / itemWidth.current) : itemsPerSlide.current;
+
 		const itemsCount = contentItems.length - itemsPerSlide.current;
 
 		slidesTotal.current = Math.ceil(itemsCount / itemsPerSlide.current);
-		contentRef.current.style.width = `${itemsPerSlide.current * itemWidth.current}px`;
+		contentRef.current.style.width = `${contentItems.length * wrapperInnerWidth}px`;
+		sliderMaxWidth.current = contentItems.length * itemWidth.current - wrapperInnerWidth;
 
 		IS_BUTTON_ACTIVE.current = itemsCount > 0 ? true : false;
 
+		contentRef.current.childNodes.forEach((child) => {
+			(child as HTMLDivElement).style.width = `${wrapperInnerWidth}px`;
+		});
+
 		setItemsCount(itemsCount);
-		validateButtons();
-	}, []);
+		validateButtons(itemsCount);
+	}, [width]);
 
 	useEffect(() => {
-		contentRef.current.style.left = `-${itemWidth.current * current}px`;
+		if (itemsCount > 0 && options?.auto) {
+			setSliderTimeout();
+			return () => {
+				clearSliderTimeout(false);
+			};
+		}
+	}, [itemsCount]);
+
+	useEffect(() => {
+		contentRef.current.style.left = `-${
+			itemWidth.current * current > sliderMaxWidth.current ? sliderMaxWidth.current : itemWidth.current * current
+		}px`;
 	}, [current]);
 
-	const SlideItem = (side: SlideDirection, to: number): void => {
-		const itemsToSlide = to !== null ? to : 1;
+	const SlideItem = (side: SlideDirection, to?: number): void => {
+		const itemsToSlide = to ? to : 1;
+
 		if (side === SlideDirection.RIGHT) {
-			setCurrent(itemsCount >= current + itemsToSlide ? current + itemsToSlide : itemsCount);
-			setActiveDot(currentSlide.current + 1 <= slidesTotal.current ? currentSlide.current + 1 : slidesTotal.current);
+			const last = options?.returnToOtherSide ? 0 : itemsCount;
+			const lastDot = options?.returnToOtherSide ? 0 : slidesTotal.current;
+			setCurrent((c) => (itemsCount >= c + itemsToSlide ? c + itemsToSlide : last));
+			setActiveDot(currentSlide.current + 1 <= slidesTotal.current ? currentSlide.current + 1 : lastDot);
 		} else if (side === SlideDirection.LEFT) {
-			setCurrent(current - itemsToSlide >= 0 ? current - itemsToSlide : 0);
-			setActiveDot(current - itemsToSlide >= 0 ? currentSlide.current - 1 : 0);
+			const first = options?.returnToOtherSide ? itemsCount : 0;
+			const firstDot = options?.returnToOtherSide ? slidesTotal.current : 0;
+			setCurrent((c) => (c - itemsToSlide >= 0 ? c - itemsToSlide : first));
+			setActiveDot(current - itemsToSlide >= 0 ? currentSlide.current - 1 : firstDot);
 		}
+		clearSliderTimeout(true);
 	};
 
 	const SlideTo = (to: number): void => {
@@ -81,13 +133,16 @@ function ButtonVersionSlider({ children, options }: { children: ReactElement[]; 
 			if (to < 0) to = 0;
 			else if (to > itemsCount) to = itemsCount;
 
+			clearSliderTimeout(true);
 			setCurrent(to);
 			findDotAndSetActive(to);
 		}
 	};
 
-	const validateButtons = () => {
-		if (IS_BUTTON_ACTIVE.current) {
+	const validateButtons = (currentCount?: number) => {
+		currentCount = currentCount ?? itemsCount;
+		if (!IS_BUTTON_ACTIVE.current || (options?.returnToOtherSide && currentCount > 1)) return;
+		else {
 			setLBDisabled(currentSlide.current === 0);
 			setRBDisabled(currentSlide.current === slidesTotal.current);
 		}

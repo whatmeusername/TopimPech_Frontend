@@ -4,7 +4,6 @@ import axios from 'axios';
 import { useState, useEffect, ReactElement, Dispatch, SetStateAction, useRef } from 'react';
 import { MappedProductsResponse } from '../CatalogComponents/Cards/interface';
 import './CartPageElement.scss';
-import { ToPreviousPageButton } from '../Shared/ToPreviousPageButton/ToPreviousPageButton';
 import { CartItem } from '../../store';
 import { useUserProductCart } from '../../context/MobxStoreContext/MobxStoreContext';
 import { observer } from 'mobx-react-lite';

@@ -1,6 +1,5 @@
 .menu__button {
-
-	&.menu__button__mobile__desktop{
+	&.menu__button__mobile__desktop {
 		background-color: var(--primary-color);
 		border-radius: 8px;
 		display: flex;
@@ -27,11 +26,10 @@
 			font-weight: 300;
 			color: var(--white-color);
 		}
-		&:hover{
+		&:hover {
 			opacity: 0.9;
 		}
 	}
-
 }
 
 .menu__content__active__blackscreen {
@@ -112,7 +110,6 @@
 							&.main__category__column__item__selected {
 								border: 1px solid var(--primary-color);
 							}
-
 						}
 					}
 				}
@@ -141,7 +138,7 @@
 								&:hover {
 									color: var(--orange-color);
 								}
-								.sub__categories__column__item__count{
+								.sub__categories__column__item__count {
 									color: var(--gray-color);
 									font-size: var(--fontS);
 									border: 1px solid var(--grey-color);

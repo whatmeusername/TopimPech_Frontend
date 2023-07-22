@@ -1,6 +1,6 @@
-
-.child__categories__wrapper{
-	max-width: 1140px;
+.child__categories__wrapper {
+	max-width: 1100px;
+	margin: 0 auto;
 }
 .child__category__wrapper {
 	min-width: 200px;
@@ -15,7 +15,7 @@
 	gap: 10px;
 
 	&:hover {
-		.child__category__info__wrapper{
+		.child__category__info__wrapper {
 			.child__category__label {
 				color: var(--orange-color);
 			}
@@ -36,7 +36,7 @@
 			border-radius: 8px;
 		}
 	}
-	.child__category__info__wrapper{
+	.child__category__info__wrapper {
 		display: flex;
 		flex-direction: column;
 		.child__category__label {
@@ -51,7 +51,7 @@
 				text-transform: uppercase;
 			}
 		}
-		.child__category__count{
+		.child__category__count {
 			margin: 0;
 			font-size: var(--fontMS);
 			color: var(--gray-color);

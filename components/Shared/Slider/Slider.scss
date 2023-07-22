@@ -31,11 +31,11 @@
 				box-shadow: 0 4px 16px 1px rgba(0, 26, 52, 0.16);
 
 				&.slider__content__slide__button__left {
-					left: 20px;
+					left: -20px;
 					transform: rotateZ(180deg);
 				}
 				&.slider__content__slide__button__right {
-					right: 20px;
+					right: -20px;
 				}
 
 				.slider__content__slide__icon {
@@ -70,6 +70,9 @@
 					left: 0px;
 					display: flex;
 					flex-direction: row;
+					.slider__item__wrapper {
+						user-select: none;
+					}
 				}
 				.slider__dots__wrapper {
 					display: flex;
@@ -108,9 +111,9 @@
 			.slider__content {
 				display: flex;
 				flex-direction: row;
-			}
-			.slider__item__wrapper {
-				user-select: none;
+				.slider__item__wrapper {
+					user-select: none;
+				}
 			}
 		}
 	}

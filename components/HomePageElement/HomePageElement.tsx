@@ -6,8 +6,8 @@ import { HistorySlider } from '../HistorySlider/HistorySlider';
 import { RecomendationElement } from '../RecomendationElement/RecomendationElement';
 import './HomePageElement.scss';
 import { declOfProduct } from '../../utils';
-import { ArrowGallery } from '../Shared/ArrowGallery/ArrowGallery';
 import Slider from '../Shared/Slider';
+import { StandardBreakLine } from '../Shared/Lines/StandardBreakLine/StandardBreakLine';
 
 function HomePageElementCategoryItem({ categoryData }: { categoryData: CategoryData }) {
 	return (
@@ -43,13 +43,15 @@ const banners = [
 function BannersSlider() {
 	return (
 		<div className="home__page__banners__wrapper">
-			<Slider SliderSettings={{ ItemsPerSlide: 1 }}>
+			<Slider SliderSettings={{ ItemsPerSlide: 1, returnToOtherSide: true, auto: { timeMS: 5000 } }}>
 				{banners.map((banner, i) => {
 					return (
 						<Slider.Item key={`home__page__banner__${i}`} className="home__page__banner__item">
-							<Link href={banner.url} className="home__page__banner__link">
-								<img src={banner.image} className="home__page__banner__image" />
-							</Link>
+							<div>
+								<Link href={banner.url} className="home__page__banner__link">
+									<img src={banner.image} className="home__page__banner__image" />
+								</Link>
+							</div>
 						</Slider.Item>
 					);
 				})}
@@ -65,11 +67,14 @@ function HomePageElementCategories() {
 		<div className="home__page__categories__wrapper">
 			<div className="home__page__categories__header__wrapper">
 				<h2 className="home__page__categories__header">Категории товаров</h2>
+				<StandardBreakLine />
 			</div>
-			<div className="home__page__categories__content">
-				{categories.categories.map((categoryData) => {
-					return <HomePageElementCategoryItem key={`home__page__category__item__${categoryData.slug}`} categoryData={categoryData} />;
-				})}
+			<div className="home__page__categories__content__wrapper">
+				<div className="home__page__categories__content">
+					{categories.categories.map((categoryData) => {
+						return <HomePageElementCategoryItem key={`home__page__category__item__${categoryData.slug}`} categoryData={categoryData} />;
+					})}
+				</div>
 			</div>
 		</div>
 	);
