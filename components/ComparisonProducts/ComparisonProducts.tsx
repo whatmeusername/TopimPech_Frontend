@@ -43,6 +43,7 @@ function GatherProductComparisonData(products: ProductData[], diffWith?: Product
 					const n2 = Number(property.value);
 					res.state = n1 === n2 ? ComparisonState.SAME : n1 > n2 ? ComparisonState.DECREASE : ComparisonState.RAISING;
 					res.distance = n1 === n2 ? 0 : n1 > n2 ? n1 - n2 : n2 - n1;
+					res.distance = Number(res.distance.toFixed(2));
 				} else if (diffProperty && property.valueType === 1) {
 					res.state = diffProperty.value !== property.value ? ComparisonState.CHANGED : ComparisonState.SAME;
 				}

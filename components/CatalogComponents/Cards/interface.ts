@@ -55,7 +55,18 @@ interface ProductData {
 	type?: ProductBaseData;
 	properties?: Property[];
 	slug: string;
-	description?: string;
+	descriptionFlat?: string;
+	descriptionDOM?: string;
+	suitableProducts: ProductData[];
+	RelatedProductsTable: {
+		key: string;
+		relatedProducts: {
+			value: string;
+			product: {
+				article: string;
+			};
+		}[];
+	};
 }
 
 export type { MappedProductsResponse, ProductData, Property, FeatureKey, ProductImage, ProductBaseData, ProductDataShort };

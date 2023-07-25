@@ -39,10 +39,6 @@
 	}
 }
 
-
-
-
-
 .filter__clear__button {
 	width: 100%;
 	height: 50px;
@@ -62,8 +58,7 @@
 	}
 }
 
-
-.facet__filters__container{
+.facet__filters__container {
 	position: sticky;
 	left: 0;
 	top: 75px;
@@ -76,16 +71,31 @@
 	background-color: transparent;
 	border: 1px solid var(--primary-color);
 	transition: all 0.1s ease-in-out;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	opacity: 1;
 	cursor: pointer;
+	transition: opacity 0.2s ease;
 	&:hover {
-		color: var(--gray-color);
-		border-color: var(--gray-color);
+		opacity: 0.8;
 	}
-	.filter__show__all__label{
+	.filter__show__all__label {
 		color: var(--primary-color);
 		font-family: var(--museo_cyrl);
 		font-weight: 300;
 		font-size: var(--fontL);
+	}
+	.filter__show__all__icon {
+		width: 30px;
+		height: 30px;
+		fill: var(--primary-color);
+	}
+	.filter__show__all__count {
+		color: var(--gray-color);
+		font-size: var(--fontM);
 	}
 }
 

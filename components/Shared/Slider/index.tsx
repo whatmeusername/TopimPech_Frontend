@@ -71,6 +71,71 @@ function ButtonVersionSlider({ children, options }: { children: ReactElement[]; 
 		}
 	}
 
+	let dragOffset = 0;
+	let rect: DOMRect | null = null;
+	let nextOffset = 0;
+
+	const OnDragStart = (e: React.DragEvent | React.TouchEvent): void => {
+		contentRef.current.style.transition = 'unset';
+
+		const isTouch = (e as React.DragEvent).clientX === undefined;
+
+		if (!isTouch) {
+			e.preventDefault();
+		}
+		const x = (e as React.DragEvent).clientX ?? (e as React.TouchEvent).touches[0].clientX;
+
+		rect = contentRef.current.getBoundingClientRect();
+		dragOffset = x - rect.left + contentRef.current.offsetWidth * current;
+
+		window.addEventListener('mousemove', onDragMove);
+		window.addEventListener('mouseup', onDragEnd);
+
+		if (isTouch) {
+			window.addEventListener('touchmove', onDragMove);
+			window.addEventListener('touchend', onDragEnd);
+		} else {
+			window.addEventListener('mousemove', onDragMove);
+			window.addEventListener('mouseup', onDragEnd);
+		}
+		clearSliderTimeout(false);
+	};
+
+	const removeEvents = (): void => {
+		window.removeEventListener('touchmove', onDragMove);
+		window.removeEventListener('touchend', onDragEnd);
+		window.removeEventListener('mousemove', onDragMove);
+		window.removeEventListener('mouseup', onDragEnd);
+	};
+
+	const onDragMove = (event: MouseEvent | TouchEvent): void => {
+		if (!rect) {
+			removeEvents();
+			return;
+		}
+		const x = (event as TouchEvent)?.touches?.[0].clientX ?? (event as MouseEvent).clientX;
+		nextOffset = x - rect.left - dragOffset;
+		contentRef.current.style.left = `${nextOffset}px`;
+	};
+
+	const onDragEnd = () => {
+		removeEvents();
+
+		contentRef.current.style.transition = 'left 0.25s ease';
+
+		const slidesPassedRation = (nextOffset * -1) / contentRef.current.offsetWidth - current;
+		const slidesPassed = Math.round(slidesPassedRation);
+
+		if (slidesPassed > 0 && current !== maxIndex) {
+			setCurrent(current + slidesPassed > maxIndex ? maxIndex : current + slidesPassed);
+		} else if (slidesPassed < 0 && current !== 0) {
+			setCurrent(current + slidesPassed > 0 ? current + slidesPassed : 0);
+		} else {
+			contentRef.current.style.left = `-${contentRef.current.offsetWidth * current}px`;
+		}
+		//setSliderTimeout();
+	};
+
 	useEffect(() => {
 		if (contentRef.current.childNodes.length === 0) return;
 
@@ -149,17 +214,19 @@ function ButtonVersionSlider({ children, options }: { children: ReactElement[]; 
 	};
 
 	const findDotAndSetActive = (to: number) => {
-		const dots = dotsRef.current.childNodes as NodeListOf<HTMLElement>;
-		for (let i = 0; i < dots.length; i++) {
-			const dot = dots[i];
-			const slidesNumber = Number(dot.dataset.slides);
-			if (to <= slidesNumber) {
-				dots[currentSlide.current]?.classList.remove(ACTIVE_DOT_CLASSNAME);
-				dots[i]?.classList.add(ACTIVE_DOT_CLASSNAME);
-				currentSlide.current = i;
+		if (dotsRef.current) {
+			const dots = dotsRef.current.childNodes as NodeListOf<HTMLElement>;
+			for (let i = 0; i < dots.length; i++) {
+				const dot = dots[i];
+				const slidesNumber = Number(dot.dataset.slides);
+				if (to <= slidesNumber) {
+					dots[currentSlide.current]?.classList.remove(ACTIVE_DOT_CLASSNAME);
+					dots[i]?.classList.add(ACTIVE_DOT_CLASSNAME);
+					currentSlide.current = i;
 
-				validateButtons();
-				break;
+					validateButtons();
+					break;
+				}
 			}
 		}
 	};
@@ -212,7 +279,7 @@ function ButtonVersionSlider({ children, options }: { children: ReactElement[]; 
 			<div className={`slider__main__content ${slidesTotal.current === 0 ? 'slider__main__content__single' : ''}`}>
 				{IS_BUTTON_ACTIVE.current && !LBDisabled ? <SliderButton side={SlideDirection.LEFT} /> : null}
 				<div className="slider__content__wrapper">
-					<div className="slider__content" ref={contentRef}>
+					<div className="slider__content" ref={contentRef} onDragStart={OnDragStart} onTouchStart={OnDragStart}>
 						{children}
 					</div>
 					{IS_BUTTON_ACTIVE.current ? <DotsElement /> : null}

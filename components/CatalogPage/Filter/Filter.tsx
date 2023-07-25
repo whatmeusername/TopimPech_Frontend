@@ -20,6 +20,7 @@ import CheckboxFilter from './CheckboxFilter/CheckboxFilter';
 import { AllFilterComponent, ClearFiltersButton } from './AllFilterComponent/AllFilterComponent';
 import { ReactElement } from 'react';
 import { useMobile } from '../../../context/MobileContext/MobileContext';
+import { FilterIcon } from '../../IconsElements';
 
 const getFilterParameters = (searchParams: URLSearchParams | ParsedUrlQuery): FilterParameters => {
 	let filterParam: string | null;
@@ -50,7 +51,7 @@ const collectFilterParameters = (filterParam: { [K: string]: string[] } | null):
 	return res;
 };
 
-const AllFiltersOpenButton = ({ shortLabel }: { shortLabel?: boolean }): ReactElement => {
+const AllFiltersOpenButton = ({ shortLabel, filterCount }: { shortLabel?: boolean; filterCount: number }): ReactElement => {
 	return (
 		<button
 			className="filter__show__all"
@@ -58,7 +59,9 @@ const AllFiltersOpenButton = ({ shortLabel }: { shortLabel?: boolean }): ReactEl
 				centerModalControl.toggle('FilterModal');
 			}}
 		>
+			<FilterIcon className="filter__show__all__icon" />
 			<p className="filter__show__all__label"> {shortLabel ? 'Фильтры' : 'Показать все фильтры'}</p>
+			{filterCount ? <span className="filter__show__all__count">({filterCount})</span> : null}
 		</button>
 	);
 };
@@ -123,7 +126,7 @@ function FacetFilter({ initialFilters }: { initialFilters: FilterFetchData }): J
 							<FilterSkeleton />
 						)}
 					</div>
-					{FilterCount > 10 ? <AllFiltersOpenButton /> : null}
+					{FilterCount > 10 ? <AllFiltersOpenButton filterCount={FilterCount} /> : null}
 					{getActiveFiltersLength > 0 ? <ClearFiltersButton router={router} searchParams={searchParams} pathname={pathname} /> : null}
 				</div>
 			) : null}

@@ -18,6 +18,8 @@ const GalleryDesktop = ({ items, urlStartsWith, ration }: { items: GalleryItem[]
 	const Ration = ration ? ration : 2.5;
 	const activeImagePath = `${urlStartsWith ?? ''}${items.find((i) => i.id === current)?.path ?? ''}`;
 
+	console.log(activeImagePath);
+
 	let rect: DOMRect = null!;
 	const sideTop = useRef<number>(0);
 
@@ -139,7 +141,7 @@ const GalleryDesktop = ({ items, urlStartsWith, ration }: { items: GalleryItem[]
 						/>
 						{allowZoom ? <div ref={zoomPointer} className="gallery__current__zoom__cursor" /> : null}
 					</div>
-					<div className="gallery__current__img__zoom" style={{ background: `url(${activeImagePath})` }} ref={zoomImage} />
+					<div className="gallery__current__img__zoom" style={{ background: `url('${activeImagePath}')` }} ref={zoomImage} />
 				</div>
 			</div>
 		</>

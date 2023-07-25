@@ -43,7 +43,7 @@ const banners = [
 function BannersSlider() {
 	return (
 		<div className="home__page__banners__wrapper">
-			<Slider SliderSettings={{ ItemsPerSlide: 1, returnToOtherSide: true, auto: { timeMS: 5000 } }}>
+			<Slider SliderSettings={{ ItemsPerSlide: 1, returnToOtherSide: false, auto: { timeMS: 5000 } }}>
 				{banners.map((banner, i) => {
 					return (
 						<Slider.Item key={`home__page__banner__${i}`} className="home__page__banner__item">

@@ -21,6 +21,10 @@ import MinusIcon from '../../public/OptionsIcons/Minus.svg';
 import PlusIcon from '../../public/OptionsIcons/Plus.svg';
 import CheckmarkIcon from '../../public/OptionsIcons/checkmark.svg';
 
+import PhoneIcon from '../../public/OptionsIcons/Phone.svg';
+import DeliveryIcon from '../../public/OptionsIcons/Delivery.svg';
+import FilterIcon from '../../public/OptionsIcons/Filter.svg';
+
 import SiteLogo from '../../public/logo/SiteLogo.svg';
 
 export {
@@ -43,4 +47,7 @@ export {
 	SiteLogo,
 	PlusIcon,
 	CheckmarkIcon,
+	PhoneIcon,
+	DeliveryIcon,
+	FilterIcon,
 };

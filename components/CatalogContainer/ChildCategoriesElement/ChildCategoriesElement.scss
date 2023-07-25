@@ -46,6 +46,13 @@
 			letter-spacing: -0.5px;
 			font-family: var(--museo_cyrl);
 			color: var(--primary-color);
+
+			display: -webkit-box;
+			-webkit-line-clamp: 3;
+			-webkit-box-orient: vertical;
+			overflow: hidden;
+			text-overflow: ellipsis;
+
 			transition: color 0.25s ease;
 			&::first-letter {
 				text-transform: uppercase;

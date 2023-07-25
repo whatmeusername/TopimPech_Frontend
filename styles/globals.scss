@@ -22,9 +22,7 @@ a {
 	box-sizing: border-box;
 }
 
-
-
-button{
+button {
 	border: none;
 	background: none;
 	margin: 0;
@@ -54,5 +52,27 @@ button{
 		text-decoration: line-through;
 		margin-left: 5px;
 		font-weight: 700;
+	}
+}
+
+.products__grid__layout {
+	grid-gap: 10px;
+	display: grid;
+	grid-template-columns: repeat(24, 1fr);
+
+	@media (max-width: 1248px) {
+		grid-template-columns: repeat(20, 1fr);
+	}
+
+	@media (max-width: 1024px) {
+		grid-template-columns: repeat(16, 1fr);
+	}
+
+	@media (max-width: 768px) {
+		grid-template-columns: repeat(12, 1fr);
+	}
+
+	@media (max-width: 528px) {
+		grid-template-columns: repeat(8, 1fr);
 	}
 }

@@ -1,6 +1,7 @@
 .breadcrumb__wrapper {
 	display: flex;
 	flex-direction: row;
+	flex-wrap: wrap;
 	font-family: var(--museo_cyrl);
 	align-items: center;
 	gap: 0px;
@@ -9,10 +10,6 @@
 		text-decoration: none;
 		font-size: var(--fontM);
 		letter-spacing: 0.5px;
-		max-width: 250px;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
 		padding: 2.5px 5px;
 		border-radius: 8px;
 
@@ -35,5 +32,15 @@
 		font-size: var(--fontS);
 		margin: 0px 5px;
 		font-size: var(--fontL);
+	}
+
+	@media (max-width: 768px) {
+		.breadcrumb__slash {
+			font-size: var(--fontS);
+			margin: 0 2.5px;
+		}
+		.breadcrumb__item {
+			font-size: var(--fontS);
+		}
 	}
 }

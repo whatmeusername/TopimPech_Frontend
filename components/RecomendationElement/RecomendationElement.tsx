@@ -33,7 +33,7 @@ function RecomendationElement({ limit }: { limit?: number }) {
 			<div className="recomendation__products__head">
 				<h2 className="recomendation__products__header">Рекомендуем вам</h2>
 			</div>
-			<div className="recomendation__products__content">
+			<div className="recomendation__products__content products__grid__layout">
 				{recomendationProducts.map((product) => {
 					return <RecomendationElementCard product={product} key={`recomendation__${product.slug}`} />;
 				})}
