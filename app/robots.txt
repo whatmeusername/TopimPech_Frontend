@@ -1,0 +1,5 @@
+User-Agent: *
+Disallow: /cart
+Disallow: /comparison
+Disallow: /favourites
+Dissallow: /catalog/search

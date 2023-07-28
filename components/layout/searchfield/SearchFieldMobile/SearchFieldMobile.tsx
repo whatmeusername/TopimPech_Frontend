@@ -24,7 +24,7 @@ function SearchModal({ modalId }: { modalId: string }): ReactElement {
 		if (value !== '' && value.length > 2) {
 			axios({
 				method: 'GET',
-				url: `/api/products/search/name/${value}`,
+				url: `/api/products/search/name/?query=${value}`,
 			}).then((res) => {
 				setResults({ ...res.data });
 			});

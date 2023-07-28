@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { ReactElement, useRef, useState } from 'react';
 
 import './ProductCardGallery.scss';
 import { ProductImage } from '../Cards/interface';
@@ -17,7 +17,8 @@ const ProductImageGallery = ({
 	urlStartsWith?: string;
 	alt?: string;
 	size?: number;
-}): JSX.Element => {
+}): ReactElement | null => {
+	if (!images) return null;
 	const refImages = useRef<ProductImage[]>(images);
 	const [selectedImage, setSelectedImage] = useState<number>(0);
 

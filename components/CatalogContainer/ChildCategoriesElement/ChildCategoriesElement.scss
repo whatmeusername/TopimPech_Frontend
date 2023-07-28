@@ -1,6 +1,9 @@
 .child__categories__wrapper {
 	max-width: 1100px;
 	margin: 0 auto;
+	@media (max-width: 720px) {
+		max-width: 100%;
+	}
 }
 .child__category__wrapper {
 	min-width: 200px;

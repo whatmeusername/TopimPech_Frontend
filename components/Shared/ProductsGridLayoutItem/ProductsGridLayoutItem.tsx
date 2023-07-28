@@ -7,6 +7,7 @@ import PriceElement from '../../CatalogComponents/PriceElement.tsx/PriceElement'
 import './ProductsGridLayoutItem.scss';
 
 function ProductsGridLayoutItem({ product }: { product: ProductDataShort }): ReactElement {
+	product.images.sort((a, b) => a.id - b.id);
 	return (
 		<Link className="grid__layout__product__item" href={`/product/${product.article}`} prefetch={false}>
 			<div className="grid__layout__product__item__image__wrapper">

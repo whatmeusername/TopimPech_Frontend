@@ -2,12 +2,10 @@ import React, { memo, useRef } from 'react';
 import './menu.scss';
 import Link from 'next/link';
 
-import { faAngleRight, faAngleLeft } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 import { CategoriesColumn } from './GeneralElements';
 import type { CategoryData } from './GeneralElements';
 import { menuModalControl } from '../../../store/MenuModal';
+import { AngleArrowIcon, ArrowIcon } from '../../IconsElements';
 
 type BurgerData = { parent: CategoryData | undefined; child: CategoryData[]; id: string };
 const PrepareBurgersData = (categories: CategoryData[]): BurgerData[] => {
@@ -57,7 +55,7 @@ const MenuContentMobile = memo(({ categories }: { categories: CategoryData[] }):
 				</Link>
 				{category.child.length > 0 ? (
 					<span className="mobile__category__item__arrow" onClick={() => ToggleBurger(category.slug)}>
-						<FontAwesomeIcon icon={faAngleRight} />
+						<AngleArrowIcon className="mobile__category__item__arrow__icon" />
 					</span>
 				) : (
 					''
@@ -74,7 +72,7 @@ const MenuContentMobile = memo(({ categories }: { categories: CategoryData[] }):
 				</Link>
 				{category.child.length > 0 ? (
 					<span className="mobile__category__item__arrow" onClick={() => ToggleBurger(category.slug)}>
-						<FontAwesomeIcon icon={faAngleRight} />
+						<AngleArrowIcon className="mobile__category__item__arrow__icon" />
 					</span>
 				) : (
 					''
@@ -96,7 +94,7 @@ const MenuContentMobile = memo(({ categories }: { categories: CategoryData[] }):
 			<div className="sub__category__burger__wrapper" data-parent-id={categoryId}>
 				<div className="sub__category__burger__back__wrapper" onClick={() => ToggleBurger(parentCategory ? parentCategory.slug : null)}>
 					<span className="sub__category__burger__back__arrow">
-						<FontAwesomeIcon icon={faAngleLeft} />
+						<ArrowIcon className="sub__category__burger__back__arrow__icon" />
 					</span>
 					<span>{parentCategory ? parentCategory.name : 'категории'}</span>
 				</div>

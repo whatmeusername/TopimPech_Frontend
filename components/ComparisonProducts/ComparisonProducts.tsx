@@ -85,9 +85,9 @@ function ComparisonProductsCardBig({ product, config }: { product: ProductData; 
 }
 
 const ComparisonStateInfo = [
-	{ text: 'Значение характеристки выше относительно текущего товара', class: 'comparison__products__raising' },
-	{ text: 'Значение характеристки ниже относительно текущего товара', class: 'comparison__products__decrease' },
-	{ text: 'Значение характеристки отличается от текущего товара', class: 'comparison__products__changed' },
+	{ text: 'Значение характеристики выше относительно текущего товара', class: 'comparison__products__raising' },
+	{ text: 'Значение характеристики ниже относительно текущего товара', class: 'comparison__products__decrease' },
+	{ text: 'Значение характеристики отличается от текущего товара', class: 'comparison__products__changed' },
 ];
 
 function ComparisonProductsCategories({
@@ -298,6 +298,7 @@ const ComparisonProducts = observer(({ config }: { config: ComparisonProductsCon
 	};
 
 	const ProductComparisonDataEntries = Object.entries(ProductComparisonData);
+	const HasDataToComparison = Object.keys(ProductComparisonDataEntries).length > 1;
 
 	return (
 		<div
@@ -347,55 +348,59 @@ const ComparisonProducts = observer(({ config }: { config: ComparisonProductsCon
 								</>
 							) : null}
 						</div>
-						<StandardBreakLine ref={observePoint} />
-						<div
-							className="comparison__products__data"
-							onMouseDown={sliderLength > 0 ? onDragStart : undefined}
-							onTouchStart={sliderLength > 0 ? onDragStart : undefined}
-						>
-							{ProductComparisonDataEntries.map(([key, bucket], index) => {
-								return (
-									<Fragment key={`comparison__row__${key}`}>
-										<div className="comparison__products__row">
-											<p className="comparison__products__row__header">{key}</p>
-											<div
-												className="comparison__products__row__values"
-												ref={(el) => (rowsRefs.current[index] = el as HTMLDivElement)}
-												style={{ left: `-${current * itemWidth.current}px` }}
-											>
-												{bucket.values.map((data, i) => {
-													const value = `${data.value}${!data.isNull ? ` ${bucket.unit}` : ''}`;
-													let StateClass = '';
-													let postValue = '';
-													if (data.state && data.state !== ComparisonState.SAME) {
-														if (data.state === ComparisonState.DECREASE) {
-															postValue = `(-${data.distance}${bucket.unit ? ` ${bucket.unit}` : ''})`;
-															StateClass = 'comparison__products__decrease';
-														} else if (data.state === ComparisonState.RAISING) {
-															postValue = `(+${data.distance}${bucket.unit ? ` ${bucket.unit}` : ''})`;
-															StateClass = 'comparison__products__raising';
-														} else if (data.state === ComparisonState.CHANGED) {
-															StateClass = 'comparison__products__changed';
-														}
-													}
+						{HasDataToComparison ? (
+							<>
+								<StandardBreakLine ref={observePoint} />
+								<div
+									className="comparison__products__data"
+									onMouseDown={sliderLength > 0 ? onDragStart : undefined}
+									onTouchStart={sliderLength > 0 ? onDragStart : undefined}
+								>
+									{ProductComparisonDataEntries.map(([key, bucket], index) => {
+										return (
+											<Fragment key={`comparison__row__${key}`}>
+												<div className="comparison__products__row">
+													<p className="comparison__products__row__header">{key}</p>
+													<div
+														className="comparison__products__row__values"
+														ref={(el) => (rowsRefs.current[index] = el as HTMLDivElement)}
+														style={{ left: `-${current * itemWidth.current}px` }}
+													>
+														{bucket.values.map((data, i) => {
+															const value = `${data.value}${!data.isNull ? ` ${bucket.unit}` : ''}`;
+															let StateClass = '';
+															let postValue = '';
+															if (data.state && data.state !== ComparisonState.SAME) {
+																if (data.state === ComparisonState.DECREASE) {
+																	postValue = `(-${data.distance}${bucket.unit ? ` ${bucket.unit}` : ''})`;
+																	StateClass = 'comparison__products__decrease';
+																} else if (data.state === ComparisonState.RAISING) {
+																	postValue = `(+${data.distance}${bucket.unit ? ` ${bucket.unit}` : ''})`;
+																	StateClass = 'comparison__products__raising';
+																} else if (data.state === ComparisonState.CHANGED) {
+																	StateClass = 'comparison__products__changed';
+																}
+															}
 
-													return (
-														<span className={`comparison__products__row__value ${StateClass}`} key={`comparison__row__${key}__value__${i}`}>
-															{value} {postValue}
-														</span>
-													);
-												})}
-											</div>
-										</div>
-										{index !== ProductComparisonDataEntries.length - 1 ? <ThinBreakLine /> : null}
-									</Fragment>
-								);
-							})}
-						</div>
+															return (
+																<span className={`comparison__products__row__value ${StateClass}`} key={`comparison__row__${key}__value__${i}`}>
+																	{value} {postValue}
+																</span>
+															);
+														})}
+													</div>
+												</div>
+												{index !== ProductComparisonDataEntries.length - 1 ? <ThinBreakLine /> : null}
+											</Fragment>
+										);
+									})}
+								</div>
+							</>
+						) : null}
 					</>
 				) : null}
 			</div>
-			{config.diffLabels ? (
+			{HasDataToComparison && config.diffLabels ? (
 				<>
 					<StandardBreakLine />
 					<div className="comparsion__products__info">

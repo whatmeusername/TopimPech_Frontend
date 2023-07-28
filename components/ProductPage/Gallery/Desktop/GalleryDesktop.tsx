@@ -18,8 +18,6 @@ const GalleryDesktop = ({ items, urlStartsWith, ration }: { items: GalleryItem[]
 	const Ration = ration ? ration : 2.5;
 	const activeImagePath = `${urlStartsWith ?? ''}${items.find((i) => i.id === current)?.path ?? ''}`;
 
-	console.log(activeImagePath);
-
 	let rect: DOMRect = null!;
 	const sideTop = useRef<number>(0);
 

@@ -3,10 +3,8 @@
 import { ReactElement, useEffect, useState } from 'react';
 import { MappedProductsResponse } from '../CatalogComponents/Cards/interface';
 import { ComparisonProducts } from '../ComparisonProducts/ComparisonProducts';
-import { ToPreviousPageButton } from '../Shared/ToPreviousPageButton/ToPreviousPageButton';
 
 import './ComparisonProductsPage.scss';
-import { ComparisonIcon } from '../IconsElements';
 import axios from 'axios';
 import { LoadingBar } from '../Shared/LoadingBar/LoadingBar';
 import { OptionEmptyPage } from '../Shared/OptionEmptyPage/OptionEmptyPage';

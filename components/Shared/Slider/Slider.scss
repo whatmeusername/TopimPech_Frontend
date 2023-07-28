@@ -70,9 +70,6 @@
 					left: 0px;
 					display: flex;
 					flex-direction: row;
-					.slider__item__wrapper {
-						user-select: none;
-					}
 				}
 				.slider__dots__wrapper {
 					display: flex;
@@ -103,6 +100,7 @@
 		}
 	}
 	&.slider__wrapper__drag {
+		max-width: 100vw;
 		.slider__content__wrapper {
 			display: flex;
 			flex-direction: row;
@@ -111,9 +109,6 @@
 			.slider__content {
 				display: flex;
 				flex-direction: row;
-				.slider__item__wrapper {
-					user-select: none;
-				}
 			}
 		}
 	}

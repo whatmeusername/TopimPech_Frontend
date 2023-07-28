@@ -2,10 +2,10 @@ import axios from 'axios';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
 import { useSearchParams, usePathname } from 'next/navigation';
 import { useRouter } from 'next/navigation';
+
 import { useState, useRef } from 'react';
 import { centerModalControl } from '../../../../store';
 import { declOfNum, declOfProduct } from '../../../../utils';
-import { ModalContentWrapper, ModalFooterWrapper, ModalHead, ModalWrapper } from '../../../CentralModal/CenterModal';
 import Dropdown from '../../../Shared/Dropdown/Dropdown';
 import CheckboxFilter from '../CheckboxFilter/CheckboxFilter';
 import InputFilter from '../InputFilter/InputFilter';
@@ -13,6 +13,7 @@ import { FacetFiltersData, FilterFetchData, FilterParameters, FilterApplyFN, Fac
 
 import './AllFilterComponent.scss';
 import { useMobile } from '../../../../context/MobileContext/MobileContext';
+import { ModalWrapper, ModalContentWrapper, ModalHead, ModalFooterWrapper } from '../../../CentralModal/CenterModal';
 
 const FoundedItemsButton = ({
 	count,

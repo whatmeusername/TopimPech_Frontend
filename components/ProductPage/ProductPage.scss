@@ -29,6 +29,10 @@
 			font-family: var(--museo_cyrl);
 		}
 	}
+
+	.product__history__slider__wrapper {
+		padding: 0;
+	}
 }
 
 .product__page__head {
@@ -301,6 +305,9 @@
 					border: 2px solid var(--orange-darker-color);
 					color: var(--standard-color);
 				}
+			}
+			@media (max-width: 768px) {
+				font-size: var(--fontM);
 			}
 		}
 	}

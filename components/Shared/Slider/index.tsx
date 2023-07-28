@@ -13,6 +13,7 @@ interface SliderSettings {
 	mobileSize?: number;
 	enableSlideButtons?: boolean;
 	returnToOtherSide?: boolean;
+	disableMobileVersion?: boolean;
 	auto?: {
 		// direction?: SlideDirection;
 		timeMS: number;
@@ -51,6 +52,10 @@ function ButtonVersionSlider({ children, options }: { children: ReactElement[]; 
 	const DOTS_COUNT = Math.ceil(itemsCount / (itemsPerSlide.current ?? 1)) + 1;
 	const dots = Array.from(Array(DOTS_COUNT).keys());
 
+	let dragOffset = 0;
+	let rect: DOMRect | null = null;
+	let nextOffset = 0;
+
 	function setSliderTimeout() {
 		if (options?.auto) {
 			slideTimer.current = setTimeout(() => {
@@ -71,10 +76,6 @@ function ButtonVersionSlider({ children, options }: { children: ReactElement[]; 
 		}
 	}
 
-	let dragOffset = 0;
-	let rect: DOMRect | null = null;
-	let nextOffset = 0;
-
 	const OnDragStart = (e: React.DragEvent | React.TouchEvent): void => {
 		contentRef.current.style.transition = 'unset';
 
@@ -85,8 +86,8 @@ function ButtonVersionSlider({ children, options }: { children: ReactElement[]; 
 		}
 		const x = (e as React.DragEvent).clientX ?? (e as React.TouchEvent).touches[0].clientX;
 
-		rect = contentRef.current.getBoundingClientRect();
-		dragOffset = x - rect.left + contentRef.current.offsetWidth * current;
+		rect = wrapperRef.current.getBoundingClientRect();
+		dragOffset = x - rect.left + wrapperRef.current.offsetWidth * current;
 
 		window.addEventListener('mousemove', onDragMove);
 		window.addEventListener('mouseup', onDragEnd);
@@ -123,15 +124,15 @@ function ButtonVersionSlider({ children, options }: { children: ReactElement[]; 
 
 		contentRef.current.style.transition = 'left 0.25s ease';
 
-		const slidesPassedRation = (nextOffset * -1) / contentRef.current.offsetWidth - current;
+		const slidesPassedRation = (nextOffset * -1) / itemWidth.current - current;
 		const slidesPassed = Math.round(slidesPassedRation);
 
-		if (slidesPassed > 0 && current !== maxIndex) {
-			setCurrent(current + slidesPassed > maxIndex ? maxIndex : current + slidesPassed);
+		if (slidesPassed > 0 && current !== itemsCount) {
+			SlideTo(current + slidesPassed > itemsCount ? itemsCount : current + slidesPassed);
 		} else if (slidesPassed < 0 && current !== 0) {
-			setCurrent(current + slidesPassed > 0 ? current + slidesPassed : 0);
+			SlideTo(current + slidesPassed > 0 ? current + slidesPassed : 0);
 		} else {
-			contentRef.current.style.left = `-${contentRef.current.offsetWidth * current}px`;
+			contentRef.current.style.left = `-${itemWidth.current * current}px`;
 		}
 		//setSliderTimeout();
 	};
@@ -232,13 +233,15 @@ function ButtonVersionSlider({ children, options }: { children: ReactElement[]; 
 	};
 
 	const setActiveDot = (nextSlide: number) => {
-		const dots = dotsRef.current.childNodes as NodeListOf<HTMLElement>;
+		if (dotsRef.current) {
+			const dots = dotsRef.current.childNodes as NodeListOf<HTMLElement>;
 
-		dots[currentSlide.current]?.classList.remove(ACTIVE_DOT_CLASSNAME);
-		dots[nextSlide]?.classList.add(ACTIVE_DOT_CLASSNAME);
-		currentSlide.current = nextSlide;
+			dots[currentSlide.current]?.classList.remove(ACTIVE_DOT_CLASSNAME);
+			dots[nextSlide]?.classList.add(ACTIVE_DOT_CLASSNAME);
+			currentSlide.current = nextSlide;
 
-		validateButtons();
+			validateButtons();
+		}
 	};
 
 	const SliderButton = ({ side }: { side: SlideDirection }): ReactElement => {
@@ -279,7 +282,12 @@ function ButtonVersionSlider({ children, options }: { children: ReactElement[]; 
 			<div className={`slider__main__content ${slidesTotal.current === 0 ? 'slider__main__content__single' : ''}`}>
 				{IS_BUTTON_ACTIVE.current && !LBDisabled ? <SliderButton side={SlideDirection.LEFT} /> : null}
 				<div className="slider__content__wrapper">
-					<div className="slider__content" ref={contentRef} onDragStart={OnDragStart} onTouchStart={OnDragStart}>
+					<div
+						className="slider__content"
+						ref={contentRef}
+						onDragStart={isSingleSlide ? OnDragStart : undefined}
+						onTouchStart={isSingleSlide ? OnDragStart : undefined}
+					>
 						{children}
 					</div>
 					{IS_BUTTON_ACTIVE.current ? <DotsElement /> : null}
@@ -331,7 +339,7 @@ function DragVersionSlider({ children }: { children: ReactElement | ReactElement
 }
 
 function Slider({ children, SliderSettings }: { children: ReactElement[]; SliderSettings?: SliderSettings }) {
-	const isMobile = useMobile(SliderSettings?.mobileSize ?? 720);
+	const isMobile = SliderSettings?.disableMobileVersion ? false : useMobile(SliderSettings?.mobileSize ?? 720);
 	if (!isMobile) {
 		return <ButtonVersionSlider options={SliderSettings}>{children}</ButtonVersionSlider>;
 	} else return <DragVersionSlider>{children}</DragVersionSlider>;

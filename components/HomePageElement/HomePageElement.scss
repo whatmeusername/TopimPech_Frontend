@@ -6,7 +6,7 @@
 }
 
 .home__page__categories__wrapper {
-	max-width: 700px;
+	max-width: 1000px;
 	margin: 0 auto;
 	font-family: var(--museo_cyrl);
 	.home__page__categories__header__wrapper {
@@ -20,9 +20,12 @@
 		align-items: center;
 		justify-content: center;
 		.home__page__categories__content {
-			display: grid;
+			display: flex;
+			flex-direction: row;
+			flex-wrap: wrap;
+			align-items: center;
+			justify-content: center;
 			gap: 10px;
-			grid-template-columns: repeat(2, 1fr);
 			.home__page__categories__item {
 				width: 300px;
 				height: 120px;
@@ -91,6 +94,7 @@
 
 .home__page__banners__wrapper {
 	margin: 40px 0;
+	padding: 0 20px;
 	.home__page__banner__item {
 		cursor: pointer;
 		opacity: 1;

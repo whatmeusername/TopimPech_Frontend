@@ -5,10 +5,9 @@ import { observer } from 'mobx-react-lite';
 import { centerModalControl } from '../../store';
 import { createPortal } from 'react-dom';
 import './CentralModal.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { createContext } from 'react';
 import { StandardBreakLine } from '../Shared/Lines/StandardBreakLine/StandardBreakLine';
+import { DeleteIcon } from '../IconsElements';
 
 const ModalContext = createContext<{ id: string; toggle: any }>(null!);
 
@@ -27,7 +26,7 @@ function ModalHead({ children, className }: { children?: ReactElement | ReactEle
 							centerModalControl.toggle(id);
 						}}
 					>
-						<FontAwesomeIcon icon={faXmark} />
+						<DeleteIcon className="modal__close__wrapper__button__icon" />
 					</button>
 				</div>
 			</div>

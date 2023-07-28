@@ -53,7 +53,7 @@ interface ProductData {
 	manufacturer: ProductBaseData;
 	categories: ProductBaseData[];
 	type?: ProductBaseData;
-	properties?: Property[];
+	properties: Property[];
 	slug: string;
 	descriptionFlat?: string;
 	descriptionDOM?: string;

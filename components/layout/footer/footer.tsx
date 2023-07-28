@@ -2,7 +2,6 @@ import React, { ReactElement } from 'react';
 import './footer.scss';
 import { useCategoriesContext } from '../../../context/Categories';
 import Link from 'next/link';
-import Image from 'next/image';
 
 import { ThinBreakLine } from '../../Shared/Lines/ThinBreakLine/ThinBreakLine';
 import { useGlobalContext } from '../../../context/GlobalContext/GlobalContext';
@@ -47,8 +46,13 @@ function OrderBlock(): ReactElement {
 			name: 'Как заказать',
 		},
 		{
-			link: '/info/policy',
-			slug: 'policy',
+			link: '/info/userpolicy',
+			slug: 'userpolicy',
+			name: 'Пользовательское соглашение',
+		},
+		{
+			link: '/info/privacypolicy',
+			slug: 'privacypolicy',
 			name: 'Политика конфиденциальности',
 		},
 	];

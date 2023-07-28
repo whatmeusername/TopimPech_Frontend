@@ -2,7 +2,8 @@
 
 import { Fragment, ReactElement } from 'react';
 import './DeliveryPageElement.scss';
-import { PrimaryPageHeader } from '../Shared/PrimaryPageHeader/PrimaryPageHeader';
+import { PrimaryPageHeader } from '../../Shared/PrimaryPageHeader/PrimaryPageHeader';
+import { JsonDataMap } from '../../Shared/JsonDataMap/JsonDataMap';
 
 function YandexMapShopPoint() {
 	return (
@@ -28,22 +29,7 @@ function DeliveryPageElement({ deliveryData }: { deliveryData: any }): ReactElem
 			<PrimaryPageHeader header={'Доставка и оплата'} />
 			<div className="delivery__page__content__wrapper">
 				<div className="delivery__page__content">
-					{deliveryData.map((block: any, i: number) => {
-						return (
-							<Fragment key={`delivery__page__element__${i}`}>
-								<h2>{block.header}</h2>
-								{block.list ? (
-									<ul>
-										{block.list.map((item: string, i: number) => {
-											return <li key={`delivery__list__item__${i}`}>{item}</li>;
-										})}
-									</ul>
-								) : (
-									<p>{block.text}</p>
-								)}
-							</Fragment>
-						);
-					})}
+					<JsonDataMap data={deliveryData} />
 				</div>
 				<YandexMapShopPoint />
 			</div>
@@ -51,4 +37,4 @@ function DeliveryPageElement({ deliveryData }: { deliveryData: any }): ReactElem
 	);
 }
 
-export { DeliveryPageElement };
+export default DeliveryPageElement;

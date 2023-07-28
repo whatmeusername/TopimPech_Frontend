@@ -6,9 +6,8 @@ import useModal from '../../../hooks/useModal';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleUp } from '@fortawesome/free-solid-svg-icons';
 import { SortItem } from './interface';
+import { AngleArrowIcon } from '../../IconsElements';
 
 const sortOptions: SortItem[] = [
 	{ slug: 'id', name: 'по популярности' },
@@ -62,7 +61,7 @@ function ProductSort({ disabled }: { disabled?: boolean }): JSX.Element {
 				}}
 			>
 				<span>{selected.name}</span>
-				<FontAwesomeIcon icon={faAngleUp} className="product__sort__button__icon" />
+				<AngleArrowIcon className="product__sort__button__icon" />
 			</button>
 			{!disabled ? (
 				<div className={`product__sort__modal ${modalActive ? 'product__sort__modal__active' : ''}`}>

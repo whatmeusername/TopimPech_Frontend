@@ -49,6 +49,7 @@ function SuitableProductsElement({ products }: { products: ProductData[] }) {
 
 function RelatedProductsElement({ product }: { product: ProductData }): ReactElement {
 	const RelatedProductsTable = product.RelatedProductsTable;
+	RelatedProductsTable.relatedProducts.sort((a, b) => (a.value < b.value ? -1 : 1));
 	return (
 		<div className="product__page__related__products__wrapepr">
 			<div className="product__page__related__products__header__wrapper">
@@ -152,7 +153,7 @@ function ProductPage({ productData, params }: { productData: ProductPageResponse
 					<span className="product__page__description">{parse(product.descriptionDOM)}</span>
 				</div>
 			) : null}
-			<AttributesElement properties={product.properties ?? []} />
+			{product.properties.length > 0 ? <AttributesElement properties={product.properties ?? []} /> : null}
 
 			{product.suitableProducts.length > 0 ? <SuitableProductsElement products={product.suitableProducts} /> : null}
 			<SimilarProductBlock DiffProduct={product} SimilarProductsData={productData.similar} />

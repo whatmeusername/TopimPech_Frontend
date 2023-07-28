@@ -73,10 +73,10 @@ const MenuModal = observer(() => {
 			<div
 				className={`menu__content__active__blackscreen ${menuModalControl.toggled ? 'blackscreen__inactive' : 'blackscreen__active'}`}
 				onClick={() => menuModalControl.toggle(false)}
-			></div>
-			<div className={`menu__content__modal ${menuModalControl.toggled ? 'modal__unhidden' : 'modal__hidden'}`}>
+			/>
+			<aside className={`menu__content__modal ${menuModalControl.toggled ? 'modal__unhidden' : 'modal__hidden'}`}>
 				<MenuContent />
-			</div>
+			</aside>
 		</>
 	);
 });

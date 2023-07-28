@@ -25,17 +25,18 @@
 			background-color: var(--orange-color);
 			color: var(--white-color);
 			.product__sort__button__icon {
-				color: var(--white-color);
+				fill: var(--white-color);
 			}
 		}
 
 		.product__sort__button__icon {
-			color: var(--primary-color);
+			fill: var(--primary-color);
 			font-size: var(--fontL);
 			margin-left: 5px;
 			transition: all 0.25s ease-in;
 			animation-fill-mode: forwards;
-			width: 12px;
+			width: 18px;
+			transform: rotateZ(-90deg);
 		}
 
 		&.product__sort__button__active {
@@ -43,8 +44,8 @@
 			background-color: var(--orange-color);
 			color: var(--white-color);
 			.product__sort__button__icon {
-				color: var(--white-color);
-				transform: rotateZ(180deg);
+				fill: var(--white-color);
+				transform: rotateZ(-270deg);
 			}
 		}
 	}

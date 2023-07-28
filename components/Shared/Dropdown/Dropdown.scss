@@ -15,8 +15,8 @@
 			.dropdown__label {
 				color: var(--standard-color);
 			}
-			.dropdown__toggle__arrow {
-				color: var(--standard-color);
+			.dropdown__toggle__arrow__icon {
+				fill: var(--standard-color);
 			}
 		}
 
@@ -37,12 +37,13 @@
 				text-transform: uppercase;
 			}
 		}
-		.dropdown__toggle__arrow {
-			color: var(--gray-color);
+		.dropdown__toggle__arrow__icon {
+			fill: var(--gray-color);
 			transition: 0.4s ease;
-			width: var(--fontS);
-			&.dropdown__toggle__arrow__active {
-				transform: rotateZ(180deg);
+			width: var(--fontX);
+			transform: rotateZ(-90deg);
+			&.dropdown__toggle__arrow__icon__active {
+				transform: rotateZ(-270deg);
 			}
 		}
 	}

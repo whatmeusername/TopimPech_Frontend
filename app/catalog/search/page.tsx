@@ -30,8 +30,7 @@ async function CatalogPage(context: ServerSideURLProps) {
 export async function generateMetadata({ params, searchParams }: ServerSideURLProps): Promise<Metadata> {
 	const searchString = searchParams['search'];
 	const productsData: ProductAPIResponse = await getData(`${PROXY_URL}products/filter/?search=${searchString}`, {
-		cache: 'force-cache',
-		next: { revalidate: 60 },
+		next: { revalidate: 300 }
 	});
 
 	const product = productsData.products?.[0];
