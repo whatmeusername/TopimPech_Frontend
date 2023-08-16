@@ -8,7 +8,7 @@ import { declOfNum } from '../../../utils/decOfNum';
 
 function CatalogHeader({ paginator }: { paginator: PaginatorData }): ReactElement {
 	const breacrumbData = useBreadcrumbContext();
-	const { category } = useParams();
+	const { category } = useParams() as { category: string };
 
 	const header = useMemo(() => {
 		const currentBreadcrumbItem = breacrumbData?.getEndWith(category);

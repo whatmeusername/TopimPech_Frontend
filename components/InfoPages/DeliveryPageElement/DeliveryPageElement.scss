@@ -4,25 +4,6 @@
 	justify-content: space-between;
 	gap: 20px;
 	padding: 20px;
-	.delivery__page__map__wrapper {
-		.delivery__page__map {
-			position: sticky;
-			top: 70px;
-			left: 0;
-
-			.delivery__page__map__widget {
-				width: 100%;
-				border-radius: 8px;
-			}
-
-			.delivery__page__map__label {
-				font-family: var(--museo_cyrl);
-				font-weight: 300;
-				font-size: var(--fontM);
-				color: var(--standard-color);
-			}
-		}
-	}
 
 	@media (max-width: 768px) {
 		margin: 50px 0;

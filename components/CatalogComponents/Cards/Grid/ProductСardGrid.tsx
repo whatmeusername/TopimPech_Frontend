@@ -14,7 +14,7 @@ export default function ProductCardGrid({ product, fadeIn }: { product: ProductD
 	const [toggled, setToggle] = useToggle(false);
 	return (
 		<div className={`product__card__wrapper product__card__wrapper__grid ${fadeIn ? 'product__card__fade__in' : ''}`}>
-			<Link href={`/product/${product.article}/`} className="product__card__link__wrapper">
+			<Link href={`/product/${product.slug}/`} className="product__card__link__wrapper">
 				<div className="product__card__image__wrapper">
 					<ProductImageGallery images={product.images} urlStartsWith={'/api'} alt={product.name} />
 					<ProductPreviewBTN setToggle={setToggle} />
@@ -27,7 +27,7 @@ export default function ProductCardGrid({ product, fadeIn }: { product: ProductD
 			</Link>
 			{toggled ? <ProductPreviewModal id={'ProductPreview'} toggle={setToggle} productData={product} /> : null}
 			<div className="product__card__no__link__wrapper">
-				<AddToCartButton article={product.article} />
+				<AddToCartButton article={product.slug} />
 			</div>
 			<ProductCardOptions productData={product} />
 		</div>

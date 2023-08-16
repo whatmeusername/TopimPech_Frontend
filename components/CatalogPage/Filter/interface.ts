@@ -1,5 +1,4 @@
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
-import type { NextRouter } from 'next/router';
 
 enum FilterApplyFN {
 	APPLY = 'apply',

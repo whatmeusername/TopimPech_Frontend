@@ -81,7 +81,7 @@ const CartItemElementDesktop = observer(({ productData, cartItem }: { productDat
 					/>
 				</div>
 				<div className="cart__item__main__info">
-					<Link href={`/product/${productData.article}`} className="cart__item__link">
+					<Link href={`/product/${productData.slug}`} className="cart__item__link">
 						<p className="cart__item__link__label">{productData.name}</p>
 					</Link>
 					<ThinBreakLine />
@@ -118,7 +118,7 @@ const CartItemElementMobile = observer(({ productData, cartItem }: { productData
 					/>
 				</div>
 				<div className="cart__item__main__info">
-					<Link href={`/product/${productData.article}`} className="cart__item__link">
+					<Link href={`/product/${productData.slug}`} className="cart__item__link">
 						<p className="cart__item__link__label">{productData.name}</p>
 						<PriceElement product={productData} quantity={cartItem.count} />
 					</Link>

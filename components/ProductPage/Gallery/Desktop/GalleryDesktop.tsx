@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, useRef, useEffect } from 'react';
 import { GalleryItem } from '../interface';
 import './GalleryDesktop.scss';
@@ -22,8 +24,8 @@ const GalleryDesktop = ({ items, urlStartsWith, ration }: { items: GalleryItem[]
 	const sideTop = useRef<number>(0);
 
 	const OnLoad = () => {
-		imageElement.current.style.display = 'unset';
 		if (imageWrapper.current.offsetWidth > 0 && imageWrapper.current.offsetHeight > 0) {
+			imageElement.current.style.opacity = '1';
 			imageElement.current.style.maxWidth = imageWrapper.current.offsetWidth + 'px';
 			imageElement.current.style.maxHeight = imageWrapper.current.offsetHeight + 'px';
 		} else {
@@ -35,7 +37,7 @@ const GalleryDesktop = ({ items, urlStartsWith, ration }: { items: GalleryItem[]
 
 	useEffect(() => {
 		OnLoad();
-	}, [current]);
+	}, [imageWrapper.current]);
 
 	const setActiveImage = (id: number): void => {
 		setCurrent(id);
@@ -134,7 +136,8 @@ const GalleryDesktop = ({ items, urlStartsWith, ration }: { items: GalleryItem[]
 							alt={activeImagePath}
 							className="gallery__current__img"
 							ref={imageElement}
-							style={{ display: 'none' }}
+							style={{ opacity: 0 }}
+							onLoad={OnLoad}
 							onError={(e) => ((e.target as HTMLImageElement).src = NO_IMAGE_SRC)}
 						/>
 						{allowZoom ? <div ref={zoomPointer} className="gallery__current__zoom__cursor" /> : null}

@@ -13,9 +13,7 @@ import Link from 'next/link';
 import PriceElement from '../CatalogComponents/PriceElement.tsx/PriceElement';
 import { useFavouritesProducts } from '../../context/MobxStoreContext/MobxStoreContext';
 import { ComparisonButton } from '../CatalogComponents/ComparisonButton/ComparisonButton';
-import { declOfProduct } from '../../utils';
-import { ToPreviousPageButton } from '../Shared/ToPreviousPageButton/ToPreviousPageButton';
-import { HeartNotFilledIcon, TrashBinIcon } from '../IconsElements';
+import { TrashBinIcon } from '../IconsElements';
 import { ProductDataShort } from '../CatalogComponents/Cards/interface';
 import { OptionEmptyPage } from '../Shared/OptionEmptyPage/OptionEmptyPage';
 import { HistorySlider } from '../HistorySlider/HistorySlider';
@@ -40,7 +38,7 @@ const FavouritesItem = ({ product }: { product: ProductDataShort }): ReactElemen
 					<ProductImageGallery images={product.images} urlStartsWith={'/api'} alt={product.name} />
 				</div>
 				<div className="favourites__item__content favourites__item__content__wrapper">
-					<Link href={`/product/${product.article}/`} className="favourites__item__link">
+					<Link href={`/product/${product.slug}/`} className="favourites__item__link">
 						<h3 className="favourites__item__header">{product.name}</h3>
 						<PriceElement product={product} />
 					</Link>

@@ -1,4 +1,6 @@
-function declOfNum(n: number, forms: string[]) {
+function declOfNum(n: number | undefined | null, forms: string[]) {
+	if (n === undefined || n === null) return '';
+
 	n = Math.abs(n) % 100;
 	const n1 = n % 10;
 	if (n > 10 && n < 20) {
@@ -11,6 +13,6 @@ function declOfNum(n: number, forms: string[]) {
 	return forms[forms.length === 3 ? 2 : 1];
 }
 
-const declOfProduct = (n: number) => declOfNum(n, ['товар', 'товара', 'товаров']);
+const declOfProduct = (n: number | undefined | null) => declOfNum(n, ['товар', 'товара', 'товаров']);
 
 export { declOfNum, declOfProduct };

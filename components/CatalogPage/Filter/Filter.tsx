@@ -51,7 +51,7 @@ const collectFilterParameters = (filterParam: { [K: string]: string[] } | null):
 	return res;
 };
 
-const AllFiltersOpenButton = ({ shortLabel, filterCount }: { shortLabel?: boolean; filterCount: number }): ReactElement => {
+const AllFiltersOpenButton = ({ shortLabel, filterCount }: { shortLabel?: boolean; filterCount?: number }): ReactElement => {
 	return (
 		<button
 			className="filter__show__all"
@@ -72,7 +72,7 @@ function FacetFilter({ initialFilters }: { initialFilters: FilterFetchData }): J
 	const isMobile = useMobile(1024);
 
 	const { category } = useParams();
-	const searchParams = new URLSearchParams(useSearchParams());
+	const searchParams = new URLSearchParams(useSearchParams() as any);
 	const pathname = usePathname();
 
 	const ActiveFilters = getFilterParameters(searchParams);

@@ -1,5 +1,4 @@
 import { notFound } from 'next/navigation';
-import type { ProductData } from '../../../components/CatalogComponents/Cards/interface';
 import { ProductPage, ProductPageResponse } from '../../../components/ProductPage/ProductPage';
 
 import { Metadata } from 'next';
@@ -12,17 +11,13 @@ import {
 	PAGE_NOT_FOUND,
 	PRODUCT_PAGE_SUB_LABEL,
 	PROXY_URL,
-	PROXY_URL_SLICED,
+	SITE_URL_SLICED,
 	ServerSideURLProps,
-	getData,
 } from '../../layout';
-
-type ServerSideProps = {
-	initData: ProductData | null | { status: number; message: any };
-};
+import { getData } from '../../../appRouteUtils';
 
 export async function generateMetadata({ params }: ServerSideURLProps): Promise<Metadata> {
-	const product: ProductPageResponse = await getData(PROXY_URL + `products/article/${params.article}`, { cache: 'force-cache' });
+	const product: ProductPageResponse = await getData(`${PROXY_URL}products/slug/${params.slug}`, { cache: 'force-cache' });
 	const is404 = product?.status.status === 404;
 
 	const description = META_PAGE_DESCRIPTION(is404 ? 'товары для бани и дома' : product.data.name);
@@ -33,7 +28,7 @@ export async function generateMetadata({ params }: ServerSideURLProps): Promise<
 		openGraphData = {
 			title: ogTitle,
 			description: description,
-			images: [`${PROXY_URL_SLICED}${product?.data.images?.[0]?.path}`],
+			images: [`${SITE_URL_SLICED}${product?.data.images?.[0]?.path}`],
 			url: product ? `${FULL_DOMAIN}/product/${product?.data.article}` : DOMAIN_NAME,
 			...OPENGRAPH_BASE,
 		};
@@ -50,7 +45,7 @@ export async function generateMetadata({ params }: ServerSideURLProps): Promise<
 async function getProductData({ params }: ServerSideURLProps): Promise<ProductPageResponse> {
 	let ProductPageResponse: ProductPageResponse = null!;
 	try {
-		ProductPageResponse = await getData(PROXY_URL + `products/article/${params.article}`, { cache: 'no-cache' });
+		ProductPageResponse = await getData(PROXY_URL + `products/slug/${params.slug}`, { cache: 'no-cache' });
 	} catch (err) {
 		notFound();
 	}

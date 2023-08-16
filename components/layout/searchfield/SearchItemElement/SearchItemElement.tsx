@@ -10,7 +10,7 @@ function SearchItemElement({ product, ToggleModal }: { product: ProductData; Tog
 	return (
 		<Link
 			className="search__result__item"
-			href={`/product/${product.article}/`}
+			href={`/product/${product.slug}/`}
 			onClick={() => {
 				ToggleModal(false);
 				toggleWindowScroll(true);

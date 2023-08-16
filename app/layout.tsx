@@ -18,12 +18,14 @@ import { MenuModal } from '../components/layout/Menu/Menu';
 import { MobileContext } from '../context/MobileContext/MobileContext';
 import { CATALOG_VIEW_COOKIE, CatalogView } from '../components/CatalogContainer/ChangeProductView/interface';
 import { Metadata } from 'next/types';
+import { fetchCategories, getData } from '../appRouteUtils';
 
-const PROXY_URL = process.env.PROXY_URL;
-const PROXY_URL_SLICED = PROXY_URL ? PROXY_URL.slice(0, PROXY_URL.length - 1) : '';
+const PROXY_URL = process.env.PROXY_URL ?? 'http://localhost:8000';
+const SITE_URL = process.env.SITE_URL ?? PROXY_URL;
+const SITE_URL_SLICED = SITE_URL.slice(0, SITE_URL.length - 1);
 const BASE_PHONE = '+7 (916) 926-96-66';
 const SECOND_PHONE = '+7 (915) 018-27-74';
-const DOMAIN_NAME = 'TopimPech.ru';
+const DOMAIN_NAME = 'topimpech.ru';
 const DOMAIN_NAME_LOCALE = 'ТопимПечь.ру';
 const FULL_DOMAIN = `https://${DOMAIN_NAME}`;
 
@@ -31,7 +33,7 @@ const PRODUCT_PAGE_SUB_LABEL = `купить в интернет-магазин�
 const PAGE_SUB_LABEL = `- интернет-магазин товаров для бани ${DOMAIN_NAME_LOCALE}`;
 const META_PAGE_DESCRIPTION = (prodcutName: string) =>
 	`${prodcutName} - купить по доступной цене в интернет-магазине товаров для бани ${DOMAIN_NAME_LOCALE}. ${prodcutName} - характеристика, фото, описание, Заказ товаров и консултация по телефону - ${BASE_PHONE}`;
-const META_PAGE_DESCRIPTION_BASE = `${DOMAIN_NAME_LOCALE} это интернет магазин товаров для вашей бани и дома`;
+const META_PAGE_DESCRIPTION_BASE = `${DOMAIN_NAME_LOCALE} это интернет магазин товаров для вашей бани и дома. Доставка по московской области`;
 
 const PAGE_NOT_FOUND = 'Ошибка 404. Страница не была найдена.';
 
@@ -40,15 +42,6 @@ const OPENGRAPH_BASE = {
 	siteName: DOMAIN_NAME,
 	type: 'website',
 };
-
-export async function getData(url: string, init?: RequestInit) {
-	const res = await fetch(url, init);
-	if (!res.ok) {
-		throw new Error('Failed to fetch data');
-	}
-
-	return res.json();
-}
 
 interface ServerSideURLProps {
 	params: { [K: string]: string };
@@ -71,19 +64,19 @@ function GetCatalogView(): CatalogView {
 }
 
 export const metadata: Metadata = {
+	metadataBase: new URL(SITE_URL),
 	title: `${DOMAIN_NAME_LOCALE} это интернет магазин товаров для бани, дома и строительства. Помогаем с подбором товаров`,
 	openGraph: { ...OPENGRAPH_BASE, url: FULL_DOMAIN },
 };
 
 async function RootLayout({ children }: { children: ReactElement }) {
-	const categoriesFetch = getData(`${PROXY_URL}products/categories/`, { next: { revalidate: 3600 } });
 	const recomendationFetch = getData(`${PROXY_URL}products/session/recomendation/`, {
-		next: { revalidate: 120 },
+		cache: 'no-cache',
 		headers: { Cookie: cookies().toString() },
 	});
 	const userAgentString = headers().get('user-agent') ?? '';
 
-	const [categoriesData, userSession, recomendationData] = await Promise.all([categoriesFetch, getSessionData(), recomendationFetch]);
+	const [categoriesData, userSession, recomendationData] = await Promise.all([fetchCategories(), getSessionData(), recomendationFetch]);
 
 	return (
 		<html lang="en">
@@ -145,7 +138,8 @@ export {
 	META_PAGE_DESCRIPTION,
 	BASE_PHONE,
 	DOMAIN_NAME,
-	PROXY_URL_SLICED,
+	SITE_URL,
+	SITE_URL_SLICED,
 	OPENGRAPH_BASE,
 	FULL_DOMAIN,
 	PAGE_SUB_LABEL,

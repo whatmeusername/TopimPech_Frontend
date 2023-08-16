@@ -9,7 +9,7 @@ import './PrivacyElements.scss';
 function PrivacyPolicyElement({ privacyPolicyData }: { privacyPolicyData: any }): ReactElement {
 	return (
 		<div className="policy__page__wrapper">
-			<PrimaryPageHeader header={'Пользовательское соглашение'} />
+			<PrimaryPageHeader header={'Политика конфиденциальности'} />
 			<div className="policy__page__content__wrapper">
 				<JsonDataMap data={privacyPolicyData} />
 			</div>

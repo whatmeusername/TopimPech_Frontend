@@ -1,9 +1,7 @@
-import { useState, memo, useEffect } from 'react';
-import useWindowSize from '../../../hooks/useWindowSize';
+import { useState, memo } from 'react';
 import './ChangeProductView.scss';
 
 import { CATALOG_VIEW_COOKIE, CatalogView, ProductAligmentVariantData } from './interface';
-import { useSearchParams } from 'next/navigation';
 import { GridIcon, ListIcon } from '../../IconsElements';
 import { useGlobalContext } from '../../../context/GlobalContext/GlobalContext';
 

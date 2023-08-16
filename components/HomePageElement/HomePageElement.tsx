@@ -13,7 +13,7 @@ function HomePageElementCategoryItem({ categoryData }: { categoryData: CategoryD
 	return (
 		<Link className="home__page__categories__item" href={`catalog/${categoryData.slug}`}>
 			<div className="home__page__categories__item__image__wrapper">
-				<img src={`api/${categoryData.image?.path}`} className="home__page__categories__item__image" />
+				<img src={`/api${categoryData.image?.path}`} className="home__page__categories__item__image" />
 			</div>
 			<div className="home__page__categories__item__info">
 				<p className="home__page__categories__item__label">{categoryData.name}</p>

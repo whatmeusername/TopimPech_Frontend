@@ -24,6 +24,8 @@ import CheckmarkIcon from '../../public/OptionsIcons/checkmark.svg';
 import PhoneIcon from '../../public/OptionsIcons/Phone.svg';
 import DeliveryIcon from '../../public/OptionsIcons/Delivery.svg';
 import FilterIcon from '../../public/OptionsIcons/Filter.svg';
+import PinIcon from '../../public/OptionsIcons/pin.svg';
+import EmailIcon from '../../public/OptionsIcons/email.svg';
 
 import SiteLogo from '../../public/logo/SiteLogo.svg';
 
@@ -50,4 +52,6 @@ export {
 	PhoneIcon,
 	DeliveryIcon,
 	FilterIcon,
+	PinIcon,
+	EmailIcon,
 };

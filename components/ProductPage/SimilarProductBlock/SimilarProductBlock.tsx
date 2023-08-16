@@ -1,6 +1,4 @@
-import get from 'axios';
-import { ParsedUrlQuery } from 'querystring';
-import { useState, useEffect, ReactElement } from 'react';
+import { ReactElement } from 'react';
 import { MappedProductsResponse, ProductData } from '../../CatalogComponents/Cards/interface';
 import { ComparisonProducts } from '../../ComparisonProducts/ComparisonProducts';
 

@@ -13,18 +13,11 @@ import { ChildCategoriesElement } from './ChildCategoriesElement/ChildCategories
 import { StandardBreakLine } from '../Shared/Lines/StandardBreakLine/StandardBreakLine';
 import { CatalogContainerViewedItems } from './CatalogContainerViewedItems/CatalogContainerViewedItems';
 
-import { FetchURLData } from '../CatalogPage/catalog';
 import { AllFiltersOpenButton } from '../CatalogPage/Filter/Filter';
 import { CatalogContainerFooter } from './CatalogContainerFooter/CatalogContainerFooter';
 import { ContactUs } from '../Shared/ContactUs/ContactUs';
 
-const CatalogContainer = ({
-	CatalogData,
-	getFetchURL,
-}: {
-	CatalogData: ProductAPIResponse;
-	getFetchURL: (router: FetchURLData) => [string, string];
-}): ReactElement => {
+const CatalogContainer = ({ CatalogData }: { CatalogData: ProductAPIResponse }): ReactElement => {
 	const [catalogView, setCatalogView] = useCatalogView();
 
 	const isLoaded = useRef<number>(0);

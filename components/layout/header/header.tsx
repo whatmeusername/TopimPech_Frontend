@@ -143,10 +143,7 @@ const HeaderDesktop = observer((): ReactElement => {
 							<Link href="/info/delivery" className="header__info__link">
 								Доставка и оплата
 							</Link>
-							<Link href="/" className="header__info__link">
-								Как заказать
-							</Link>
-							<Link href="/" className="header__info__link">
+							<Link href="/info/contacts" className="header__info__link">
 								Контакты
 							</Link>
 						</div>

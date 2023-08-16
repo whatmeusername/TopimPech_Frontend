@@ -18,7 +18,7 @@ const ScrollToTop = () => {
 };
 
 function Paginator({ PaginatorData, range = 3 }: { PaginatorData: PaginatorData; range?: number }): ReactElement | null {
-	const searchParams = useSearchParams();
+	const searchParams: any = useSearchParams();
 	const path = usePathname();
 
 	if (PaginatorData.pages === 1) {

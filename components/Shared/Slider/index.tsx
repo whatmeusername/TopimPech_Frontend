@@ -207,7 +207,7 @@ function ButtonVersionSlider({ children, options }: { children: ReactElement[]; 
 
 	const validateButtons = (currentCount?: number) => {
 		currentCount = currentCount ?? itemsCount;
-		if (!IS_BUTTON_ACTIVE.current || (options?.returnToOtherSide && currentCount > 1)) return;
+		if ((options?.returnToOtherSide && currentCount > 0) || !IS_BUTTON_ACTIVE.current) return;
 		else {
 			setLBDisabled(currentSlide.current === 0);
 			setRBDisabled(currentSlide.current === slidesTotal.current);

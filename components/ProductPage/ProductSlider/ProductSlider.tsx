@@ -11,7 +11,7 @@ const ProductSliderItem = ({ product, URLStartWith }: { product: ProductData | P
 	if (!product) return null;
 	const image = product?.images?.[0]?.path;
 	return (
-		<Link href={`/product/${product.article}`} className="product_slider__item">
+		<Link href={`/product/${product.slug}`} className="product_slider__item">
 			<div className="product_slider__item__image__wrapper">
 				<img src={image ? (URLStartWith ?? '') + image : NO_IMAGE_SRC} alt={product.name} className="product_slider__item__image" />
 			</div>

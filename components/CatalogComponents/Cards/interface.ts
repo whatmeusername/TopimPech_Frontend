@@ -63,6 +63,7 @@ interface ProductData {
 		relatedProducts: {
 			value: string;
 			product: {
+				slug: string;
 				article: string;
 			};
 		}[];

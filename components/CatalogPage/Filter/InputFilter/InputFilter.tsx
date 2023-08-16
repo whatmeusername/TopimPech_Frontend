@@ -16,7 +16,7 @@ const filterOnInput = (config: FilterElementActionConfigRange) => {
 				config.searchParams.delete('filter');
 			}
 			config.searchParams.set('page', '1');
-			config.router.push(config.path + '?' + config.searchParams, { scroll: false });
+			config.router.push(config.path + '?' + config.searchParams);
 		} else if (config.applyFunction === FilterApplyFN.UPDATE && config.callback) {
 			config.callback(filtersCount !== 0 ? `?filter=${config.searchParams.get('filter')}` : '');
 		}

@@ -92,7 +92,7 @@ const AllFilterComponent = ({
 	const router = useRouter();
 	const isMobile = useMobile(768);
 
-	const searchParams = useRef<URLSearchParams>(new URLSearchParams(useSearchParams()));
+	const searchParams = useRef<URLSearchParams>(new URLSearchParams(useSearchParams() as any));
 	const pathname = usePathname();
 
 	const currenFilter = useRef<string>(currentFilterQuery ?? '');

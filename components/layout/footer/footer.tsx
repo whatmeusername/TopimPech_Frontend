@@ -41,11 +41,6 @@ function OrderBlock(): ReactElement {
 			name: 'Контакты',
 		},
 		{
-			link: '/info/order',
-			slug: 'order',
-			name: 'Как заказать',
-		},
-		{
 			link: '/info/userpolicy',
 			slug: 'userpolicy',
 			name: 'Пользовательское соглашение',

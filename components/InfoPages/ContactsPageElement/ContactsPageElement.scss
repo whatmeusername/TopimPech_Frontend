@@ -1,0 +1,70 @@
+.contacts__page__content {
+	display: flex;
+	flex-direction: column;
+	gap: 30px;
+	.contacts__page__info {
+		display: flex;
+		flex-direction: row;
+		gap: 10px;
+		align-items: center;
+		justify-content: space-between;
+		width: 100%;
+		padding: 15px;
+	}
+	.contacts__page__info__item {
+		max-width: 30%;
+		min-width: 30%;
+		height: 100px;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		box-sizing: content-box;
+		gap: 10px;
+		padding: 15px;
+		border-radius: 8px;
+		background: var(--primary-cards-background);
+		border: 2px solid var(--primary-cards-border);
+		.contacts__page__info__item__icon__wrapper {
+			.contacts__data__icon {
+				width: 60px;
+				height: 60px;
+				fill: var(--orange-color);
+			}
+		}
+		.contacts__page__info__item__content {
+			height: 100%;
+			padding: 0 10px;
+			.contacts__page__info__item__header {
+				font-size: var(--fontX);
+				color: var(--primary-color);
+				font-weight: 300;
+				font-family: var(--museo_cyrl);
+				margin: 0 0 10px;
+			}
+			.contacts__page__info__item__text {
+				font-size: var(--fontL);
+				color: var(--standard-color);
+				font-weight: 300;
+				font-family: var(--museo_cyrl);
+				margin: 0;
+			}
+		}
+	}
+
+	@media (max-width: 1024px) {
+		.contacts__page__info {
+			flex-direction: column;
+			justify-content: unset;
+			align-items: center;
+			gap: 15px;
+			.contacts__page__info__item {
+				max-width: 600px;
+				width: 90%;
+			}
+		}
+		.shop__map__widget__wrapper {
+			padding: 10px;
+			box-sizing: content-box;
+		}
+	}
+}

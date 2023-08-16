@@ -50,7 +50,7 @@ function SearchModal({ modalId }: { modalId: string }): ReactElement {
 					<input
 						type="text"
 						className="modal__search__input"
-						placeholder={`Поиск среди ${productCount} теплых ${declOfProduct(productCount)}`}
+						placeholder={`Поиск среди ${productCount} ${declOfProduct(productCount)}`}
 						onKeyDown={onKeyDown}
 						ref={inputField}
 						autoComplete="false"

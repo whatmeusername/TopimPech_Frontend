@@ -59,7 +59,7 @@ function ModalFooterWrapper({
 
 const ModalWrapper = observer(
 	({ children, id, toggle }: { children?: ReactElement | ReactElement[]; id: string; toggle?: any }): ReactElement | null => {
-		if (!document) return null;
+		if (typeof document === 'undefined') return null;
 		return createPortal(
 			<div className={`center__modal__wrapper ${centerModalControl.getModal(id) ? 'center__modal__wrapper__active' : ''}`} id="center__modal">
 				<div

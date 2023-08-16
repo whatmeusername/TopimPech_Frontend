@@ -1,6 +1,7 @@
 .recomendation__products__wrapper {
 	display: flex;
 	flex-direction: column;
+	padding: 0 10px;
 	.recomendation__products__head {
 		.recomendation__products__header {
 			font-weight: 300;
@@ -9,5 +10,3 @@
 		}
 	}
 }
-
-

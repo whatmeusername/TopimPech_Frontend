@@ -1,0 +1,46 @@
+.order__cancel__page__wrapper {
+	background: var(--primary-cards-background);
+	border: 2px solid var(--primary-cards-border);
+	border-radius: 8px;
+	width: 350px;
+	padding: 10px;
+	margin: 50px auto;
+	font-family: var(--museo_cyrl);
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	gap: 15px;
+	.order__cancel__header {
+		color: var(--orange-color);
+		font-weight: 300;
+		margin: 0;
+	}
+	.order__cancel__info {
+		color: var(--standard-color);
+		font-weight: 300;
+		font-size: var(--fontL);
+		letter-spacing: 0.5px;
+		text-align: center;
+		.order__cancel__info__bold {
+			color: var(--primary-color);
+			font-weight: 700;
+		}
+	}
+	.order__cancel__button {
+		width: 100%;
+		color: var(--white-color);
+		font-size: var(--fontX);
+		background-color: var(--orange-color);
+		border-radius: 8px;
+		padding: 8px 10px;
+		cursor: pointer;
+		opacity: 1;
+		transition: opacity 0.25s ease;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		&:hover {
+			opacity: 0.75;
+		}
+	}
+}

@@ -61,7 +61,7 @@ function ComparisonProductsCardBig({ product, config }: { product: ProductData; 
 	const comparisonStore = useComparinsonProducts();
 	return (
 		<div className="comparison__products__card" key={`comparison__card__${product.article}`}>
-			<Link href={`/product/${product.article}`} className="comparison__products__card__link">
+			<Link href={`/product/${product.slug}`} className="comparison__products__card__link">
 				<div className="comparison__products__card__img__wrapper">
 					<img
 						src={`${config.URLstart ?? ''}${product.images?.[0]?.path ?? NO_IMAGE_SRC}`}

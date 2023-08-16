@@ -66,7 +66,7 @@ function UserAggrementElement({
 				/>
 				<label htmlFor={'user__aggremenet'} className="custom__checkbox__label order__element__user__aggrement__label">
 					- Я ознакомлен и согласен с{' '}
-					<Link href={'/'} className="custom__checkbox__label__link order__element__user__aggrement__link" prefetch={false}>
+					<Link href={'/info/privacypolicy'} className="custom__checkbox__label__link order__element__user__aggrement__link" prefetch={false}>
 						политикой конфиденциальности
 					</Link>
 				</label>
@@ -222,7 +222,7 @@ function OrderElementForm({
 
 				<div className={`order__element__form__item__wrapper  ${!inputState.address.passed ? 'order__element__form__item__wrapper__wrong' : ''}`}>
 					<div className="order__element__form__item__label__wrappper">
-						<p className="order__element__form__item__label">Адрес</p>
+						<p className="order__element__form__item__label">Адрес доставки</p>
 						<ImportantDot />
 					</div>
 					<input type="text" className="order__element__form__item__input" onChange={(e) => onChange(e, 'address', inputState, setInputState)} />

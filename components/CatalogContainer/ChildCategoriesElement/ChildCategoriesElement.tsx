@@ -46,7 +46,7 @@ const ChildCategoriesChild = ({ category }: { category: CategoryData }): ReactEl
 const ChildCategoriesElement = (): ReactElement | null => {
 	const childCategories = useCategoriesContext();
 
-	const { category } = useParams();
+	const { category } = useParams() as { category: string };
 
 	const currentCategoryAtPage = childCategories?.find(category);
 	if (!currentCategoryAtPage || currentCategoryAtPage.child.length < 1) return null;

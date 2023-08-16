@@ -196,7 +196,7 @@ function OrderElement({
 // 							<Section key={`order__mail__${product.article}`} style={{ padding: '0 10px' }}>
 // 								<Row>
 // 									<Column align="center">
-// 										<Img src={`api/${product.images[0].path}`} alt={product.name} height={'130px'} style={{ borderRadius: '8px', float: 'left' }} />
+// 										<Img src={`/api${product.images[0].path}`} alt={product.name} height={'130px'} style={{ borderRadius: '8px', float: 'left' }} />
 // 									</Column>
 // 									<Column style={ProductContainer}>
 // 										<Text style={PrimaryText}>{product.name}</Text>

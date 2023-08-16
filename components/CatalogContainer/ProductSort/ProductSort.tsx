@@ -19,7 +19,7 @@ const sortOptions: SortItem[] = [
 function ProductSort({ disabled }: { disabled?: boolean }): JSX.Element {
 	const router = useRouter();
 
-	const query = useSearchParams();
+	const query: any = useSearchParams();
 	const path = usePathname();
 
 	const selectedSort = query.get('order');

@@ -15,7 +15,6 @@ import { CatalogContainer } from '../../CatalogContainer/index';
 import FacetFilter from '../Filter/Filter';
 
 import { CatalogHeader, CatalogHeaderSearch } from '../CatalogHead/CatalogHeader';
-import { SearchParamsBuilder } from '../../../utils/SearchParamsBuilder';
 import { CatalogHead } from '../CatalogHead/CatalogHead';
 import { HistorySlider } from '../../HistorySlider/HistorySlider';
 import { HydrationComponent } from '../../ProductPage/ProductPage';
@@ -50,12 +49,12 @@ export interface FetchURLData {
 // 	//eslint-disable-next-line
 // }, [maincategory, category, SearchParams]);
 
-const getFetchURL = (router: FetchURLData): [string, string] => {
-	const { category } = router.params;
-	let url = '/api/products/filter/';
-	if (category) url += `${category}/`;
-	return SearchParamsBuilder(url, router.query, 'page', 'items_per_page', 'order', 'filter');
-};
+// const getFetchURL = (router: FetchURLData): [string, string] => {
+// 	const { category } = router.params;
+// 	let url = '/api/products/filter/';
+// 	if (category) url += `${category}/`;
+// 	return SearchParamsBuilder(url, router.query, 'page', 'items_per_page', 'order', 'filter');
+// };
 
 function HistoryComponent() {
 	const productHistory = useProductHistory();
@@ -85,7 +84,7 @@ export default function Catalog({ initData }: { initData: initData }): ReactElem
 				<div className="catalog__filters__wrapper">
 					<FacetFilter initialFilters={initData?.filtersData} />
 				</div>
-				<CatalogContainer getFetchURL={getFetchURL} CatalogData={initData.productsData} />
+				<CatalogContainer CatalogData={initData.productsData} />
 			</div>
 
 			<div className="catalog__footer">

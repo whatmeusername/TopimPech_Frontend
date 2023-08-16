@@ -25,6 +25,7 @@ import { ProductsGridLayoutItem } from '../Shared/ProductsGridLayoutItem/Product
 import { DeliveryIcon, PhoneIcon } from '../IconsElements';
 import Link from 'next/link';
 import { ThinBreakLine } from '../Shared/Lines/ThinBreakLine/ThinBreakLine';
+import { observer } from 'mobx-react-lite';
 
 interface ProductPageResponse {
 	data: ProductData;
@@ -59,7 +60,7 @@ function RelatedProductsElement({ product }: { product: ProductData }): ReactEle
 				{RelatedProductsTable.relatedProducts.map((rel) => {
 					return (
 						<Link
-							href={`/product/${rel.product.article}`}
+							href={`/product/${rel.product.slug}`}
 							key={`related__products__${rel.product.article}`}
 							className={`product__page__related__products__link ${
 								product.article === rel.product.article ? 'product__page__related__products__link__active' : ''
@@ -78,6 +79,7 @@ function ProductPageMainInfoCard({ product }: { product: ProductData }): ReactEl
 	const galleryItems = product.images.map((img, i) => {
 		return { id: i, path: img.path };
 	});
+
 	return (
 		<div className="product__page__upper">
 			<div className="product__page__card product__page__upper__item product__page__gallery__wrapper">
@@ -105,7 +107,7 @@ function ProductPageMainInfoCard({ product }: { product: ProductData }): ReactEl
 						<DeliveryIcon className="product__page__upper__item__icon" />
 						<p className="product__page__upper__item__icon__label">Доставка и оплата</p>
 					</Link>
-					<Link className="product__page__upper__item__wrapper" href={'/info/phone'}>
+					<Link className="product__page__upper__item__wrapper" href={'/info/contacts'}>
 						<PhoneIcon className="product__page__upper__item__icon" />
 						<p className="product__page__upper__item__icon__label">Контакты</p>
 					</Link>
@@ -115,7 +117,7 @@ function ProductPageMainInfoCard({ product }: { product: ProductData }): ReactEl
 	);
 }
 
-function ProductPage({ productData, params }: { productData: ProductPageResponse; params: ParsedUrlQuery }): JSX.Element | null {
+const ProductPage = observer(({ productData, params }: { productData: ProductPageResponse; params: ParsedUrlQuery }): ReactElement => {
 	const productHistory = useProductHistory();
 	const product = productData.data;
 
@@ -167,7 +169,7 @@ function ProductPage({ productData, params }: { productData: ProductPageResponse
 			</HydrationComponent>
 		</div>
 	);
-}
+});
 
 export { HydrationComponent, ProductPage };
 export type { ProductPageResponse };

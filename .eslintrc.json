@@ -41,6 +41,8 @@
             "error",
             "always"
         ],
-        "no-mixed-spaces-and-tabs": "off"
+        "no-mixed-spaces-and-tabs": "off",
+        "@typescript-eslint/ban-ts-comment": "off"
+        
     }
 }

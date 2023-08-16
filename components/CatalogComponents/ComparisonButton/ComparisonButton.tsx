@@ -1,9 +1,8 @@
 import { observer } from 'mobx-react-lite';
 
-import { ProductData } from '../Cards/interface';
+import { ProductData, ProductDataShort } from '../Cards/interface';
 
 import { useComparinsonProducts } from '../../../context/MobxStoreContext/MobxStoreContext';
-import { FavouritesItem } from '../../../store';
 import { ComparisonIcon } from '../../IconsElements';
 
 // Change to comparison store
@@ -14,7 +13,7 @@ const ComparisonButton = observer(
 		className,
 		useBaseStyle,
 	}: {
-		productData: ProductData | FavouritesItem;
+		productData: ProductData | ProductDataShort;
 		withLabel?: boolean;
 		className?: string;
 		useBaseStyle?: boolean;

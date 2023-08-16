@@ -1,0 +1,19 @@
+.shop__map__widget__wrapper {
+	.shop__map {
+		position: sticky;
+		top: 70px;
+		left: 0;
+
+		.shop__map__widget {
+			width: 100%;
+			border-radius: 8px;
+		}
+
+		.shop__map__widget__label {
+			font-family: var(--museo_cyrl);
+			font-weight: 300;
+			font-size: var(--fontM);
+			color: var(--standard-color);
+		}
+	}
+}

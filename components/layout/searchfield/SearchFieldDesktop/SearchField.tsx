@@ -54,7 +54,7 @@ export default function ProductSearch() {
 	const NavigateIn = (): void => {
 		const value = inputField.current?.value;
 		if (results.count === 1) {
-			router.push(`/product/${results.data[0].article}`);
+			router.push(`/product/${results.data[0].slug}`);
 			Toggle(false);
 			toggleWindowScroll(true);
 		} else if (value && value.length > 2 && results.count > 1) {
@@ -87,7 +87,7 @@ export default function ProductSearch() {
 						onFocus={FocusEvent}
 						ref={inputField}
 						onKeyDown={onKeyDown}
-						placeholder={`Поиск среди ${productCount} теплых ${declOfProduct(productCount)}`}
+						placeholder={`Поиск среди ${productCount} ${declOfProduct(productCount)}`}
 						autoComplete="false"
 						autoCapitalize="false"
 						autoCorrect="false"

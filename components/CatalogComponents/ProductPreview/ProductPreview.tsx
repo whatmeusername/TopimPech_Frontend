@@ -35,7 +35,7 @@ function ProductPreviewModal({ id, toggle, productData }: { id: string; toggle: 
 						<ShortAttributesElement properties={productData.properties ?? []} showAllBtn={false} take={7} />
 						<Link
 							className="product__preview__link"
-							href={`/product/${productData.article}`}
+							href={`/product/${productData.slug}`}
 							onClick={() => {
 								if (toggle) toggle();
 								centerModalControl.toggle(id);

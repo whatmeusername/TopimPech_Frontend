@@ -19,7 +19,7 @@ interface BreadcrumbSettings {
 
 export default function BreadcrumbByURL({ settings }: { settings?: BreadcrumbSettings }): JSX.Element {
 	const breacrumbData = useBreadcrumbContext();
-	const { category } = useParams();
+	const { category } = useParams() as { category: string };
 
 	if (!breacrumbData) return <></>;
 
