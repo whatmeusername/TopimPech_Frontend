@@ -9,9 +9,11 @@ class UserProductCart {
 	@observable public items: CartItem[] = [];
 	@observable public updated: Date = new Date();
 	private timeout: ReturnType<typeof setTimeout> | undefined;
+	private limit: number = 99;
 
 	constructor() {
 		makeObservable(this);
+		this.limit = 99;
 	}
 
 	public getCount(): number {
@@ -23,6 +25,7 @@ class UserProductCart {
 
 	@action
 	public add(payload: CartItem) {
+		if (this.items.length === this.limit) return;
 		const existing = this.items.find((item) => item.article === payload.article);
 		if (!existing) {
 			axios({

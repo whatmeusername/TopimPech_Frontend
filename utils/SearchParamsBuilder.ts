@@ -3,18 +3,17 @@ import { ParsedUrlQuery } from 'querystring';
 
 function SearchParamsBuilder(
 	url: string,
-	query: URLSearchParams | ParsedUrlQuery | undefined | ReadonlyURLSearchParams,
+	searchParams: URLSearchParams | ParsedUrlQuery | undefined | ReadonlyURLSearchParams,
 	...rest: string[]
 ): [string, string] {
-	const isURLSearchParams = query === undefined || query instanceof URLSearchParams || query instanceof ReadonlyURLSearchParams;
-	const searchParams: URLSearchParams | ParsedUrlQuery = isURLSearchParams ? new URLSearchParams(window.location.search) : query;
+	const isURLSearchParams = searchParams === undefined || searchParams instanceof URLSearchParams || searchParams instanceof ReadonlyURLSearchParams;
 
 	function getSearchParams(...params: string[]): string {
 		let SearchParams = '?';
 		params.forEach((param) => {
 			const paramRes = isURLSearchParams ? (searchParams as URLSearchParams).get(param) : (searchParams as ParsedUrlQuery)[param];
 			if (paramRes) {
-				SearchParams += `${SearchParams.length === 1 ? '' : '&'}${param}=${paramRes}`;
+				SearchParams += `${SearchParams.length === 1 ? '' : '&'}${param}=${encodeURIComponent(paramRes as string)}`;
 			}
 		});
 		return SearchParams;

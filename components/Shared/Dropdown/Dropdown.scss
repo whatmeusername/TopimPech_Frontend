@@ -11,15 +11,6 @@
 		width: 100%;
 		cursor: pointer;
 
-		&:hover {
-			.dropdown__label {
-				color: var(--standard-color);
-			}
-			.dropdown__toggle__arrow__icon {
-				fill: var(--standard-color);
-			}
-		}
-
 		.dropdown__label {
 			font-family: var(--museo_cyrl);
 			color: var(--primary-color);
@@ -28,11 +19,14 @@
 			width: 90%;
 			text-align: left;
 
-			display: block;
+			transition: all 0.4s ease;
+
+			display: -webkit-box;
+			-webkit-line-clamp: 3;
+			-webkit-box-orient: vertical;
 			overflow: hidden;
 			text-overflow: ellipsis;
-			white-space: nowrap;
-			transition: all 0.4s ease;
+
 			&:first-letter {
 				text-transform: uppercase;
 			}
@@ -44,6 +38,15 @@
 			transform: rotateZ(-90deg);
 			&.dropdown__toggle__arrow__icon__active {
 				transform: rotateZ(-270deg);
+			}
+		}
+
+		&:hover {
+			.dropdown__label {
+				color: var(--standard-color);
+			}
+			.dropdown__toggle__arrow__icon {
+				fill: var(--standard-color);
 			}
 		}
 	}

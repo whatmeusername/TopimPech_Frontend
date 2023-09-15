@@ -2,4 +2,11 @@ User-Agent: *
 Disallow: /cart
 Disallow: /comparison
 Disallow: /favourites
-Dissallow: /catalog/search
+Disallow: /catalog/search
+Disallow: /user
+Disallow: /_next
+Disallow /cdn-cgi
+
+
+Sitemap: https://topimpech.ru/sitemap.xml
+Host: https://topimpech.ru/

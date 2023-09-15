@@ -1,13 +1,15 @@
+import { ReactElement } from 'react';
 import AddToCartButton from '../../AddToCartButton/AddToCartButton';
 import ProductImageGallery from '../../HoverGallery/ProductGallery';
 import PriceElement from '../../PriceElement.tsx/PriceElement';
 import { ProductPreview } from '../../ProductPreview/ProductPreview';
-import ManufacturerData from '../../other/ManufacturerData';
+// import ManufacturerData from '../../other/ManufacturerData';
 import ProductCardOptions from '../../other/ProductCardOptions';
 import { ProductData, Property } from './../interface';
 
 import './ProductCardRow.scss';
 import Link from 'next/link';
+import { ProductCardTags } from '../general';
 
 const FeatureElement = ({ feature }: { feature: Property }): JSX.Element => {
 	return (
@@ -20,7 +22,7 @@ const FeatureElement = ({ feature }: { feature: Property }): JSX.Element => {
 	);
 };
 
-const FeatureWrapper = ({ product, limit }: { product: ProductData; limit: number }) => {
+const FeatureWrapper = ({ product, limit }: { product: ProductData; limit: number }): ReactElement => {
 	const features = (limit ? product.properties?.slice(0, limit) : product.properties) ?? [];
 	return (
 		<div className="product__features__wrapper">
@@ -31,25 +33,36 @@ const FeatureWrapper = ({ product, limit }: { product: ProductData; limit: numbe
 	);
 };
 
-function ProductCardRow({ product, fadeIn }: { product: ProductData; fadeIn?: boolean }): JSX.Element {
+function ProductCardRow({ product, fadeIn }: { product: ProductData; fadeIn?: boolean }): ReactElement {
 	return (
-		<div className={`product__card__wrapper product__card__wrapper__row ${fadeIn ? 'product__card__fade__in' : ''}`}>
+		<div
+			className={`product__card__wrapper product__card__wrapper__row ${fadeIn ? 'product__card__fade__in' : ''}`}
+			itemProp="itemListElement"
+			itemScope
+			itemType="https://schema.org/Offer"
+		>
 			<div className="product__card__image__wrapper">
-				<ProductImageGallery images={product.images} urlStartsWith={'/api'} alt={product.name} />
+				<Link href={`/product/${product.slug}/`} className="product__card__link">
+					<ProductImageGallery images={product.images} urlStartsWith={'/api'} alt={product.name} />
+				</Link>
 				<ProductPreview productData={product} />
 			</div>
 			<div className="product__card__main__wrapper">
-				<Link href={`/product/${product.slug}/`} className="product__card__link">
+				<Link href={`/product/${product.slug}/`} className="product__card__link" itemProp="url">
 					<div className="product__card__info">
 						<div className="product__card__name__wrapper">
-							<span className="product__card__name">{product.name}</span>
+							<p className="product__card__article">Артикул: {product.article}</p>
+							<ProductCardTags product={product} />
+							<p className="product__card__name" itemProp="name">
+								{product.name}
+							</p>
 						</div>
-						<ManufacturerData product={product} />
+						{/* <ManufacturerData product={product} /> */}
 						<FeatureWrapper product={product} limit={6} />
 					</div>
 				</Link>
 				<div className="product__card__functions__wrapper">
-					<PriceElement product={product} />
+					<PriceElement product={product} includeMeta={true} />
 					<AddToCartButton article={product.article} />
 					<ProductCardOptions productData={product} />
 				</div>

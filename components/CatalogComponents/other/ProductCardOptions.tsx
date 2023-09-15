@@ -4,7 +4,7 @@ import { ProductData } from '../Cards/interface';
 import { ModalContentWrapper, ModalHead, ModalWrapper } from '../../CentralModal/CenterModal';
 import useToggle from '../../../hooks/useToggle';
 import { centerModalControl } from '../../../store';
-import { ProductSlider } from '../../ProductPage/ProductSlider/ProductSlider';
+
 import { LoadingBar } from '../../Shared/LoadingBar/LoadingBar';
 import { LOADING_LABEL_BASE } from '../../Shared/LoadingBar/LoadingLabels';
 
@@ -13,6 +13,7 @@ import { FavouriteButton } from '../FavouriteButton/FavouriteButton';
 import './SimilarProductsModal.scss';
 import { ComparisonButton } from '../ComparisonButton/ComparisonButton';
 import { SimilarIcon } from '../../IconsElements';
+import { ProductsGridLayoutItem } from '../../Shared/ProductsGridLayoutItem/ProductsGridLayoutItem';
 
 function SimilarProductsModal({
 	ProductData,
@@ -29,16 +30,21 @@ function SimilarProductsModal({
 	};
 
 	return (
-		<ModalWrapper id={'SimilarProduct'} toggle={toggle}>
+		<ModalWrapper id={'SimilarProduct'} toggle={toggle} contentClassName="similar__center__modal__content__wrapper">
 			{isFetched ? (
 				<ModalContentWrapper className="similar_product__modal">
-					<ModalHead />
-					<div className="modal__content similar_product__modal">
+					<ModalHead>
+						<h3 className="similar_product__modal__content__header">Похожие товары</h3>
+					</ModalHead>
+					<div className="similar_product__modal__content">
 						<div className="similar_product__modal__content__items__wrapper">
 							{ProductData.length > 0 ? (
 								<>
-									<h3 className="similar_product__modal__content__header">Похожие товары</h3>
-									<ProductSlider items={ProductData} URLStartWith="/api" onClick={ModalToggle} />
+									<div className="products__grid__layout products__grid__layout__mini">
+										{ProductData.map((product) => {
+											return <ProductsGridLayoutItem product={product} key={`recomendation__${product.slug}`} onClick={ModalToggle} />;
+										})}
+									</div>
 								</>
 							) : (
 								<p className="similar_product__not__found">Упс! К сожалению мы не нашли похожих товаров</p>

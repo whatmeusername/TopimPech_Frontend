@@ -37,8 +37,9 @@ async function getCategoryCatalogData({ params, searchParams }: ServerSideURLPro
 			products: [],
 			paginator: { previous: false, next: false, page: 0, pages: 0, count: 0 },
 			status: { status: 404, message: '', is404Page: true },
+			category: '',
 		};
-		filtersData = { count: 0, filtered: {} };
+		filtersData = { count: 0, filtered: {}, category: '', appliedFilters: {}, categoryStringAdditions: { prefix: '', postfix: '' } };
 	}
 
 	if (productsData.status.is404Page) {
@@ -77,8 +78,9 @@ async function getSearchCatalogData({ searchParams }: ServerSideURLProps) {
 			products: [],
 			paginator: { previous: false, next: false, page: 0, pages: 0, count: 0 },
 			status: { status: 404, message: '', is404Page: true },
+			category: '',
 		};
-		filtersData = { count: 0, filtered: {} };
+		filtersData = { count: 0, filtered: {}, category: '', appliedFilters: {}, categoryStringAdditions: { prefix: '', postfix: '' } };
 	}
 
 	if (productsData.status.is404Page) {
@@ -97,7 +99,7 @@ async function getSearchCatalogData({ searchParams }: ServerSideURLProps) {
 }
 
 async function fetchCategories() {
-	return getData(`${PROXY_URL}products/categories/`, { next: { revalidate: 3600 } });
+	return getData(`${PROXY_URL}products/categories/`, { next: { revalidate: 604800 } });
 }
 
 async function fetchProductsSitemap() {

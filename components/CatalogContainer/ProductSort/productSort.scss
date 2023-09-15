@@ -54,7 +54,7 @@
 		position: absolute;
 		z-index: var(--zIndexMedium);
 		background-color: var(--white-color);
-		box-shadow: 0 0 8px 8px rgb(77, 77, 77, 0.2);
+		box-shadow: 0 0 8px 8px var(--box-shadow-color);
 		width: 100%;
 		margin-top: 2.5px;
 		border-radius: 4px;

@@ -15,37 +15,39 @@ import {
 	ServerSideURLProps,
 } from '../../layout';
 import { getData } from '../../../appRouteUtils';
+import { Capitalize } from '../../../utils/Capitalize';
 
 export async function generateMetadata({ params }: ServerSideURLProps): Promise<Metadata> {
 	const product: ProductPageResponse = await getData(`${PROXY_URL}products/slug/${params.slug}`, { cache: 'force-cache' });
 	const is404 = product?.status.status === 404;
+	const productName = is404 ? '' : Capitalize(product.data.name);
 
-	const description = META_PAGE_DESCRIPTION(is404 ? 'товары для бани и дома' : product.data.name);
-	const ogTitle = is404 ? 'товары для бани и дома' : `${product.data.name} ${PRODUCT_PAGE_SUB_LABEL}`;
+	const description = META_PAGE_DESCRIPTION(is404 ? 'товары для бани и дома' : productName);
+	const ogTitle = is404 ? 'товары для бани и дома' : `${productName} ${PRODUCT_PAGE_SUB_LABEL}`;
 
-	let openGraphData = {};
+	const meta: Metadata = {
+		title: is404 ? PAGE_NOT_FOUND : `${productName} ${PRODUCT_PAGE_SUB_LABEL}`,
+		description: description,
+		keywords: `${productName}, Купить ${ogTitle}, цена ${ogTitle}, товары для бани и дома`,
+	};
 	if (!is404) {
-		openGraphData = {
+		meta.openGraph = {
 			title: ogTitle,
 			description: description,
-			images: [`${SITE_URL_SLICED}${product?.data.images?.[0]?.path}`],
+			images: [`${SITE_URL_SLICED}/api${product?.data.images?.[0]?.path}`],
 			url: product ? `${FULL_DOMAIN}/product/${product?.data.article}` : DOMAIN_NAME,
 			...OPENGRAPH_BASE,
 		};
+		meta.alternates = { canonical: `/product/${product.data.slug}` };
 	}
 
-	return {
-		title: is404 ? PAGE_NOT_FOUND : `${product.data.name} ${PRODUCT_PAGE_SUB_LABEL}`,
-		description: description,
-		keywords: `${ogTitle}, Купить ${ogTitle}, цена ${ogTitle}, товары для бани и дома`,
-		openGraph: openGraphData,
-	};
+	return meta;
 }
 
 async function getProductData({ params }: ServerSideURLProps): Promise<ProductPageResponse> {
 	let ProductPageResponse: ProductPageResponse = null!;
 	try {
-		ProductPageResponse = await getData(PROXY_URL + `products/slug/${params.slug}`, { cache: 'no-cache' });
+		ProductPageResponse = await getData(PROXY_URL + `products/slug/${params.slug}`, { next: { revalidate: 3600 } });
 	} catch (err) {
 		notFound();
 	}

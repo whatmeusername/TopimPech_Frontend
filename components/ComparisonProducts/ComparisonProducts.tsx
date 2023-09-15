@@ -13,6 +13,8 @@ import { headerSticky } from '../../store/HeaderSticky';
 import { useComparinsonProducts } from '../../context/MobxStoreContext/MobxStoreContext';
 import { observer } from 'mobx-react-lite';
 import { NO_IMAGE_SRC } from '../const';
+import { OptionEmptyPage } from '../Shared/OptionEmptyPage/OptionEmptyPage';
+import Image from 'next/image';
 
 function GatherProductComparisonData(products: ProductData[], diffWith?: ProductData): ProductComparisonData {
 	const result: ProductComparisonData = {};
@@ -59,14 +61,21 @@ function GatherProductComparisonData(products: ProductData[], diffWith?: Product
 
 function ComparisonProductsCardBig({ product, config }: { product: ProductData; config: ComparisonProductsConfig }): ReactElement {
 	const comparisonStore = useComparinsonProducts();
+
 	return (
 		<div className="comparison__products__card" key={`comparison__card__${product.article}`}>
-			<Link href={`/product/${product.slug}`} className="comparison__products__card__link">
+			<Link href={`/product/${product.slug}`} className="comparison__products__card__link" draggable="false">
 				<div className="comparison__products__card__img__wrapper">
-					<img
+					<Image
 						src={`${config.URLstart ?? ''}${product.images?.[0]?.path ?? NO_IMAGE_SRC}`}
+						alt={product.name}
 						className="comparison__products__card__img"
 						onError={(e) => ((e.target as HTMLImageElement).src = NO_IMAGE_SRC)}
+						width={180}
+						height={180}
+						style={{ objectFit: 'contain', maxInlineSize: '100%', height: 'auto' }}
+						loading="lazy"
+						draggable="false"
 					/>
 				</div>
 				<p className="comparison__products__header">{product.name}</p>
@@ -139,6 +148,7 @@ function ComparisonProductsCategories({
 
 const ComparisonProducts = observer(({ config }: { config: ComparisonProductsConfig }): ReactElement | null => {
 	const comparisonStore = useComparinsonProducts();
+	const [unfilteredProductsData, setUnfilteredProductsData] = useState<ProductData[]>(config.data);
 	const [productsData, setProductsData] = useState<ProductData[]>(config.data);
 	const [ProductComparisonData, setProductComparisonData] = useState<ProductComparisonData>(
 		GatherProductComparisonData(productsData, config.diffWith),
@@ -161,13 +171,16 @@ const ComparisonProducts = observer(({ config }: { config: ComparisonProductsCon
 	let rect: DOMRect | null = null;
 
 	useEffect(() => {
-		if (config.cards.isSticky) {
+		if (observePoint.current && config.cards.isSticky) {
 			headerSticky.toggle(false);
 			const observer = new IntersectionObserver(
 				([e]) => {
-					headerRef.current?.classList?.toggle('sticky__enabled', e.intersectionRatio < 0.5);
+					if (observePoint.current) {
+						const isScrolled = window.scrollY > observePoint.current.offsetTop;
+						headerRef.current?.classList?.toggle('sticky__enabled', e.intersectionRatio < 0.5 && isScrolled);
+					}
 				},
-				{ threshold: 0.3, rootMargin: '-50px' },
+				{ threshold: 0.3, rootMargin: '0%' },
 			);
 			observer.observe(observePoint.current);
 			return () => {
@@ -176,28 +189,38 @@ const ComparisonProducts = observer(({ config }: { config: ComparisonProductsCon
 				headerSticky.toggle(true);
 			};
 		}
-	}, [config]);
+	}, [config, currentCategory]);
 
 	useEffect(() => {
-		let nextData = config.data;
-		if (config.enableCategoryFilter) {
-			nextData = currentCategory ? config.data.filter((p) => p.categories.some((c) => c.name === currentCategory)) : config.data;
-		}
+		let filtredData = config.data;
 		if (!config.diffWith) {
-			nextData = nextData.filter((p) => comparisonStore.has(p.article));
+			filtredData = filtredData.filter((p) => comparisonStore.has(p.article));
 		}
+
+		let nextData = filtredData;
+		if (config.enableCategoryFilter) {
+			nextData = currentCategory ? filtredData.filter((p) => p.categories[p.categories.length > 1 ? 1 : 0].name === currentCategory) : filtredData;
+
+			if (nextData.length === 0) {
+				setCurrentCategory(null);
+				nextData = filtredData;
+			}
+		}
+		setUnfilteredProductsData(filtredData);
 		setProductsData(nextData);
 		setProductComparisonData(GatherProductComparisonData(nextData, config.diffWith));
 		setCurrent(0);
 	}, [currentCategory, comparisonStore.productsArticles.length]);
 
 	useEffect(() => {
-		itemWidth.current = (cardWrapper.current.childNodes[0] as HTMLDivElement).offsetWidth;
-		setSliderLength((cardWrapper.current.offsetWidth - comparisonWrapper.current.offsetWidth) / itemWidth.current);
-		return () => {
-			window.removeEventListener('mousemove', onDragMove);
-			window.removeEventListener('mouseup', onDragMove);
-		};
+		if (cardWrapper.current && cardWrapper.current.childNodes.length > 0) {
+			itemWidth.current = (cardWrapper.current.childNodes[0] as HTMLDivElement).offsetWidth;
+			setSliderLength((cardWrapper.current.offsetWidth - comparisonWrapper.current.offsetWidth) / itemWidth.current);
+			return () => {
+				window.removeEventListener('mousemove', onDragMove);
+				window.removeEventListener('mouseup', onDragMove);
+			};
+		}
 	}, [config, productsData]);
 
 	const onDragStart = (event: React.MouseEvent | React.TouchEvent) => {
@@ -298,7 +321,11 @@ const ComparisonProducts = observer(({ config }: { config: ComparisonProductsCon
 	};
 
 	const ProductComparisonDataEntries = Object.entries(ProductComparisonData);
-	const HasDataToComparison = Object.keys(ProductComparisonDataEntries).length > 1;
+	const HasDataToComparison = Object.keys(ProductComparisonDataEntries).length > 0;
+
+	if (!config.diffWith && unfilteredProductsData.length === 0) {
+		return <OptionEmptyPage page={'comparison'} />;
+	}
 
 	return (
 		<div
@@ -308,7 +335,7 @@ const ComparisonProducts = observer(({ config }: { config: ComparisonProductsCon
 		>
 			<div className="comparison__products__container" ref={comparisonWrapper}>
 				{config.enableCategoryFilter ? (
-					<ComparisonProductsCategories data={config.data} setCategory={setCurrentCategory} currentCategory={currentCategory} />
+					<ComparisonProductsCategories data={unfilteredProductsData} setCategory={setCurrentCategory} currentCategory={currentCategory} />
 				) : null}
 				{productsData.length > 0 ? (
 					<>

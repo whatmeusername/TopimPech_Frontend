@@ -10,6 +10,7 @@ import useToggle from '../../../../hooks/useToggle';
 import { useGlobalContext } from '../../../../context/GlobalContext/GlobalContext';
 import { SearchIcon } from '../../../IconsElements';
 import { SearchItemElement } from '../SearchItemElement/SearchItemElement';
+import { NoResultFound } from '../NoResultFound/NoResultFound';
 
 export default function ProductSearch() {
 	const router = useRouter();
@@ -104,7 +105,9 @@ export default function ProductSearch() {
 								<div className="search__field__results__count">
 									Найдено: {results.count} {declOfProduct(results.count)}
 								</div>
-							) : null}
+							) : (
+								<NoResultFound searchString={inputField.current?.value?.trim()} />
+							)}
 							{(results.data ?? []).map((item) => {
 								return <SearchItemElement product={item} key={`search__field__item__${item.article}`} ToggleModal={Toggle} />;
 							})}

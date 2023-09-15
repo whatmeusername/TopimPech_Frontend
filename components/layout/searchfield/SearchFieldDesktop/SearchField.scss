@@ -4,9 +4,6 @@
 	padding: 6px;
 	&.search__field__wrapper__active {
 		z-index: var(--zIndexBig);
-		// .search__input__wrapper{
-		//     background-color: var(--app_background_color);
-		// }
 		.search__field__results__wrapper {
 			background-color: var(--app_background_color);
 		}
@@ -31,7 +28,7 @@
 	align-items: center;
 	width: 100%;
 	height: 40px;
-	border: 1.5px solid var(--primary-color);
+	border: 2px solid var(--primary-color);
 	border-radius: 6px;
 
 	.search__field {
@@ -44,7 +41,7 @@
 		color: var(--primary-color);
 		height: 100%;
 		padding: 0 10px;
-		&::placeholder{
+		&::placeholder {
 			color: var(gray-color);
 			font-family: var(--museo_cyrl);
 			font-size: var(--fontM);
@@ -67,7 +64,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		&:hover{
+		&:hover {
 			opacity: 0.9;
 		}
 		.search__field__button__icon {
@@ -98,6 +95,4 @@
 		font-size: var(--fontM);
 		color: var(--gray-color);
 	}
-
-
 }

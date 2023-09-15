@@ -7,13 +7,23 @@ import './ProductSlider.scss';
 import { ReactElement } from 'react';
 import { NO_IMAGE_SRC } from '../../const';
 
+import Image from 'next/image';
+
 const ProductSliderItem = ({ product, URLStartWith }: { product: ProductData | ProductDataShort; URLStartWith?: string }): ReactElement | null => {
 	if (!product) return null;
 	const image = product?.images?.[0]?.path;
 	return (
 		<Link href={`/product/${product.slug}`} className="product_slider__item">
 			<div className="product_slider__item__image__wrapper">
-				<img src={image ? (URLStartWith ?? '') + image : NO_IMAGE_SRC} alt={product.name} className="product_slider__item__image" />
+				<Image
+					className="product_slider__item__image"
+					onError={(e) => ((e.target as HTMLImageElement).src = NO_IMAGE_SRC)}
+					src={image ? (URLStartWith ?? '') + image : NO_IMAGE_SRC}
+					alt={product.name}
+					width={215}
+					height={215}
+					style={{ objectFit: 'contain', maxInlineSize: '100%', height: 'auto' }}
+				/>
 			</div>
 			<div className="product_slider__item__info">
 				<PriceElement product={product} />

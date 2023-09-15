@@ -18,7 +18,7 @@ const filterOnInput = (config: FilterElementActionConfigRange) => {
 			config.searchParams.set('page', '1');
 			config.router.push(config.path + '?' + config.searchParams);
 		} else if (config.applyFunction === FilterApplyFN.UPDATE && config.callback) {
-			config.callback(filtersCount !== 0 ? `?filter=${config.searchParams.get('filter')}` : '');
+			config.callback(config.searchParams);
 		}
 	};
 
@@ -71,7 +71,7 @@ const RangeFilter = ({ config }: { config: FilterElementConfigNumber }): ReactEl
 	const defaultValues = config.ActiveFilters[config.parentKey];
 	const defaultValueMin = defaultValues ? parseFloat(defaultValues[0]).toFixed(2) : null;
 	const defaultValueMax = defaultValues ? parseFloat(defaultValues[1]).toFixed(2) : null;
-	const isDisabled = values.min === values.max;
+	const isDisabled = defaultValues === undefined && values.min === values.max;
 
 	return (
 		<div className="facet__filter__wrapper facet__filter__number">

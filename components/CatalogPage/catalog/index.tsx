@@ -21,6 +21,7 @@ import { HydrationComponent } from '../../ProductPage/ProductPage';
 import { ThinBreakLine } from '../../Shared/Lines/ThinBreakLine/ThinBreakLine';
 import { RecomendationElement } from '../../RecomendationElement/RecomendationElement';
 import { useProductHistory } from '../../../context/MobxStoreContext/MobxStoreContext';
+import { ChildCategoriesElement } from '../../CatalogContainer/ChildCategoriesElement/ChildCategoriesElement';
 
 export interface FetchURLData {
 	params: { [K: string]: string };
@@ -69,22 +70,27 @@ function HistoryComponent() {
 		</>
 	);
 }
-export default function Catalog({ initData }: { initData: initData }): ReactElement {
+function Catalog({ initData }: { initData: initData }): ReactElement {
 	return (
-		<div className="catalog__page__wrapper">
+		<div className="catalog__page__wrapper" itemScope itemType="https://schema.org/OfferCatalog">
 			<CatalogHead>
 				<BreadcrumbByURL settings={{ includeHomePage: true }} />
 				{initData.isSearch && initData.searchHeader ? (
 					<CatalogHeaderSearch searchString={initData.searchHeader} paginator={initData.productsData.paginator} />
 				) : (
-					<CatalogHeader paginator={initData.productsData.paginator} />
+					<CatalogHeader
+						category={initData.productsData.category}
+						paginator={initData.productsData.paginator}
+						categoryStringAdditions={initData.filtersData.categoryStringAdditions}
+					/>
 				)}
+				<ChildCategoriesElement isInner={false} />
 			</CatalogHead>
 			<div className="catalog__body">
 				<div className="catalog__filters__wrapper">
 					<FacetFilter initialFilters={initData?.filtersData} />
 				</div>
-				<CatalogContainer CatalogData={initData.productsData} />
+				<CatalogContainer CatalogData={initData.productsData} appliedFilters={initData.filtersData.appliedFilters} />
 			</div>
 
 			<div className="catalog__footer">
@@ -96,3 +102,5 @@ export default function Catalog({ initData }: { initData: initData }): ReactElem
 		</div>
 	);
 }
+
+export default Catalog;

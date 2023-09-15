@@ -35,7 +35,7 @@ function ComparisonProductsPageContent(): ReactElement | null {
 	}
 	return null;
 }
-function ComparisonProductsPage(): ReactElement {
+const ComparisonProductsPage = (): ReactElement => {
 	const compariosonStore = useComparinsonProducts();
 
 	return (
@@ -45,6 +45,6 @@ function ComparisonProductsPage(): ReactElement {
 			<HistorySlider includeHeader={true} />
 		</div>
 	);
-}
+};
 
 export { ComparisonProductsPage };

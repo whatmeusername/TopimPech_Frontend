@@ -3,9 +3,9 @@ import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
 import { useSearchParams, usePathname } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, ReactElement } from 'react';
 import { centerModalControl } from '../../../../store';
-import { declOfNum, declOfProduct } from '../../../../utils';
+import { SearchParamsBuilder, declOfNum, declOfProduct } from '../../../../utils';
 import Dropdown from '../../../Shared/Dropdown/Dropdown';
 import CheckboxFilter from '../CheckboxFilter/CheckboxFilter';
 import InputFilter from '../InputFilter/InputFilter';
@@ -14,6 +14,8 @@ import { FacetFiltersData, FilterFetchData, FilterParameters, FilterApplyFN, Fac
 import './AllFilterComponent.scss';
 import { useMobile } from '../../../../context/MobileContext/MobileContext';
 import { ModalWrapper, ModalContentWrapper, ModalHead, ModalFooterWrapper } from '../../../CentralModal/CenterModal';
+import { ClearFiltersButton } from '../ClearFilterButton/ClearFiltersButton';
+import { Capitalize } from '../../../../utils/Capitalize';
 
 const FoundedItemsButton = ({
 	count,
@@ -49,32 +51,6 @@ const FoundedItemsButton = ({
 	);
 };
 
-const ClearFiltersButton = ({
-	onClick,
-	searchParams,
-	pathname,
-	router,
-}: {
-	onClick?: () => void;
-	searchParams: URLSearchParams;
-	pathname: string;
-	router: AppRouterInstance;
-}): JSX.Element => {
-	return (
-		<button
-			className="filter__clear__button filter__modal__button"
-			onClick={() => {
-				window.scrollTo({ behavior: 'smooth', top: 0, left: 0 });
-				searchParams.delete('filter');
-				router.push(pathname + '?' + searchParams.toString());
-				if (onClick) onClick();
-			}}
-		>
-			Очистить фильтры
-		</button>
-	);
-};
-
 const AllFilterComponent = ({
 	filterData,
 	currentFilterQuery,
@@ -87,7 +63,7 @@ const AllFilterComponent = ({
 	initialFilters: FilterFetchData;
 	fetchURL: string;
 	ActiveFilters: FilterParameters;
-}): JSX.Element => {
+}): ReactElement => {
 	const [FilterData, setFilterData] = useState<{ count: number; filtered: FacetFiltersData }>(filterData);
 	const router = useRouter();
 	const isMobile = useMobile(768);
@@ -101,10 +77,10 @@ const AllFilterComponent = ({
 	const filtersCount = Object.keys(initialFilters?.filtered ?? {}).length;
 	const itemsPerColumn = Math.ceil(filtersCount / 3);
 
-	const fetchData = (searchParams: string) => {
+	const fetchData = (searchParams: URLSearchParams) => {
 		axios({
 			method: 'GET',
-			url: fetchURL + searchParams,
+			url: SearchParamsBuilder(fetchURL, searchParams, 'search', 'filter')[0],
 		}).then((response) => {
 			setFilterData(response.data);
 		});
@@ -139,7 +115,12 @@ const AllFilterComponent = ({
 									{Object.entries(FilterData?.filtered ?? {})
 										.slice(start, end)
 										.map(([parentKey, parentValue]) => {
-											const DropdownHeader = <span className="dropdown__label">{parentValue.label}</span>;
+											const DropdownHeader = (
+												<span className="dropdown__label">
+													{Capitalize(parentValue.other.label)}
+													{parentValue.other.unit ? `, ${parentValue.other.unit}` : ''}
+												</span>
+											);
 											return (
 												<Dropdown header={DropdownHeader} key={'modal-filter-' + parentKey}>
 													{parentValue.type === FacetType.OBJECT ? (
@@ -188,12 +169,7 @@ const AllFilterComponent = ({
 						pathname={pathname}
 						router={router}
 					/>
-					<ClearFiltersButton
-						onClick={() => centerModalControl.toggle('FilterModal')}
-						searchParams={searchParams.current}
-						pathname={pathname}
-						router={router}
-					/>
+					<ClearFiltersButton onClick={() => centerModalControl.toggle('FilterModal')} />
 				</ModalFooterWrapper>
 			</ModalContentWrapper>
 		</ModalWrapper>

@@ -17,39 +17,56 @@
 	cursor: pointer;
 	transition: 0.1s ease-in-out;
 
-	.product__card__option__label{
+	.product__card__option__label {
 		margin: 0;
 	}
-	.product__card__option__icon{
+	.product__card__option__icon {
 		width: 20px;
 		height: 20px;
 		transition: fill 0.15s ease;
 		fill: var(--gray-color);
 	}
 
-
-	&.product__card__option__inactive{
-		&:hover{
+	&.product__card__option__inactive {
+		&:hover {
 			color: var(--orange-color);
-			.product__card__option__icon{
+			.product__card__option__icon {
 				fill: var(--orange-color);
 			}
 		}
 	}
-	&.product__card__option__active{
+	&.product__card__option__active {
 		color: var(--orange-color);
 		opacity: 1;
-		.product__card__option__icon{
+		.product__card__option__icon {
 			fill: var(--orange-color);
 		}
-		&:hover{
+		&:hover {
 			opacity: 0.75;
 		}
 	}
 }
 
+.product__card__product__tags {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	gap: 10px;
+	margin: 5px 0;
+	.product__card__product__tags__item {
+		border: 2px solid var(--orange-color-bg);
+		border-radius: 8px;
+		padding: 4px 8px;
+		.product__card__product__tags__item__text {
+			color: var(--orange-color);
+			font-size: var(--fontM);
+			font-family: var(--museo_cyrl);
+			margin: 0;
+		}
+	}
+}
 
-.product__card__option__base{
+.product__card__option__base {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
@@ -62,26 +79,26 @@
 	transition: all 0.15s ease-in-out;
 	font-size: var(--fontM);
 	font-family: var(--museo_cyrl);
-	&.product__card__option__inactive{
-		.product__card__option__icon{
+	&.product__card__option__inactive {
+		.product__card__option__icon {
 			fill: var(--gray-color);
 		}
-		&:hover{
+		&:hover {
 			border: 1px solid var(--orange-color);
 			color: var(--orange-color);
-			.product__card__option__icon{
+			.product__card__option__icon {
 				fill: var(--orange-color);
 			}
 		}
 	}
-	&.product__card__option__active{
+	&.product__card__option__active {
 		border: 1px solid var(--orange-color);
 		color: var(--orange-color);
 		opacity: 1;
-		.product__card__option__icon{
+		.product__card__option__icon {
 			fill: var(--orange-color);
 		}
-		&:hover{
+		&:hover {
 			opacity: 0.75;
 		}
 	}

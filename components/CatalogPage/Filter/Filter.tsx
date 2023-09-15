@@ -21,6 +21,7 @@ import { AllFilterComponent, ClearFiltersButton } from './AllFilterComponent/All
 import { ReactElement } from 'react';
 import { useMobile } from '../../../context/MobileContext/MobileContext';
 import { FilterIcon } from '../../IconsElements';
+import { Capitalize } from '../../../utils/Capitalize';
 
 const getFilterParameters = (searchParams: URLSearchParams | ParsedUrlQuery): FilterParameters => {
 	let filterParam: string | null;
@@ -88,7 +89,12 @@ function FacetFilter({ initialFilters }: { initialFilters: FilterFetchData }): J
 							Object.entries(initialFilters?.filtered ?? {})
 								.slice(0, 10)
 								.map(([parentKey, parentValue]) => {
-									const DropdownHeader = <span className="dropdown__label">{parentValue.label}</span>;
+									const DropdownHeader = (
+										<span className="dropdown__label">
+											{Capitalize(parentValue.other.label)}
+											{parentValue.other.unit ? `, ${parentValue.other.unit}` : ''}
+										</span>
+									);
 
 									return (
 										<Dropdown header={DropdownHeader} key={'filter-' + parentKey}>
@@ -127,7 +133,7 @@ function FacetFilter({ initialFilters }: { initialFilters: FilterFetchData }): J
 						)}
 					</div>
 					{FilterCount > 10 ? <AllFiltersOpenButton filterCount={FilterCount} /> : null}
-					{getActiveFiltersLength > 0 ? <ClearFiltersButton router={router} searchParams={searchParams} pathname={pathname} /> : null}
+					{getActiveFiltersLength > 0 ? <ClearFiltersButton /> : null}
 				</div>
 			) : null}
 			{isMobile || FilterCount > 10 ? (
@@ -137,7 +143,7 @@ function FacetFilter({ initialFilters }: { initialFilters: FilterFetchData }): J
 						currentFilterQuery={searchParams.get('filter') ?? ''}
 						ActiveFilters={ActiveFilters}
 						initialFilters={initialFilters}
-						fetchURL={`/api/products/filters/${category}`}
+						fetchURL={`/api/products/filters/${category ?? ''}`}
 					/>
 				</HydrationComponent>
 			) : null}

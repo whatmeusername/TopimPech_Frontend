@@ -4,13 +4,17 @@ import { ProductData, ProductDataShort } from '../components/CatalogComponents/C
 
 class ComparisonStore {
 	@observable public productsArticles: string[] = [];
+	private limit: number;
 
 	constructor() {
 		makeObservable(this);
+		this.limit = 99;
 	}
 
 	@action
 	public add(payload: string | ProductData | ProductDataShort) {
+		if (this.productsArticles.length === this.limit) return;
+
 		const payloadArticle = typeof payload === 'string' ? payload : payload.article;
 		const existing = this.productsArticles.find((article) => article === payloadArticle);
 		if (!existing) {

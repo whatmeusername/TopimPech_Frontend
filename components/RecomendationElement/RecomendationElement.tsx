@@ -1,13 +1,9 @@
-
 import { useGlobalContext } from '../../context/GlobalContext/GlobalContext';
 import { ProductsGridLayoutItem } from '../Shared/ProductsGridLayoutItem/ProductsGridLayoutItem';
 
 import './RecomendationElement.scss';
 
-
-
-
-function RecomendationElement({ limit }: { limit?: number }) {
+function RecomendationElement({ limit, className }: { limit?: number; className?: string }) {
 	let recomendationProducts = useGlobalContext().recomendation.data;
 
 	if (limit) {
@@ -15,7 +11,7 @@ function RecomendationElement({ limit }: { limit?: number }) {
 	}
 
 	return (
-		<div className="recomendation__products__wrapper">
+		<div className={`recomendation__products__wrapper ${className ?? ''}`}>
 			<div className="recomendation__products__head">
 				<h2 className="recomendation__products__header">Рекомендуем вам</h2>
 			</div>

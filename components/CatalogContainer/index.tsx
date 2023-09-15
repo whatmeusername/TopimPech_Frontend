@@ -16,8 +16,15 @@ import { CatalogContainerViewedItems } from './CatalogContainerViewedItems/Catal
 import { AllFiltersOpenButton } from '../CatalogPage/Filter/Filter';
 import { CatalogContainerFooter } from './CatalogContainerFooter/CatalogContainerFooter';
 import { ContactUs } from '../Shared/ContactUs/ContactUs';
+import { SearchParamsFilterQueryResult } from '../CatalogPage/Filter/interface';
 
-const CatalogContainer = ({ CatalogData }: { CatalogData: ProductAPIResponse }): ReactElement => {
+const CatalogContainer = ({
+	CatalogData,
+	appliedFilters,
+}: {
+	CatalogData: ProductAPIResponse;
+	appliedFilters: SearchParamsFilterQueryResult;
+}): ReactElement => {
 	const [catalogView, setCatalogView] = useCatalogView();
 
 	const isLoaded = useRef<number>(0);
@@ -30,15 +37,15 @@ const CatalogContainer = ({ CatalogData }: { CatalogData: ProductAPIResponse }):
 	};
 	const isFetched = IsLoaded();
 
+	console.log(appliedFilters);
+
 	return (
 		<div className="catalog__wrapper">
-			<ChildCategoriesElement />
+			<ChildCategoriesElement isInner={true} />
 			<AllFiltersOpenButton shortLabel={true} />
 			<ProductCatalogHeader disabled={CatalogData?.products === undefined || CatalogData?.products?.length === 0} setCatalogView={setCatalogView} />
 			<StandardBreakLine />
-			<div className={`catalog__products__container ${catalogView === 'grid' ? 'display__row' : 'display__column'}`}>
-				<ProductColumn products={CatalogData?.products ?? []} view={catalogView} fadeIn={isFetched} />
-			</div>
+			<ProductColumn products={CatalogData?.products ?? []} view={catalogView} fadeIn={isFetched} />
 			{CatalogData?.paginator && CatalogData.paginator.pages > 1 ? (
 				<>
 					<StandardBreakLine />

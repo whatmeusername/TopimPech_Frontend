@@ -1,7 +1,7 @@
 .product_slider__item__wrapper {
 	border-radius: 4px;
 	min-width: 180px;
-	max-width: 180px;
+	max-width: 180px !important;
 	border: 2px solid transparent;
 	transition: background 0.15s ease-in-out, border 0.15s ease-in-out;
 
@@ -35,9 +35,9 @@
 				.price__tag {
 					font-size: var(--fontM);
 				}
-				.product__card__price__before__sale{
-                    font-size: var(--fontS);
-                }
+				.product__card__price__before__sale {
+					font-size: var(--fontS);
+				}
 			}
 			.product_slider__item__label {
 				font-size: var(--fontMS);
@@ -47,7 +47,6 @@
 				overflow: hidden;
 				-webkit-line-clamp: 4;
 				-webkit-box-orient: vertical;
-
 			}
 		}
 	}

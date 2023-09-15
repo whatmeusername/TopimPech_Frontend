@@ -34,21 +34,22 @@ const filterOnCheck = (config: FilterElementActionConfig) => {
 		config.searchParams.set('page', '1');
 		config.router.replace(`${config.path}?${config.searchParams.toString()}`);
 	} else if (config.applyFunction === FilterApplyFN.UPDATE && config.callback) {
-		config.callback(`?filter=${searchParamsSTR}`);
+		config.callback(config.searchParams);
 	}
 };
 
 const CheckboxFilter = ({ config }: { config: FilterElementConfig }): ReactElement => {
 	return (
 		<div className="facet__filter__wrapper facet__filter__string">
-			{config.filterData.items.map((option, index) => {
+			{config.filterData.items.map((option) => {
 				const value = option.value;
 				const isChecked = config.ActiveFilters[config.parentKey] !== undefined && config.ActiveFilters[config.parentKey].includes(value);
+
 				return (
 					<div className="facet__filter__item" key={`${config.parentKey}-${value}-${isChecked}}`}>
 						<input
 							type="checkbox"
-							id={`${value}-${index}-${config.applyFilter}`}
+							id={`${config.parentKey}_${value}-${config.applyFilter}`}
 							className="filter__custom__checkbox"
 							onClick={
 								option.count !== 0 || isChecked
@@ -68,8 +69,8 @@ const CheckboxFilter = ({ config }: { config: FilterElementConfig }): ReactEleme
 							disabled={option.count === 0 && !isChecked}
 							defaultChecked={isChecked}
 						/>
-						<label htmlFor={`${value}-${index}-${config.applyFilter}`} className="facet__filter__item__label">
-							<span className="facet__filter__item__name">{option.label}</span>
+						<label htmlFor={`${config.parentKey}_${value}-${config.applyFilter}`} className="facet__filter__item__label">
+							<span className="facet__filter__item__name">{`${option.other.label} ${config.filterData.other.unit ?? ''}`}</span>
 							<span className="facet__filter__item__count">{option.count}</span>
 						</label>
 					</div>

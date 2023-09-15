@@ -1,0 +1,232 @@
+.montage__page__wrapper {
+	.montage__page__main__text__wrapper {
+		background: url('/backgrounds/about.jpg');
+		background-size: cover;
+		background-repeat: no-repeat;
+		background-position: center 70%;
+		box-shadow: 0 0 32px var(--box-shadow-color);
+
+		border: 4px solid var(--primary-cards-border);
+		border-radius: 16px;
+		padding: 80px 30px;
+		margin: 20px 0;
+		.montage__page__main__header {
+			color: var(--white-color);
+			font-family: var(--museo_cyrl);
+			line-height: 28px;
+			font-size: var(--headerS);
+			margin: 10px 0;
+		}
+		.montage__page__main__text {
+			color: var(--white-color);
+			font-family: var(--museo_cyrl);
+			line-height: 28px;
+			font-size: var(--fontX);
+			margin: 0;
+			font-weight: 300;
+		}
+	}
+	.montage__page__block__header__wrapper {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: 20px;
+		.montage__page__line {
+			background-color: var(--primary-color);
+			height: 3px;
+			border-radius: 8px;
+			width: 100%;
+			display: flex;
+		}
+		.montage__page__block__header {
+			white-space: nowrap;
+			font-size: var(--headerL);
+			color: var(--primary-color);
+			font-family: var(--museo_cyrl);
+			font-weight: 300;
+		}
+	}
+
+	.montage__page__examples__wrapper {
+		margin: 40px auto;
+		padding: 0 10px;
+
+		.montage__page__examples__content {
+			columns: 3;
+			column-gap: 20px;
+			row-gap: 20px;
+
+			.montage__page__item__wrapper {
+				max-width: 480px;
+				margin-top: 15px;
+				.montage__page__examples__item {
+					max-width: 100%;
+					max-height: 100%;
+					border-radius: 8px;
+					break-inside: avoid;
+				}
+			}
+		}
+
+		@media (max-width: 768px) {
+			.montage__page__examples__content {
+				columns: 2;
+			}
+		}
+	}
+
+	.montage__page__timeline {
+		position: relative;
+		max-width: 1200px;
+		margin: 0 auto;
+		&:after {
+			content: '';
+			position: absolute;
+			width: 4px;
+			border-radius: 8px;
+			background-color: var(--standard-color);
+			top: 0;
+			bottom: 0;
+			left: 50%;
+			margin-left: -3px;
+		}
+
+		.timeline__container {
+			padding: 10px 40px;
+			position: relative;
+			background-color: inherit;
+			width: 50%;
+			.timeline__content {
+				padding: 10px 40px;
+				background-color: var(--primary-cards-background);
+				position: relative;
+				border-radius: 6px;
+				.content__header {
+					font-family: var(--museo_cyrl);
+					font-size: var(--fontX);
+					color: var(--primary-color);
+					font-weight: 600;
+					margin: 10px 0;
+				}
+				.content__text {
+					color: var(--standard-color);
+					font-size: var(--fontL);
+					font-weight: 400;
+					line-height: 20px;
+				}
+			}
+			&:after {
+				content: attr(data-container-index);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-family: var(--museo_cyrl);
+				color: var(--gray-color);
+				position: absolute;
+				width: 25px;
+				height: 25px;
+				right: -17px;
+				background-color: var(--primary-cards-background);
+				border: 4px solid var(--gray-color);
+				top: 15px;
+				border-radius: 50%;
+				z-index: 1;
+			}
+			&.right {
+				left: 50%;
+				&:before {
+					content: ' ';
+					height: 0;
+					position: absolute;
+					top: 12px;
+					width: 0;
+					z-index: 1;
+					left: 20px;
+					border: medium solid var(--primary-cards-background);
+					border-width: 20px 20px 20px 0;
+					border-color: transparent var(--primary-cards-background) transparent transparent;
+				}
+				&:after {
+					left: -16px;
+				}
+			}
+			&.left {
+				left: 0;
+				&:before {
+					content: ' ';
+					height: 0;
+					position: absolute;
+					top: 12px;
+					width: 0;
+					z-index: 1;
+					right: 20px;
+					border: medium solid var(--primary-cards-background);
+					border-width: 20px 0 20px 20px;
+					border-color: transparent transparent transparent var(--primary-cards-background);
+				}
+			}
+		}
+
+		@media (max-width: 768px) {
+			&:after {
+				left: 10%;
+			}
+			.timeline__container {
+				width: 90%;
+				&:after {
+					content: attr(data-container-index);
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					font-family: var(--museo_cyrl);
+					color: var(--gray-color);
+					position: absolute;
+					width: 25px;
+					height: 25px;
+					right: -17px;
+					background-color: var(--primary-cards-background);
+					border: 4px solid var(--gray-color);
+					top: 15px;
+					border-radius: 50%;
+					z-index: 1;
+				}
+				&.right {
+					left: 10%;
+					&:before {
+						content: ' ';
+						height: 0;
+						position: absolute;
+						top: 12px;
+						width: 0;
+						z-index: 1;
+						left: 20px;
+						border: medium solid var(--primary-cards-background);
+						border-width: 20px 20px 20px 0;
+						border-color: transparent var(--primary-cards-background) transparent transparent;
+					}
+					&:after {
+						left: -16px;
+					}
+				}
+				&.left {
+					left: 10%;
+					&:before {
+						content: ' ';
+						height: 0;
+						position: absolute;
+						top: 12px;
+						width: 0;
+						z-index: 1;
+						left: 20px;
+						border: medium solid var(--primary-cards-background);
+						border-width: 20px 20px 20px 0;
+						border-color: transparent var(--primary-cards-background) transparent transparent;
+					}
+					&:after {
+						left: -16px;
+					}
+				}
+			}
+		}
+	}
+}

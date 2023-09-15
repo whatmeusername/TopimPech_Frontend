@@ -5,19 +5,19 @@
 	max-width: 500px;
 	width: 100%;
 	position: relative;
+	align-items: flex-end;
 	margin: 0;
+
 	.product__page__properties__item__key {
 		overflow: hidden;
 		position: relative;
 		width: 50%;
 		margin: 0;
 		padding-right: 5px;
-		overflow: hidden;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-		font-size: var(--fontM);
-		color: var(--gray-color);
+		white-space: wrap;
+		color: var(--standard-color);
 		font-family: var(--museo_cyrl);
+		font-size: var(--fontL);
 		&::first-letter {
 			text-transform: capitalize;
 		}
@@ -25,13 +25,27 @@
 			content: '';
 			width: 100%;
 			position: absolute;
-			top: 1rem;
+			bottom: 0;
 			border-bottom: 1px dotted var(--gray-color);
 		}
 	}
-	.product__page__properties__item__value {
+	.product__page__properties__item__value__wrapper {
+		display: flex;
 		margin: 0;
-		color: var(--standard-color);
 		width: 50%;
+
+		.product__page__properties__item__value {
+			align-self: flex-end;
+			color: var(--standard-color);
+			font-size: var(--fontL);
+		}
+	}
+	@media (max-width: 768px) {
+		.product__page__properties__item__key {
+			font-size: var(--fontM);
+		}
+		.product__page__properties__item__value {
+			font-size: var(--fontM);
+		}
 	}
 }

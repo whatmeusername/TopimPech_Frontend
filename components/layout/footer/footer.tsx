@@ -15,15 +15,15 @@ function CatalogBlock(): ReactElement {
 	return (
 		<div className="footer__content__block">
 			<p className="footer__content__block__header">Каталог</p>
-			<div className="footer__content__block__column">
+			<ul className="footer__content__block__column">
 				{categories.categories.map((category) => {
 					return (
-						<Link href={`/catalog/${category.slug}`} key={`footer__catalog__${category.slug}`} className="footer__content__block__column__item">
-							{category.name}
-						</Link>
+						<li className="footer__content__block__column__item" key={`footer__catalog__${category.slug}`}>
+							<Link href={`/catalog/${category.slug}`}>{category.name}</Link>
+						</li>
 					);
 				})}
-			</div>
+			</ul>
 		</div>
 	);
 }
@@ -34,6 +34,11 @@ function OrderBlock(): ReactElement {
 			link: '/info/delivery',
 			slug: 'delivery',
 			name: 'Доставка и оплата',
+		},
+		{
+			link: '/info/montage',
+			slug: 'montage',
+			name: 'Монтаж и установка',
 		},
 		{
 			link: '/info/contacts',
@@ -77,14 +82,14 @@ function FooterLogo(): ReactElement {
 }
 
 function ContactsColumn(): ReactElement {
-	const PhoneNumber = useGlobalContext();
+	const GlobalContext = useGlobalContext();
 	return (
-		<div className="footer__contacts__wrapper">
+		<div className="footer__contacts__wrapper" itemScope itemType="http://schema.org/Organization">
 			<div className="footer__contacts__content__wrapper footer__contacts__phone__wrapper">
-				<p className="footer__contacts__data__header">Контактный номер</p>
-				{PhoneNumber.basePhoneNumber.map((phone, i) => {
+				<p className="footer__contacts__data__header">Контактные номера</p>
+				{GlobalContext.basePhoneNumber.map((phone, i) => {
 					return (
-						<p className="footer__contacts__data" key={`contacts__phone__${i}`}>
+						<p className="footer__contacts__data" itemProp="telephone" key={`contacts__phone__${i}`}>
 							{phone}
 						</p>
 					);
@@ -92,11 +97,15 @@ function ContactsColumn(): ReactElement {
 			</div>
 			<div className="footer__contacts__content__wrapper">
 				<p className="footer__contacts__data__header">Электронная почта</p>
-				<p className="footer__contacts__data">info@topimpech.ru</p>
+				<p className="footer__contacts__data" itemProp="email">
+					info@topimpech.ru
+				</p>
 			</div>
 			<div className="footer__contacts__content__wrapper">
 				<p className="footer__contacts__data">Рабочее время: c 10.00 - 18.00</p>
 			</div>
+			<meta itemProp="name" content="ТопимПечь" />
+			<meta itemProp="address" content={GlobalContext.baseAddress} />
 		</div>
 	);
 }

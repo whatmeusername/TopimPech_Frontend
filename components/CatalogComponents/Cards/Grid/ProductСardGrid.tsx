@@ -1,7 +1,7 @@
 import AddToCartButton from '../../AddToCartButton/AddToCartButton';
 import ProductImageGallery from '../../HoverGallery/ProductGallery';
 import PriceElement from '../../PriceElement.tsx/PriceElement';
-import ManufacturerData from '../../other/ManufacturerData';
+// import ManufacturerData from '../../other/ManufacturerData';
 import ProductCardOptions from '../../other/ProductCardOptions';
 import './ProductCardGrid.scss';
 
@@ -9,6 +9,7 @@ import { ProductData } from '../interface';
 import Link from 'next/link';
 import { ProductPreviewBTN, ProductPreviewModal } from '../../ProductPreview/ProductPreview';
 import useToggle from '../../../../hooks/useToggle';
+import { ProductCardTags } from '../general';
 
 export default function ProductCardGrid({ product, fadeIn }: { product: ProductData; fadeIn?: boolean }): JSX.Element {
 	const [toggled, setToggle] = useToggle(false);
@@ -18,12 +19,13 @@ export default function ProductCardGrid({ product, fadeIn }: { product: ProductD
 				<div className="product__card__image__wrapper">
 					<ProductImageGallery images={product.images} urlStartsWith={'/api'} alt={product.name} />
 					<ProductPreviewBTN setToggle={setToggle} />
+					<ProductCardTags product={product} />
 				</div>
 				<PriceElement product={product} />
 				<div className="product__card__name__wrapper">
 					<span className="product__card__name">{product.name}</span>
 				</div>
-				<ManufacturerData product={product} />
+				{/* <ManufacturerData product={product} /> */}
 			</Link>
 			{toggled ? <ProductPreviewModal id={'ProductPreview'} toggle={setToggle} productData={product} /> : null}
 			<div className="product__card__no__link__wrapper">

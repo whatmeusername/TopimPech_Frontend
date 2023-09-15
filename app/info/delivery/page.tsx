@@ -1,5 +1,5 @@
 import dynamic from 'next/dynamic';
-import { META_PAGE_DESCRIPTION_BASE, PROXY_URL } from '../../layout';
+import { FULL_DOMAIN, OPENGRAPH_BASE, PROXY_URL } from '../../layout';
 import { getData } from '../../../appRouteUtils';
 import { Metadata } from 'next';
 
@@ -13,7 +13,13 @@ async function DeliveryPage() {
 export async function generateMetadata(): Promise<Metadata> {
 	return {
 		title: 'Доставка и оплата',
-		description: META_PAGE_DESCRIPTION_BASE,
+		description: 'Информация по доставке и оплате',
+		openGraph: {
+			...OPENGRAPH_BASE,
+			title: 'Информация по доставке и оплате',
+			url: `${FULL_DOMAIN}/info/delivery`,
+			images: ['/api/images/logo/SiteLogo.png'],
+		},
 	};
 }
 

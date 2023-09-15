@@ -40,9 +40,8 @@ class Categories {
 				const node = stack.pop() as CategoryData;
 				const childExists = node.child.find((child) => child.slug === item);
 				if (!childExists) {
-					stack.push(...ancestor.child);
-				}
-				return childExists;
+					stack.push(...node.child);
+				} else return childExists;
 			}
 		};
 

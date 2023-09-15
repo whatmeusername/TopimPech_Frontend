@@ -1,0 +1,32 @@
+.search__input__no__result__wrapper {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	margin: 30px 0;
+	.search__input__no__result__icon {
+		width: 120px;
+		height: 120px;
+		fill: var(--primary-color);
+	}
+	.search__input__no__result__content {
+		font-family: var(--museo_cyrl);
+		text-align: center;
+		display: flex;
+		flex-direction: column;
+		gap: 2.5px;
+		.search__input__no__result__text {
+			color: var(--primary-color);
+			font-weight: 300;
+			font-size: var(--fontX);
+			margin: 0;
+		}
+		.search__input__no__result__search__text {
+			font-weight: 500;
+			font-size: var(--fontX);
+			margin: 0;
+			color: var(--orange-color);
+		}
+	}
+}

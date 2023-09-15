@@ -1,51 +1,60 @@
 .product__page__wrapper {
 	max-width: 1200px;
-	display: flex;
-	flex-direction: column;
 	margin: 20px auto 40px;
-	gap: 25px;
-
-	.product__page__card {
-		background-color: var(--primary-cards-background);
-		border-radius: 4px;
-		padding: 5px 20px;
-	}
-
-	.product__page__header__medium {
-		color: var(--standard-color);
-		font-family: var(--museo_cyrl);
-		font-size: var(--headerS);
-		margin: 10px 0;
-		font-weight: 300;
-		letter-spacing: 1px;
-	}
-
-	.product__page__manufacturer {
+	.product__page__content__wrapper {
 		display: flex;
-		flex-direction: row;
-		gap: 8px;
-		.product__page__manufacturer__label {
+		flex-direction: column;
+		gap: 25px;
+		.product__page__card {
+			background-color: var(--primary-cards-background);
+			border-radius: 4px;
+			padding: 5px 20px;
+		}
+
+		.product__page__header__medium {
+			color: var(--standard-color);
+			font-family: var(--museo_cyrl);
+			font-size: var(--headerS);
+			margin: 10px 0;
+			font-weight: 300;
+			letter-spacing: 1px;
+		}
+
+		.product__page__manufacturer {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			gap: 8px;
 			color: var(--standard-color);
 			font-family: var(--museo_cyrl);
 		}
-	}
 
-	.product__history__slider__wrapper {
-		padding: 0;
+		.product__history__slider__wrapper {
+			padding: 0;
+		}
+
+		@media (max-width: 428px) {
+			.product__page__card {
+				padding: 5px 10px;
+			}
+		}
 	}
 }
 
 .product__page__head {
 	padding: 0 10px;
 	.product__page__article__wrapper {
-		margin: 10px 0 0;
-		font-size: var(--fontM);
+		margin: 10px 0 10px;
+		font-size: var(--fontL);
+		font-family: var(--museo_cyrl);
 		color: var(--gray-color);
 	}
 	@media (max-width: 768px) {
-		flex-wrap: wrap;
-		display: flex;
-		flex-direction: column;
+		margin-bottom: 10px;
+		padding: 0;
+		.product__page__article__wrapper {
+			display: none;
+		}
 	}
 }
 
@@ -82,6 +91,17 @@
 
 	.product__page__main__info {
 		width: 100%;
+
+		.product__page__article__wrapper__mobile {
+			display: none;
+			.product__page__article {
+				color: var(--gray-color);
+				font-size: var(--fontL);
+				font-weight: 300;
+				font-family: var(--museo_cyrl);
+			}
+		}
+
 		.product__card__price__wrapper {
 			gap: 10px;
 			align-items: center;
@@ -132,17 +152,23 @@
 		}
 
 		.product__page__upper__item__info__wrapper {
-			margin-top: 20px;
+			margin: 10px;
 			display: flex;
-			flex-direction: column;
-			gap: 5px;
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-between;
+			gap: 10px;
 			.product__page__upper__item__wrapper {
+				gap: 10px;
 				display: flex;
 				flex-direction: row;
 				align-items: center;
-				gap: 10px;
 				opacity: 1;
 				transition: opacity 0.2s ease;
+				height: 44px;
+				border: 2px solid var(--primary-color);
+				padding: 5px 10px;
+				border-radius: 8px;
 				&:hover {
 					opacity: 0.8;
 				}
@@ -158,6 +184,24 @@
 					font-family: var(--museo_cyrl);
 				}
 			}
+
+			@media (max-width: 428px) {
+				.product__page__upper__item__wrapper {
+					font-size: var(--fontM);
+					padding: 4px 8px;
+					gap: 5px;
+					.product__page__upper__item__icon {
+						min-width: 22px;
+						min-height: 22px;
+						width: 22px;
+						height: 22px;
+					}
+				}
+			}
+
+			@media (max-width: 368px) {
+				flex-direction: column;
+			}
 		}
 	}
 
@@ -166,6 +210,7 @@
 		color: var(--standard-color);
 		font-weight: 300;
 		font-family: var(--museo_cyrl);
+		margin: 10px 0 15px;
 	}
 
 	.product__page__options__wrapper {
@@ -184,6 +229,15 @@
 		}
 	}
 
+	@media (max-width: 768px) {
+		.product__page__main__info {
+			.product__page__article__wrapper__mobile {
+				display: block;
+				margin-top: 10px;
+			}
+		}
+	}
+
 	@media (max-width: 1024px) {
 		flex-direction: column;
 		.product__page__gallery__wrapper {
@@ -197,11 +251,10 @@
 	width: 100%;
 	.product__page__description {
 		font-size: var(--fontL);
-		line-height: 25px;
-		font-family: 'Arial';
+		line-height: 28px;
 		white-space: pre-wrap;
 		font-family: var(--museo_cyrl);
-		font-weight: 300;
+		font-weight: 400;
 		padding: 10px 0;
 		display: inline-block;
 		overflow: auto;
@@ -243,8 +296,10 @@
 		color: var(--standard-color);
 		font-size: var(--fontX);
 		letter-spacing: 0.5px;
+		font-weight: 300;
 		font-family: var(--museo_cyrl);
-		margin: 10px 0;
+		margin: 20px 0 10px;
+		letter-spacing: 1px;
 	}
 
 	.product__page__properties__short__content {
@@ -257,10 +312,11 @@
 		outline: none;
 		border: 0;
 		background-color: transparent;
-		font-size: var(--fontM);
+		font-size: var(--fontL);
 		padding: 10px 0;
 		margin: 0;
 		margin-top: 10px;
+		font-family: var(--museo_cyrl);
 		cursor: pointer;
 		color: var(--orange-color);
 		transition: opacity 0.1s ease-in-out;

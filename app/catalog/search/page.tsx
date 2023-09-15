@@ -10,7 +10,7 @@ async function CatalogPage(context: ServerSideURLProps) {
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-	const description = META_PAGE_DESCRIPTION('Товары для бани');
+	const description = META_PAGE_DESCRIPTION('Поиск среди товаров');
 
 	return {
 		title: 'Результаты поиска',

@@ -15,7 +15,7 @@ async function OrderCancelPage({ params }: ServerSideURLProps) {
 export async function generateMetadata(): Promise<Metadata> {
 	return {
 		title: 'Отмена заказа',
-		description: META_PAGE_DESCRIPTION_BASE,
+		description: META_PAGE_DESCRIPTION_BASE(),
 	};
 }
 

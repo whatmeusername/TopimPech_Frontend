@@ -4,9 +4,11 @@ import axios from 'axios';
 
 class FavouritesProducts {
 	@observable public items: ProductDataShort[] = [];
+	private limit: number = 99;
 
 	constructor() {
 		makeObservable(this);
+		this.limit = 99;
 	}
 
 	public getCount(): number {
@@ -28,6 +30,8 @@ class FavouritesProducts {
 
 	@action
 	public add(payload: ProductData | ProductDataShort): void {
+		if (this.items.length === this.limit) return;
+
 		const existIdx = this.items.findIndex((i) => i.article === payload.article);
 		if (existIdx === -1) {
 			axios({

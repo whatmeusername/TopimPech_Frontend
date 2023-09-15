@@ -41,6 +41,9 @@
 		overflow: scroll;
 		padding: 0 0 50px;
 		height: 80%;
+		&.modal__search__modal__no__results {
+			justify-content: center;
+		}
 	}
 	.modal__footer {
 		width: 100%;

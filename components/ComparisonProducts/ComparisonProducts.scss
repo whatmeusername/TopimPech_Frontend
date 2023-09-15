@@ -8,7 +8,7 @@
 			top: 0;
 			left: 0;
 			z-index: var(--zIndexMedium);
-			box-shadow: 16p 0 8px rgb(77, 77, 77, 0.2);
+			box-shadow: 16p 0 8px var(--box-shadow-color);
 			padding-bottom: 5px;
 			.comparison__products__card__slider__wrapper {
 				.comparison__products__card__slider {
@@ -53,12 +53,11 @@
 							color: var(--primary-color);
 							font-weight: 300;
 							font-family: var(--museo_cyrl);
-							-webkit-line-clamp: 3;
 							display: -webkit-box;
+							-webkit-line-clamp: 3;
+							-webkit-box-orient: vertical;
 							overflow: hidden;
 							text-overflow: ellipsis;
-							-webkit-box-orient: vertical;
-							height: 55px;
 							margin: 5px 0;
 						}
 						transition: color 0.15s ease-in-out;
@@ -168,6 +167,7 @@
 		flex-direction: row;
 		flex-wrap: wrap;
 		gap: 10px;
+		padding: 0 10px;
 		margin: 10px 0;
 		.comparison__products__categories__item {
 			padding: 8px 10px;
@@ -227,7 +227,7 @@
 					align-items: center;
 					justify-content: center;
 					font-size: var(--fontL);
-					font-weight: 300;
+					font-weight: 400;
 					&.comparison__products__raising {
 						color: var(--green-color);
 					}

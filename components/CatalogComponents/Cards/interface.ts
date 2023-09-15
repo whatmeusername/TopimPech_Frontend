@@ -32,6 +32,10 @@ interface MappedProductsResponse<IS_SHORT extends boolean = false> {
 	total: number;
 }
 
+interface productTags {
+	name: string;
+}
+
 interface ProductDataShort {
 	id: number;
 	slug: string;
@@ -68,6 +72,7 @@ interface ProductData {
 			};
 		}[];
 	};
+	ProductTags: productTags[];
 }
 
 export type { MappedProductsResponse, ProductData, Property, FeatureKey, ProductImage, ProductBaseData, ProductDataShort };

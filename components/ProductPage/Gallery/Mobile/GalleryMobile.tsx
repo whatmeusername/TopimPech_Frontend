@@ -1,9 +1,19 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, ReactElement } from 'react';
 import { GalleryItem } from '../interface';
 import './GalleryMobile.scss';
 import { NO_IMAGE_SRC } from '../../../const';
 
-const GalleryMobile = ({ items, urlStartsWith }: { items: GalleryItem[]; urlStartsWith?: string }): JSX.Element | null => {
+import Image from 'next/image';
+
+const GalleryMobile = ({
+	items,
+	urlStartsWith,
+	productName,
+}: {
+	items: GalleryItem[];
+	urlStartsWith?: string;
+	productName: string;
+}): ReactElement | null => {
 	const [current, setCurrent] = useState<number>(items[0].id);
 
 	const dragWrapper = useRef<HTMLDivElement>(null!);
@@ -80,42 +90,58 @@ const GalleryMobile = ({ items, urlStartsWith }: { items: GalleryItem[]; urlStar
 	return (
 		<>
 			<div className="gallery__images__holder__wrapper">
-				<div className="gallery__images__holder" onDragStart={OnDragStart} onTouchStart={OnDragStart} ref={dragWrapper}>
+				<div
+					className="gallery__images__holder"
+					onDragStart={items.length > 1 ? OnDragStart : undefined}
+					onTouchStart={items.length > 1 ? OnDragStart : undefined}
+					ref={dragWrapper}
+					itemProp="image"
+				>
 					{items.map((item) => {
 						return (
 							<span className="gallery__image__holder" key={`gallery__image__holder__${item.id}`}>
-								<img
-									src={(urlStartsWith ?? '') + item.path}
+								<Image
 									className="gallery__current__image"
-									alt={item.path}
 									onError={(e) => ((e.target as HTMLImageElement).src = NO_IMAGE_SRC)}
+									src={(urlStartsWith ?? '') + item.path}
+									alt={productName}
+									width={300}
+									height={300}
+									priority={true}
+									style={{ objectFit: 'contain', maxInlineSize: '100%', height: 'auto' }}
 								/>
 							</span>
 						);
 					})}
 				</div>
 			</div>
-			<div className="gallery__available__items__wrapper">
-				<div className="gallery__available__items">
-					{items.map((item) => {
-						return (
-							<div
-								key={`gallery__item__${item.id}`}
-								onClick={() => setCurrent(item.id)}
-								className={`gallery__available__item ${
-									current === item.id ? 'gallery__available__item__selected' : 'gallery__available__item__inactive'
-								}`}
-							>
-								<img
-									src={(urlStartsWith ?? '') + item.path}
-									className="gallery__available__item__image"
-									onError={(e) => ((e.target as HTMLImageElement).src = NO_IMAGE_SRC)}
-								/>
-							</div>
-						);
-					})}
+			{items.length > 1 ? (
+				<div className="gallery__available__items__wrapper">
+					<div className="gallery__available__items">
+						{items.map((item) => {
+							return (
+								<div
+									key={`gallery__item__${item.id}`}
+									onClick={() => setCurrent(item.id)}
+									className={`gallery__available__item ${
+										current === item.id ? 'gallery__available__item__selected' : 'gallery__available__item__inactive'
+									}`}
+								>
+									<Image
+										className="gallery__available__item__image"
+										onError={(e) => ((e.target as HTMLImageElement).src = NO_IMAGE_SRC)}
+										src={(urlStartsWith ?? '') + item.path}
+										alt={productName}
+										width={50}
+										height={50}
+										style={{ objectFit: 'contain', maxInlineSize: '100%' }}
+									/>
+								</div>
+							);
+						})}
+					</div>
 				</div>
-			</div>
+			) : null}
 		</>
 	);
 };

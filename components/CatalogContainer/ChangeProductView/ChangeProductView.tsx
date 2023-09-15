@@ -16,7 +16,7 @@ const ChangeProductView = memo(({ disabled, setCatalogView }: { disabled?: boole
 	const [selectedView, setSelectedView] = useState<CatalogView | undefined>(view);
 
 	const setView = (variant: CatalogView) => {
-		document.cookie = `${CATALOG_VIEW_COOKIE}=${variant}`;
+		document.cookie = `${CATALOG_VIEW_COOKIE}=${variant};path=/`;
 		localStorage.setItem('view', variant);
 		setCatalogView(variant);
 	};

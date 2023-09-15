@@ -13,6 +13,24 @@
 		position: relative;
 		height: 350px;
 		width: 100%;
+		.product__card__product__tags {
+			position: absolute;
+			top: 0;
+			left: 0;
+			gap: 5px;
+			flex-wrap: wrap;
+			opacity: 1;
+			transition: opacity 0.25s ease-in-out;
+			max-width: calc(100% - 30px);
+			.product__card__product__tags__item {
+				padding: 4px 8px;
+				border-color: var(--orange-darker-color);
+				background-color: var(--white-color);
+				.product__card__product__tags__item__text {
+					font-size: var(--fontM);
+				}
+			}
+		}
 	}
 
 	.product__card__link__wrapper {
@@ -97,6 +115,11 @@
 	&:hover {
 		.product__preview {
 			display: block;
+		}
+		.product__card__image__wrapper {
+			.product__card__product__tags {
+				opacity: 0.2;
+			}
 		}
 	}
 }

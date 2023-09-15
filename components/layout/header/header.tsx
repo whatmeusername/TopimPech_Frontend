@@ -71,7 +71,7 @@ function HeaderMobile(): ReactElement {
 		<div className="header__mobile__wrapper">
 			<div className="header__mobile__upper">
 				<div className="header__mobile__upper__content">
-					<Link href="/">
+					<Link href="/" title="Логотип сайта ТопимПечь.ру, ссылка на главную страницу">
 						<SiteLogo className="header__mobile__upper__logo" />
 					</Link>
 					<SearchMobile />
@@ -145,6 +145,9 @@ const HeaderDesktop = observer((): ReactElement => {
 							</Link>
 							<Link href="/info/contacts" className="header__info__link">
 								Контакты
+							</Link>
+							<Link href="/info/montage" className="header__info__link">
+								Монтаж и установка
 							</Link>
 						</div>
 						<div className="header__info__contact__phone__wrapper">

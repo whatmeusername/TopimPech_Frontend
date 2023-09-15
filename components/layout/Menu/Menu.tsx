@@ -3,7 +3,6 @@
 import { memo } from 'react';
 import './menu.scss';
 
-import MenuContentMobile from './MenuContentMobile';
 import MenuContentDesktop from './MenuContentDesktop';
 import { CloseButton } from './GeneralElements';
 import { useCategoriesContext } from '../../../context/Categories';
@@ -11,6 +10,11 @@ import { MenuIcon } from '../../IconsElements';
 import { menuModalControl } from '../../../store/MenuModal';
 import { observer } from 'mobx-react-lite';
 import { useMobile } from '../../../context/MobileContext/MobileContext';
+import { MenuContentMobile } from './MenuContentMobile';
+import { useGlobalContext } from '../../../context/GlobalContext/GlobalContext';
+import { declOfProduct } from '../../../utils';
+import { centerModalControl } from '../../../store/CenterModal';
+import { StandardBreakLine } from '../../Shared/Lines/StandardBreakLine/StandardBreakLine';
 
 const MenuContent = memo((): JSX.Element => {
 	const isMobile = useMobile(1024);
@@ -29,16 +33,24 @@ const MenuContent = memo((): JSX.Element => {
 			</>
 		);
 	} else {
+		const globalContext = useGlobalContext();
 		return (
 			<div className="menu__content__wrapper">
 				<div className="menu__content__mobile__wrapper">
 					<div className="menu__content__upper__wrapper">
 						<div className="menu__content__header__mobile">
-							<span>Категории</span>
+							<button
+								className="menu__content__header__mobile__search"
+								onClick={() => {
+									menuModalControl.toggle(false);
+									centerModalControl.toggle('SearchModal', true);
+								}}
+							>{`Поиск среди ${globalContext.productCount} ${declOfProduct(globalContext.productCount)}`}</button>
+							<CloseButton />
 						</div>
-						<CloseButton />
 					</div>
-					<div className="menu__content__mobile">{categories ? <MenuContentMobile categories={categories} /> : null}</div>
+					<StandardBreakLine />
+					<div className="menu__content__mobile">{categories ? <MenuContentMobile /> : null}</div>
 				</div>
 			</div>
 		);

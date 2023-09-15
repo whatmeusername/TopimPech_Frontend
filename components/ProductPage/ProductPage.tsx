@@ -22,10 +22,11 @@ import { FavouriteButton } from '../CatalogComponents/FavouriteButton/FavouriteB
 import { useProductHistory } from '../../context/MobxStoreContext/MobxStoreContext';
 import parse from 'html-react-parser';
 import { ProductsGridLayoutItem } from '../Shared/ProductsGridLayoutItem/ProductsGridLayoutItem';
-import { DeliveryIcon, PhoneIcon } from '../IconsElements';
+import { DeliveryIcon, PhoneIcon, SettingsIcon } from '../IconsElements';
 import Link from 'next/link';
 import { ThinBreakLine } from '../Shared/Lines/ThinBreakLine/ThinBreakLine';
 import { observer } from 'mobx-react-lite';
+import { ProductCardTags } from '../CatalogComponents/Cards/general';
 
 interface ProductPageResponse {
 	data: ProductData;
@@ -83,35 +84,47 @@ function ProductPageMainInfoCard({ product }: { product: ProductData }): ReactEl
 	return (
 		<div className="product__page__upper">
 			<div className="product__page__card product__page__upper__item product__page__gallery__wrapper">
-				<Gallery items={galleryItems} urlStartsWith={'/api'} ration={3} />
+				<Gallery items={galleryItems} urlStartsWith={'/api'} ration={3} productName={product.name} />
 			</div>
 			<div className=" product__page__card product__page__upper__item product__page__main__info">
-				<h1 className="product__page__header">{product.name}</h1>
-				<PriceElement product={product} />
-				{product.RelatedProductsTable ? <RelatedProductsElement product={product} /> : null}
-				{product.manufacturer ? <ManufacturerElement ManufacturerData={product.manufacturer} /> : null}
-				<div className="product__page__options__wrapper">
-					<AddToCartButton article={product.article} />
-					<div className="product__page__options__lower">
-						<ComparisonButton productData={product} withLabel={true} useBaseStyle={true} />
-						<FavouriteButton productData={product} withLabel={true} useBaseStyle={true} />
+				<div className="product__page__article__wrapper__mobile">
+					<span className="product__page__article">Артикул: {product.article}</span>
+				</div>
+				<ProductCardTags product={product} />
+				<h1 className="product__page__header" itemProp="name">
+					{product.name}
+				</h1>
+				<span itemProp="offers" itemScope itemType="http://schema.org/Offer">
+					<PriceElement product={product} includeMeta={true} />
+					{product.RelatedProductsTable ? <RelatedProductsElement product={product} /> : null}
+					{product.manufacturer ? <ManufacturerElement ManufacturerData={product.manufacturer} /> : null}
+					<div className="product__page__options__wrapper">
+						<AddToCartButton article={product.article} />
+						<div className="product__page__options__lower">
+							<ComparisonButton productData={product} withLabel={true} useBaseStyle={true} />
+							<FavouriteButton productData={product} withLabel={true} useBaseStyle={true} />
+						</div>
 					</div>
-				</div>
-				{product.properties && product.properties?.length > 0 ? (
-					<ShortAttributesElement properties={product.properties} take={5} showAllBtn={true} />
-				) : null}
+					{product.properties && product.properties?.length > 0 ? (
+						<ShortAttributesElement properties={product.properties} take={5} showAllBtn={true} />
+					) : null}
 
-				<div className="product__page__upper__item__info__wrapper">
 					<ThinBreakLine />
-					<Link className="product__page__upper__item__wrapper" href={'/info/delivery'}>
-						<DeliveryIcon className="product__page__upper__item__icon" />
-						<p className="product__page__upper__item__icon__label">Доставка и оплата</p>
-					</Link>
-					<Link className="product__page__upper__item__wrapper" href={'/info/contacts'}>
-						<PhoneIcon className="product__page__upper__item__icon" />
-						<p className="product__page__upper__item__icon__label">Контакты</p>
-					</Link>
-				</div>
+					<div className="product__page__upper__item__info__wrapper">
+						<Link className="product__page__upper__item__wrapper" href={'/info/delivery'}>
+							<DeliveryIcon className="product__page__upper__item__icon" />
+							<p className="product__page__upper__item__icon__label">О доставке</p>
+						</Link>
+						<Link className="product__page__upper__item__wrapper" href={'/info/contacts'}>
+							<PhoneIcon className="product__page__upper__item__icon" />
+							<p className="product__page__upper__item__icon__label">Контакты</p>
+						</Link>
+						<Link className="product__page__upper__item__wrapper" href={'/info/montage'}>
+							<SettingsIcon className="product__page__upper__item__icon" />
+							<p className="product__page__upper__item__icon__label">Монтаж</p>
+						</Link>
+					</div>
+				</span>
 			</div>
 		</div>
 	);
@@ -130,43 +143,47 @@ const ProductPage = observer(({ productData, params }: { productData: ProductPag
 	return (
 		<div className="product__page__wrapper">
 			<div className="product__page__head">
-				<div className="product__page__breadcrumb">
-					{product?.categories ? (
-						<BreadcrumbByURL
-							settings={{
-								includeHomePage: true,
-								category: product.categories[product.categories.length - 1].slug,
-								includeAtEnd: {
-									label: product.name,
-									slug: product.slug,
-								},
-							}}
-						/>
-					) : null}
-				</div>
+				{product?.categories ? (
+					<BreadcrumbByURL
+						settings={{
+							includeHomePage: true,
+							category: product.categories[0].slug,
+							includeAtEnd: {
+								label: product.name,
+								slug: product.slug,
+								href: `/product/${product.slug}`,
+							},
+						}}
+					/>
+				) : null}
+
 				<div className="product__page__article__wrapper">
 					<span className="product__page__article">Артикул: {product.article}</span>
 				</div>
 			</div>
-			<ProductPageMainInfoCard product={product} />
-			{product.descriptionDOM ? (
-				<div className=" product__page__card product__page__description">
-					<h3 className="product__page__header__medium product__page__description__header">О товаре</h3>
-					<span className="product__page__description">{parse(product.descriptionDOM)}</span>
-				</div>
-			) : null}
-			{product.properties.length > 0 ? <AttributesElement properties={product.properties ?? []} /> : null}
-
-			{product.suitableProducts.length > 0 ? <SuitableProductsElement products={product.suitableProducts} /> : null}
-			<SimilarProductBlock DiffProduct={product} SimilarProductsData={productData.similar} />
-			<HydrationComponent>
-				{productHistory.items.length > 1 ? (
-					<div className="product__page__card product__page__history">
-						<h3 className="product__page__header__medium">Вы смотрели</h3>
-						<HistorySlider excludeArticle={product.article} />
+			<span itemType="https://schema.org/Product" itemScope className="product__page__content__wrapper">
+				<ProductPageMainInfoCard product={product} />
+				{product.descriptionDOM ? (
+					<div className=" product__page__card product__page__description">
+						<h3 className="product__page__header__medium product__page__description__header">О товаре</h3>
+						<span className="product__page__description" itemProp="description">
+							{parse(product.descriptionDOM)}
+						</span>
 					</div>
 				) : null}
-			</HydrationComponent>
+				{product.properties.length > 0 ? <AttributesElement properties={product.properties ?? []} /> : null}
+
+				{product.suitableProducts.length > 0 ? <SuitableProductsElement products={product.suitableProducts} /> : null}
+				<SimilarProductBlock DiffProduct={product} SimilarProductsData={productData.similar} />
+				<HydrationComponent>
+					{productHistory.items.length > 1 ? (
+						<div className="product__page__card product__page__history">
+							<h3 className="product__page__header__medium">Вы смотрели</h3>
+							<HistorySlider excludeArticle={product.article} />
+						</div>
+					) : null}
+				</HydrationComponent>
+			</span>
 		</div>
 	);
 });

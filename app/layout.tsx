@@ -22,18 +22,21 @@ import { fetchCategories, getData } from '../appRouteUtils';
 
 const PROXY_URL = process.env.PROXY_URL ?? 'http://localhost:8000';
 const SITE_URL = process.env.SITE_URL ?? PROXY_URL;
-const SITE_URL_SLICED = SITE_URL.slice(0, SITE_URL.length - 1);
+const SITE_URL_SLICED = SITE_URL.slice(0, SITE_URL.length);
 const BASE_PHONE = '+7 (916) 926-96-66';
 const SECOND_PHONE = '+7 (915) 018-27-74';
 const DOMAIN_NAME = 'topimpech.ru';
 const DOMAIN_NAME_LOCALE = 'ТопимПечь.ру';
 const FULL_DOMAIN = `https://${DOMAIN_NAME}`;
 
-const PRODUCT_PAGE_SUB_LABEL = `купить в интернет-магазине товаров для бани ${DOMAIN_NAME_LOCALE}`;
+const PRODUCT_PAGE_SUB_LABEL = `купить в интернет-магазине в Московской области товаров для бани и дома ${DOMAIN_NAME_LOCALE}`;
 const PAGE_SUB_LABEL = `- интернет-магазин товаров для бани ${DOMAIN_NAME_LOCALE}`;
 const META_PAGE_DESCRIPTION = (prodcutName: string) =>
-	`${prodcutName} - купить по доступной цене в интернет-магазине товаров для бани ${DOMAIN_NAME_LOCALE}. ${prodcutName} - характеристика, фото, описание, Заказ товаров и консултация по телефону - ${BASE_PHONE}`;
-const META_PAGE_DESCRIPTION_BASE = `${DOMAIN_NAME_LOCALE} это интернет магазин товаров для вашей бани и дома. Доставка по московской области`;
+	`${prodcutName} - купить по доступной цене в интернет-магазине печей, каминов, котлов, дымоходов и других товаров для вашей бани и дома ${DOMAIN_NAME_LOCALE}. ${prodcutName} - характеристика, фото, описание, похожие товары. Заказ товаров и консультация по телефону - ${BASE_PHONE}. Услуги замера и монтажа`;
+const META_PAGE_DESCRIPTION_BASE = (prefix?: string) =>
+	`${
+		prefix ? prefix + '.' : ''
+	} Интернет магазин ${DOMAIN_NAME_LOCALE} печей, каминов, котлов, дымоходов и других товаров для вашей бани и дома. Доставка по московской области. Услуги замера и монтажа. Заказ товаров и консультация по телефону - ${BASE_PHONE}`;
 
 const PAGE_NOT_FOUND = 'Ошибка 404. Страница не была найдена.';
 
@@ -65,8 +68,9 @@ function GetCatalogView(): CatalogView {
 
 export const metadata: Metadata = {
 	metadataBase: new URL(SITE_URL),
-	title: `${DOMAIN_NAME_LOCALE} это интернет магазин товаров для бани, дома и строительства. Помогаем с подбором товаров`,
-	openGraph: { ...OPENGRAPH_BASE, url: FULL_DOMAIN },
+	title: `${DOMAIN_NAME_LOCALE} - интернет магазин товаров для бани, дома и строительства. Помогаем с подбором товаров`,
+	description: META_PAGE_DESCRIPTION_BASE(),
+	openGraph: { ...OPENGRAPH_BASE, title: 'Главная страница', url: FULL_DOMAIN, images: ['/api/images/logo/SiteLogo.png'] },
 };
 
 async function RootLayout({ children }: { children: ReactElement }) {
@@ -82,7 +86,6 @@ async function RootLayout({ children }: { children: ReactElement }) {
 		<html lang="en">
 			<head>
 				<meta name="theme-color" media="(prefers-color-scheme: light)" content="white" />
-				<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 				<script
 					type="text/javascript"
 					dangerouslySetInnerHTML={{
@@ -111,6 +114,7 @@ async function RootLayout({ children }: { children: ReactElement }) {
 					view={GetCatalogView()}
 					basePhoneNumber={[BASE_PHONE, SECOND_PHONE]}
 					recomendation={recomendationData}
+					baseAddress="1-я Вокзальная ул., 11, микрорайон Барыбино, Домодедово"
 				>
 					<MobileContext userAgentString={userAgentString}>
 						<CategoriesContext initialCategories={categoriesData.categories}>

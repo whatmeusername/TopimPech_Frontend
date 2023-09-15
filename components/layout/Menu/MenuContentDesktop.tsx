@@ -6,6 +6,10 @@ import { CategoriesColumn } from './GeneralElements';
 import type { CategoryData } from './GeneralElements';
 import { menuModalControl } from '../../../store/MenuModal';
 
+import Image from 'next/image';
+import { NO_IMAGE_SRC } from '../../const';
+import { Capitalize } from '../../../utils/Capitalize';
+
 const MenuContentDesktop = memo(({ categories }: { categories: CategoryData[] }): JSX.Element => {
 	const [selectedCategory, setSelectedCategory] = useState<string>('');
 
@@ -21,7 +25,19 @@ const MenuContentDesktop = memo(({ categories }: { categories: CategoryData[] })
 					`}
 				onMouseEnter={() => setSelectedCategory(category.slug)}
 			>
-				{category.name}
+				<div className="main__category__item__image__wrapper">
+					<Image
+						className="main__category__item__image"
+						onError={(e) => ((e.target as HTMLImageElement).src = NO_IMAGE_SRC)}
+						src={`/api${category.image?.path}`}
+						alt={category.name}
+						width={40}
+						height={40}
+						quality={50}
+						style={{ objectFit: 'contain', maxInlineSize: '100%', height: 'auto' }}
+					/>
+				</div>
+				<p className="main__category__item__text">{Capitalize(category.name)}</p>
 			</Link>
 		);
 	};
@@ -29,7 +45,7 @@ const MenuContentDesktop = memo(({ categories }: { categories: CategoryData[] })
 	function SubCategoryItem({ data, className, showCount }: { data: CategoryData; className: string; showCount?: boolean }): JSX.Element {
 		return (
 			<Link href={`/catalog/${data.slug}`} onClick={() => menuModalControl.toggle(false)} className={className} prefetch={false}>
-				<span className={className}>{data.name}</span>
+				<span className={`${className}__text`}>{data.name}</span>
 				{showCount ? <span className={'sub__categories__column__item__count'}>{data.productCount}</span> : null}
 			</Link>
 		);
@@ -39,7 +55,7 @@ const MenuContentDesktop = memo(({ categories }: { categories: CategoryData[] })
 		return (
 			<div className="sub__categories__column">
 				<SubCategoryItem data={data} className="sub__categories__column__item" showCount={true} />
-				{data?.child ? (
+				{data.child.length > 0 ? (
 					<div className="sub__categories__column__sub__wrapper">
 						{data.child.map((child) => {
 							return <SubCategoryItem data={child} className="sub__categories__column__item__sub" key={child.slug} showCount={false} />;

@@ -1,11 +1,23 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, ReactElement } from 'react';
 import { GalleryItem } from '../interface';
 import './GalleryDesktop.scss';
 import { NO_IMAGE_SRC } from '../../../const';
 
-const GalleryDesktop = ({ items, urlStartsWith, ration }: { items: GalleryItem[]; urlStartsWith?: string; ration?: number }): JSX.Element => {
+import Image from 'next/image';
+
+const GalleryDesktop = ({
+	items,
+	urlStartsWith,
+	ration,
+	productName,
+}: {
+	items: GalleryItem[];
+	urlStartsWith?: string;
+	ration?: number;
+	productName: string;
+}): ReactElement => {
 	const [current, setCurrent] = useState<number>(items[0].id);
 	const [allowZoom, setAllowZoom] = useState<boolean>(false);
 
@@ -111,11 +123,14 @@ const GalleryDesktop = ({ items, urlStartsWith, ration }: { items: GalleryItem[]
 									onClick={() => setActiveImage(item.id)}
 									data-image-id={item.id}
 								>
-									<img
-										src={(urlStartsWith ?? '') + item.path}
-										alt={item.path}
+									<Image
 										className="gallery__available__item__image"
 										onError={(e) => ((e.target as HTMLImageElement).src = NO_IMAGE_SRC)}
+										src={(urlStartsWith ?? '') + item.path}
+										alt={productName}
+										width={50}
+										height={50}
+										style={{ objectFit: 'contain', maxInlineSize: '100%' }}
 									/>
 								</div>
 							);
@@ -127,19 +142,21 @@ const GalleryDesktop = ({ items, urlStartsWith, ration }: { items: GalleryItem[]
 				<div className="gallery__current__img__holder" ref={imageWrapper}>
 					<div
 						className="gallery__current__img__wrapper"
+						itemProp="image"
 						onMouseMove={allowZoom ? onHover : undefined}
 						onMouseEnter={allowZoom ? onEnter : undefined}
 						onMouseLeave={allowZoom ? onHoverLeave : undefined}
 					>
 						<img
 							src={activeImagePath}
-							alt={activeImagePath}
+							alt={productName}
 							className="gallery__current__img"
 							ref={imageElement}
 							style={{ opacity: 0 }}
 							onLoad={OnLoad}
 							onError={(e) => ((e.target as HTMLImageElement).src = NO_IMAGE_SRC)}
 						/>
+
 						{allowZoom ? <div ref={zoomPointer} className="gallery__current__zoom__cursor" /> : null}
 					</div>
 					<div className="gallery__current__img__zoom" style={{ background: `url('${activeImagePath}')` }} ref={zoomImage} />

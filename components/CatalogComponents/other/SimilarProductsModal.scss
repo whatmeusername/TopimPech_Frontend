@@ -1,15 +1,27 @@
-
-.similar_product__modal {
-	height: auto;
-	max-width: 1000px;
-	.similar_product__modal__content__header {
-		font-family: var(--museo_cyrl);
-		color: var(--primary-color);
-		font-size: var(--headerS);
+.similar__center__modal__content__wrapper {
+	display: flex;
+	max-height: 100%;
+	.modal__head {
+		justify-content: space-between;
+		align-items: center;
+		.similar_product__modal__content__header {
+			margin: 0;
+			font-family: var(--museo_cyrl);
+			color: var(--primary-color);
+			font-size: var(--headerS);
+		}
 	}
-	.similar_product__not__found {
-		font-family: var(--museo_cyrl);
-		color: var(--primary-color);
-		font-size: var(--headerS);
+	.similar_product__modal {
+		max-height: 100%;
+		max-width: 1000px;
+		.similar_product__modal__content {
+			max-height: 100%;
+			overflow: auto;
+		}
+		.similar_product__not__found {
+			font-family: var(--museo_cyrl);
+			color: var(--primary-color);
+			font-size: var(--headerS);
+		}
 	}
 }

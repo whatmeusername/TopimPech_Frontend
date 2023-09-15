@@ -5,16 +5,31 @@ interface CenterModals {
 }
 class CenterModalControl {
 	@observable public Modals: CenterModals = {};
+	@observable private params: any[];
+	@observable private paramsId: string;
+
 	constructor() {
 		makeObservable(this);
+		this.params = [];
+		this.paramsId = '';
 	}
 
 	public getModal(id: string) {
 		return this.Modals[id];
 	}
 
+	public getParams(id: string): any[] {
+		if (this.paramsId === id) {
+			return this.params;
+		}
+		return [];
+	}
+
 	@action
-	public toggle(id: string) {
+	public toggle(id: string, ...params: any[]): void {
+		this.params = params;
+		this.paramsId = id;
+
 		this.Modals[id] = !this.Modals[id] ?? true;
 		document.body.style.overflow = this.Modals[id] ? 'hidden' : '';
 	}

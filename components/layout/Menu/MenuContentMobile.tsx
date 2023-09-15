@@ -1,4 +1,4 @@
-import React, { memo, useRef } from 'react';
+import { ReactElement, memo, useRef, useState } from 'react';
 import './menu.scss';
 import Link from 'next/link';
 
@@ -6,125 +6,112 @@ import { CategoriesColumn } from './GeneralElements';
 import type { CategoryData } from './GeneralElements';
 import { menuModalControl } from '../../../store/MenuModal';
 import { AngleArrowIcon, ArrowIcon } from '../../IconsElements';
+import { Capitalize } from '../../../utils/Capitalize';
 
-type BurgerData = { parent: CategoryData | undefined; child: CategoryData[]; id: string };
+import Image from 'next/image';
+import { NO_IMAGE_SRC } from '../../const';
+import { useCategoriesContext } from '../../../context/Categories';
+
+interface BurgerData {
+	parent: CategoryData;
+	child: CategoryData[];
+	previous: CategoryData | null;
+}
+
 const PrepareBurgersData = (categories: CategoryData[]): BurgerData[] => {
-	const data: BurgerData[] = [];
-	categories.forEach((category) => {
-		if (category.child.length > 1) {
-			category.child.forEach((category) => {
-				category.child.forEach((category) => (category.child = []));
-				data.push({ parent: category, child: category.child, id: category.slug });
-			});
-		}
-		data.push({ parent: undefined, child: category.child, id: category.slug });
-	});
-	return data;
-};
+	categories = JSON.parse(JSON.stringify(categories));
+	const result: BurgerData[] = [];
 
-const MenuContentMobile = memo(({ categories }: { categories: CategoryData[] }): JSX.Element => {
-	const SubModals = useRef<HTMLDivElement>(null!);
-	const hasActiveBurger = useRef<boolean>(false);
-
-	const ToggleBurger = (modalId: string | null) => {
-		const modalList = SubModals.current;
-		if (modalList) {
-			if (modalId !== null) {
-				const selectedModal = modalList.querySelector(`[data-parent-id="${modalId}"]`);
-
-				if (hasActiveBurger.current === false) {
-					selectedModal?.classList.add('modal__active__fade__in');
-				} else selectedModal?.classList.remove('modal__active__fade__in');
-				selectedModal?.classList.toggle('modal__active');
-
-				hasActiveBurger.current = true;
-			} else {
-				const selectedModal = modalList.querySelector('.modal__active');
-				selectedModal?.classList.remove('modal__active');
-
-				hasActiveBurger.current = false;
+	const map = (category: CategoryData, parent?: CategoryData): void => {
+		if (category.child.length > 0) {
+			for (let i = 0; i < category.child.length; i++) {
+				const child = category.child[i];
+				map(child, category);
 			}
 		}
+		result.push({ parent: category, child: category.child, previous: parent ?? null });
 	};
+	for (let i = 0; i < categories.length; i++) {
+		map(categories[i]);
+	}
 
-	const MainCategoryItem = ({ category }: { category: CategoryData }): JSX.Element => {
+	return result;
+};
+
+const MenuContentMobile = memo((): ReactElement => {
+	const [currentBurger, setCurrentBurger] = useState<string | null>(null);
+	const categories = useCategoriesContext()?.get();
+	const burgerData = useRef<BurgerData[]>(PrepareBurgersData(categories));
+
+	const CategoryItem = ({ category }: { category: CategoryData }): ReactElement => {
 		return (
 			<div className="mobile__category__item">
 				<Link href={`/catalog/${category.slug}/`} className="mobile__category__item__link" onClick={() => menuModalControl.toggle(false)}>
-					{category.name}
+					<div className="mobile__category__item__link__image__wrapper">
+						<Image
+							className="mobile__category__item__link__image"
+							onError={(e) => ((e.target as HTMLImageElement).src = NO_IMAGE_SRC)}
+							src={`/api${category.image.path}`}
+							alt={category.name}
+							width={40}
+							height={40}
+							quality={50}
+							style={{ objectFit: 'contain', maxInlineSize: '100%', height: 'auto' }}
+						/>
+					</div>
+					<p className="mobile__category__item__link__text">{Capitalize(category.name)}</p>
 				</Link>
 				{category.child.length > 0 ? (
-					<span className="mobile__category__item__arrow" onClick={() => ToggleBurger(category.slug)}>
+					<span className="mobile__category__item__arrow" onClick={() => setCurrentBurger(category.slug)}>
 						<AngleArrowIcon className="mobile__category__item__arrow__icon" />
 					</span>
-				) : (
-					''
-				)}
+				) : null}
 			</div>
 		);
 	};
 
-	const SubCategoryItem = ({ category }: { category: CategoryData }): JSX.Element => {
+	const SubCategoryBurger = ({ category }: { category: BurgerData }): ReactElement => {
 		return (
-			<div className="mobile__category__item">
-				<Link href={`/catalog/${category.slug}/`} onClick={() => menuModalControl.toggle(false)} className="mobile__category__item__link">
-					{category.name}
-				</Link>
-				{category.child.length > 0 ? (
-					<span className="mobile__category__item__arrow" onClick={() => ToggleBurger(category.slug)}>
-						<AngleArrowIcon className="mobile__category__item__arrow__icon" />
-					</span>
-				) : (
-					''
-				)}
-			</div>
-		);
-	};
-
-	const SubCategoryBurger = ({
-		category,
-		categoryId,
-		parentCategory,
-	}: {
-		category: CategoryData[];
-		categoryId: string;
-		parentCategory: CategoryData | undefined;
-	}) => {
-		return (
-			<div className="sub__category__burger__wrapper" data-parent-id={categoryId}>
-				<div className="sub__category__burger__back__wrapper" onClick={() => ToggleBurger(parentCategory ? parentCategory.slug : null)}>
-					<span className="sub__category__burger__back__arrow">
-						<ArrowIcon className="sub__category__burger__back__arrow__icon" />
-					</span>
-					<span>{parentCategory ? parentCategory.name : 'категории'}</span>
-				</div>
+			<div className={'sub__category__burger__wrapper'}>
 				<div className="menu__category__column">
-					{category.map((category) => {
-						return <SubCategoryItem category={category} key={category.slug} />;
+					<div className="sub__category__burger__upper">
+						<span
+							className="sub__category__burger__back__wrapper"
+							onClick={() => {
+								setCurrentBurger(category.previous ? category.previous.slug : null);
+							}}
+						>
+							<ArrowIcon className="sub__category__burger__back__wrapper__icon" />
+						</span>
+
+						<Link
+							href={`/catalog/${category.parent.slug}/`}
+							className="sub__category__burger__parent__link"
+							onClick={() => menuModalControl.toggle(false)}
+						>
+							<p className="sub__category__burger__parent__link__text">{category.parent.name}</p>
+						</Link>
+					</div>
+					{category.child.map((category) => {
+						return <CategoryItem category={category} key={category.slug} />;
 					})}
 				</div>
 			</div>
 		);
 	};
 
-	const subBurgers: BurgerData[] = PrepareBurgersData(categories);
-
+	const currentBurgerItems = currentBurger ? burgerData.current.find((b) => b.parent.slug === currentBurger) : null;
 	return (
-		<>
-			<div className="main__category__column__wrapper">
-				<CategoriesColumn categories={categories} CategoryItem={MainCategoryItem} />
-			</div>
-			<div ref={SubModals} className="burger__modals__list">
-				{subBurgers.map((burger) => {
-					return (
-						<SubCategoryBurger category={burger.child} categoryId={burger.id} parentCategory={burger.parent} key={`mobile-modal-${burger.id}`} />
-					);
-				})}
-			</div>
-		</>
+		<div className="main__category__column__wrapper">
+			{currentBurger === null ? (
+				<CategoriesColumn categories={categories} CategoryItem={CategoryItem} />
+			) : (
+				<SubCategoryBurger category={currentBurgerItems as BurgerData} />
+			)}
+		</div>
 	);
 });
 
 MenuContentMobile.displayName = 'MenuContentMobile';
 
-export default MenuContentMobile;
+export { MenuContentMobile };

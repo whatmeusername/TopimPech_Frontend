@@ -1,70 +1,141 @@
 .child__categories__wrapper {
 	max-width: 1100px;
 	margin: 0 auto;
+	.child__category__wrapper {
+		min-width: 220px;
+		max-width: 220px;
+		border-radius: 8px;
+		padding: 10px;
+		height: 100px;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		background-color: var(--primary-cards-background);
+		gap: 10px;
+
+		&:hover {
+			.child__category__info__wrapper {
+				.child__category__label {
+					color: var(--orange-color);
+				}
+			}
+		}
+
+		.child__category__image__wrapper {
+			width: 75px;
+			height: 75px;
+			min-height: 75px;
+			min-width: 75px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			.child__category__image {
+				max-width: 100%;
+				max-height: 100%;
+				border-radius: 8px;
+				width: auto;
+				height: auto;
+			}
+		}
+		.child__category__info__wrapper {
+			display: flex;
+			flex-direction: column;
+			.child__category__label {
+				margin: 0;
+				width: 125px;
+				font-size: var(--fontM);
+				letter-spacing: -0.5px;
+				font-family: var(--museo_cyrl);
+				color: var(--primary-color);
+
+				display: -webkit-box;
+				-webkit-line-clamp: 3;
+				-webkit-box-orient: vertical;
+				overflow: hidden;
+				text-overflow: ellipsis;
+
+				transition: color 0.25s ease;
+				&::first-letter {
+					text-transform: uppercase;
+				}
+			}
+			.child__category__count {
+				margin: 0;
+				font-size: var(--fontMS);
+				color: var(--gray-color);
+			}
+		}
+	}
+
 	@media (max-width: 720px) {
 		max-width: 100%;
 	}
 }
-.child__category__wrapper {
-	min-width: 200px;
-	max-width: 200px;
-	border-radius: 8px;
-	padding: 10px;
-	height: 75px;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	background-color: var(--primary-cards-background);
-	gap: 10px;
 
-	&:hover {
-		.child__category__info__wrapper {
-			.child__category__label {
-				color: var(--orange-color);
+.block__child__categories__wrapper {
+	margin: 20px 0;
+	.block__child__categories__content {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		gap: 20px;
+		.block__child__categories__item {
+			max-width: 150px;
+			width: 150px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			cursor: pointer;
+
+			.block__child__categories__item__image__wrapper {
+				border-radius: 50%;
+				border: 3px solid var(--primary-cards-border);
+				width: 150px;
+				height: 150px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				overflow: hidden;
+				clip-path: border-box;
+				padding: 5px;
+				transition: border-color 0.2s ease;
+				.block__child__categories__item__image {
+					max-width: 100%;
+					max-height: 100%;
+					height: auto;
+					width: auto;
+					transform: scale(1);
+					transition: transform 0.2s ease;
+				}
+			}
+			.block__child__categories__item__text {
+				font-size: var(--fontL);
+				font-weight: 300;
+				font-family: var(--museo_cyrl);
+				color: var(--primary-color);
+				text-align: center;
+				transition: color 0.2s ease;
+				&::first-letter {
+					text-transform: capitalize;
+				}
+			}
+
+			&:hover {
+				.block__child__categories__item__image__wrapper {
+					border-color: var(--orange-color);
+					.block__child__categories__item__image {
+						transform: scale(1.05);
+					}
+				}
+				.block__child__categories__item__text {
+					color: var(--orange-color);
+				}
 			}
 		}
 	}
-
-	.child__category__image__wrapper {
-		width: 50px;
-		height: 50px;
-		min-height: 50px;
-		min-width: 50px;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		.child__category__image {
-			max-width: 100%;
-			max-height: 100%;
-			border-radius: 8px;
-		}
-	}
-	.child__category__info__wrapper {
-		display: flex;
-		flex-direction: column;
-		.child__category__label {
-			margin: 0;
-			width: 130px;
-			font-size: var(--fontM);
-			letter-spacing: -0.5px;
-			font-family: var(--museo_cyrl);
-			color: var(--primary-color);
-
-			display: -webkit-box;
-			-webkit-line-clamp: 3;
-			-webkit-box-orient: vertical;
-			overflow: hidden;
-			text-overflow: ellipsis;
-
-			transition: color 0.25s ease;
-			&::first-letter {
-				text-transform: uppercase;
-			}
-		}
-		.child__category__count {
-			margin: 0;
-			font-size: var(--fontMS);
-			color: var(--gray-color);
+	@media (max-width: 768px) {
+		.block__child__categories__content {
+			justify-content: center;
 		}
 	}
 }

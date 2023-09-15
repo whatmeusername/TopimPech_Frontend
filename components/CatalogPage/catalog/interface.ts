@@ -5,6 +5,7 @@ import { FilterFetchData } from '../Filter/Filter';
 interface ProductAPIResponse {
 	products: ProductData[];
 	paginator: PaginatorData;
+	category: string;
 	status: { status: number; message: string; is404Page: boolean };
 }
 

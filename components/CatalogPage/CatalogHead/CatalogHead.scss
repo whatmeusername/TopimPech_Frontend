@@ -1,77 +1,64 @@
 .catalog__head__wrapper {
-    margin-bottom: 20px;
-    padding: 0 15px;
-    .catalog__header__wrapper {
-        display: flex;
-        flex-direction: row;
-        align-items: baseline;
-        margin-top: 5px;
-        .catalog__header {
-            color: var(--primary-color);
-            font-family: var(--museo_cyrl);
-            font-size: var(--headerX);
-            font-weight: 300;
-            letter-spacing: 1px;
-            margin: 0px;
+	margin-bottom: 20px;
+	padding: 0 15px;
 
-            &::first-letter {
-                text-transform: capitalize;
-            }
-        }
-        
-        .catalog__header__count {
-            margin-left: 5px;
-            font-family: var(--museo_cyrl);
-            color: var(--standard-color);
-            font-size: var(--fontM);
-        }
+	.catalog__header__wrapper {
+		display: flex;
+		flex-direction: row;
+		align-items: baseline;
+		margin-top: 5px;
+		.catalog__header {
+			color: var(--primary-color);
+			font-family: var(--museo_cyrl);
+			font-size: var(--headerX);
+			font-weight: 300;
+			letter-spacing: 1px;
+			margin: 0px;
+		}
 
-        &.catalog__header__search__wrapper{
-            flex-direction: column;
-            .catalog__header{
-                display: flex;
-                flex-direction: row;
-                font-size: var(--headerS);
-                gap: 5px;
-                margin: 0;
-                .catalog__header__bold{
-                    font-weight: 600;
-                    color: var(--orange-color);
-                    margin: 0;
-                }
-            }
-            .catalog__header__count{
-                margin: 0;
-            }
-        }
-    }
+		.catalog__header__count {
+			margin-left: 5px;
+			font-family: var(--museo_cyrl);
+			color: var(--standard-color);
+			font-size: var(--fontM);
+		}
 
+		&.catalog__header__search__wrapper {
+			flex-direction: column;
+			.catalog__header {
+				font-size: var(--headerS);
+				gap: 5px;
+				margin: 0;
+				.catalog__header__bold {
+					font-weight: 600;
+					color: var(--orange-color);
+					margin: 0;
+				}
+			}
+			.catalog__header__count {
+				margin: 0;
+			}
+		}
+	}
 
-
-    @media(max-width: 768px){
-        
-        .breadcrumb__wrapper{
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        .catalog__header__wrapper{
-            align-items: center;
-            flex-direction: column;
-            .catalog__header{
-                font-size: var(--headerL);
-                text-align: center;
-            }
-        }
-    }
-    @media(max-width: 368px){
-        
-
-        .catalog__header__wrapper{
-            .catalog__header{
-                font-size: var(--headerS);
-            }
-        }
-    }
+	@media (max-width: 768px) {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		.catalog__header__wrapper {
+			align-items: center;
+			flex-direction: column;
+			.catalog__header {
+				font-size: var(--headerL);
+				text-align: center;
+			}
+		}
+	}
+	@media (max-width: 368px) {
+		.catalog__header__wrapper {
+			.catalog__header {
+				font-size: var(--headerS);
+			}
+		}
+	}
 }

@@ -4,7 +4,7 @@ import { PAGE_NOT_FOUND, META_PAGE_DESCRIPTION_BASE } from '../../layout';
 
 export const metadata: Metadata = {
 	title: PAGE_NOT_FOUND,
-	description: META_PAGE_DESCRIPTION_BASE,
+	description: META_PAGE_DESCRIPTION_BASE('Страница не существует'),
 };
 
 export default function NotFound() {

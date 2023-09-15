@@ -9,14 +9,24 @@ import { NO_IMAGE_SRC } from '../../const';
 const GalleryNoImage = () => {
 	return (
 		<div className="gallery__current__no__image gallery__wrapper">
-			<div className="gallery__current__img__wrapper">
-				<img src={NO_IMAGE_SRC} className="gallery__no__img" />
+			<div className="gallery__current__img__wrapper" itemProp="image">
+				<img src={NO_IMAGE_SRC} className="gallery__no__img" alt={'изображение отсуствует'} />
 			</div>
 		</div>
 	);
 };
 
-function Gallery({ items, urlStartsWith, ration }: { items: GalleryItem[]; urlStartsWith?: string; ration?: number }): ReactElement {
+function Gallery({
+	items,
+	urlStartsWith,
+	ration,
+	productName,
+}: {
+	items: GalleryItem[];
+	urlStartsWith?: string;
+	ration?: number;
+	productName: string;
+}): ReactElement {
 	const galleryWrapperRef = useRef<HTMLDivElement>(null!);
 	const isMobile = useMobile(1024);
 
@@ -35,9 +45,9 @@ function Gallery({ items, urlStartsWith, ration }: { items: GalleryItem[]; urlSt
 			{items.length === 0 ? (
 				<GalleryNoImage />
 			) : !isMobile ? (
-				<GalleryDesktop items={items} urlStartsWith={urlStartsWith} ration={ration} />
+				<GalleryDesktop items={items} urlStartsWith={urlStartsWith} ration={ration} productName={productName} />
 			) : (
-				<GalleryMobile items={items} urlStartsWith={urlStartsWith} />
+				<GalleryMobile items={items} urlStartsWith={urlStartsWith} productName={productName} />
 			)}
 		</div>
 	);

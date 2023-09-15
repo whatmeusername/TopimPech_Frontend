@@ -10,7 +10,7 @@ import { SortItem } from './interface';
 import { AngleArrowIcon } from '../../IconsElements';
 
 const sortOptions: SortItem[] = [
-	{ slug: 'id', name: 'по популярности' },
+	{ slug: 'id', name: 'По релеватности' },
 	{ slug: 'price', name: 'Сначала подешевле' },
 	{ slug: '-price', name: 'Сначала подороже' },
 	{ slug: 'updated', name: 'По обновленвию' },

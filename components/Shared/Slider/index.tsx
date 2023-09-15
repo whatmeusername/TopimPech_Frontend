@@ -11,8 +11,14 @@ const DISABLED_BUTTON_CLASSNAME = 'slider__button__disabled';
 interface SliderSettings {
 	ItemsPerSlide?: number | 'auto';
 	mobileSize?: number;
-	enableSlideButtons?: boolean;
+	buttons?: {
+		enabled?: boolean;
+		disableWhen?: number;
+	};
 	returnToOtherSide?: boolean;
+	dots?: {
+		enabled?: boolean;
+	};
 	disableMobileVersion?: boolean;
 	auto?: {
 		// direction?: SlideDirection;
@@ -25,14 +31,25 @@ enum SlideDirection {
 	RIGHT = 'right',
 }
 
-function ButtonVersionSlider({ children, options }: { children: ReactElement[]; options?: SliderSettings }) {
+function GetButtonsEnableInitialState(options: SliderSettings, screenWidth?: number, itemsCount?: number): boolean {
+	if (screenWidth && options?.buttons && options.buttons?.disableWhen && options.buttons.disableWhen >= screenWidth) return false;
+	else if (itemsCount === 0) return false;
+	else return options?.buttons?.enabled ?? true;
+}
+
+function GetDotsInitialState(options: SliderSettings, itemsCount?: number) {
+	if (options?.dots && options?.dots?.enabled) return options.dots.enabled;
+	else if (itemsCount !== undefined) return itemsCount > 0;
+	else return true;
+}
+
+function ButtonVersionSlider({ children, options = {} }: { children: ReactElement[]; options?: SliderSettings }) {
 	const { width } = useWindowSize();
 	const isSingleSlide = options?.ItemsPerSlide === 1;
 
 	const [current, setCurrent] = useState<number>(0);
 
 	const slideTimer = useRef<ReturnType<typeof setTimeout>>(null!);
-	const IS_BUTTON_ACTIVE = useRef<boolean>(options?.enableSlideButtons ?? true);
 
 	const dotsRef = useRef<HTMLDivElement>(null!);
 	const wrapperRef = useRef<HTMLDivElement>(null!);
@@ -43,14 +60,19 @@ function ButtonVersionSlider({ children, options }: { children: ReactElement[]; 
 
 	const currentSlide = useRef<number>(0);
 	const sliderMaxWidth = useRef<number>(0);
-	const slidesTotal = useRef<number>(isSingleSlide ? children.length : 0);
+	const slidesTotal = useRef<number>(isSingleSlide ? children.length - 1 : 0);
 
 	const [itemsCount, setItemsCount] = useState<number>(-1);
 	const itemsPerSlide = useRef<number>(options?.ItemsPerSlide === 'auto' ? null! : options?.ItemsPerSlide ?? null!);
 	const itemWidth = useRef<number>(0);
 
-	const DOTS_COUNT = Math.ceil(itemsCount / (itemsPerSlide.current ?? 1)) + 1;
+	// DOTS
+	const DOTS_COUNT = (isSingleSlide ? slidesTotal.current : Math.ceil(itemsCount / (itemsPerSlide.current ?? 1))) + 1;
 	const dots = Array.from(Array(DOTS_COUNT).keys());
+
+	// ACTIVE STATES
+	const IS_BUTTON_ACTIVE = useRef<boolean>(GetButtonsEnableInitialState(options, width));
+	const IS_DOTS_ACTIVE = useRef<boolean>(GetDotsInitialState(options, slidesTotal.current));
 
 	let dragOffset = 0;
 	let rect: DOMRect | null = null;
@@ -59,7 +81,7 @@ function ButtonVersionSlider({ children, options }: { children: ReactElement[]; 
 	function setSliderTimeout() {
 		if (options?.auto) {
 			slideTimer.current = setTimeout(() => {
-				SlideItem(SlideDirection.RIGHT);
+				SlideToBySide(SlideDirection.RIGHT);
 			}, options.auto.timeMS);
 		}
 	}
@@ -152,11 +174,12 @@ function ButtonVersionSlider({ children, options }: { children: ReactElement[]; 
 		contentRef.current.style.width = `${contentItems.length * wrapperInnerWidth}px`;
 		sliderMaxWidth.current = contentItems.length * itemWidth.current - wrapperInnerWidth;
 
-		IS_BUTTON_ACTIVE.current = itemsCount > 0 ? true : false;
+		IS_BUTTON_ACTIVE.current = GetButtonsEnableInitialState(options, width, itemsCount);
+		IS_DOTS_ACTIVE.current = GetDotsInitialState(options, slidesTotal.current);
 
-		contentRef.current.childNodes.forEach((child) => {
-			(child as HTMLDivElement).style.width = `${wrapperInnerWidth}px`;
-		});
+		// contentRef.current.childNodes.forEach((child) => {
+		// 	(child as HTMLDivElement).style.width = `${wrapperInnerWidth}px`;
+		// });
 
 		setItemsCount(itemsCount);
 		validateButtons(itemsCount);
@@ -177,20 +200,33 @@ function ButtonVersionSlider({ children, options }: { children: ReactElement[]; 
 		}px`;
 	}, [current]);
 
-	const SlideItem = (side: SlideDirection, to?: number): void => {
+	const SlideToBySide = (side: SlideDirection, to?: number): void => {
 		const itemsToSlide = to ? to : 1;
 
 		if (side === SlideDirection.RIGHT) {
 			const last = options?.returnToOtherSide ? 0 : itemsCount;
 			const lastDot = options?.returnToOtherSide ? 0 : slidesTotal.current;
+
+			// GETTING CURRENT SLIDE ITEM
 			setCurrent((c) => (itemsCount >= c + itemsToSlide ? c + itemsToSlide : last));
+
+			// GETTING CURRENT SLIDE
+			const nextSlide = currentSlide.current + 1 <= slidesTotal.current ? currentSlide.current + 1 : lastDot;
 			setActiveDot(currentSlide.current + 1 <= slidesTotal.current ? currentSlide.current + 1 : lastDot);
+			currentSlide.current = nextSlide;
 		} else if (side === SlideDirection.LEFT) {
 			const first = options?.returnToOtherSide ? itemsCount : 0;
 			const firstDot = options?.returnToOtherSide ? slidesTotal.current : 0;
+
+			// GETTING CURRENT SLIDE ITEM
 			setCurrent((c) => (c - itemsToSlide >= 0 ? c - itemsToSlide : first));
-			setActiveDot(current - itemsToSlide >= 0 ? currentSlide.current - 1 : firstDot);
+
+			// GETTING CURRENT SLIDE
+			const nextSlide = current - itemsToSlide >= 0 ? currentSlide.current - 1 : firstDot;
+			setActiveDot(nextSlide);
+			currentSlide.current = nextSlide;
 		}
+		validateButtons();
 		clearSliderTimeout(true);
 	};
 
@@ -202,12 +238,16 @@ function ButtonVersionSlider({ children, options }: { children: ReactElement[]; 
 			clearSliderTimeout(true);
 			setCurrent(to);
 			findDotAndSetActive(to);
+			validateButtons();
 		}
 	};
 
 	const validateButtons = (currentCount?: number) => {
 		currentCount = currentCount ?? itemsCount;
-		if ((options?.returnToOtherSide && currentCount > 0) || !IS_BUTTON_ACTIVE.current) return;
+		if (!IS_BUTTON_ACTIVE.current) {
+			setLBDisabled(true);
+			setRBDisabled(true);
+		} else if (options?.returnToOtherSide && currentCount > 0) return;
 		else {
 			setLBDisabled(currentSlide.current === 0);
 			setRBDisabled(currentSlide.current === slidesTotal.current);
@@ -215,7 +255,7 @@ function ButtonVersionSlider({ children, options }: { children: ReactElement[]; 
 	};
 
 	const findDotAndSetActive = (to: number) => {
-		if (dotsRef.current) {
+		if (dotsRef.current && IS_DOTS_ACTIVE.current) {
 			const dots = dotsRef.current.childNodes as NodeListOf<HTMLElement>;
 			for (let i = 0; i < dots.length; i++) {
 				const dot = dots[i];
@@ -224,8 +264,6 @@ function ButtonVersionSlider({ children, options }: { children: ReactElement[]; 
 					dots[currentSlide.current]?.classList.remove(ACTIVE_DOT_CLASSNAME);
 					dots[i]?.classList.add(ACTIVE_DOT_CLASSNAME);
 					currentSlide.current = i;
-
-					validateButtons();
 					break;
 				}
 			}
@@ -233,14 +271,10 @@ function ButtonVersionSlider({ children, options }: { children: ReactElement[]; 
 	};
 
 	const setActiveDot = (nextSlide: number) => {
-		if (dotsRef.current) {
+		if (IS_DOTS_ACTIVE && dotsRef.current) {
 			const dots = dotsRef.current.childNodes as NodeListOf<HTMLElement>;
-
 			dots[currentSlide.current]?.classList.remove(ACTIVE_DOT_CLASSNAME);
 			dots[nextSlide]?.classList.add(ACTIVE_DOT_CLASSNAME);
-			currentSlide.current = nextSlide;
-
-			validateButtons();
 		}
 	};
 
@@ -251,7 +285,7 @@ function ButtonVersionSlider({ children, options }: { children: ReactElement[]; 
 		return (
 			<button
 				className={`${isDisabledSide ? DISABLED_BUTTON_CLASSNAME : ''} slider__content__slide__button ${sideClass}`}
-				onClick={isDisabledSide ? undefined : () => SlideItem(side, itemsPerSlide.current)}
+				onClick={isDisabledSide ? undefined : () => SlideToBySide(side, itemsPerSlide.current)}
 				title={`переключиться на ${side === SlideDirection.LEFT ? 'левый' : 'правый'} слайд`}
 			>
 				<ArrowIcon className={`slider__content__slide__icon ${sideClass}`} />
@@ -287,10 +321,11 @@ function ButtonVersionSlider({ children, options }: { children: ReactElement[]; 
 						ref={contentRef}
 						onDragStart={isSingleSlide ? OnDragStart : undefined}
 						onTouchStart={isSingleSlide ? OnDragStart : undefined}
+						style={{ width: '9999px', left: '0px' }}
 					>
 						{children}
 					</div>
-					{IS_BUTTON_ACTIVE.current ? <DotsElement /> : null}
+					{IS_DOTS_ACTIVE.current ? <DotsElement /> : null}
 				</div>
 				{IS_BUTTON_ACTIVE.current && !RBDisabled ? <SliderButton side={SlideDirection.RIGHT} /> : null}
 			</div>

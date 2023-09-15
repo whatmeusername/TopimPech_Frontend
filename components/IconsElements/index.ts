@@ -26,6 +26,9 @@ import DeliveryIcon from '../../public/OptionsIcons/Delivery.svg';
 import FilterIcon from '../../public/OptionsIcons/Filter.svg';
 import PinIcon from '../../public/OptionsIcons/pin.svg';
 import EmailIcon from '../../public/OptionsIcons/email.svg';
+import SettingsIcon from '../../public/OptionsIcons/Settings.svg';
+import PriceTagIcon from '../../public/OptionsIcons/PriceTag.svg';
+import InsuranceIcon from '../../public/OptionsIcons/Insurance.svg';
 
 import SiteLogo from '../../public/logo/SiteLogo.svg';
 
@@ -54,4 +57,7 @@ export {
 	FilterIcon,
 	PinIcon,
 	EmailIcon,
+	SettingsIcon,
+	PriceTagIcon,
+	InsuranceIcon,
 };

@@ -1,5 +1,5 @@
 import dynamic from 'next/dynamic';
-import { META_PAGE_DESCRIPTION_BASE, PROXY_URL } from '../../layout';
+import { FULL_DOMAIN, META_PAGE_DESCRIPTION_BASE, OPENGRAPH_BASE, PROXY_URL } from '../../layout';
 import { getData } from '../../../appRouteUtils';
 import { Metadata } from 'next';
 
@@ -13,7 +13,13 @@ async function PrivacyPolicyPage() {
 export async function generateMetadata(): Promise<Metadata> {
 	return {
 		title: 'Политика конфиденциальности',
-		description: META_PAGE_DESCRIPTION_BASE,
+		description: META_PAGE_DESCRIPTION_BASE('Политика конфиденциальности данных'),
+		openGraph: {
+			...OPENGRAPH_BASE,
+			title: 'Политика конфиденциальности',
+			url: `${FULL_DOMAIN}/info/privacypolicy`,
+			images: ['/api/images/logo/SiteLogo.png'],
+		},
 	};
 }
 

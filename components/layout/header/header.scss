@@ -22,7 +22,7 @@
 		padding: 0;
 		background-color: var(--white-color);
 		z-index: var(--zIndexBig);
-		box-shadow: 12px 0 32px rgba(77, 77, 77, 0.2);
+		box-shadow: 12px 0 32px var(--box-shadow-color);
 		height: 57px;
 		.header__info {
 			max-height: 0px;

@@ -60,6 +60,12 @@ button {
 	display: grid;
 	grid-template-columns: repeat(24, 1fr);
 
+	@media (min-width: 1248px) {
+		&.products__grid__layout__mini {
+			grid-template-columns: repeat(20, 1fr);
+		}
+	}
+
 	@media (max-width: 1248px) {
 		grid-template-columns: repeat(20, 1fr);
 	}

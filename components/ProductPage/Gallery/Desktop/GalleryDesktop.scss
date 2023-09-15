@@ -5,7 +5,7 @@
 	flex-direction: row;
 	position: absolute;
 
-	&.gallery__wrapper__noimage{
+	&.gallery__wrapper__noimage {
 		position: unset;
 	}
 
@@ -13,7 +13,6 @@
 		overflow: hidden;
 		min-width: 80px;
 		max-width: 80px;
-	
 
 		.gallery__available__items {
 			display: flex;
@@ -49,6 +48,7 @@
 			.gallery__current__img {
 				width: auto;
 				height: auto;
+				min-height: 450px;
 				max-height: 100%;
 				max-width: 100%;
 				border-radius: 4px;

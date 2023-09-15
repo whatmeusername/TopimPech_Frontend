@@ -8,8 +8,10 @@ const AttributeElement = ({ item }: { item: Property }): ReactElement => {
 	return (
 		<dl key={`product__properties__${item.key.slug}`} className="product__page__properties__item">
 			<dt className="product__page__properties__item__key">{item.key.name}</dt>
-			<dd className="product__page__properties__item__value">
-				{item.value} {item.key.valueUnit}
+			<dd className="product__page__properties__item__value__wrapper">
+				<span className="product__page__properties__item__value">
+					{item.value} {item.key.valueUnit}
+				</span>
 			</dd>
 		</dl>
 	);
@@ -32,7 +34,7 @@ const AttributesElement = ({ properties }: { properties: Property[] }): ReactEle
 function ShortAttributesElement({ properties, take, showAllBtn }: { properties: Property[]; take: number; showAllBtn: boolean }): ReactElement {
 	return (
 		<div className="product__page__properties__short">
-			<h5 className="product__page__properties__short__header">Характеристики:</h5>
+			<h5 className="product__page__properties__short__header">Характеристика:</h5>
 			<div className="product__page__properties__short__content">
 				{properties.slice(0, take).map((prop) => {
 					if (!prop.key) return null;
@@ -46,7 +48,7 @@ function ShortAttributesElement({ properties, take, showAllBtn }: { properties: 
 						SmoothScrollToAnchor('#product__page__properties', 500);
 					}}
 				>
-					Показать все характеристики
+					Перейти ко всем параметрам
 				</button>
 			) : null}
 		</div>

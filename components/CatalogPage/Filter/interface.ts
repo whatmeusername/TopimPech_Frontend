@@ -18,22 +18,22 @@ enum FacetType {
 interface FilterItemObject {
 	type: FacetType;
 	value: string;
-	label: string;
 	max: number;
 	min: number;
+	other: { label: string; unit?: string };
 	items: {
 		value: string;
-		label?: string | null;
 		count: number;
+		other: { label: string; unit?: string };
 	}[];
 }
 
 interface FilterItemNumber {
 	type: FacetType;
 	value: string;
-	label: string;
 	max: number;
 	min: number;
+	other: { label: string; unit?: string };
 }
 
 interface FacetFiltersData {
@@ -48,7 +48,7 @@ interface FilterElementConfig {
 	parentKey: string;
 	filterData: FilterItemObject;
 	applyFilter: FilterApplyFN;
-	callback?: (...args: any[]) => void;
+	callback?: (searchParams: URLSearchParams) => void;
 	ActiveFilters: FilterParameters;
 	router: AppRouterInstance;
 	searchParams: URLSearchParams;
@@ -59,9 +59,48 @@ interface FilterElementConfigNumber extends Omit<FilterElementConfig, 'filterDat
 	filterData: FilterItemNumber;
 }
 
+interface SearchParamsFilterQueryString {
+	values: string[];
+}
+type SearchParamsFilterQueryNumber = { min: number; max?: number } | { min?: number; max: number };
+
+interface GroupedByItemsResult {
+	type: FacetType;
+	value: string;
+	items: { index: any[]; value: string | number; other?: { [K: string]: any }; max_index: any; min_index: any; count: number }[];
+}
+interface GroupedByItemsNumberResult {
+	max: number;
+	min: number;
+	type: FacetType;
+	value: string;
+}
+
+interface SearchParamsFilterQueryStringResult extends Omit<SearchParamsFilterQueryString, 'values'> {
+	values: string[];
+	value: string;
+	other: { [K: string]: any };
+	items: GroupedByItemsResult[];
+}
+
+interface SearchParamsFilterQueryNumberResult extends Omit<SearchParamsFilterQueryNumber, 'min' | 'max'> {
+	min?: number;
+	max?: number;
+	value: string;
+	other: { [K: string]: any };
+	items: GroupedByItemsNumberResult;
+}
+
+type SearchParamsFilterQueryResult = {
+	[K: string]: SearchParamsFilterQueryStringResult | SearchParamsFilterQueryNumberResult;
+};
+
 interface FilterFetchData {
 	count: number;
 	filtered: FacetFiltersData;
+	category: string;
+	appliedFilters: SearchParamsFilterQueryResult;
+	categoryStringAdditions: { prefix: string; postfix: string };
 }
 
 interface FilterElementActionConfig {
@@ -92,4 +131,7 @@ export type {
 	FilterItemNumber,
 	FacetFiltersData,
 	FilterElementConfigNumber,
+	SearchParamsFilterQueryResult,
+	SearchParamsFilterQueryStringResult,
+	SearchParamsFilterQueryNumberResult,
 };

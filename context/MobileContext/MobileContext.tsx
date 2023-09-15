@@ -18,10 +18,12 @@ function useMobileContext(): boolean {
 	return useContext(MobileContextData);
 }
 
-function useMobile(size: number): boolean {
+function useMobile(size: number, requireSize?: boolean): boolean {
 	const { width } = useWindowSize();
 	const isMobile = useMobileContext();
-	return isMobile || (width !== undefined && width <= size);
+	if (requireSize) {
+		return isMobile && width !== undefined && width <= size;
+	} else return isMobile || (width !== undefined && width <= size);
 }
 
 export { MobileContext, MobileContextData, useMobileContext, useMobile };
