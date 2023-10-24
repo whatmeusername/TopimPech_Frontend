@@ -21,6 +21,7 @@ class ProductHistory {
 			price: product.price,
 			sale: product.sale,
 			article: product.article,
+			available: product.available,
 		};
 	}
 

@@ -93,7 +93,7 @@ const MenuContentMobile = memo((): ReactElement => {
 						</Link>
 					</div>
 					{category.child.map((category) => {
-						return <CategoryItem category={category} key={category.slug} />;
+						return category.productCount > 0 ? <CategoryItem category={category} key={category.slug} /> : null;
 					})}
 				</div>
 			</div>

@@ -3,19 +3,19 @@ import './menu.scss';
 import { CategoryData } from '../../../context/Categories/interface';
 import { menuModalControl } from '../../../store/MenuModal';
 import { DeleteIcon } from '../../IconsElements';
-import { ReactElement } from 'react';
+import { ReactElement, ReactNode } from 'react';
 
 const CategoriesColumn = ({
 	categories,
 	CategoryItem,
 }: {
 	categories: CategoryData[];
-	CategoryItem: (...rest: any) => JSX.Element;
+	CategoryItem: (...rest: any) => ReactElement | ReactNode;
 }): ReactElement => {
 	return (
 		<div className="menu__category__column">
 			{(categories ?? []).map((category) => {
-				return <CategoryItem category={category} key={category.slug} />;
+				return category.productCount > 0 ? <CategoryItem category={category} key={category.slug} /> : null;
 			})}
 		</div>
 	);

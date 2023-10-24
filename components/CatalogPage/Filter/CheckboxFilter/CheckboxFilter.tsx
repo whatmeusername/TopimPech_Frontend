@@ -1,30 +1,30 @@
 import { ReactElement } from 'react';
-import { getFilterParameters, collectFilterParameters } from '../Filter';
+import { collectFilterParameters } from '../Filter';
 import { FilterApplyFN, FilterElementActionConfig, FilterElementConfig } from '../interface';
 
 import './CheckboxFilter.scss';
 
 const filterOnCheck = (config: FilterElementActionConfig) => {
 	const checked = (config.event.target as HTMLInputElement).checked;
-	const filtersParams = getFilterParameters(config.searchParams);
-	const currentValue = filtersParams[config.parentKey];
+	const activeFitlers = config.activeFilters;
+	const currentValue = activeFitlers[config.parentKey];
 
 	if (checked) {
 		if (!currentValue) {
-			filtersParams[config.parentKey] = [config.key];
+			config.activeFilters[config.parentKey] = [config.key];
 		} else if (!currentValue.includes(config.key)) {
-			filtersParams[config.parentKey].push(config.key);
+			activeFitlers[config.parentKey].push(config.key);
 		}
 	} else if (currentValue) {
 		const valueIndex = currentValue.findIndex((item) => item === config.key);
-		filtersParams[config.parentKey].splice(valueIndex, 1);
+		activeFitlers[config.parentKey].splice(valueIndex, 1);
 		if (currentValue.length === 0) {
-			delete filtersParams[config.parentKey];
+			delete activeFitlers[config.parentKey];
 		}
 	}
 
-	const filtersParamsLength = Object.keys(filtersParams).length;
-	const searchParamsSTR = collectFilterParameters(filtersParams);
+	const filtersParamsLength = Object.keys(activeFitlers).length;
+	const searchParamsSTR = collectFilterParameters(activeFitlers);
 
 	if (filtersParamsLength > 0) {
 		config.searchParams.set('filter', searchParamsSTR);
@@ -63,6 +63,7 @@ const CheckboxFilter = ({ config }: { config: FilterElementConfig }): ReactEleme
 												callback: config.callback,
 												searchParams: config.searchParams,
 												path: config.path,
+												activeFilters: config.ActiveFilters,
 											})
 									: undefined
 							}

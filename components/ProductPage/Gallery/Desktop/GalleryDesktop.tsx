@@ -110,8 +110,8 @@ const GalleryDesktop = ({
 
 	return (
 		<>
-			<div className="gallery__available__items__wrapper" ref={imageBar}>
-				{items.length > 1 ? (
+			{items.length > 1 ? (
+				<div className="gallery__available__items__wrapper" ref={imageBar}>
 					<div className="gallery__available__items" ref={imageBarList}>
 						{items.map((item) => {
 							return (
@@ -128,16 +128,16 @@ const GalleryDesktop = ({
 										onError={(e) => ((e.target as HTMLImageElement).src = NO_IMAGE_SRC)}
 										src={(urlStartsWith ?? '') + item.path}
 										alt={productName}
-										width={50}
-										height={50}
+										width={80}
+										height={80}
 										style={{ objectFit: 'contain', maxInlineSize: '100%' }}
 									/>
 								</div>
 							);
 						})}
 					</div>
-				) : null}
-			</div>
+				</div>
+			) : null}
 			<div className="gallery__current__img__holder__wrapper">
 				<div className="gallery__current__img__holder" ref={imageWrapper}>
 					<div

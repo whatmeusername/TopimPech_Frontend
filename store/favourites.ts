@@ -25,6 +25,7 @@ class FavouritesProducts {
 			sale: payload.sale,
 			article: payload.article,
 			slug: payload.slug,
+			available: payload.available,
 		};
 	}
 

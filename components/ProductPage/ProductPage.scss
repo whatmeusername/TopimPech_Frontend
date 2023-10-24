@@ -349,13 +349,17 @@
 			padding: 5px 10px;
 			color: var(--gray-color);
 			border: 2px solid transparent;
+
 			&.product__page__related__products__link__active {
 				border: 2px solid var(--orange-color);
 				color: var(--standard-color);
 				cursor: default;
 			}
 			&:not(.product__page__related__products__link__active) {
-				opacity: 0.9;
+				&.product__page__related__products__link__not__available {
+					opacity: 0.8;
+				}
+
 				transition: 0.2 ease;
 				&:hover {
 					border: 2px solid var(--orange-darker-color);

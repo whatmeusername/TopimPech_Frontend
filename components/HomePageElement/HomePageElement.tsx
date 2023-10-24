@@ -27,7 +27,7 @@ function HomePageElementCategoryItem({ categoryData }: { categoryData: CategoryD
 					alt={categoryData.name}
 					width={180}
 					height={180}
-					style={{ objectFit: 'contain', maxInlineSize: '100%', height: 'auto' }}
+					style={{ objectFit: 'contain', maxInlineSize: '100%' }}
 				/>
 			</div>
 			<div className="home__page__categories__item__info">
@@ -107,7 +107,8 @@ function HomePageElementCategories() {
 			<div className="home__page__categories__content__wrapper">
 				<div className="home__page__categories__content">
 					{categories.categories.map((categoryData) => {
-						return <HomePageElementCategoryItem key={`home__page__category__item__${categoryData.slug}`} categoryData={categoryData} />;
+						if (categoryData.productCount > 0)
+							return <HomePageElementCategoryItem key={`home__page__category__item__${categoryData.slug}`} categoryData={categoryData} />;
 					})}
 				</div>
 			</div>

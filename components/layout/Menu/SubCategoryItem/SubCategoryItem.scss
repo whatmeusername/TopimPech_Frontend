@@ -1,0 +1,28 @@
+.sub__categories__column__item {
+	margin-bottom: 15px;
+
+	.sub__categories__column__item__text {
+		color: var(--primary-color);
+		text-decoration: none;
+		font-size: var(--fontL);
+		font-weight: 700;
+		font-family: 'Arial';
+		transition: color 0.1s ease-in-out;
+		text-transform: capitalize;
+	}
+
+	.sub__categories__column__item__count {
+		color: var(--gray-color);
+		font-size: var(--fontS);
+		border: 1px solid var(--grey-color);
+		border-radius: 4px;
+		padding: 0 10px;
+		margin-left: 5px;
+	}
+
+	&:hover {
+		.sub__categories__column__item__text {
+			color: var(--orange-color);
+		}
+	}
+}

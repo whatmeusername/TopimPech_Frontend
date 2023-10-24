@@ -27,3 +27,21 @@
 		}
 	}
 }
+
+.product__not__available {
+	padding: 8px 10px;
+	border: 2px solid var(--primary-color);
+	border-radius: 8px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	.product__not__available__text {
+		font-size: var(--fontL);
+		font-family: var(--museo_cyrl);
+		font-weight: 600;
+		color: var(--primary-color);
+		white-space: nowrap;
+		margin: 0;
+		letter-spacing: -0.5px;
+	}
+}

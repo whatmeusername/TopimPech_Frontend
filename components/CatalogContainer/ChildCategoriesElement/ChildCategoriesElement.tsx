@@ -1,4 +1,3 @@
-import { useParams } from 'next/navigation';
 import { ReactElement } from 'react';
 import Slider from '../../Shared/Slider';
 import Link from 'next/link';
@@ -13,7 +12,8 @@ import Image from 'next/image';
 import { NO_IMAGE_SRC } from '../../const';
 import { Capitalize } from '../../../utils/Capitalize';
 
-const SliderChildCategoriesChild = ({ category }: { category: CategoryData }): ReactElement => {
+const SliderChildCategoriesChild = ({ category }: { category: CategoryData }): ReactElement | null => {
+	if (category.productCount === 0) return null;
 	return (
 		<Link href={`/catalog/${category.slug}`}>
 			<div className="child__category__wrapper">
@@ -62,7 +62,8 @@ const SliderChildCategoriesElement = ({ categories }: { categories: CategoryData
 	);
 };
 
-const PrimaryChildCategoriesChild = ({ category }: { category: CategoryData }): ReactElement => {
+const PrimaryChildCategoriesChild = ({ category }: { category: CategoryData }): ReactElement | null => {
+	if (category.productCount === 0) return null;
 	return (
 		<Link className="block__child__categories__item" href={`/catalog/${category.slug}`}>
 			<div className="block__child__categories__item__image__wrapper">
@@ -94,10 +95,8 @@ const PrimaryChildCategoriesElement = ({ categories }: { categories: CategoryDat
 	);
 };
 
-const ChildCategoriesElement = ({ isInner }: { isInner: boolean }): ReactElement | null => {
+const ChildCategoriesElement = ({ isInner, category }: { isInner: boolean; category: string }): ReactElement | null => {
 	const childCategories = useCategoriesContext();
-
-	const { category } = useParams() as { category: string };
 
 	const currentCategoryAtPage = childCategories?.find(category);
 	const hasParent = currentCategoryAtPage?.parentCategory !== undefined && currentCategoryAtPage?.parentCategory !== null;

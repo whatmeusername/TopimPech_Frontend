@@ -4,7 +4,7 @@ import { PaginatorData } from '../../CatalogContainer/Paginator/interface';
 import { useBreadcrumbContext } from '../../../context/Breadcrumb';
 
 import { declOfNum } from '../../../utils/decOfNum';
-import { Capitalize } from '../../../utils/Capitalize';
+import { GetCategoryNameWithAdditional } from '../../../utils/GetCategoryNameWithAdditional';
 
 function CatalogHeader({
 	category,
@@ -24,12 +24,10 @@ function CatalogHeader({
 		}
 	}, [breacrumbData, category]);
 
-	const prefix = categoryStringAdditions.prefix;
-	const postfix = categoryStringAdditions.postfix;
 	return (
 		<div className="catalog__header__wrapper">
 			<h1 className="catalog__header" itemProp="name">
-				{Capitalize(`${prefix ? prefix + ' ' : ''}${header}${postfix ? ' ' + postfix : ''}`)}
+				{GetCategoryNameWithAdditional(header, categoryStringAdditions, true)}
 			</h1>
 			<span className="catalog__header__count">
 				{paginator.count} {declOfProduct(paginator.count)}

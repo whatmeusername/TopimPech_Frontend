@@ -13,18 +13,12 @@ import { ChildCategoriesElement } from './ChildCategoriesElement/ChildCategories
 import { StandardBreakLine } from '../Shared/Lines/StandardBreakLine/StandardBreakLine';
 import { CatalogContainerViewedItems } from './CatalogContainerViewedItems/CatalogContainerViewedItems';
 
-import { AllFiltersOpenButton } from '../CatalogPage/Filter/Filter';
+import { AllFiltersOpenButton, FilterFetchData } from '../CatalogPage/Filter/Filter';
 import { CatalogContainerFooter } from './CatalogContainerFooter/CatalogContainerFooter';
 import { ContactUs } from '../Shared/ContactUs/ContactUs';
-import { SearchParamsFilterQueryResult } from '../CatalogPage/Filter/interface';
+import { AppliedFiltersElement } from '../CatalogPage/Filter/AppliedFiltersElement/AppliedFiltersElement';
 
-const CatalogContainer = ({
-	CatalogData,
-	appliedFilters,
-}: {
-	CatalogData: ProductAPIResponse;
-	appliedFilters: SearchParamsFilterQueryResult;
-}): ReactElement => {
+const CatalogContainer = ({ CatalogData, filtersData }: { CatalogData: ProductAPIResponse; filtersData: FilterFetchData }): ReactElement => {
 	const [catalogView, setCatalogView] = useCatalogView();
 
 	const isLoaded = useRef<number>(0);
@@ -37,12 +31,11 @@ const CatalogContainer = ({
 	};
 	const isFetched = IsLoaded();
 
-	console.log(appliedFilters);
-
 	return (
 		<div className="catalog__wrapper">
-			<ChildCategoriesElement isInner={true} />
+			<ChildCategoriesElement isInner={true} category={filtersData.category} />
 			<AllFiltersOpenButton shortLabel={true} />
+			<AppliedFiltersElement filtersData={filtersData} />
 			<ProductCatalogHeader disabled={CatalogData?.products === undefined || CatalogData?.products?.length === 0} setCatalogView={setCatalogView} />
 			<StandardBreakLine />
 			<ProductColumn products={CatalogData?.products ?? []} view={catalogView} fadeIn={isFetched} />

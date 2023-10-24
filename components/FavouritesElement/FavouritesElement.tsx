@@ -51,7 +51,7 @@ const FavouritesItem = ({ product }: { product: ProductDataShort }): ReactElemen
 			</div>
 			<div className="favourites__item__main__options favourites__item__content__wrapper">
 				<PriceElement product={product} />
-				<AddToCartButton article={product.article} />
+				<AddToCartButton product={product} />
 			</div>
 		</div>
 	);

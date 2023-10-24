@@ -1,0 +1,49 @@
+.catalog__applied__filters__wrapper {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	gap: 10px;
+	margin: 10px 0;
+	.catalog__applied__filters__item {
+		border-radius: 8px;
+		background-color: var(--primary-color);
+		padding: 5px 8px;
+		color: var(--white-color);
+		font-size: var(--fontM);
+		font-family: var(--museo_cyrl);
+		display: flex;
+		align-items: center;
+		flex-direction: row;
+		gap: 10px;
+		.catalog__applied__filters__text {
+			display: flex;
+			flex-direction: row;
+			flex-wrap: nowrap;
+			gap: 5px;
+			.catalog__applied__filters__label {
+				margin: 0;
+				&:after {
+					content: ':';
+				}
+				&::first-letter {
+					text-transform: capitalize;
+				}
+			}
+			.catalog__applied__filters__value {
+				margin: 0;
+			}
+		}
+		.catalog__applied__filters__icon__wrapper {
+			width: 16px;
+			height: 16px;
+			fill: var(--white-color);
+			border: var(--white-color);
+			border-radius: 50%;
+			cursor: pointer;
+			opacity: 1;
+			&:hover {
+				opacity: 0.8;
+			}
+		}
+	}
+}

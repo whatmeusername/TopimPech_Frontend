@@ -34,7 +34,7 @@ interface ProductPageResponse {
 	status: { status: number; message: any };
 }
 
-function SuitableProductsElement({ products }: { products: ProductData[] }) {
+function SuitableProductsElement({ products }: { products: ProductData[] }): ReactElement {
 	return (
 		<div className="product__page__suitable__products product__page__card">
 			<div className="product__page__suitable__products__header__wrapper">
@@ -65,7 +65,7 @@ function RelatedProductsElement({ product }: { product: ProductData }): ReactEle
 							key={`related__products__${rel.product.article}`}
 							className={`product__page__related__products__link ${
 								product.article === rel.product.article ? 'product__page__related__products__link__active' : ''
-							}`}
+							} ${rel.product.available === false ? 'product__page__related__products__link__not__available' : ''}`}
 						>
 							{rel.value}
 						</Link>
@@ -99,7 +99,7 @@ function ProductPageMainInfoCard({ product }: { product: ProductData }): ReactEl
 					{product.RelatedProductsTable ? <RelatedProductsElement product={product} /> : null}
 					{product.manufacturer ? <ManufacturerElement ManufacturerData={product.manufacturer} /> : null}
 					<div className="product__page__options__wrapper">
-						<AddToCartButton article={product.article} />
+						<AddToCartButton product={product} />
 						<div className="product__page__options__lower">
 							<ComparisonButton productData={product} withLabel={true} useBaseStyle={true} />
 							<FavouriteButton productData={product} withLabel={true} useBaseStyle={true} />
@@ -145,9 +145,9 @@ const ProductPage = observer(({ productData, params }: { productData: ProductPag
 			<div className="product__page__head">
 				{product?.categories ? (
 					<BreadcrumbByURL
+						category={product.categories[0].slug}
 						settings={{
 							includeHomePage: true,
-							category: product.categories[0].slug,
 							includeAtEnd: {
 								label: product.name,
 								slug: product.slug,

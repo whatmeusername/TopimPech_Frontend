@@ -1,16 +1,16 @@
 import { ReactElement } from 'react';
 import { FilterApplyFN, FilterElementActionConfigRange, FilterElementConfigNumber, RangeFilterSide } from '../interface';
 
-import { collectFilterParameters, getFilterParameters } from '../Filter';
+import { collectFilterParameters } from '../Filter';
 
-import './InputFilter.scss';
+import './RangeFilter.scss';
 
 const filterOnInput = (config: FilterElementActionConfigRange) => {
-	const filtersParams = getFilterParameters(config.searchParams);
+	const activeFilters = config.activeFilters;
 	const value = (config.event.target as HTMLInputElement).value;
 
 	const applyFilter = () => {
-		const filtersCount = Object.keys(filtersParams).length;
+		const filtersCount = Object.keys(activeFilters).length;
 		if (config.applyFunction === FilterApplyFN.APPLY) {
 			if (filtersCount === 0) {
 				config.searchParams.delete('filter');
@@ -22,7 +22,7 @@ const filterOnInput = (config: FilterElementActionConfigRange) => {
 		}
 	};
 
-	const currentFilter = filtersParams[config.parentKey] ?? ['', ''];
+	const currentFilter = activeFilters[config.parentKey] ?? ['', ''];
 
 	let valueAsFloat = parseFloat(parseFloat(value.replaceAll(',', '.')).toFixed(2));
 	const valueIsNumber = !isNaN(valueAsFloat);
@@ -32,10 +32,10 @@ const filterOnInput = (config: FilterElementActionConfigRange) => {
 			currentFilter[config.side === RangeFilterSide.MIN ? 0 : 1] = '';
 
 			if (!currentFilter[0] && !currentFilter[1]) {
-				delete filtersParams[config.parentKey];
+				delete activeFilters[config.parentKey];
 			}
 
-			config.searchParams.set('filter', collectFilterParameters(filtersParams));
+			config.searchParams.set('filter', collectFilterParameters(activeFilters));
 
 			applyFilter();
 		} else if (valueIsNumber && valueAsFloat > 0) {
@@ -57,8 +57,8 @@ const filterOnInput = (config: FilterElementActionConfigRange) => {
 				currentFilter[1] = valueAsFloat.toString();
 			}
 
-			filtersParams[config.parentKey] = currentFilter;
-			config.searchParams.set('filter', collectFilterParameters(filtersParams));
+			activeFilters[config.parentKey] = currentFilter;
+			config.searchParams.set('filter', collectFilterParameters(activeFilters));
 			applyFilter();
 		} else {
 			config.event.target.value = config.event.target.defaultValue;
@@ -80,8 +80,9 @@ const RangeFilter = ({ config }: { config: FilterElementConfigNumber }): ReactEl
 					type="text"
 					className={`facet__filter__number__input facet__filter__number__input__left ${isDisabled ? 'facet__filter__number__disabled' : ''}`}
 					placeholder={`От ${values.min}`}
-					defaultValue={defaultValues ? defaultValues[0] : ''}
+					defaultValue={defaultValues ? defaultValues[0] : null}
 					disabled={defaultValueMin ? !(defaultValueMin !== '') : isDisabled}
+					key={`input__left__${defaultValues ? 'active' : 'inactive'}`}
 					onBlur={
 						!isDisabled
 							? (event) =>
@@ -95,6 +96,7 @@ const RangeFilter = ({ config }: { config: FilterElementConfigNumber }): ReactEl
 										callback: config.callback,
 										searchParams: config.searchParams,
 										path: config.path,
+										activeFilters: config.ActiveFilters,
 									})
 							: undefined
 					}
@@ -104,8 +106,9 @@ const RangeFilter = ({ config }: { config: FilterElementConfigNumber }): ReactEl
 					type="text"
 					className={`facet__filter__number__input facet__filter__number__input__right ${isDisabled ? 'facet__filter__number__disabled' : ''}`}
 					placeholder={`До ${values.max}`}
-					defaultValue={defaultValues ? defaultValues[1] : ''}
+					defaultValue={defaultValues ? defaultValues[1] : null}
 					disabled={defaultValueMax ? !(defaultValueMax !== '') : isDisabled}
+					key={`input__right__${defaultValues ? 'active' : 'inactive'}`}
 					onBlur={
 						!isDisabled
 							? (event) =>
@@ -119,6 +122,7 @@ const RangeFilter = ({ config }: { config: FilterElementConfigNumber }): ReactEl
 										callback: config.callback,
 										searchParams: config.searchParams,
 										path: config.path,
+										activeFilters: config.ActiveFilters,
 									})
 							: undefined
 					}
@@ -128,4 +132,4 @@ const RangeFilter = ({ config }: { config: FilterElementConfigNumber }): ReactEl
 	);
 };
 
-export default RangeFilter;
+export { RangeFilter };

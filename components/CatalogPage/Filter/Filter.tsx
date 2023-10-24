@@ -1,6 +1,6 @@
 'use client';
 
-import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { ParsedUrlQuery } from 'querystring';
 import './Filter.scss';
 
@@ -14,23 +14,38 @@ import { FilterSkeleton } from '../../skeletons/skeletons';
 import { HydrationComponent } from '../../ProductPage/ProductPage';
 import { centerModalControl } from '../../../store';
 
-import type { FilterParameters } from './interface';
-import InputFilter from './InputFilter/InputFilter';
+import type { FilterParameters, SearchParamsFilterQueryResult } from './interface';
 import CheckboxFilter from './CheckboxFilter/CheckboxFilter';
 import { AllFilterComponent, ClearFiltersButton } from './AllFilterComponent/AllFilterComponent';
 import { ReactElement } from 'react';
 import { useMobile } from '../../../context/MobileContext/MobileContext';
 import { FilterIcon } from '../../IconsElements';
 import { Capitalize } from '../../../utils/Capitalize';
+import { RangeFilter } from './RangeFilter/RangeFilter';
+import { IsSearchParamsFilterQueryNumberResult, IsSearchParamsFilterQueryStringResult } from './AppliedFiltersElement/AppliedFiltersElement';
+import { useFilterParam } from '../../../hooks/useFilterParam';
+import { useFilterPathname } from '../../../hooks/useFilterPathname';
 
-const getFilterParameters = (searchParams: URLSearchParams | ParsedUrlQuery): FilterParameters => {
+const getFilterParameters = (searchParams: URLSearchParams | ParsedUrlQuery, appliedFilters: SearchParamsFilterQueryResult): FilterParameters => {
 	let filterParam: string | null;
 	if (searchParams instanceof URLSearchParams) filterParam = searchParams.get('filter');
 	else filterParam = searchParams['filter'] as string;
 
 	const filters: { [K: string]: string[] } = {};
-	if (filterParam === null || filterParam === '' || filterParam === undefined) return filters;
-	else {
+	if (filterParam === null || filterParam === '' || filterParam === undefined) {
+		const entries = Object.entries(appliedFilters);
+		if (entries.length === 0) return filters;
+		else {
+			for (let i = 0; i < entries.length; i++) {
+				const [key, value] = entries[i];
+				if (IsSearchParamsFilterQueryStringResult(value)) {
+					filters[key] = value.values;
+				} else if (IsSearchParamsFilterQueryNumberResult(value)) {
+					filters[key] = [value.min?.toString() ?? '', value.max?.toString() ?? ''];
+				}
+			}
+		}
+	} else {
 		const rawFilters = filterParam.split(';');
 		rawFilters.forEach((filter) => {
 			const [key, value] = filter.split(':');
@@ -72,11 +87,13 @@ function FacetFilter({ initialFilters }: { initialFilters: FilterFetchData }): J
 
 	const isMobile = useMobile(1024);
 
-	const { category } = useParams();
 	const searchParams = new URLSearchParams(useSearchParams() as any);
-	const pathname = usePathname();
 
-	const ActiveFilters = getFilterParameters(searchParams);
+	const category = useFilterParam(initialFilters);
+	const pathname = useFilterPathname(initialFilters);
+
+	const ActiveFilters = getFilterParameters(searchParams, initialFilters.appliedFilters);
+
 	const getActiveFiltersLength = Object.keys(ActiveFilters).length;
 	const FilterCount = Object.keys(initialFilters?.filtered ?? {}).length;
 
@@ -112,7 +129,7 @@ function FacetFilter({ initialFilters }: { initialFilters: FilterFetchData }): J
 														}}
 													/>
 												) : (
-													<InputFilter
+													<RangeFilter
 														config={{
 															parentKey: parentKey,
 															filterData: parentValue as FilterItemNumber,
@@ -151,6 +168,6 @@ function FacetFilter({ initialFilters }: { initialFilters: FilterFetchData }): J
 	);
 }
 
-export { getFilterParameters, collectFilterParameters, AllFiltersOpenButton };
+export { getFilterParameters, collectFilterParameters, AllFiltersOpenButton, useFilterPathname };
 export type { FilterFetchData };
 export default FacetFilter;

@@ -74,7 +74,7 @@ function Catalog({ initData }: { initData: initData }): ReactElement {
 	return (
 		<div className="catalog__page__wrapper" itemScope itemType="https://schema.org/OfferCatalog">
 			<CatalogHead>
-				<BreadcrumbByURL settings={{ includeHomePage: true }} />
+				<BreadcrumbByURL category={initData.filtersData.category} settings={{ includeHomePage: true }} />
 				{initData.isSearch && initData.searchHeader ? (
 					<CatalogHeaderSearch searchString={initData.searchHeader} paginator={initData.productsData.paginator} />
 				) : (
@@ -84,13 +84,13 @@ function Catalog({ initData }: { initData: initData }): ReactElement {
 						categoryStringAdditions={initData.filtersData.categoryStringAdditions}
 					/>
 				)}
-				<ChildCategoriesElement isInner={false} />
+				<ChildCategoriesElement isInner={false} category={initData.filtersData.category} />
 			</CatalogHead>
 			<div className="catalog__body">
 				<div className="catalog__filters__wrapper">
 					<FacetFilter initialFilters={initData?.filtersData} />
 				</div>
-				<CatalogContainer CatalogData={initData.productsData} appliedFilters={initData.filtersData.appliedFilters} />
+				<CatalogContainer CatalogData={initData.productsData} filtersData={initData.filtersData} />
 			</div>
 
 			<div className="catalog__footer">

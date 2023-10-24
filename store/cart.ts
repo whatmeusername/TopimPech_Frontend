@@ -5,6 +5,10 @@ interface CartItem {
 	article: string;
 	count: number;
 }
+interface CartItemPayload extends CartItem {
+	available: boolean;
+}
+
 class UserProductCart {
 	@observable public items: CartItem[] = [];
 	@observable public updated: Date = new Date();
@@ -24,8 +28,8 @@ class UserProductCart {
 	}
 
 	@action
-	public add(payload: CartItem) {
-		if (this.items.length === this.limit) return;
+	public add(payload: CartItemPayload) {
+		if (!payload.available || this.items.length === this.limit) return;
 		const existing = this.items.find((item) => item.article === payload.article);
 		if (!existing) {
 			axios({

@@ -15,6 +15,7 @@
 	width: 125px;
 	transition: opacity 0.15s ease;
 	display: none;
+	z-index: var(--zIndexLow);
 	&:hover {
 		cursor: pointer;
 		opacity: 1;
@@ -92,5 +93,3 @@
 		}
 	}
 }
-
-

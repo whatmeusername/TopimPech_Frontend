@@ -5,13 +5,12 @@ import { CategoryDataOmit } from '../../../context/Breadcrumb/interface';
 import Link from 'next/link';
 
 import { useBreadcrumbContext } from '../../../context/Breadcrumb';
-import { useParams } from 'next/navigation';
+
 import { Capitalize } from '../../../utils/Capitalize';
 
 interface BreadcrumbSettings {
 	includeHomePage?: boolean;
 
-	category?: string;
 	includeAtEnd?: {
 		label: string;
 		slug: string;
@@ -19,11 +18,10 @@ interface BreadcrumbSettings {
 	};
 }
 
-export default function BreadcrumbByURL({ settings }: { settings?: BreadcrumbSettings }): ReactElement | null {
+export default function BreadcrumbByURL({ category, settings }: { category: string; settings?: BreadcrumbSettings }): ReactElement | null {
 	const breacrumbData = useBreadcrumbContext();
-	const { category } = useParams() as { category: string };
 
-	const currentBreadcrumbItem = breacrumbData?.getEndWith(settings?.category ?? category);
+	const currentBreadcrumbItem = breacrumbData?.getEndWith(category);
 	if (!currentBreadcrumbItem) return null;
 
 	if (settings?.includeHomePage) {

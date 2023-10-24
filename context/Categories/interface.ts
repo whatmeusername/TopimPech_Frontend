@@ -6,7 +6,7 @@ interface CategoryData {
 	child: CategoryData[];
 	href?: string;
 	parentCategory?: CategoryData;
-	productCount?: number;
+	productCount: number;
 	image: ProductImage;
 }
 

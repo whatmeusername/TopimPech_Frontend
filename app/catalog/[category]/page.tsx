@@ -1,7 +1,5 @@
 import Catalog from '../../../components/CatalogPage/catalog/index';
 
-import { ProductAPIResponse } from '../../../components/CatalogPage/catalog/interface';
-
 import { Metadata } from 'next';
 
 import {
@@ -16,7 +14,10 @@ import {
 	ServerSideURLProps,
 } from '../../layout';
 import { getCategoryCatalogData, getData } from '../../../appRouteUtils';
-import { Capitalize } from '../../../utils/Capitalize';
+
+import { FilterFetchData } from '../../../components/CatalogPage/Filter/interface';
+import { ProductAPIResponse } from '../../../components/CatalogPage/catalog/interface';
+import { GetCategoryNameWithAdditional } from '../../../utils/GetCategoryNameWithAdditional';
 
 async function CatalogPage(context: ServerSideURLProps) {
 	const { initData } = await getCategoryCatalogData(context);
@@ -24,13 +25,19 @@ async function CatalogPage(context: ServerSideURLProps) {
 }
 
 export async function generateMetadata({ params }: ServerSideURLProps): Promise<Metadata> {
-	const productsData: ProductAPIResponse = await getData(`${PROXY_URL}products/filter/${params.category}`, {
-		cache: 'force-cache',
-	});
+	const productFetchURLRaw = `${PROXY_URL}products/filter/${params.category}`;
+	const filtersFetchURLRaw = `${PROXY_URL}products/filters/${params.category}`;
+
+	const [productsData, filtersData]: [ProductAPIResponse, FilterFetchData] = (await Promise.all([
+		getData(productFetchURLRaw, { cache: 'force-cache' }),
+		getData(filtersFetchURLRaw, {
+			cache: 'force-cache',
+		}),
+	])) as [ProductAPIResponse, FilterFetchData];
 
 	const product = productsData.products?.[0];
-	const category = product?.categories?.find((i) => i.slug === params.category);
-	const categoryName = category ? Capitalize(category.name) : '';
+	const category = product?.categories?.find((i) => i.slug === filtersData.category);
+	const categoryName = category ? GetCategoryNameWithAdditional(category.name, filtersData.categoryStringAdditions, true) : '';
 	const categorySlug = category?.slug ?? '';
 
 	const description = META_PAGE_DESCRIPTION(categoryName ?? 'товары для бани и дома');

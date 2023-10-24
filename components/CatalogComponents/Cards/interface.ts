@@ -45,6 +45,7 @@ interface ProductDataShort {
 	price: number;
 	sale: number;
 	article: string;
+	available: boolean;
 }
 
 interface ProductData {
@@ -62,6 +63,7 @@ interface ProductData {
 	descriptionFlat?: string;
 	descriptionDOM?: string;
 	suitableProducts: ProductData[];
+	available: boolean;
 	RelatedProductsTable: {
 		key: string;
 		relatedProducts: {
@@ -69,6 +71,7 @@ interface ProductData {
 			product: {
 				slug: string;
 				article: string;
+				available: boolean;
 			};
 		}[];
 	};

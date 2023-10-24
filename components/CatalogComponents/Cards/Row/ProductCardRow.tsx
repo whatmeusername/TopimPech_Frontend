@@ -36,7 +36,9 @@ const FeatureWrapper = ({ product, limit }: { product: ProductData; limit: numbe
 function ProductCardRow({ product, fadeIn }: { product: ProductData; fadeIn?: boolean }): ReactElement {
 	return (
 		<div
-			className={`product__card__wrapper product__card__wrapper__row ${fadeIn ? 'product__card__fade__in' : ''}`}
+			className={`product__card__wrapper product__card__wrapper__row ${fadeIn ? 'product__card__fade__in' : ''} ${
+				!product.available ? 'product__card__wrapper__not__available' : ''
+			}`}
 			itemProp="itemListElement"
 			itemScope
 			itemType="https://schema.org/Offer"
@@ -63,7 +65,7 @@ function ProductCardRow({ product, fadeIn }: { product: ProductData; fadeIn?: bo
 				</Link>
 				<div className="product__card__functions__wrapper">
 					<PriceElement product={product} includeMeta={true} />
-					<AddToCartButton article={product.article} />
+					<AddToCartButton product={product} />
 					<ProductCardOptions productData={product} />
 				</div>
 			</div>

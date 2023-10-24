@@ -65,9 +65,9 @@ interface SearchParamsFilterQueryString {
 type SearchParamsFilterQueryNumber = { min: number; max?: number } | { min?: number; max: number };
 
 interface GroupedByItemsResult {
-	type: FacetType;
 	value: string;
-	items: { index: any[]; value: string | number; other?: { [K: string]: any }; max_index: any; min_index: any; count: number }[];
+	other: { [K: string]: any };
+	count: number;
 }
 interface GroupedByItemsNumberResult {
 	max: number;
@@ -79,6 +79,7 @@ interface GroupedByItemsNumberResult {
 interface SearchParamsFilterQueryStringResult extends Omit<SearchParamsFilterQueryString, 'values'> {
 	values: string[];
 	value: string;
+	type: FacetType;
 	other: { [K: string]: any };
 	items: GroupedByItemsResult[];
 }
@@ -87,6 +88,7 @@ interface SearchParamsFilterQueryNumberResult extends Omit<SearchParamsFilterQue
 	min?: number;
 	max?: number;
 	value: string;
+	type: FacetType;
 	other: { [K: string]: any };
 	items: GroupedByItemsNumberResult;
 }
@@ -112,6 +114,23 @@ interface FilterElementActionConfig {
 	callback?: (...args: any[]) => void;
 	searchParams: URLSearchParams;
 	path: string;
+	activeFilters: FilterParameters;
+}
+
+interface FilterElementActionConfigRange extends Omit<FilterElementActionConfig, 'event' | 'key'> {
+	event: React.FocusEvent<HTMLInputElement>;
+	side: RangeFilterSide;
+	filterData: FilterItemNumber;
+}
+
+interface FilterElementRemoveConfig {
+	key?: string;
+	parentKey: string;
+	router: AppRouterInstance;
+	searchParams: URLSearchParams;
+	path: string;
+	activeFilters: FilterParameters;
+	type: FacetType;
 }
 
 interface FilterElementActionConfigRange extends Omit<FilterElementActionConfig, 'event' | 'key'> {
@@ -134,4 +153,5 @@ export type {
 	SearchParamsFilterQueryResult,
 	SearchParamsFilterQueryStringResult,
 	SearchParamsFilterQueryNumberResult,
+	FilterElementRemoveConfig,
 };

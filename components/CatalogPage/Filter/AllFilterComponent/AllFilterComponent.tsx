@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
-import { useSearchParams, usePathname } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 
 import { useState, useRef, ReactElement } from 'react';
@@ -8,7 +8,7 @@ import { centerModalControl } from '../../../../store';
 import { SearchParamsBuilder, declOfNum, declOfProduct } from '../../../../utils';
 import Dropdown from '../../../Shared/Dropdown/Dropdown';
 import CheckboxFilter from '../CheckboxFilter/CheckboxFilter';
-import InputFilter from '../InputFilter/InputFilter';
+
 import { FacetFiltersData, FilterFetchData, FilterParameters, FilterApplyFN, FacetType, FilterItemObject, FilterItemNumber } from '../interface';
 
 import './AllFilterComponent.scss';
@@ -16,6 +16,8 @@ import { useMobile } from '../../../../context/MobileContext/MobileContext';
 import { ModalWrapper, ModalContentWrapper, ModalHead, ModalFooterWrapper } from '../../../CentralModal/CenterModal';
 import { ClearFiltersButton } from '../ClearFilterButton/ClearFiltersButton';
 import { Capitalize } from '../../../../utils/Capitalize';
+import { RangeFilter } from '../RangeFilter/RangeFilter';
+import { useFilterPathname } from '../Filter';
 
 const FoundedItemsButton = ({
 	count,
@@ -69,7 +71,7 @@ const AllFilterComponent = ({
 	const isMobile = useMobile(768);
 
 	const searchParams = useRef<URLSearchParams>(new URLSearchParams(useSearchParams() as any));
-	const pathname = usePathname();
+	const pathname = useFilterPathname(initialFilters);
 
 	const currenFilter = useRef<string>(currentFilterQuery ?? '');
 	const randomKey = useRef<string>('');
@@ -137,7 +139,7 @@ const AllFilterComponent = ({
 															}}
 														/>
 													) : (
-														<InputFilter
+														<RangeFilter
 															config={{
 																parentKey: parentKey,
 																filterData: parentValue as FilterItemNumber,

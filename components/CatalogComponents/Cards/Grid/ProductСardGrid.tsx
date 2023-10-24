@@ -14,7 +14,11 @@ import { ProductCardTags } from '../general';
 export default function ProductCardGrid({ product, fadeIn }: { product: ProductData; fadeIn?: boolean }): JSX.Element {
 	const [toggled, setToggle] = useToggle(false);
 	return (
-		<div className={`product__card__wrapper product__card__wrapper__grid ${fadeIn ? 'product__card__fade__in' : ''}`}>
+		<div
+			className={`product__card__wrapper product__card__wrapper__grid ${fadeIn ? 'product__card__fade__in' : ''}  ${
+				!product.available ? 'product__card__wrapper__not__available' : ''
+			}`}
+		>
 			<Link href={`/product/${product.slug}/`} className="product__card__link__wrapper">
 				<div className="product__card__image__wrapper">
 					<ProductImageGallery images={product.images} urlStartsWith={'/api'} alt={product.name} />
@@ -29,7 +33,7 @@ export default function ProductCardGrid({ product, fadeIn }: { product: ProductD
 			</Link>
 			{toggled ? <ProductPreviewModal id={'ProductPreview'} toggle={setToggle} productData={product} /> : null}
 			<div className="product__card__no__link__wrapper">
-				<AddToCartButton article={product.slug} />
+				<AddToCartButton product={product} />
 			</div>
 			<ProductCardOptions productData={product} />
 		</div>
