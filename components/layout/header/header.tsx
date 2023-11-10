@@ -14,6 +14,7 @@ import ProductSearch from '../searchfield/SearchFieldDesktop/SearchField';
 import { SearchMobile } from '../searchfield/SearchFieldMobile/SearchFieldMobile';
 import { headerSticky } from '../../../store/HeaderSticky';
 import { useGlobalContext } from '../../../context/GlobalContext/GlobalContext';
+import { IS_CART_ENABLED } from '../../../const/settings';
 
 const HeaderLogo = (): JSX.Element => {
 	return (
@@ -25,7 +26,9 @@ const HeaderLogo = (): JSX.Element => {
 	);
 };
 
-const CartElement = observer((): ReactElement => {
+const CartElement = observer((): ReactElement | null => {
+	if (IS_CART_ENABLED === false) return null;
+
 	const ProductCart = useUserProductCart();
 	return (
 		<Link className="header__option__wrapper" href={'/cart'}>
@@ -98,12 +101,14 @@ function HeaderMobile(): ReactElement {
 						</div>
 						<p className="header__mobile__lower__label">Сравнение</p>
 					</Link>
-					<Link href="/cart" className={`header__mobile__lower__link ${isCart ? 'header__mobile__lower__icon__active' : ''}`}>
-						<div className="header__mobile__lower__icon__wrapper">
-							<CartIcon className="header__mobile__lower__icon" />
-						</div>
-						<p className="header__mobile__lower__label">Корзина</p>
-					</Link>
+					{IS_CART_ENABLED ? (
+						<Link href="/cart" className={`header__mobile__lower__link ${isCart ? 'header__mobile__lower__icon__active' : ''}`}>
+							<div className="header__mobile__lower__icon__wrapper">
+								<CartIcon className="header__mobile__lower__icon" />
+							</div>
+							<p className="header__mobile__lower__label">Корзина</p>
+						</Link>
+					) : null}
 				</div>
 			</div>
 		</div>

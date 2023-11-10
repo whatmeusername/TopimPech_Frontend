@@ -5,7 +5,6 @@ Disallow: /favourites
 Disallow: /catalog/search
 Disallow: /user
 Disallow: /_next
-Disallow /cdn-cgi
 
 
 Sitemap: https://topimpech.ru/sitemap.xml

@@ -28,20 +28,61 @@
 	}
 }
 
-.product__not__available {
+.product__available__status {
+	width: 100%;
 	padding: 8px 10px;
 	border: 2px solid var(--primary-color);
 	border-radius: 8px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	.product__not__available__text {
+	.product__available__status__text {
 		font-size: var(--fontL);
 		font-family: var(--museo_cyrl);
 		font-weight: 600;
 		color: var(--primary-color);
 		white-space: nowrap;
 		margin: 0;
+		letter-spacing: -0.5px;
+	}
+	&.product__not__available {
+		border: 2px solid var(--primary-color);
+		.product__available__status__text {
+			color: var(--primary-color);
+		}
+	}
+
+	&.product__available {
+		border: 2px solid var(--orange-color);
+		.product__available__status__text {
+			color: var(--orange-color);
+		}
+	}
+}
+
+.product__where__to__buy {
+	border: 2px solid var(--primary-color);
+	padding: 8px 10px;
+	border-radius: 8px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	opacity: 1;
+	transition: opacity 0.3s ease;
+
+	&:hover {
+		opacity: 0.8;
+	}
+
+	.product__where__to__buy__text {
+		font-size: var(--fontL);
+		font-family: var(--museo_cyrl);
+		font-weight: 600;
+		color: var(--primary-color);
+		white-space: nowrap;
+		margin: 0;
+		padding: 0;
 		letter-spacing: -0.5px;
 	}
 }

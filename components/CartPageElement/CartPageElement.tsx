@@ -85,10 +85,12 @@ function OrderElement({
 	setIsOrderSuccces,
 	setIsOrderSended,
 	isOrderSended,
+	cartProducts,
 }: {
 	setIsOrderSuccces: Dispatch<SetStateAction<boolean>>;
 	setIsOrderSended: Dispatch<SetStateAction<boolean>>;
 	isOrderSended: boolean;
+	cartProducts: MappedProductsResponseCart;
 }): ReactElement {
 	return (
 		<div className="cart__page__order__container">
@@ -96,7 +98,12 @@ function OrderElement({
 				<h2 className="cart__page__order__header">Оформление заказа</h2>
 			</div>
 			<StandardBreakLine />
-			<OrderElementForm setIsOrderSuccces={setIsOrderSuccces} setIsOrderSended={setIsOrderSended} isOrderSended={isOrderSended} />
+			<OrderElementForm
+				setIsOrderSuccces={setIsOrderSuccces}
+				setIsOrderSended={setIsOrderSended}
+				isOrderSended={isOrderSended}
+				cartProducts={cartProducts}
+			/>
 		</div>
 	);
 }
@@ -280,14 +287,19 @@ const CartPageElement = observer(() => {
 	const isMobile = useMobile(768);
 
 	useEffect(() => {
-		axios({
-			method: 'GET',
-			url: 'api/products/session/cart',
-		}).then((res) => {
-			setCartProducts(res.data);
+		if (userCart.isEmpty() === false) {
+			axios({
+				method: 'GET',
+				url: 'api/products/session/cart',
+			}).then((res) => {
+				setCartProducts(res.data);
+				isLoading.current = true;
+			});
+		} else {
+			setCartProducts(null);
 			isLoading.current = true;
-		});
-	}, []);
+		}
+	}, [userCart.items]);
 
 	return (
 		<>
@@ -305,7 +317,12 @@ const CartPageElement = observer(() => {
 							<div className="cart__page__content__main">
 								<CartItemsElement cartProducts={cartProducts} />
 								{isMobile ? <CartSummaryElement cartProducts={cartProducts} /> : null}
-								<OrderElement setIsOrderSuccces={setIsOrderSuccces} setIsOrderSended={setIsOrderSended} isOrderSended={isOrderSended} />
+								<OrderElement
+									setIsOrderSuccces={setIsOrderSuccces}
+									setIsOrderSended={setIsOrderSended}
+									isOrderSended={isOrderSended}
+									cartProducts={cartProducts}
+								/>
 							</div>
 							{!isMobile ? <CartSummaryElement cartProducts={cartProducts} /> : null}
 						</div>

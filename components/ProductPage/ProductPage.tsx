@@ -83,7 +83,7 @@ function ProductPageMainInfoCard({ product }: { product: ProductData }): ReactEl
 
 	return (
 		<div className="product__page__upper">
-			<div className="product__page__card product__page__upper__item product__page__gallery__wrapper">
+			<div className="product__page__card product__page__upper __item product__page__gallery__wrapper">
 				<Gallery items={galleryItems} urlStartsWith={'/api'} ration={3} productName={product.name} />
 			</div>
 			<div className=" product__page__card product__page__upper__item product__page__main__info">
@@ -95,11 +95,16 @@ function ProductPageMainInfoCard({ product }: { product: ProductData }): ReactEl
 					{product.name}
 				</h1>
 				<span itemProp="offers" itemScope itemType="http://schema.org/Offer">
+					{product.available ? (
+						<link itemProp="availability" href="http://schema.org/InStock" />
+					) : (
+						<link itemProp="availability" href="http://schema.org/OutOfStock" />
+					)}
 					<PriceElement product={product} includeMeta={true} />
 					{product.RelatedProductsTable ? <RelatedProductsElement product={product} /> : null}
 					{product.manufacturer ? <ManufacturerElement ManufacturerData={product.manufacturer} /> : null}
 					<div className="product__page__options__wrapper">
-						<AddToCartButton product={product} />
+						<AddToCartButton product={product} isContactMode={true} showAvailability={true} />
 						<div className="product__page__options__lower">
 							<ComparisonButton productData={product} withLabel={true} useBaseStyle={true} />
 							<FavouriteButton productData={product} withLabel={true} useBaseStyle={true} />

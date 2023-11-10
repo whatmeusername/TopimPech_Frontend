@@ -29,9 +29,9 @@ export async function generateMetadata({ params }: ServerSideURLProps): Promise<
 	const filtersFetchURLRaw = `${PROXY_URL}products/filters/${params.category}`;
 
 	const [productsData, filtersData]: [ProductAPIResponse, FilterFetchData] = (await Promise.all([
-		getData(productFetchURLRaw, { cache: 'force-cache' }),
+		getData(productFetchURLRaw, { next: { revalidate: 43200 } }),
 		getData(filtersFetchURLRaw, {
-			cache: 'force-cache',
+			next: { revalidate: 43200 },
 		}),
 	])) as [ProductAPIResponse, FilterFetchData];
 

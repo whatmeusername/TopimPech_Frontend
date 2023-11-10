@@ -1,256 +1,273 @@
-.cart__content__wrapper{
-    width: 100%;
-    padding: 10px 20px;
-    border-radius: 8px;
-    width: 100%;
-    background-color: var(--primary-cards-background);
-    .cart__content__head{
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        .cart__page__block__header__wrapper{
-            display: flex;
-            flex-direction: row;
-            gap: 10px;
-            align-items: baseline;
-            .cart__page__block__header__label{
-                margin: 0;
-                font-size: var(--fontL);
-                color: var(--gray-color);
-            }
-            @media (max-width: 768px) {
-                flex-direction: column;
-                gap: 5px;
-            }
-        }
-    }
-    .cart__clear__button{
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        gap: 5px;
-        border: 2px solid var(--red-color);
-        border-radius: 8px;
-        padding: 5px 10px;
-        cursor: pointer;
-        transition: opacity 0.25s ease;
-        .cart__clear__button__icon{
-            width: 25px;
-            height: 25px;
-            fill: var(--red-color);
-        }
-        .cart__clear__button__label{
-            font-family: var(--museo_cyrl);
-            color: var(--red-color);
-            font-size: var(--fontL);
-            margin: 0;
-        }
-        &:hover{
-            opacity: 0.8;
-        }
+.cart__content__wrapper {
+	width: 100%;
+	padding: 10px 20px;
+	border-radius: 8px;
+	width: 100%;
+	background-color: var(--primary-cards-background);
+	.cart__content__head {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		.cart__page__block__header__wrapper {
+			display: flex;
+			flex-direction: row;
+			gap: 10px;
+			align-items: baseline;
+			.cart__page__block__header__label {
+				margin: 0;
+				font-size: var(--fontL);
+				color: var(--gray-color);
+			}
+			@media (max-width: 768px) {
+				flex-direction: column;
+				gap: 5px;
+			}
+		}
+	}
+	.cart__clear__button {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		gap: 5px;
+		border: 2px solid var(--red-color);
+		border-radius: 8px;
+		padding: 5px 10px;
+		cursor: pointer;
+		transition: opacity 0.25s ease;
+		.cart__clear__button__icon {
+			width: 25px;
+			height: 25px;
+			fill: var(--red-color);
+		}
+		.cart__clear__button__label {
+			font-family: var(--museo_cyrl);
+			color: var(--red-color);
+			font-size: var(--fontL);
+			margin: 0;
+		}
+		&:hover {
+			opacity: 0.8;
+		}
 
-        @media (max-width: 768px) {
-            padding: 5px 5px;
-            .cart__clear__button__icon{
-                width: 20px;
-                height: 20px;
-            }
-            .cart__clear__button__label{
-                font-size: var(--fontM);
-            }
-        }
-    }
-    .cart__page__items{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 20px;
-    }
+		@media (max-width: 768px) {
+			padding: 5px 5px;
+			.cart__clear__button__icon {
+				width: 20px;
+				height: 20px;
+			}
+			.cart__clear__button__label {
+				font-size: var(--fontM);
+			}
+		}
+	}
+	.cart__page__items {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 20px;
+	}
 }
 
+.cart__item__quanity__wrapper {
+	display: flex;
+	flex-direction: row;
+	gap: 10px;
+	.cart__item__quanity__card {
+		width: 30px;
+		height: 30px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border-radius: 8px;
+	}
+	.cart__item__quanity__current__wrapper {
+		background-color: var(--grey-color);
+		.cart__item__quanity__current {
+			color: var(--standard-color);
+			font-family: var(--museo_cyrl);
+		}
+	}
 
-.cart__item__quanity__wrapper{
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    .cart__item__quanity__card{
-        width: 30px;
-        height: 30px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 8px;
-
-    }
-    .cart__item__quanity__current__wrapper{
-      background-color: var(--grey-color);
-      .cart__item__quanity__current{
-        color: var(--standard-color);
-        font-family: var(--museo_cyrl);
-      }
-    }
-
-    .cart__item__quanity__btn{
-        cursor: pointer;
-        background-color: var(--orange-color-bg);
-        opacity: 1;
-        transition: opacity 0.25s ease;
-        &:hover{
-            opacity: 0.8;
-        }
-        .cart__item__quanity__btn__icon{
-            width: 30px;
-            height: 30px;
-            fill: var(--orange-color);
-        }
-    }
+	.cart__item__quanity__btn {
+		cursor: pointer;
+		background-color: var(--orange-color-bg);
+		opacity: 1;
+		transition: opacity 0.25s ease;
+		&:hover {
+			opacity: 0.8;
+		}
+		.cart__item__quanity__btn__icon {
+			width: 30px;
+			height: 30px;
+			fill: var(--orange-color);
+		}
+	}
 }
 
-.cart__page__cart__item__desktop{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 100%;
-    gap: 60px;
-    height: 170px;
-    background-color: var(--white-color);
-    padding: 10px 20px;
-    border-radius: 8px;
-    .cart__item__main{
-        display: flex;
-        flex-direction: row;
-        gap: 10px;
-        .cart__item__image__wrapper{
-            width: 150px;
-            height: 150px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            .cart__item__image{
-                border-radius: 8px;
-                max-width: 100%;
-                max-height: 100%;
-            }
-        }
-        .cart__item__main__info{
-            width: 250px;
-            display: flex;
-            flex-direction: column;
-            .cart__item__link{
-                color: var(--primary-color);
-                transition: color 0.25s ease;
-                &:hover{
-                    color: var(--orange-color);
-                }
-                .cart__item__link__label{
-                    font-weight: 300;
-                    font-size: var(-fontL);
-                
-                    font-family: var(--museo_cyrl);
-                }
-            }
+.cart__page__cart__item {
+	opacity: 1;
+	&.cart__page__cart__item__not__available {
+		opacity: 0.75;
+	}
+}
+.cart__page__cart__item__desktop {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	width: 100%;
+	gap: 60px;
+	height: 170px;
+	background-color: var(--white-color);
+	padding: 10px 20px;
+	border-radius: 8px;
+	.cart__item__main {
+		display: flex;
+		flex-direction: row;
+		gap: 10px;
+		.cart__item__image__wrapper {
+			width: 150px;
+			height: 150px;
+			border-radius: 8px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			.cart__item__image {
+				border-radius: 8px;
+				max-width: 100%;
+				max-height: 100%;
+			}
+		}
+		.cart__item__main__info {
+			width: 250px;
+			display: flex;
+			flex-direction: column;
 
-            .cart__item__options{
-                display: flex;
-                flex-direction: row;
-                gap: 10px;
-                .product__card__option__icon{
-                    width: 15px;
-                    height: 15px;
-                }
-                .product__card__option__label{
-                    font-size: var(--fontS);
-                }
-            }
-        }
-    }
-    .cart__item__quanity__block{
-        display: flex;
-        flex-direction: row;
-        gap: 40px;
-        padding-top: 20px;
+			.cart__item__link {
+				color: var(--primary-color);
+				transition: color 0.25s ease;
+				&:hover {
+					color: var(--orange-color);
+				}
+				.cart__item__link__label {
+					font-weight: 300;
+					font-size: var(-fontL);
 
-    }
+					font-family: var(--museo_cyrl);
+				}
+			}
+
+			.cart__item__options {
+				display: flex;
+				flex-direction: row;
+				gap: 10px;
+
+				.product__card__option__icon {
+					width: 15px;
+					height: 15px;
+				}
+				.product__card__option__label {
+					font-size: var(--fontS);
+				}
+			}
+		}
+	}
+	.cart__item__quanity__block {
+		display: flex;
+		flex-direction: row;
+		gap: 40px;
+		padding-top: 20px;
+
+		.cart__item__not__available {
+			color: var(--primary-color);
+			font-weight: 500;
+			font-family: var(--museo_cyrl);
+			font-size: var(--fontX);
+		}
+	}
 }
 
+.cart__page__cart__item__mobile {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	gap: 10px;
+	background-color: var(--white-color);
+	padding: 10px;
+	border-radius: 8px;
+	box-sizing: content-box;
 
-.cart__page__cart__item__mobile{
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    gap: 10px;
-    background-color: var(--white-color);
-    padding: 10px;
-    border-radius: 8px;
-    box-sizing: content-box;
+	.cart__item__main {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 10px;
+		.cart__item__image__wrapper {
+			width: 100%;
+			height: 100%;
+			border-radius: 8px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			.cart__item__image {
+				border-radius: 8px;
+				max-width: 100%;
+				max-height: 100%;
+			}
+		}
+		.cart__item__main__info {
+			width: 100%;
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+			.cart__item__not__available {
+				color: var(--primary-color);
+				font-weight: 500;
+				font-family: var(--museo_cyrl);
+				font-size: var(--fontX);
+			}
+			.cart__item__link {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				justify-content: space-between;
+				color: var(--primary-color);
+				transition: color 0.25s ease;
+				&:hover {
+					color: var(--orange-color);
+				}
+				.cart__item__link__label {
+					font-weight: 300;
+					font-size: var(-fontL);
 
-    .cart__item__main{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-        .cart__item__image__wrapper{
-            width: 100%;
-            height: 100%;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            .cart__item__image{
-                border-radius: 8px;
-                max-width: 100%;
-                max-height: 100%;
-            }
-        }
-        .cart__item__main__info{
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            .cart__item__link{
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                justify-content: space-between;
-                color: var(--primary-color);
-                transition: color 0.25s ease;
-                &:hover{
-                    color: var(--orange-color);
-                }
-                .cart__item__link__label{
-                    font-weight: 300;
-                    font-size: var(-fontL);
-                
-                    font-family: var(--museo_cyrl);
-                }
-                .product__card__price__wrapper{
-                    white-space: nowrap;
-                }
-            }
+					font-family: var(--museo_cyrl);
+				}
+				.product__card__price__wrapper {
+					white-space: nowrap;
+				}
+			}
 
-            .cart__item__options{
-                display: flex;
-                flex-direction: row;
-                gap: 10px;
-                .product__card__option{
-                    width: 50%;
-                    .product__card__option__icon{
-                        width: 15px;
-                        height: 15px;
-                    }
-                    .product__card__option__label{
-                        font-size: var(--fontS);
-                    }
-                }
+			.cart__item__options {
+				display: flex;
+				flex-direction: row;
+				gap: 10px;
 
-            }
+				.product__card__option {
+					width: 50%;
+					.product__card__option__icon {
+						width: 15px;
+						height: 15px;
+					}
+					.product__card__option__label {
+						font-size: var(--fontS);
+					}
+				}
+			}
 
-            .cart__item__quanity__wrapper{
-                align-self: center;
-            }
-        }
-    }
+			.cart__item__quanity__wrapper {
+				align-self: center;
+			}
+		}
+	}
 }

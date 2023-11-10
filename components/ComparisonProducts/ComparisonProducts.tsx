@@ -82,7 +82,7 @@ function ComparisonProductsCardBig({ product, config }: { product: ProductData; 
 			</Link>
 			<PriceElement product={product} />
 			<div className="comparison__products__options">
-				<AddToCartButton product={product} />
+				<AddToCartButton product={product} isContactMode={false} showAvailability={false} />
 				{config.cards.canDelete ? (
 					<button className="comparison__products__options__remove" onClick={() => comparisonStore.remove(product)}>
 						<TrashBinIcon className="comparison__products__options__remove__icon" />

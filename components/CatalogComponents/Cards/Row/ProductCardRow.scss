@@ -139,6 +139,7 @@
 			.product__card__add__to__cart {
 				width: 100%;
 			}
+
 			.product__card__options__wrapper {
 				margin-top: 10px;
 				display: flex;
@@ -234,6 +235,10 @@
 					'a a a a' 40px;
 				width: 100%;
 				.product__card__add__to__cart {
+					width: auto;
+					grid-area: a;
+				}
+				.product__available__status {
 					width: auto;
 					grid-area: a;
 				}

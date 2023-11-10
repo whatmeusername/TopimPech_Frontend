@@ -5,7 +5,7 @@ import { FilterFetchData } from '../components/CatalogPage/Filter/interface';
 import { SearchParamsBuilder } from '../utils';
 
 async function getData(url: string, init?: RequestInit) {
-	const res = fetch(url, init)
+	const res = fetch(url, init )
 		.then((res) => {
 			return res.json();
 		})

@@ -48,7 +48,7 @@ const MainCategoryItem = ({
 	);
 };
 
-const MenuContentDesktop = memo(({ categories }: { categories: CategoryData[] }): JSX.Element => {
+const MenuContentDesktop = memo(({ categories }: { categories: CategoryData[] }): ReactElement => {
 	const [selectedCategory, setSelectedCategory] = useState<string>('');
 
 	function CategoriesBlock({ categories }: { categories: CategoryData[] }): ReactElement | null {

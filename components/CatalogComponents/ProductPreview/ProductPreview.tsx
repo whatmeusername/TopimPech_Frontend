@@ -28,7 +28,7 @@ function ProductPreviewModal({ id, toggle, productData }: { id: string; toggle: 
 					</div>
 					<div className="modal__content__info modal__content__block">
 						<div className="modal__content__info__options">
-							<AddToCartButton product={productData} />
+							<AddToCartButton product={productData} isContactMode={true} showAvailability={true} />
 							<FavouriteButton productData={productData} withLabel={true} useBaseStyle />
 							<ComparisonButton productData={productData} withLabel={true} useBaseStyle />
 						</div>

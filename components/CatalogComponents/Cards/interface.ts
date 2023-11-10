@@ -64,6 +64,7 @@ interface ProductData {
 	descriptionDOM?: string;
 	suitableProducts: ProductData[];
 	available: boolean;
+	quanity?: number;
 	RelatedProductsTable: {
 		key: string;
 		relatedProducts: {

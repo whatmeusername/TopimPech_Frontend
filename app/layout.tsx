@@ -21,10 +21,12 @@ import { Metadata } from 'next/types';
 import { fetchCategories, getData } from '../appRouteUtils';
 
 const PROXY_URL = process.env.PROXY_URL ?? 'http://localhost:8000';
+
 const SITE_URL = process.env.SITE_URL ?? PROXY_URL;
 const SITE_URL_SLICED = SITE_URL.slice(0, SITE_URL.length);
 const BASE_PHONE = '+7 (916) 926-96-66';
 const SECOND_PHONE = '+7 (915) 018-27-74';
+
 const DOMAIN_NAME = 'topimpech.ru';
 const DOMAIN_NAME_LOCALE = 'ТопимПечь.ру';
 const FULL_DOMAIN = `https://${DOMAIN_NAME}`;
@@ -148,5 +150,6 @@ export {
 	FULL_DOMAIN,
 	PAGE_SUB_LABEL,
 	META_PAGE_DESCRIPTION_BASE,
+
 };
 export default RootLayout;

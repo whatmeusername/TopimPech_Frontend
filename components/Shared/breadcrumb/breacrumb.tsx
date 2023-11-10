@@ -27,7 +27,7 @@ export default function BreadcrumbByURL({ category, settings }: { category: stri
 	if (settings?.includeHomePage) {
 		currentBreadcrumbItem.start = 'glavnay';
 		currentBreadcrumbItem.contains.unshift('glavnay');
-		currentBreadcrumbItem.data.unshift({ name: 'главная', slug: 'glavnay', href: '/' });
+		currentBreadcrumbItem.data.unshift({ name: 'главная', slug: 'glavnay', href: '/', productCount: 0 });
 	}
 
 	if (settings?.includeAtEnd) {
@@ -35,6 +35,7 @@ export default function BreadcrumbByURL({ category, settings }: { category: stri
 			name: settings.includeAtEnd.label,
 			slug: settings.includeAtEnd.slug,
 			href: settings.includeAtEnd.href ?? '/',
+			productCount: 0,
 		});
 	}
 

@@ -4,6 +4,7 @@ import { useUserProductCart } from '../../../context/MobxStoreContext/MobxStoreC
 import Link from 'next/link';
 import InputMask from 'react-input-mask';
 import './OrderElementForm.scss';
+import { MappedProductsResponseCart } from '../CartPageElement';
 
 interface OrderFormStateItem {
 	errorLabel: string;
@@ -75,14 +76,34 @@ function UserAggrementElement({
 	);
 }
 
+function OrderElementSendOrderButton({ inputState, cartProducts }: { inputState: OrderFormState; cartProducts: MappedProductsResponseCart }) {
+	const hasNotAvailable = cartProducts.data.some((p) => p.available === false);
+	const label = hasNotAvailable
+		? 'В вашей корзине есть товары, которые отсуствуют на складе'
+		: inputState.aggrement
+		? 'Оформить заказ'
+		: 'вы должны быть ознакомлены с политикой конфиденциальности';
+	const isDisabled = !inputState.aggrement || hasNotAvailable ? true : false;
+	return (
+		<button
+			className={`order__element__send ${!inputState.aggrement || hasNotAvailable ? 'order__element__send__wrong' : ''}`}
+			type="submit"
+			disabled={isDisabled}
+		>
+			{label}
+		</button>
+	);
+}
 function OrderElementForm({
 	setIsOrderSuccces,
 	setIsOrderSended,
 	isOrderSended,
+	cartProducts,
 }: {
 	setIsOrderSuccces: Dispatch<SetStateAction<boolean>>;
 	setIsOrderSended: Dispatch<SetStateAction<boolean>>;
 	isOrderSended: boolean;
+	cartProducts: MappedProductsResponseCart;
 }): ReactElement {
 	const userCart = useUserProductCart();
 
@@ -193,7 +214,8 @@ function OrderElementForm({
 						? undefined
 						: (e) => {
 								e.preventDefault();
-								if (inputState.aggrement) Submit();
+								const hasNotAvailable = cartProducts.data.some((p) => p.available === false);
+								if (inputState.aggrement && hasNotAvailable === false) Submit();
 								return false;
 						  }
 				}
@@ -247,9 +269,7 @@ function OrderElementForm({
 					После оформления заказа вы получите всю информацию о заказе на электронную почту указанную вами, мы свяжемся с вами для подтверждения заказа
 					и уточнения деталей
 				</p>
-				<button className={`order__element__send ${!inputState.aggrement ? 'order__element__send__wrong' : ''}`} type="submit">
-					{inputState.aggrement ? 'Оформить заказ' : 'вы должны быть ознакомлены с политикой конфиденциальности '}
-				</button>
+				<OrderElementSendOrderButton inputState={inputState} cartProducts={cartProducts} />
 			</form>
 		</div>
 	);

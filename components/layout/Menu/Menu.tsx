@@ -18,7 +18,6 @@ import { StandardBreakLine } from '../../Shared/Lines/StandardBreakLine/Standard
 
 const MenuContent = memo((): JSX.Element => {
 	const isMobile = useMobile(1024);
-
 	const categories = useCategoriesContext()?.get();
 
 	if (!isMobile) {

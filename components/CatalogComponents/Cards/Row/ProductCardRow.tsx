@@ -43,6 +43,11 @@ function ProductCardRow({ product, fadeIn }: { product: ProductData; fadeIn?: bo
 			itemScope
 			itemType="https://schema.org/Offer"
 		>
+			{product.available ? (
+				<link itemProp="availability" href="http://schema.org/InStock" />
+			) : (
+				<link itemProp="availability" href="http://schema.org/OutOfStock" />
+			)}
 			<div className="product__card__image__wrapper">
 				<Link href={`/product/${product.slug}/`} className="product__card__link">
 					<ProductImageGallery images={product.images} urlStartsWith={'/api'} alt={product.name} />
@@ -65,7 +70,7 @@ function ProductCardRow({ product, fadeIn }: { product: ProductData; fadeIn?: bo
 				</Link>
 				<div className="product__card__functions__wrapper">
 					<PriceElement product={product} includeMeta={true} />
-					<AddToCartButton product={product} />
+					<AddToCartButton product={product} isContactMode={false} showAvailability={true} />
 					<ProductCardOptions productData={product} />
 				</div>
 			</div>

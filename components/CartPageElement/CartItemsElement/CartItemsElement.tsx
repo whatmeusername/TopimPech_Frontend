@@ -64,10 +64,12 @@ const CartDeleteItemButton = ({ productData }: { productData: ProductData }): Re
 	);
 };
 
-const CartItemElementDesktop = observer(({ productData, cartItem }: { productData: ProductData; cartItem: CartItem }): ReactElement => {
+const CartItemElementDesktop = observer(({ productData }: { productData: ProductData }): ReactElement => {
 	const imageSrc = productData.images?.[0]?.path ? `/api${productData.images[0].path}` : NO_IMAGE_SRC;
 	return (
-		<div className="cart__page__cart__item__desktop">
+		<div
+			className={`cart__page__cart__item cart__page__cart__item__desktop ${!productData.available ? 'cart__page__cart__item__not__available' : ''}`}
+		>
 			<div className="cart__item__main">
 				<div className="cart__item__image__wrapper">
 					<Image
@@ -92,19 +94,27 @@ const CartItemElementDesktop = observer(({ productData, cartItem }: { productDat
 				</div>
 			</div>
 			<div className="cart__item__quanity__block">
-				<div className="cart__item__price__wrapper">
-					<PriceElement product={productData} quantity={cartItem.count} />
-				</div>
-				<CartQuanityElement productData={productData} />
+				{productData.available ? (
+					<>
+						<div className="cart__item__price__wrapper">
+							<PriceElement product={productData} quantity={productData.quanity} />
+						</div>
+						<CartQuanityElement productData={productData} />
+					</>
+				) : (
+					<p className="cart__item__not__available">Товара нет в наличии</p>
+				)}
 			</div>
 		</div>
 	);
 });
 
-const CartItemElementMobile = observer(({ productData, cartItem }: { productData: ProductData; cartItem: CartItem }): ReactElement => {
+const CartItemElementMobile = observer(({ productData }: { productData: ProductData }): ReactElement => {
 	const imageSrc = productData.images?.[0]?.path ? `/api${productData.images[0].path}` : NO_IMAGE_SRC;
 	return (
-		<div className="cart__page__cart__item__mobile">
+		<div
+			className={`cart__page__cart__item cart__page__cart__item__mobile ${!productData.available ? 'cart__page__cart__item__not__available' : ''}`}
+		>
 			<div className="cart__item__main">
 				<div className="cart__item__image__wrapper">
 					<Image
@@ -120,14 +130,20 @@ const CartItemElementMobile = observer(({ productData, cartItem }: { productData
 				<div className="cart__item__main__info">
 					<Link href={`/product/${productData.slug}`} className="cart__item__link">
 						<p className="cart__item__link__label">{productData.name}</p>
-						<PriceElement product={productData} quantity={cartItem.count} />
+						<PriceElement product={productData} quantity={productData.quanity ?? 0} />
 					</Link>
 
-					<div className="cart__item__options">
-						<ComparisonButton productData={productData} withLabel={true} useBaseStyle={true} />
-						<CartDeleteItemButton productData={productData} />
-					</div>
-					<CartQuanityElement productData={productData} />
+					{productData.available ? (
+						<>
+							<div className="cart__item__options">
+								<ComparisonButton productData={productData} withLabel={true} useBaseStyle={true} />
+								<CartDeleteItemButton productData={productData} />
+							</div>
+							<CartQuanityElement productData={productData} />
+						</>
+					) : (
+						<p className="cart__item__not__available">Товара нет в наличии</p>
+					)}
 				</div>
 			</div>
 		</div>
@@ -135,7 +151,6 @@ const CartItemElementMobile = observer(({ productData, cartItem }: { productData
 });
 
 const CartItemsElement = observer(({ cartProducts }: { cartProducts: MappedProductsResponseCart }) => {
-	const productCart = useUserProductCart();
 	const isMobile = useMobile(768);
 
 	return (
@@ -144,7 +159,7 @@ const CartItemsElement = observer(({ cartProducts }: { cartProducts: MappedProdu
 				<div className="cart__page__block__header__wrapper">
 					<h2 className="cart__page__block__header">Содержимое</h2>
 					<p className="cart__page__block__header__label">
-						{productCart.items.length} {declOfNum(productCart.items.length, ['позиция', 'позиции', 'позиций'])}
+						{cartProducts.data.length} {declOfNum(cartProducts.data.length, ['позиция', 'позиции', 'позиций'])}
 					</p>
 				</div>
 				<CartClearButton />
@@ -152,15 +167,11 @@ const CartItemsElement = observer(({ cartProducts }: { cartProducts: MappedProdu
 			<StandardBreakLine />
 			<div className="cart__page__items">
 				{cartProducts.data.map((productData) => {
-					const cartItem = productCart.get(productData.article);
-					if (cartItem) {
-						return isMobile ? (
-							<CartItemElementMobile productData={productData} key={`cart__item__${productData.article}`} cartItem={cartItem} />
-						) : (
-							<CartItemElementDesktop productData={productData} key={`cart__item__${productData.article}`} cartItem={cartItem} />
-						);
-					}
-					return null;
+					return isMobile ? (
+						<CartItemElementMobile productData={productData} key={`cart__item__${productData.article}`} />
+					) : (
+						<CartItemElementDesktop productData={productData} key={`cart__item__${productData.article}`} />
+					);
 				})}
 			</div>
 		</div>

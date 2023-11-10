@@ -18,7 +18,7 @@ import { getData } from '../../../appRouteUtils';
 import { Capitalize } from '../../../utils/Capitalize';
 
 export async function generateMetadata({ params }: ServerSideURLProps): Promise<Metadata> {
-	const product: ProductPageResponse = await getData(`${PROXY_URL}products/slug/${params.slug}`, { cache: 'force-cache' });
+	const product: ProductPageResponse = await getData(`${PROXY_URL}products/slug/${params.slug}`, { next: { revalidate: 43200 } });
 	const is404 = product?.status.status === 404;
 	const productName = is404 ? '' : Capitalize(product.data.name);
 
