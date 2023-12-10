@@ -87,9 +87,7 @@ function Catalog({ initData }: { initData: initData }): ReactElement {
 				<ChildCategoriesElement isInner={false} category={initData.filtersData.category} />
 			</CatalogHead>
 			<div className="catalog__body">
-				<div className="catalog__filters__wrapper">
-					<FacetFilter initialFilters={initData?.filtersData} />
-				</div>
+				<FacetFilter initialFilters={initData?.filtersData} />
 				<CatalogContainer CatalogData={initData.productsData} filtersData={initData.filtersData} />
 			</div>
 

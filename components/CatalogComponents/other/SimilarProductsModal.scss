@@ -14,9 +14,13 @@
 	.similar_product__modal {
 		max-height: 100%;
 		max-width: 1000px;
+		.modal__head {
+			justify-content: space-between;
+		}
 		.similar_product__modal__content {
 			max-height: 100%;
 			overflow: auto;
+			padding: 10px;
 		}
 		.similar_product__not__found {
 			font-family: var(--museo_cyrl);

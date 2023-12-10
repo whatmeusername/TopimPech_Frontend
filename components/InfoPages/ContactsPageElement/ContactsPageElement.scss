@@ -22,8 +22,7 @@
 		gap: 10px;
 		padding: 15px;
 		border-radius: 8px;
-		background: var(--primary-cards-background);
-		border: 2px solid var(--primary-cards-border);
+		box-shadow: 0 0 16px var(--box-shadow-color);
 		.contacts__page__info__item__icon__wrapper {
 			.contacts__data__icon {
 				width: 60px;
@@ -35,19 +34,28 @@
 			height: 100%;
 			padding: 0 10px;
 			.contacts__page__info__item__header {
-				font-size: var(--fontX);
-				color: var(--primary-color);
-				font-weight: 300;
+				font-size: var(--headerS);
+				color: var(--standard-color);
+				font-weight: 400;
 				font-family: var(--museo_cyrl);
 				margin: 0 0 10px;
 			}
 			.contacts__page__info__item__text {
 				font-size: var(--fontL);
 				color: var(--standard-color);
-				font-weight: 300;
+				font-weight: 400;
 				font-family: var(--museo_cyrl);
 				margin: 0;
+				letter-spacing: 0.5px;
+				line-height: calc(var(--fontL) + 6px);
 			}
+		}
+	}
+
+	.shop__map__widget__wrapper {
+		margin-bottom: 40px;
+		.shop__map__widget__label {
+			font-size: var(--fontL);
 		}
 	}
 

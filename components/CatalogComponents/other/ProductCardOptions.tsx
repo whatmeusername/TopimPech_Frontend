@@ -59,19 +59,19 @@ function SimilarProductsModal({
 	);
 }
 
-function SimilarProductsElement({ article }: { article: string }): ReactElement {
+function SimilarProductsElement({ productSlug }: { productSlug: string }): ReactElement {
 	const [toggle, setToggle] = useToggle();
 	const [products, setProducts] = useState<ProductData[]>(null!);
 	const isFetched = useRef<boolean>(false);
 
 	useEffect(() => {
 		if (isFetched.current === false && toggle && products === null) {
-			get(`/api/products/search/similar/${article}`).then((response) => {
+			get(`/api/products/search/similar/${productSlug}`).then((response) => {
 				setProducts(response.data.data);
 				isFetched.current = true;
 			});
 		}
-	}, [article, toggle]);
+	}, [productSlug, toggle]);
 
 	return (
 		<>
@@ -100,7 +100,7 @@ function ProductCardOptions({ productData }: { productData: ProductData }): Reac
 			<div className="product__card__option product__card__options__comparison">
 				<ComparisonButton productData={productData} />
 			</div>
-			<SimilarProductsElement article={productData.article} />
+			<SimilarProductsElement productSlug={productData.slug} />
 		</div>
 	);
 }

@@ -1,3 +1,3 @@
-const NO_IMAGE_SRC = '/api/images/other/noimage.png';
+const NO_IMAGE_SRC = '/other/noimage.png';
 
 export { NO_IMAGE_SRC };

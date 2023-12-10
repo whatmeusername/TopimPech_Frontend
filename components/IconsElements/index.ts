@@ -32,6 +32,12 @@ import InsuranceIcon from '../../public/OptionsIcons/Insurance.svg';
 
 import SiteLogo from '../../public/logo/SiteLogo.svg';
 
+import CreditCardIcon from '../../public/HomePageIcons/CreditCard.svg';
+import PhoneNotFilledIcon from '../../public/HomePageIcons/PhoneNotFilled.svg';
+import PencilIcon from '../../public/HomePageIcons/Pencil.svg';
+import Number7Icon from '../../public/HomePageIcons/Number7.svg';
+import Number15Icon from '../../public/HomePageIcons/Number15.svg';
+
 export {
 	MenuIcon,
 	SimilarIcon,
@@ -60,4 +66,9 @@ export {
 	SettingsIcon,
 	PriceTagIcon,
 	InsuranceIcon,
+	CreditCardIcon,
+	PhoneNotFilledIcon,
+	PencilIcon,
+	Number7Icon,
+	Number15Icon,
 };

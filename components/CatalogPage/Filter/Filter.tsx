@@ -17,7 +17,7 @@ import { centerModalControl } from '../../../store';
 import type { FilterParameters, SearchParamsFilterQueryResult } from './interface';
 import CheckboxFilter from './CheckboxFilter/CheckboxFilter';
 import { AllFilterComponent, ClearFiltersButton } from './AllFilterComponent/AllFilterComponent';
-import { ReactElement } from 'react';
+import { ReactElement, useEffect, useRef } from 'react';
 import { useMobile } from '../../../context/MobileContext/MobileContext';
 import { FilterIcon } from '../../IconsElements';
 import { Capitalize } from '../../../utils/Capitalize';
@@ -82,7 +82,41 @@ const AllFiltersOpenButton = ({ shortLabel, filterCount }: { shortLabel?: boolea
 	);
 };
 
-function FacetFilter({ initialFilters }: { initialFilters: FilterFetchData }): JSX.Element {
+//eslint-disable-next-line
+function StickyScroll({ children }: { children: ReactElement | ReactElement[] }): ReactElement {
+	const stickyUpperPoint = useRef<HTMLSpanElement>(null!);
+	const stickyrBottomPoint = useRef<HTMLSpanElement>(null!);
+	const stickyWrapper = useRef<HTMLDivElement>(null!);
+	const scrollDirection = useRef<1 | 0 | -1>(1);
+
+	useEffect(() => {
+		const scrollEvent = () => {
+			const bottomY = window.scrollY + window.innerHeight;
+			const contentBottom = stickyWrapper.current.offsetHeight + stickyWrapper.current.offsetTop;
+			if (bottomY >= contentBottom && scrollDirection.current !== -1) {
+				scrollDirection.current = -1;
+				const rect = stickyWrapper.current.getBoundingClientRect();
+				stickyWrapper.current.style.top = `${rect.y < 0 ? rect.y : 75}px`;
+				stickyWrapper.current.style.position = 'sticky';
+				window.removeEventListener('scroll', scrollEvent);
+			}
+		};
+		window.addEventListener('scroll', scrollEvent);
+		return () => window.removeEventListener('scroll', scrollEvent);
+	}, []);
+
+	return (
+		<div className="sticky__scroll__element__wrapper">
+			<span className="sticky__scroll__element__upper__point" ref={stickyUpperPoint} />
+			<div className="sticky__scroll__element__content" ref={stickyWrapper}>
+				{children}
+			</div>
+			<span className="sticky__scroll__element__bottom__point" ref={stickyrBottomPoint} />
+		</div>
+	);
+}
+
+function FacetFilter({ initialFilters }: { initialFilters: FilterFetchData }): ReactElement {
 	const router = useRouter();
 
 	const isMobile = useMobile(1024);

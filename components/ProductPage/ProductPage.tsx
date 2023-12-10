@@ -27,6 +27,7 @@ import Link from 'next/link';
 import { ThinBreakLine } from '../Shared/Lines/ThinBreakLine/ThinBreakLine';
 import { observer } from 'mobx-react-lite';
 import { ProductCardTags } from '../CatalogComponents/Cards/general';
+import { PriceHistoryChart } from '../CatalogComponents/PriceHistoryChart/PriceHistoryChart';
 
 interface ProductPageResponse {
 	data: ProductData;
@@ -83,8 +84,10 @@ function ProductPageMainInfoCard({ product }: { product: ProductData }): ReactEl
 
 	return (
 		<div className="product__page__upper">
-			<div className="product__page__card product__page__upper __item product__page__gallery__wrapper">
-				<Gallery items={galleryItems} urlStartsWith={'/api'} ration={3} productName={product.name} />
+			<div className="product__page__gallery__container">
+				<div className="product__page__card product__page__upper__item product__page__gallery__wrapper">
+					<Gallery items={galleryItems} urlStartsWith={'/api'} ration={3} productName={product.name} />
+				</div>
 			</div>
 			<div className=" product__page__card product__page__upper__item product__page__main__info">
 				<div className="product__page__article__wrapper__mobile">
@@ -103,6 +106,7 @@ function ProductPageMainInfoCard({ product }: { product: ProductData }): ReactEl
 					<PriceElement product={product} includeMeta={true} />
 					{product.RelatedProductsTable ? <RelatedProductsElement product={product} /> : null}
 					{product.manufacturer ? <ManufacturerElement ManufacturerData={product.manufacturer} /> : null}
+					{product.priceHistory?.length > 1 ? <PriceHistoryChart product={product} /> : null}
 					<div className="product__page__options__wrapper">
 						<AddToCartButton product={product} isContactMode={true} showAvailability={true} />
 						<div className="product__page__options__lower">
@@ -111,7 +115,7 @@ function ProductPageMainInfoCard({ product }: { product: ProductData }): ReactEl
 						</div>
 					</div>
 					{product.properties && product.properties?.length > 0 ? (
-						<ShortAttributesElement properties={product.properties} take={5} showAllBtn={true} />
+						<ShortAttributesElement properties={product.properties} take={4} showAllBtn={true} />
 					) : null}
 
 					<ThinBreakLine />

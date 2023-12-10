@@ -76,7 +76,7 @@ function ButtonVersionSlider({ children, options = {} }: { children: ReactElemen
 
 	let dragOffset = 0;
 	let rect: DOMRect | null = null;
-	let nextOffset = 0;
+	let nextOffset: number | null = null;
 
 	function setSliderTimeout() {
 		if (options?.auto) {
@@ -137,12 +137,14 @@ function ButtonVersionSlider({ children, options = {} }: { children: ReactElemen
 			return;
 		}
 		const x = (event as TouchEvent)?.touches?.[0].clientX ?? (event as MouseEvent).clientX;
+
 		nextOffset = x - rect.left - dragOffset;
 		contentRef.current.style.left = `${nextOffset}px`;
 	};
 
 	const onDragEnd = () => {
 		removeEvents();
+		if (nextOffset === null) return;
 
 		contentRef.current.style.transition = 'left 0.25s ease';
 

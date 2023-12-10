@@ -150,6 +150,5 @@ export {
 	FULL_DOMAIN,
 	PAGE_SUB_LABEL,
 	META_PAGE_DESCRIPTION_BASE,
-
 };
 export default RootLayout;

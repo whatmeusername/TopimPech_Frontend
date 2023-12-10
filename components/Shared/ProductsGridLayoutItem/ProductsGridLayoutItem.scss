@@ -1,6 +1,5 @@
 .grid__layout__product__item {
-	background-color: var(--primary-cards-background);
-	border: 2px solid var(--primary-cards-border);
+	box-shadow: 0 0 12px var(--box-shadow-color);
 	border-radius: 8px;
 	grid-column-start: span 4;
 	display: flex;

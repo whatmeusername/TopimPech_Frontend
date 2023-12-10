@@ -1,20 +1,27 @@
 .contact__us__wrapper {
-	background-image: url(../../../public/other/PechBackground05.png);
+	background-image: url('/backgrounds/about.jpg');
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center 60%;
+
 	width: 100%;
-	background-size: 60%;
-	border-radius: 4px;
-	border: 2px solid var(--grey-color);
+	border-radius: 10px;
+
 	display: flex;
 	flex-direction: row;
 	align-items: center;
-	gap: 10px;
 	justify-content: space-between;
+
+	gap: 10px;
 	padding: 10px 40px;
 	margin-top: 30px;
+
+	box-shadow: 0 0 16px var(--box-shadow-color);
+
 	.contact__us__icon__wrapper {
 		position: relative;
 		.contact__us__icon {
-			fill: var(--orange-color);
+			fill: var(--white-color);
 			width: 150px;
 			height: 150px;
 		}
@@ -23,7 +30,7 @@
 			left: 10px;
 			width: 100px;
 			height: 100px;
-			fill: var(--orange-color);
+			fill: var(--white-color);
 		}
 	}
 	.contact__us__content {
@@ -35,7 +42,7 @@
 		.contact__us__content__info {
 			display: flex;
 			flex-direction: column;
-			width: 400px;
+			max-width: 450px;
 			.contact__us__content__header {
 				font-size: var(--headerS);
 				font-weight: 700;
@@ -43,6 +50,7 @@
 				color: var(--orange-color);
 			}
 			.contact__us__description {
+				color: var(--white-color);
 				margin: 0;
 			}
 		}
@@ -64,7 +72,7 @@
 				.contact__us__phones__item {
 					margin: 0;
 					font-size: var(--fontX);
-					color: var(--standard-color);
+					color: var(--white-color);
 				}
 			}
 		}

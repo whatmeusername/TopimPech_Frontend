@@ -1,0 +1,56 @@
+.product__page__product__price__history__chart {
+	display: flex;
+	flex-direction: column;
+	font-family: var(--museo_cyrl);
+	margin: 20px 0;
+	max-width: 100%;
+	.product__page__product__price__history__chart__head {
+		.product__page__product__price__history__chart__history_header {
+			color: var(--primary-color);
+			margin: 0;
+		}
+		.product__page__product__price__history__chart__history_price {
+			color: var(--standard-color);
+			font-weight: 300;
+			font-size: var(--fontM);
+			margin: 0;
+		}
+	}
+	.product__page__product__price__history__chart__dates {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		.product__page__product__price__history__chart__date {
+			margin: 0;
+			color: var(--standard-color);
+		}
+	}
+}
+
+.product__page__product__price__history__chart__skeleton {
+	height: 210px;
+	border-radius: 8px;
+	margin: 20px 0;
+	background: rgb(240, 240, 240);
+	overflow: hidden;
+	position: relative;
+	&:after {
+		content: '';
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		background-image: linear-gradient(90deg, rgba(240, 240, 240, 1) 35%, rgba(230, 230, 230, 0.25) 100%);
+		background-size: 450px 100%;
+		background-repeat: no-repeat;
+		animation: shimer 1s infinite ease-in-out;
+	}
+}
+
+@keyframes shimer {
+	0% {
+		background-position: -450px 0;
+	}
+	100% {
+		background-position: 450px 0;
+	}
+}

@@ -48,6 +48,11 @@ interface ProductDataShort {
 	available: boolean;
 }
 
+interface ProductPriceHistory {
+	date: string;
+	price: number;
+}
+
 interface ProductData {
 	id: number;
 	name: string;
@@ -65,6 +70,7 @@ interface ProductData {
 	suitableProducts: ProductData[];
 	available: boolean;
 	quanity?: number;
+	priceHistory: ProductPriceHistory[];
 	RelatedProductsTable: {
 		key: string;
 		relatedProducts: {
@@ -79,4 +85,4 @@ interface ProductData {
 	ProductTags: productTags[];
 }
 
-export type { MappedProductsResponse, ProductData, Property, FeatureKey, ProductImage, ProductBaseData, ProductDataShort };
+export type { MappedProductsResponse, ProductData, Property, FeatureKey, ProductImage, ProductBaseData, ProductDataShort, ProductPriceHistory };
