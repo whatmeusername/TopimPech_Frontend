@@ -41,6 +41,11 @@ function OrderBlock(): ReactElement {
 			name: 'Монтаж и установка',
 		},
 		{
+			link: '/info/manufacturer',
+			slug: 'manufacturer',
+			name: 'Производители',
+		},
+		{
 			link: '/info/contacts',
 			slug: 'contacts',
 			name: 'Контакты',

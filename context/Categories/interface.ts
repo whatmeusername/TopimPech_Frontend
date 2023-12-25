@@ -1,4 +1,5 @@
-import { ProductImage } from '../../components/CatalogComponents/Cards/interface';
+import { BaseImage } from '../../components/CatalogComponents/Cards/interface';
+import { ManufacturerData } from '../../components/HomePageElement/interface';
 
 interface CategoryData {
 	name: string;
@@ -7,7 +8,8 @@ interface CategoryData {
 	href?: string;
 	parentCategory?: CategoryData;
 	productCount: number;
-	image: ProductImage;
+	image: BaseImage;
+	manufacturers: ManufacturerData[];
 }
 
 export type { CategoryData };

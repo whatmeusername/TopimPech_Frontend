@@ -72,6 +72,18 @@
 	}
 }
 
+.container__child__categories__wrapper {
+	.container__child__categories__header {
+		font-family: var(--museo_cyrl);
+		color: var(--primary-color);
+		font-weight: 300;
+		font-size: var(--headerS);
+	}
+	@media (max-width: 728px) {
+		text-align: center;
+	}
+}
+
 .block__child__categories__wrapper {
 	margin: 20px 0;
 	.block__child__categories__content {

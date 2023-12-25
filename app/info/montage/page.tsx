@@ -1,9 +1,12 @@
 import { Metadata } from 'next';
-import { FULL_DOMAIN, META_PAGE_DESCRIPTION_BASE, OPENGRAPH_BASE } from '../../layout';
+import { FULL_DOMAIN, META_PAGE_DESCRIPTION_BASE, OPENGRAPH_BASE, PROXY_URL } from '../../layout';
 import { MontagePageElemenent } from '../../../components/InfoPages/MontagePageElement/MontagePageElement';
+import { getData } from '../../../appRouteUtils';
+import { SiteInfoData } from '../../../components/HomePageElement/interface';
 
-function MontagePage() {
-	return <MontagePageElemenent />;
+async function MontagePage() {
+	const SiteInfoData: SiteInfoData = await getData(`${PROXY_URL}siteinfo/main/`, { next: { revalidate: 43200 } });
+	return <MontagePageElemenent OurWorks={SiteInfoData.OurWorks} />;
 }
 
 export async function generateMetadata(): Promise<Metadata> {

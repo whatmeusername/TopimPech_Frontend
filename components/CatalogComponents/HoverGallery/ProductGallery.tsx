@@ -1,7 +1,7 @@
 import { ReactElement, useRef, useState } from 'react';
 
 import './ProductCardGallery.scss';
-import { ProductImage } from '../Cards/interface';
+import { BaseImage } from '../Cards/interface';
 
 import Image from 'next/image';
 import { useMobile } from '../../../context/MobileContext/MobileContext';
@@ -13,13 +13,13 @@ const ProductImageGallery = ({
 	alt,
 	size,
 }: {
-	images: ProductImage[];
+	images: BaseImage[];
 	urlStartsWith?: string;
 	alt?: string;
 	size?: number;
 }): ReactElement | null => {
 	if (!images) return null;
-	const refImages = useRef<ProductImage[]>(images);
+	const refImages = useRef<BaseImage[]>(images);
 	const [selectedImage, setSelectedImage] = useState<number>(0);
 
 	const isMobile = useMobile(768);
@@ -62,13 +62,13 @@ const ProductImageGallery = ({
 				<>
 					{!isMobile ? (
 						<div className="gallery__image__change_zones__wrapper" onMouseLeave={() => setSelectedImage(0)}>
-							{refImages.current.map((zone: ProductImage, index: number) => {
+							{refImages.current.map((zone: BaseImage, index: number) => {
 								return <span className="gallery__image__change_zone" onMouseEnter={() => setSelectedImage(index)} key={'image-zone-' + zone.name} />;
 							})}
 						</div>
 					) : null}
 					<div className="gallery__images__dots">
-						{refImages.current.map((dot: ProductImage, index: number) => {
+						{refImages.current.map((dot: BaseImage, index: number) => {
 							return (
 								<div
 									className={`image__dot ${selectedImage === index ? 'image__dot__active' : ''}`}

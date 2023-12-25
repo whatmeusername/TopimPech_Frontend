@@ -81,7 +81,7 @@ function ButtonVersionSlider({ children, options = {} }: { children: ReactElemen
 	function setSliderTimeout() {
 		if (options?.auto) {
 			slideTimer.current = setTimeout(() => {
-				SlideToBySide(SlideDirection.RIGHT);
+				SlideToBySide(SlideDirection.RIGHT, itemsPerSlide.current);
 			}, options.auto.timeMS);
 		}
 	}
@@ -206,10 +206,11 @@ function ButtonVersionSlider({ children, options = {} }: { children: ReactElemen
 		const itemsToSlide = to ? to : 1;
 
 		if (side === SlideDirection.RIGHT) {
-			const last = options?.returnToOtherSide ? 0 : itemsCount;
-			const lastDot = options?.returnToOtherSide ? 0 : slidesTotal.current;
+			const last = options?.returnToOtherSide && currentSlide.current === slidesTotal.current ? 0 : itemsCount;
+			const lastDot = options?.returnToOtherSide && currentSlide.current === slidesTotal.current ? 0 : slidesTotal.current;
 
 			// GETTING CURRENT SLIDE ITEM
+
 			setCurrent((c) => (itemsCount >= c + itemsToSlide ? c + itemsToSlide : last));
 
 			// GETTING CURRENT SLIDE
@@ -217,8 +218,8 @@ function ButtonVersionSlider({ children, options = {} }: { children: ReactElemen
 			setActiveDot(currentSlide.current + 1 <= slidesTotal.current ? currentSlide.current + 1 : lastDot);
 			currentSlide.current = nextSlide;
 		} else if (side === SlideDirection.LEFT) {
-			const first = options?.returnToOtherSide ? itemsCount : 0;
-			const firstDot = options?.returnToOtherSide ? slidesTotal.current : 0;
+			const first = options?.returnToOtherSide && currentSlide.current === 0 ? itemsCount : 0;
+			const firstDot = options?.returnToOtherSide && currentSlide.current === 0 ? slidesTotal.current : 0;
 
 			// GETTING CURRENT SLIDE ITEM
 			setCurrent((c) => (c - itemsToSlide >= 0 ? c - itemsToSlide : first));

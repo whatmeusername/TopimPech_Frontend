@@ -46,10 +46,10 @@ class Categories {
 		};
 
 		for (let i = 0; i < this.categories.length; i++) {
-			if (this.categories[i].slug === item) return this.categories[i];
+			if (this.categories[i].slug === item) return JSON.parse(JSON.stringify(this.categories[i]));
 
 			const result = SearchChild(this.categories[i]);
-			if (result) return result;
+			if (result) return JSON.parse(JSON.stringify(result));
 		}
 	}
 }

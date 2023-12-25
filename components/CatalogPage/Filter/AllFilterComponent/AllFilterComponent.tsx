@@ -82,7 +82,7 @@ const AllFilterComponent = ({
 	const fetchData = (searchParams: URLSearchParams) => {
 		axios({
 			method: 'GET',
-			url: SearchParamsBuilder(fetchURL, searchParams, 'search', 'filter')[0],
+			url: SearchParamsBuilder(fetchURL, searchParams, ['search', 'filter'])[0],
 		}).then((response) => {
 			setFilterData(response.data);
 		});

@@ -7,6 +7,8 @@ import Link from 'next/link';
 import { useBreadcrumbContext } from '../../../context/Breadcrumb';
 
 import { Capitalize } from '../../../utils/Capitalize';
+import { Manufacturer } from '../../CatalogComponents/Cards/interface';
+import { GetCategoryName } from '../../../utils/GetCategoryName';
 
 interface BreadcrumbSettings {
 	includeHomePage?: boolean;
@@ -18,16 +20,37 @@ interface BreadcrumbSettings {
 	};
 }
 
-export default function BreadcrumbByURL({ category, settings }: { category: string; settings?: BreadcrumbSettings }): ReactElement | null {
+export default function BreadcrumbByURL({
+	category,
+	settings,
+	manufacturer,
+}: {
+	category: string;
+	settings?: BreadcrumbSettings;
+	manufacturer?: Manufacturer;
+}): ReactElement | null {
 	const breacrumbData = useBreadcrumbContext();
 
 	const currentBreadcrumbItem = breacrumbData?.getEndWith(category);
 	if (!currentBreadcrumbItem) return null;
 
+	if (currentBreadcrumbItem && manufacturer) {
+		let prev: CategoryDataOmit | null = null;
+		const newChilds: CategoryDataOmit[] = [];
+		for (let i = 0; i < currentBreadcrumbItem.data.length; i++) {
+			currentBreadcrumbItem.data[i].name = GetCategoryName({ main: currentBreadcrumbItem.data[i].name, manufacturer: manufacturer.name });
+			if (!prev || currentBreadcrumbItem.data[i].name !== prev.name) {
+				newChilds.push(currentBreadcrumbItem.data[i]);
+			}
+			prev = currentBreadcrumbItem.data[i];
+		}
+		currentBreadcrumbItem.data = newChilds;
+	}
+
 	if (settings?.includeHomePage) {
 		currentBreadcrumbItem.start = 'glavnay';
 		currentBreadcrumbItem.contains.unshift('glavnay');
-		currentBreadcrumbItem.data.unshift({ name: 'главная', slug: 'glavnay', href: '/', productCount: 0 });
+		currentBreadcrumbItem.data.unshift({ name: 'главная', slug: 'glavnay', href: '/', productCount: 0, manufacturers: [] });
 	}
 
 	if (settings?.includeAtEnd) {
@@ -36,11 +59,12 @@ export default function BreadcrumbByURL({ category, settings }: { category: stri
 			slug: settings.includeAtEnd.slug,
 			href: settings.includeAtEnd.href ?? '/',
 			productCount: 0,
+			manufacturers: [],
 		});
 	}
 
-	const BreadcrumbItem = ({ data, position }: { data: CategoryDataOmit; position: number }) => {
-		const url = data?.href ?? `/catalog/${data.slug}`;
+	const CatalogBreadcrumbItem = ({ data, position }: { data: CategoryDataOmit; position: number; manufacturer?: Manufacturer }) => {
+		const url = data?.href ?? `/catalog/${data.slug}${manufacturer ? `/${manufacturer.slug}` : ''}`;
 		return (
 			<li
 				className="breadcrumb__item__wrapper breadcrumb__item__link__wrapper"
@@ -66,7 +90,7 @@ export default function BreadcrumbByURL({ category, settings }: { category: stri
 				if (BreadcrumbLength !== index) {
 					return (
 						<ReactFragment key={`breadcrumb__item-${breadcrumbItem.slug}`}>
-							<BreadcrumbItem data={breadcrumbItem} position={index + 1} />
+							<CatalogBreadcrumbItem data={breadcrumbItem} position={index + 1} manufacturer={manufacturer} />
 							<span className="breadcrumb__slash">/</span>
 						</ReactFragment>
 					);

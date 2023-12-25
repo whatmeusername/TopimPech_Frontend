@@ -86,11 +86,13 @@
 		}
 	}
 
-	.slider__item__wrapper {
-		min-width: 230px;
-		max-width: 230px;
-		display: flex;
-		justify-content: center;
-		align-items: center;
+	.child__categories__wrapper {
+		.slider__item__wrapper {
+			min-width: 230px;
+			max-width: 230px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
 	}
 }

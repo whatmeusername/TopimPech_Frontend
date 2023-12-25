@@ -1,0 +1,43 @@
+.product__page__manufacturer {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 8px;
+	cursor: pointer;
+	opacity: 1;
+	transition: opacity 0.15s ease;
+	.product__page__manufacturer__image__wrapper {
+		width: 45px;
+		height: 45px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 2px;
+		border-radius: 8px;
+		box-shadow: 0 0 16px var(--box-shadow-color);
+		background-color: var(--white-color);
+		.product__page__manufacturer__image {
+			max-width: 100%;
+			max-height: 100%;
+			border-radius: 8px;
+		}
+	}
+	.product__page__manufacturer__label {
+		color: var(--standard-color);
+		font-size: var(--fontL);
+		font-family: var(--museo_cyrl);
+		font-weight: 400;
+		letter-spacing: 0.5px;
+		margin: 0;
+	}
+	.product__page__manufacturer__name {
+		color: var(--standard-color);
+		font-size: var(--fontL);
+		font-family: var(--museo_cyrl);
+		font-weight: 400;
+		letter-spacing: 0.5px;
+	}
+	&:hover {
+		opacity: 0.8;
+	}
+}

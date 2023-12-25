@@ -1,12 +1,13 @@
 import { useState, useRef, useEffect } from 'react';
-import { ProductImage } from '../../CatalogComponents/Cards/interface';
+
 import { AngleArrowIcon } from '../../IconsElements';
 import { NO_IMAGE_SRC } from '../../const';
 import './ArrowGallery.scss';
 
 import Image from 'next/image';
+import { BaseImage } from '../../CatalogComponents/Cards/interface';
 
-function ArrowGallery({ items, urlStartsWith }: { items: ProductImage[]; urlStartsWith?: string }) {
+function ArrowGallery({ items, urlStartsWith }: { items: BaseImage[]; urlStartsWith?: string }) {
 	const [selectedItem, setSelectedItem] = useState<number>(0);
 	const sliderItemWidth = useRef<number>(0);
 	const sliderItemsRef = useRef<HTMLDivElement>(null!);

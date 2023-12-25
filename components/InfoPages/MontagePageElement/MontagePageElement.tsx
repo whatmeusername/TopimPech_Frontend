@@ -1,6 +1,7 @@
 'use client';
 
 import { PrimaryPageHeader } from '../../Shared/PrimaryPageHeader/PrimaryPageHeader';
+import type { OurWorksData } from '../../HomePageElement/interface';
 import './MontagePageElement.scss';
 
 const Steps = [
@@ -22,9 +23,7 @@ const Steps = [
 	},
 ];
 
-function MontagePageElemenent() {
-	const images = Array.from({ length: 16 }, (_, i) => i + 1);
-
+function MontagePageElemenent({ OurWorks }: { OurWorks: OurWorksData[] }) {
 	const MainText =
 		'Мы считаем, что бы банные печи и камины прослужили как можно больше, а также для получения гарантированной безопасности и качества, необходимо обращаться к профессионалам. Поэтому наш интернет-магазин предоставляет услуги замера и монтажа отопительного оборудования, мы также рекомендуем проверенные специализированные монтажные бригады, обладающие всеми необходимыми документами потверждающии их надежность, а также большим опытом работы в области монтажа отопительных систем. ';
 
@@ -66,10 +65,10 @@ function MontagePageElemenent() {
 						<span className="montage__page__line" />
 					</div>
 					<div className="montage__page__examples__content">
-						{images.map((img) => {
+						{OurWorks.map((img) => {
 							return (
-								<div className="montage__page__item__wrapper" key={`montage__page__work__${img}`}>
-									<img src={`/api/images/works/work_${img}.jpeg`} className="montage__page__examples__item" />
+								<div className="montage__page__item__wrapper" key={`montage__page__work__${img.name}`}>
+									<img src={`/api${img.path}`} className="montage__page__examples__item" />
 								</div>
 							);
 						})}

@@ -1,7 +1,9 @@
+import { fetchMainInfo } from '../appRouteUtils';
 import { HomePageElement } from '../components/HomePageElement/HomePageElement';
 
-function MainPage() {
-	return <HomePageElement />;
+async function MainPage() {
+	const SiteInfoData = await fetchMainInfo();
+	return <HomePageElement SiteInfoData={SiteInfoData} />;
 }
 
 export default MainPage;

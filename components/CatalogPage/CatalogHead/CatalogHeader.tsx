@@ -1,37 +1,28 @@
-import { ReactElement, useMemo } from 'react';
+import { ReactElement } from 'react';
 import { declOfProduct } from '../../../utils';
 import { PaginatorData } from '../../CatalogContainer/Paginator/interface';
-import { useBreadcrumbContext } from '../../../context/Breadcrumb';
 
 import { declOfNum } from '../../../utils/decOfNum';
-import { GetCategoryNameWithAdditional } from '../../../utils/GetCategoryNameWithAdditional';
 
 function CatalogHeader({
-	category,
+	content,
 	paginator,
-	categoryStringAdditions,
+	isCounterEnabled,
 }: {
-	category: string;
+	content: string;
 	paginator: PaginatorData;
-	categoryStringAdditions: { prefix: string; postfix: string };
+	isCounterEnabled: boolean;
 }): ReactElement {
-	const breacrumbData = useBreadcrumbContext();
-
-	const header = useMemo(() => {
-		const currentBreadcrumbItem = breacrumbData?.getEndWith(category);
-		if (currentBreadcrumbItem) {
-			return currentBreadcrumbItem.data.find((data) => data.slug === category)?.name ?? '';
-		}
-	}, [breacrumbData, category]);
-
 	return (
 		<div className="catalog__header__wrapper">
 			<h1 className="catalog__header" itemProp="name">
-				{GetCategoryNameWithAdditional(header, categoryStringAdditions, true)}
+				{content}
 			</h1>
-			<span className="catalog__header__count">
-				{paginator.count} {declOfProduct(paginator.count)}
-			</span>
+			{isCounterEnabled ? (
+				<span className="catalog__header__count">
+					{paginator.count} {declOfProduct(paginator.count)}
+				</span>
+			) : null}
 		</div>
 	);
 }

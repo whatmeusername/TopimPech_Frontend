@@ -1,0 +1,25 @@
+.manufacturer__page__all__products__header__wrapper {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 30px;
+	.manufacturer__page__all__products__header {
+		font-size: var(--headerS);
+		font-weight: 300;
+		font-family: var(--museo_cyrl);
+		color: var(--primary-color);
+		margin: 20px 0 0;
+	}
+	.manufacturer__page__all__products__counter {
+		color: var(--standard-color);
+		font-family: var(--museo_cyrl);
+		font-size: var(--fontL);
+		font-weight: 400;
+		letter-spacing: 0.5px;
+		margin: 0;
+	}
+	@media (max-width: 728px) {
+		.manufacturer__page__all__products__counter {
+			text-align: center;
+		}
+	}
+}

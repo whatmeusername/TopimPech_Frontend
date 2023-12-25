@@ -1,11 +1,31 @@
-import { ProductBaseData } from '../../CatalogComponents/Cards/interface';
+import { Manufacturer } from '../../CatalogComponents/Cards/interface';
+import Image from 'next/image';
+import { NO_IMAGE_SRC } from '../../const';
+import { Capitalize } from '../../../utils/Capitalize';
+import Link from 'next/link';
+import './ManufacturerElement.scss';
 
-const ManufacturerElement = ({ ManufacturerData }: { ManufacturerData: ProductBaseData }) => {
+const ManufacturerElement = ({ ManufacturerData }: { ManufacturerData: Manufacturer }) => {
 	return (
-		<div className="product__page__manufacturer">
-			<span className="product__page__manufacturer__label">Производитель:</span>
-			<span className="product__page__manufacturer__name">{ManufacturerData.name}</span>
-		</div>
+		<Link className="product__page__manufacturer" href={`/catalog/manufacturer/${ManufacturerData.slug}/`}>
+			{ManufacturerData.image ? (
+				<div className="product__page__manufacturer__image__wrapper">
+					<Image
+						className="product__page__manufacturer__image"
+						onError={(e) => ((e.target as HTMLImageElement).src = NO_IMAGE_SRC)}
+						src={`/api${ManufacturerData.image.path}`}
+						alt={ManufacturerData.name}
+						width={150}
+						height={150}
+						style={{ objectFit: 'contain', maxInlineSize: '100%', height: 'auto' }}
+					/>
+				</div>
+			) : (
+				<p className="product__page__manufacturer__label">Производитель:</p>
+			)}
+
+			<p className="product__page__manufacturer__name">{Capitalize(ManufacturerData.name)}</p>
+		</Link>
 	);
 };
 

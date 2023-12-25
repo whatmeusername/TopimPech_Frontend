@@ -2,11 +2,11 @@ import Catalog from '../../../components/CatalogPage/catalog/index';
 import { Metadata } from 'next';
 
 import { META_PAGE_DESCRIPTION, ServerSideURLProps } from '../../layout';
-import { getSearchCatalogData } from '../../../appRouteUtils';
+import { getCategoryCatalogData } from '../../../appRouteUtils';
 
 async function CatalogPage(context: ServerSideURLProps) {
-	const { initData } = await getSearchCatalogData(context);
-	return <Catalog initData={initData} />;
+	const CatalogData = await getCategoryCatalogData(context);
+	return <Catalog CatalogData={CatalogData} />;
 }
 
 export async function generateMetadata(): Promise<Metadata> {

@@ -1,0 +1,65 @@
+.manufacturer__page__data {
+	.manufacturer__page__data__content {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+		flex-wrap: wrap;
+		gap: 15px;
+		padding: 20px 10px;
+		.manufacturer__page__data__item {
+			height: 100px;
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-between;
+			background-color: var(--white-color);
+			cursor: pointer;
+			box-shadow: 0 0 16px var(--box-shadow-color);
+			border-radius: 8px;
+			padding: 0 20px;
+			gap: 20px;
+			width: 450px;
+			min-width: 320px;
+			&.manufacturer__page__data__item__no__image {
+				justify-content: center;
+				.manufacturer__page__data__item__label {
+					font-size: var(--fontX);
+				}
+				.manufacturer__page__data__item__content {
+					text-align: center;
+				}
+			}
+			.manufacturer__page__data__item__image__wrapper {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				width: 100px;
+				height: 100px;
+				.manufacturer__page__data__item__image {
+					border-radius: 8px;
+				}
+			}
+		}
+		.manufacturer__page__data__item__content {
+			display: flex;
+			flex-direction: column;
+			text-align: right;
+			gap: 5px;
+			.manufacturer__page__data__item__label {
+				color: var(--primary-color);
+				font-family: var(--museo_cyrl);
+				font-size: var(--fontL);
+				letter-spacing: 1px;
+				margin: 0;
+			}
+			.manufacturer__page__data__item__count {
+				color: var(--gray-color);
+				font-family: var(--museo_cyrl);
+				font-size: var(--fontM);
+				letter-spacing: 1px;
+				margin: 0;
+			}
+		}
+	}
+}

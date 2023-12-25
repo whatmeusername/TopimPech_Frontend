@@ -58,11 +58,16 @@ const BuildBreadcrumbData = (categories: CategoryData[]) => {
 	let data: CategoryDataOmit[];
 
 	const BuildPath = (category: CategoryData) => {
-		const categpryWithoutChild = { name: category.name, slug: category.slug, productCount: category.productCount };
+		const categoryWithoutChild = {
+			name: category.name,
+			slug: category.slug,
+			productCount: category.productCount,
+			manufacturers: category.manufacturers,
+		};
 
 		if (category.child.length > 0) {
-			contains.push(categpryWithoutChild.slug);
-			data.push(categpryWithoutChild);
+			contains.push(categoryWithoutChild.slug);
+			data.push(categoryWithoutChild);
 
 			category.child.forEach((child) => {
 				BuildPath(child);
@@ -71,9 +76,9 @@ const BuildBreadcrumbData = (categories: CategoryData[]) => {
 			contains = contains.slice(0, contains.length - 1);
 			data = data.slice(0, data.length - 1);
 		} else {
-			contains.push(categpryWithoutChild.slug);
-			data.push(categpryWithoutChild);
-			end = categpryWithoutChild.slug;
+			contains.push(categoryWithoutChild.slug);
+			data.push(categoryWithoutChild);
+			end = categoryWithoutChild.slug;
 
 			BreadcrumbData.push({
 				start: start,
@@ -90,7 +95,12 @@ const BuildBreadcrumbData = (categories: CategoryData[]) => {
 
 	for (let i = 0; i < categories?.length; i++) {
 		parentCategory = categories[i];
-		const parentWithoutChild = { name: parentCategory.name, slug: parentCategory.slug, productCount: parentCategory.productCount };
+		const parentWithoutChild = {
+			name: parentCategory.name,
+			slug: parentCategory.slug,
+			productCount: parentCategory.productCount,
+			manufacturers: parentCategory.manufacturers,
+		};
 		start = parentCategory.slug;
 		contains = [start];
 

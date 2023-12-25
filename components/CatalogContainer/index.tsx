@@ -2,7 +2,6 @@
 
 import { ReactElement, useRef } from 'react';
 
-import { ProductAPIResponse } from '../CatalogPage/catalog/interface';
 import Paginator from './Paginator/Paginator';
 import { useCatalogView } from '../../hooks/useCatalogView';
 import { ProductCatalogHeader } from './ProductCatalogHeader/ProductCatalogHeader';
@@ -13,12 +12,14 @@ import { ChildCategoriesElement } from './ChildCategoriesElement/ChildCategories
 import { StandardBreakLine } from '../Shared/Lines/StandardBreakLine/StandardBreakLine';
 import { CatalogContainerViewedItems } from './CatalogContainerViewedItems/CatalogContainerViewedItems';
 
-import { AllFiltersOpenButton, FilterFetchData } from '../CatalogPage/Filter/Filter';
+import { AllFiltersOpenButton } from '../CatalogPage/Filter/Filter';
 import { CatalogContainerFooter } from './CatalogContainerFooter/CatalogContainerFooter';
 import { ContactUs } from '../Shared/ContactUs/ContactUs';
 import { AppliedFiltersElement } from '../CatalogPage/Filter/AppliedFiltersElement/AppliedFiltersElement';
+import { Manufacturer } from '../CatalogComponents/Cards/interface';
+import { CatalogData } from '../CatalogPage/catalog/interface';
 
-const CatalogContainer = ({ CatalogData, filtersData }: { CatalogData: ProductAPIResponse; filtersData: FilterFetchData }): ReactElement => {
+const CatalogContainer = ({ CatalogData }: { CatalogData: CatalogData }): ReactElement => {
 	const [catalogView, setCatalogView] = useCatalogView();
 
 	const isLoaded = useRef<number>(0);
@@ -33,18 +34,26 @@ const CatalogContainer = ({ CatalogData, filtersData }: { CatalogData: ProductAP
 
 	return (
 		<div className="catalog__wrapper">
-			<ChildCategoriesElement isInner={true} category={filtersData.category} />
+			<ChildCategoriesElement
+				isInner={true}
+				category={CatalogData.filtersData.category}
+				manufacturer={CatalogData.ManufacturerData as Manufacturer}
+				pageHeader={CatalogData.pageHeader}
+			/>
 			<AllFiltersOpenButton shortLabel={true} />
-			<AppliedFiltersElement filtersData={filtersData} />
-			<ProductCatalogHeader disabled={CatalogData?.products === undefined || CatalogData?.products?.length === 0} setCatalogView={setCatalogView} />
+			<AppliedFiltersElement filtersData={CatalogData?.filtersData} />
+			<ProductCatalogHeader
+				disabled={CatalogData.productsData?.products === undefined || CatalogData.productsData?.products?.length === 0}
+				setCatalogView={setCatalogView}
+			/>
 			<StandardBreakLine />
-			<ProductColumn products={CatalogData?.products ?? []} view={catalogView} fadeIn={isFetched} />
-			{CatalogData?.paginator && CatalogData.paginator.pages > 1 ? (
+			<ProductColumn products={CatalogData.productsData?.products ?? []} view={catalogView} fadeIn={isFetched} />
+			{CatalogData.productsData?.paginator && CatalogData.productsData.paginator.pages > 1 ? (
 				<>
 					<StandardBreakLine />
 					<CatalogContainerFooter>
-						<Paginator PaginatorData={CatalogData.paginator} />
-						<CatalogContainerViewedItems PaginatorData={CatalogData.paginator} />
+						<Paginator PaginatorData={CatalogData.productsData.paginator} />
+						<CatalogContainerViewedItems PaginatorData={CatalogData.productsData.paginator} />
 					</CatalogContainerFooter>
 					<ContactUs />
 				</>

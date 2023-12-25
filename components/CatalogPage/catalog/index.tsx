@@ -10,7 +10,7 @@ import './CatalogContainer.scss';
 import BreadcrumbByURL from '../../Shared/breadcrumb/breacrumb';
 
 // ==== Elements =====
-import { initData } from './interface';
+import { CatalogData } from './interface';
 import { CatalogContainer } from '../../CatalogContainer/index';
 import FacetFilter from '../Filter/Filter';
 
@@ -22,6 +22,9 @@ import { ThinBreakLine } from '../../Shared/Lines/ThinBreakLine/ThinBreakLine';
 import { RecomendationElement } from '../../RecomendationElement/RecomendationElement';
 import { useProductHistory } from '../../../context/MobxStoreContext/MobxStoreContext';
 import { ChildCategoriesElement } from '../../CatalogContainer/ChildCategoriesElement/ChildCategoriesElement';
+import { ManufacturerProductPageElement } from '../../CatalogContainer/ManufacturerProductPageElement/ManufacturerProductPageElement';
+import { ManufacturerInfoElement } from '../ManufacturerInfoElement/ManufacturerInfoElement';
+import { ManufacturerPageAllProductsHeader } from '../ManufacturerPageAllProductsHeader/ManufacturerPageAllProductsHeader';
 
 export interface FetchURLData {
 	params: { [K: string]: string };
@@ -70,25 +73,36 @@ function HistoryComponent() {
 		</>
 	);
 }
-function Catalog({ initData }: { initData: initData }): ReactElement {
+
+function Catalog({ CatalogData, isManufacturerPage }: { CatalogData: CatalogData; isManufacturerPage?: boolean }): ReactElement {
 	return (
 		<div className="catalog__page__wrapper" itemScope itemType="https://schema.org/OfferCatalog">
 			<CatalogHead>
-				<BreadcrumbByURL category={initData.filtersData.category} settings={{ includeHomePage: true }} />
-				{initData.isSearch && initData.searchHeader ? (
-					<CatalogHeaderSearch searchString={initData.searchHeader} paginator={initData.productsData.paginator} />
+				<BreadcrumbByURL
+					category={CatalogData.filtersData.category}
+					settings={{ includeHomePage: true }}
+					manufacturer={CatalogData.ManufacturerData}
+				/>
+				{CatalogData.isSearch && CatalogData.pageHeader ? (
+					<CatalogHeaderSearch searchString={CatalogData.pageHeader} paginator={CatalogData.productsData.paginator} />
 				) : (
-					<CatalogHeader
-						category={initData.productsData.category}
-						paginator={initData.productsData.paginator}
-						categoryStringAdditions={initData.filtersData.categoryStringAdditions}
-					/>
+					<CatalogHeader content={CatalogData.pageHeader} paginator={CatalogData.productsData.paginator} isCounterEnabled={!isManufacturerPage} />
 				)}
-				<ChildCategoriesElement isInner={false} category={initData.filtersData.category} />
+				{CatalogData.ManufacturerData ? <ManufacturerInfoElement manufacturer={CatalogData.ManufacturerData} /> : null}
+
+				<ChildCategoriesElement
+					isInner={false}
+					category={CatalogData.filtersData.category}
+					manufacturer={CatalogData.ManufacturerData}
+					pageHeader={CatalogData.pageHeader}
+					isManufacturerPage={isManufacturerPage}
+				/>
+				{!CatalogData.isManufacturerPage ? <ManufacturerProductPageElement category={CatalogData.filtersData.category} /> : null}
+				{isManufacturerPage ? <ManufacturerPageAllProductsHeader paginator={CatalogData.productsData.paginator} /> : null}
 			</CatalogHead>
 			<div className="catalog__body">
-				<FacetFilter initialFilters={initData?.filtersData} />
-				<CatalogContainer CatalogData={initData.productsData} filtersData={initData.filtersData} />
+				<FacetFilter initialFilters={CatalogData?.filtersData} />
+				<CatalogContainer CatalogData={CatalogData} />
 			</div>
 
 			<div className="catalog__footer">

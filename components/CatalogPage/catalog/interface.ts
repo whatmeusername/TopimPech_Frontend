@@ -1,4 +1,4 @@
-import { ProductData } from '../../CatalogComponents/Cards/interface';
+import { Manufacturer, ProductData } from '../../CatalogComponents/Cards/interface';
 import { PaginatorData } from '../../CatalogContainer/Paginator/interface';
 import { FilterFetchData } from '../Filter/Filter';
 
@@ -9,12 +9,18 @@ interface ProductAPIResponse {
 	status: { status: number; message: string; is404Page: boolean };
 }
 
-interface initData {
+interface CatalogData {
 	productsData: ProductAPIResponse;
 	filtersData: FilterFetchData;
 	order: string;
-	searchHeader?: string;
+	pageHeader: string;
 	isSearch: boolean;
+	isManufacturerPage: boolean;
+	ManufacturerData?: Manufacturer;
+	params: {
+		category?: string;
+		manufacturer?: string;
+	};
 }
 
-export type { ProductAPIResponse, initData };
+export type { ProductAPIResponse, CatalogData };

@@ -1,4 +1,4 @@
-interface ProductImage {
+interface BaseImage {
 	id: number;
 	name: string;
 	path: string;
@@ -32,8 +32,10 @@ interface MappedProductsResponse<IS_SHORT extends boolean = false> {
 	total: number;
 }
 
-interface productTags {
+interface ProductTag {
 	name: string;
+	slug: string;
+	product: ProductData[];
 }
 
 interface ProductDataShort {
@@ -53,14 +55,22 @@ interface ProductPriceHistory {
 	price: number;
 }
 
+interface Manufacturer {
+	id: number;
+	slug: string;
+	name: string;
+	image: BaseImage;
+	description: string;
+}
+
 interface ProductData {
 	id: number;
 	name: string;
 	article: string;
 	price: number;
 	sale: number;
-	images: ProductImage[];
-	manufacturer: ProductBaseData;
+	images: BaseImage[];
+	manufacturer: Manufacturer;
 	categories: ProductBaseData[];
 	type?: ProductBaseData;
 	properties: Property[];
@@ -82,7 +92,18 @@ interface ProductData {
 			};
 		}[];
 	};
-	ProductTags: productTags[];
+	ProductTags: ProductTag[];
 }
 
-export type { MappedProductsResponse, ProductData, Property, FeatureKey, ProductImage, ProductBaseData, ProductDataShort, ProductPriceHistory };
+export type {
+	MappedProductsResponse,
+	ProductData,
+	Property,
+	FeatureKey,
+	BaseImage,
+	ProductBaseData,
+	ProductDataShort,
+	ProductPriceHistory,
+	Manufacturer,
+	ProductTag,
+};

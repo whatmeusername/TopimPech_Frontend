@@ -41,7 +41,7 @@ const ProductSlider = ({
 	items: ProductDataShort[] | ProductData[];
 	URLStartWith?: string;
 	onClick?: (...args: any[]) => void;
-}): JSX.Element => {
+}): ReactElement => {
 	return (
 		<Slider SliderSettings={{ ItemsPerSlide: 'auto' }}>
 			{items.map((item) => {

@@ -4,7 +4,7 @@ import { ParsedUrlQuery } from 'querystring';
 function SearchParamsBuilder(
 	url: string,
 	searchParams: URLSearchParams | ParsedUrlQuery | undefined | ReadonlyURLSearchParams,
-	...rest: string[]
+	rest: string[],
 ): [string, string] {
 	const isURLSearchParams = searchParams === undefined || searchParams instanceof URLSearchParams || searchParams instanceof ReadonlyURLSearchParams;
 
