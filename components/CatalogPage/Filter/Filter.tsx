@@ -25,6 +25,7 @@ import { RangeFilter } from './RangeFilter/RangeFilter';
 import { IsSearchParamsFilterQueryNumberResult, IsSearchParamsFilterQueryStringResult } from './AppliedFiltersElement/AppliedFiltersElement';
 import { useFilterParam } from '../../../hooks/useFilterParam';
 import { useFilterPathname } from '../../../hooks/useFilterPathname';
+import { RecomendationAdElement } from '../RecomendationAdElement/RecomendationAdElement';
 
 const getFilterParameters = (searchParams: URLSearchParams | ParsedUrlQuery, appliedFilters: SearchParamsFilterQueryResult): FilterParameters => {
 	let filterParam: string | null;
@@ -185,6 +186,7 @@ function FacetFilter({ initialFilters }: { initialFilters: FilterFetchData }): R
 					</div>
 					{FilterCount > 10 ? <AllFiltersOpenButton filterCount={FilterCount} /> : null}
 					{getActiveFiltersLength > 0 ? <ClearFiltersButton /> : null}
+					<RecomendationAdElement />
 				</div>
 			) : null}
 			{isMobile || FilterCount > 10 ? (

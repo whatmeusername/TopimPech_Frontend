@@ -19,7 +19,7 @@
 		align-items: center;
 		gap: 50px;
 		.manufacturer__info__element__image__wrapper {
-			background-color: rgb(255, 255, 255, 0.2);
+			background-color: var(--secondary-cards-background);
 			border-radius: 8px;
 			width: 140px;
 			height: 140px;
@@ -43,7 +43,7 @@
 		}
 		.manufacturer__info__element__content {
 			font-family: var(--museo_cyrl);
-			background: rgb(255, 255, 255, 0.2);
+			background: var(--secondary-cards-background);
 			padding: 10px;
 			border-radius: 8px;
 			display: flex;
