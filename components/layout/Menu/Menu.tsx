@@ -44,7 +44,7 @@ const MenuContent = memo((): JSX.Element => {
 									menuModalControl.toggle(false);
 									centerModalControl.toggle('SearchModal', true);
 								}}
-							>{`Поиск среди ${globalContext.productCount} ${declOfProduct(globalContext.productCount)}`}</button>
+							>{`Поиск среди ${globalContext.productCount} ${declOfProduct(globalContext.productCount, true)}`}</button>
 							<CloseButton />
 						</div>
 					</div>

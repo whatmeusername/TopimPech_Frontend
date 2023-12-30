@@ -2,13 +2,22 @@ import Link from 'next/link';
 import { toggleWindowScroll } from '../../../../utils';
 import { ProductData } from '../../../CatalogComponents/Cards/interface';
 import PriceElement from '../../../CatalogComponents/PriceElement.tsx/PriceElement';
+import parse from 'html-react-parser';
 
 import './SearchItemElement.scss';
 import { NO_IMAGE_SRC } from '../../../const';
 
 import Image from 'next/image';
 
-function SearchItemElement({ product, ToggleModal }: { product: ProductData; ToggleModal: (fixedState?: boolean | undefined) => void }) {
+function SearchItemElement({
+	product,
+	highlight,
+	ToggleModal,
+}: {
+	product: ProductData;
+	highlight: { [K: string]: string[] };
+	ToggleModal: (fixedState?: boolean | undefined) => void;
+}) {
 	return (
 		<Link
 			className="search__result__item"
@@ -33,7 +42,7 @@ function SearchItemElement({ product, ToggleModal }: { product: ProductData; Tog
 				</div>
 				<div className="search__result__item__content">
 					<div className="search__result__label__wrapper">
-						<span className="search__result__label">{product.name}</span>
+						<span className="search__result__label">{highlight?.['name'] ? parse(highlight['name'][0]) : product.name}</span>
 						<span className="search__result__article">Артикул: {product.article}</span>
 					</div>
 					<div className="search__result__price__wrapper">

@@ -31,7 +31,7 @@ function AddToCartButton({
 		if (showAvailability) {
 			return (
 				<div className="product__available__status product__available">
-					<p className="product__available__status__text">Есть в наличии</p>
+					<p className="product__available__status__text">В наличии на складе</p>
 				</div>
 			);
 		}

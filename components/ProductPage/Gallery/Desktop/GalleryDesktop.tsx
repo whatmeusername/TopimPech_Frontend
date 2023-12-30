@@ -49,6 +49,7 @@ const GalleryDesktop = ({
 
 	useEffect(() => {
 		OnLoad();
+		() => toggleScrollListener('remove');
 	}, [imageWrapper.current]);
 
 	const setActiveImage = (id: number): void => {
@@ -69,6 +70,18 @@ const GalleryDesktop = ({
 		}
 	};
 
+	const updateImageRectVariable = () => {
+		rect = imageElement.current.getBoundingClientRect();
+	};
+
+	const toggleScrollListener = (action: 'add' | 'remove') => {
+		if (action === 'add') {
+			document.addEventListener('scroll', updateImageRectVariable);
+		} else if (action === 'remove') {
+			document.removeEventListener('scroll', updateImageRectVariable);
+		}
+	};
+
 	const onEnter = () => {
 		zoomImage.current.classList.add('image__zoom__active');
 		zoomPointer.current.classList.add('image__zoom__active');
@@ -83,6 +96,7 @@ const GalleryDesktop = ({
 
 		zoomPointer.current.style.width = zoomWidth + '%';
 		zoomPointer.current.style.height = zoomHeight + '%';
+		toggleScrollListener('add');
 	};
 
 	const onHover = (e: React.MouseEvent) => {
@@ -106,6 +120,7 @@ const GalleryDesktop = ({
 	const onHoverLeave = () => {
 		zoomImage.current.classList.remove('image__zoom__active');
 		zoomPointer.current.classList.remove('image__zoom__active');
+		toggleScrollListener('remove');
 	};
 
 	return (
@@ -159,7 +174,11 @@ const GalleryDesktop = ({
 
 						{allowZoom ? <div ref={zoomPointer} className="gallery__current__zoom__cursor" /> : null}
 					</div>
-					<div className="gallery__current__img__zoom" style={{ background: `url('${activeImagePath}')` }} ref={zoomImage} />
+					<div
+						className="gallery__current__img__zoom"
+						style={{ background: `url('${activeImagePath}')`, backgroundColor: 'rgb(255, 255, 255)' }}
+						ref={zoomImage}
+					/>
 				</div>
 			</div>
 		</>

@@ -35,7 +35,7 @@ const SearchModalInput = observer(
 			<input
 				type="text"
 				className="modal__search__input"
-				placeholder={`Поиск среди ${productCount} ${declOfProduct(productCount)}`}
+				placeholder={`Поиск среди ${productCount} ${declOfProduct(productCount, true)}`}
 				onKeyDown={onKeyDown}
 				ref={inputField}
 				autoComplete="false"
@@ -51,7 +51,10 @@ function SearchModal({ modalId }: { modalId: string }): ReactElement {
 	const productCount = useGlobalContext().productCount;
 	const router = useRouter();
 
-	const [results, setResults] = useState<{ data: ProductData[]; count: number }>({ data: [], count: 0 });
+	const [results, setResults] = useState<{ data: { data: ProductData; highlight: { [K: string]: string[] } }[]; count: number }>({
+		data: [],
+		count: 0,
+	});
 	const timerRef = useRef<ReturnType<typeof setTimeout>>(null!);
 	const inputField = useRef<HTMLInputElement>(null!);
 
@@ -91,8 +94,9 @@ function SearchModal({ modalId }: { modalId: string }): ReactElement {
 							{results.data.map((item, i) => {
 								return (
 									<SearchItemElement
-										product={item}
-										key={`search__field__item__${item.article + i}`}
+										product={item.data}
+										highlight={item.highlight}
+										key={`search__field__item__${item.data.article + i}`}
 										ToggleModal={() => centerModalControl.toggle(modalId)}
 									/>
 								);

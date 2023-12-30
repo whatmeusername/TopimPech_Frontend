@@ -1,6 +1,6 @@
 import { Dispatch, Fragment, ReactElement, SetStateAction, useEffect, useRef, useState } from 'react';
 import { ProductData } from '../CatalogComponents/Cards/interface';
-import { ProductComparisonData, ComparisonProductsConfig, ComparisonState } from './interface';
+import { ProductComparisonData, ComparisonProductsConfig, ComparisonState, ProductComparisonDataValue } from './interface';
 
 import './ComparisonProducts.scss';
 import { ThinBreakLine } from '../Shared/Lines/ThinBreakLine/ThinBreakLine';
@@ -18,41 +18,40 @@ import Image from 'next/image';
 
 function GatherProductComparisonData(products: ProductData[], diffWith?: ProductData): ProductComparisonData {
 	const result: ProductComparisonData = {};
-	const keys: Set<string> = new Set<string>();
+	const keys: string[] = [];
 
 	for (let i = 0; i < products.length; i++) {
 		const product = products[i];
-		if (product.properties) {
-			for (let j = 0; j < product.properties?.length; j++) {
-				const property = product.properties[j];
-				keys.add(property.key.name);
-				if (!result[property.key.name]) {
-					result[property.key.name] = { values: [], unit: property.key.valueUnit };
-				}
-			}
+		if (!product.properties || product.properties.length === 0) continue;
+		for (let j = 0; j < product.properties.length; j++) {
+			const property = product.properties[j];
+			if (result[property.key.name]) continue;
+			keys.push(property.key.name);
+			result[property.key.name] = { values: [], unit: property.key.valueUnit };
 		}
 	}
 
 	keys.forEach((key) => {
 		const diffProperty = diffWith ? diffWith.properties?.find((v) => v.key.name === key) : null;
 		for (let i = 0; i < products.length; i++) {
-			const product = products[i];
-			const property = product.properties?.find((v) => v.key.name === key);
-			if (property) {
-				const res: any = { value: property.value, state: null, distance: null, isNull: false };
-				if (diffProperty && property.valueType === 0) {
-					const n1 = Number(diffProperty.value);
-					const n2 = Number(property.value);
-					res.state = n1 === n2 ? ComparisonState.SAME : n1 > n2 ? ComparisonState.DECREASE : ComparisonState.RAISING;
-					res.distance = n1 === n2 ? 0 : n1 > n2 ? n1 - n2 : n2 - n1;
-					res.distance = Number(res.distance.toFixed(2));
-				} else if (diffProperty && property.valueType === 1) {
-					res.state = diffProperty.value !== property.value ? ComparisonState.CHANGED : ComparisonState.SAME;
-				}
-				result[key].values.push(res);
-			} else {
+			const property = products[i].properties?.find((v) => v.key.name === key);
+			if (!property) {
 				result[key].values.push({ value: '-', state: null, isNull: true });
+				continue;
 			}
+			const res: ProductComparisonDataValue = { value: property.value, state: null, distance: null, isNull: false };
+
+			if (diffProperty && property.valueType === 0) {
+				const n1 = Number(diffProperty.value.replaceAll(',', '.'));
+				const n2 = Number(property.value.replaceAll(',', '.'));
+
+				res.state = n1 === n2 ? ComparisonState.SAME : n1 > n2 ? ComparisonState.DECREASE : ComparisonState.RAISING;
+				res.distance = n1 === n2 ? 0 : n1 > n2 ? n1 - n2 : n2 - n1;
+				res.distance = Number(res.distance.toFixed(2));
+			} else if (diffProperty && property.valueType === 1) {
+				res.state = diffProperty.value !== property.value ? ComparisonState.CHANGED : ComparisonState.SAME;
+			}
+			result[key].values.push(res);
 		}
 	});
 

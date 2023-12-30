@@ -1,0 +1,14 @@
+.home__page__product__tag__slider__wrapper {
+	.home__page__product__tag__slider__header__wrapper {
+		.home__page__product__tag__slider__header {
+			font-weight: 300;
+			font-family: var(--museo_cyrl);
+			color: var(--primary-color);
+			font-size: var(--headerM);
+			margin: 0;
+		}
+	}
+	@media (max-width: 720px) {
+		padding: 0 10px;
+	}
+}

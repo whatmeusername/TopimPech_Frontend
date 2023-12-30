@@ -1,0 +1,195 @@
+@keyframes Sliding {
+	0% {
+		transform: translateY(-10px);
+	}
+	50% {
+		transform: translateY(-35%);
+	}
+	100% {
+		transform: translateY(-10px);
+	}
+}
+
+.home__page__montage__wrapper {
+	width: 100%;
+	background: url('/backgrounds/about.jpg');
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center 50%;
+	box-shadow: 0 0 32px var(--box-shadow-color);
+	overflow: hidden;
+	padding: 0 10px;
+	height: 500px;
+
+	.home__page__montage__content {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		gap: 10px;
+
+		.home__page__montage__wrapper__images {
+			columns: 3;
+			column-gap: 10px;
+			width: 600px;
+			min-width: 600px;
+			overflow: hidden;
+			transform: translateY(-10px);
+			animation: Sliding 12s ease-in-out infinite;
+			.home__page__montage__item__wrapper {
+				max-width: 200px;
+				margin-bottom: 10px;
+				.home__page__montage__item {
+					max-width: 100%;
+					max-width: 100%;
+					max-height: 100%;
+					border-radius: 8px;
+					page-break-inside: avoid;
+					break-inside: avoid;
+				}
+			}
+		}
+
+		.home__page__montage__info__wrapper {
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+			margin: 40px 0;
+			max-width: 750px;
+			.home__page__montage__header {
+				color: var(--white-color);
+				font-family: var(--museo_cyrl);
+				font-size: var(--headerLM);
+				letter-spacing: 1px;
+				margin: 0;
+			}
+
+			.home__page__montage__info__items {
+				display: flex;
+				flex-direction: column;
+				gap: 10px;
+
+				.home__page__montage__item__wrapper {
+					width: 100%;
+					font-family: var(--museo_cyrl);
+					color: var(--white-color);
+					border: 2px dashed var(--white-color);
+					border-radius: 8px;
+					display: flex;
+					align-items: center;
+					flex-direction: row;
+					gap: 20px;
+					padding: 10px;
+
+					.home__page__montage__item__icon__wrapper {
+						align-items: center;
+						justify-content: center;
+						display: flex;
+						.home__page__montage__item__icon {
+							fill: var(--white-color);
+							width: 60px;
+							height: 60px;
+						}
+					}
+
+					.home__page__montage__item__info {
+						display: flex;
+						flex-direction: column;
+						.home__page__montage__item__header {
+							margin: 0;
+							text-align: left;
+							font-weight: 600;
+							font-size: var(--headerS);
+							letter-spacing: 1px;
+						}
+						.home__page__montage__item__text {
+							font-weight: 400;
+							font-size: var(--fontL);
+							line-height: 24px;
+							text-align: left;
+							margin: 0;
+						}
+					}
+				}
+			}
+		}
+
+		.home__page__montage__link__wrapper {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			.home__page__montage__link {
+				font-family: var(--museo_cyrl);
+				cursor: pointer;
+				background-color: var(--orange-color);
+				color: var(--white-color);
+				padding: 15px;
+				margin: 0 0 20px;
+				border-radius: 8px;
+				font-size: var(--fontX);
+				letter-spacing: 1px;
+				opacity: 1;
+				width: 100%;
+				text-align: center;
+				transition: opacity 0.2s ease;
+				&:hover {
+					opacity: 0.9;
+				}
+			}
+		}
+	}
+
+	@media (max-width: 1368px) {
+		height: 550px;
+		.home__page__montage__content {
+			.home__page__montage__wrapper__images {
+				width: 525px;
+				min-width: 525px;
+				.home__page__montage__item__wrapper {
+					max-width: 175px;
+				}
+			}
+		}
+	}
+
+	@media (max-width: 1128px) {
+		.home__page__montage__content {
+			.home__page__montage__wrapper__images {
+				columns: 2;
+				width: 350px;
+				min-width: 350px;
+				.home__page__montage__item__wrapper {
+					max-width: 175px;
+				}
+			}
+		}
+	}
+
+	@media (max-width: 828px) {
+		height: 620px;
+		.home__page__montage__content {
+			.home__page__montage__wrapper__images {
+				width: 250px;
+				min-width: 250px;
+				.home__page__montage__item__wrapper {
+					max-width: 1250px;
+				}
+			}
+		}
+	}
+
+	@media (max-width: 724px) {
+		height: 100%;
+		.home__page__montage__content {
+			.home__page__montage__info__wrapper {
+				.home__page__montage__header {
+					text-align: center;
+					margin-bottom: 20px;
+					font-size: var(--headerM);
+				}
+			}
+			.home__page__montage__wrapper__images {
+				display: none;
+			}
+		}
+	}
+}

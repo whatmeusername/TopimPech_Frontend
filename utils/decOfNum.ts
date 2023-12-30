@@ -13,6 +13,6 @@ function declOfNum(n: number | undefined | null, forms: string[]) {
 	return forms[forms.length === 3 ? 2 : 1];
 }
 
-const declOfProduct = (n: number | undefined | null) => declOfNum(n, ['товар', 'товара', 'товаров']);
+const declOfProduct = (n: number | undefined | null, isMany?: boolean) => declOfNum(n, [isMany ? 'товара' : 'товар', 'товара', 'товаров']);
 
 export { declOfNum, declOfProduct };

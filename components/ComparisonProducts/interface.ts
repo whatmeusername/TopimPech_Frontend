@@ -22,17 +22,19 @@ enum ComparisonState {
 	CHANGED = 'changed',
 }
 
+interface ProductComparisonDataValue {
+	value: string | number;
+	state: ComparisonState | null;
+	distance?: any;
+	isNull: boolean;
+}
+
 type ProductComparisonData = {
 	[K: string]: {
 		unit: string;
-		values: {
-			value: string | number;
-			state: ComparisonState | null;
-			distance?: any;
-			isNull: boolean;
-		}[];
+		values: ProductComparisonDataValue[];
 	};
 };
 
 export { ComparisonState };
-export type { ComparisonProductsConfig, ProductComparisonData };
+export type { ComparisonProductsConfig, ProductComparisonData, ProductComparisonDataValue };

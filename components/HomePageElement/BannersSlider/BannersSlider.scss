@@ -1,0 +1,17 @@
+.home__page__banners__wrapper {
+	padding: 0 20px;
+	.home__page__banner__item {
+		cursor: pointer;
+		opacity: 1;
+		transition: opacity 0.25s ease;
+		max-width: calc(100vw - 40px) !important;
+		&:hover {
+			opacity: 0.9;
+		}
+		.home__page__banner__image {
+			border-radius: 8px;
+			min-width: 100%;
+			max-width: 100%;
+		}
+	}
+}

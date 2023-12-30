@@ -15,7 +15,10 @@ import { NoResultFound } from '../NoResultFound/NoResultFound';
 export default function ProductSearch() {
 	const router = useRouter();
 	const [isToggled, Toggle] = useToggle();
-	const [results, setResults] = useState<{ data: ProductData[]; count: number }>({ data: [], count: 0 });
+	const [results, setResults] = useState<{ data: { data: ProductData; highlight: { [K: string]: string[] } }[]; count: number }>({
+		data: [],
+		count: 0,
+	});
 
 	const timerRef = useRef<ReturnType<typeof setTimeout>>(null!);
 	const inputField = useRef<HTMLInputElement>(null!);
@@ -55,7 +58,7 @@ export default function ProductSearch() {
 	const NavigateIn = (): void => {
 		const value = inputField.current?.value;
 		if (results.count === 1) {
-			router.push(`/product/${results.data[0].slug}`);
+			router.push(`/product/${results.data[0].data.slug}`);
 			Toggle(false);
 			toggleWindowScroll(true);
 		} else if (value && value.length > 2 && results.count > 1) {
@@ -88,7 +91,7 @@ export default function ProductSearch() {
 						onFocus={FocusEvent}
 						ref={inputField}
 						onKeyDown={onKeyDown}
-						placeholder={`Поиск среди ${productCount} ${declOfProduct(productCount)}`}
+						placeholder={`Поиск среди ${productCount} ${declOfProduct(productCount, true)}`}
 						autoComplete="false"
 						autoCapitalize="false"
 						autoCorrect="false"
@@ -109,7 +112,14 @@ export default function ProductSearch() {
 								<NoResultFound searchString={inputField.current?.value?.trim()} />
 							)}
 							{(results.data ?? []).map((item) => {
-								return <SearchItemElement product={item} key={`search__field__item__${item.article}`} ToggleModal={Toggle} />;
+								return (
+									<SearchItemElement
+										product={item.data}
+										highlight={item.highlight}
+										key={`search__field__item__${item.data.article}`}
+										ToggleModal={Toggle}
+									/>
+								);
 							})}
 						</div>
 					</div>
