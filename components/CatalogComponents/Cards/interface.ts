@@ -15,6 +15,8 @@ interface ProductBaseData {
 interface FeatureKey {
 	slug: string;
 	name: string;
+	keyGroup: string;
+	description: string;
 	valueUnit: string;
 	valueType: 0 | 1;
 }

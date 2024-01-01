@@ -1,0 +1,24 @@
+.properties__tip__pop__wrapper {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+	font-family: var(--museo_cyrl);
+	color: var(--white-color);
+	.properties__tip__pop__header {
+		margin: 0;
+		font-size: var(--fontX);
+		letter-spacing: 1px;
+	}
+	.properties__tip__pop__description {
+		font-weight: 400;
+		margin: 0;
+		font-size: var(--fontM);
+		line-height: 1.25rem;
+		white-space: pre-line;
+	}
+	@media (max-width: 768px) {
+		.properties__tip__pop__description {
+			font-size: var(--fontMS);
+		}
+	}
+}

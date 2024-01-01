@@ -3,11 +3,17 @@ import { Property } from '../../CatalogComponents/Cards/interface';
 import { SmoothScrollToAnchor } from '../../../utils';
 
 import './AttributeElement.scss';
+import { Capitalize } from '../../../utils/Capitalize';
+import { GroupAttributes } from '../../../utils/GroupAttributes';
+import { TipPopUpElementPropertyContent } from '../../Shared/TipPopUpElementPropertyContent/TipPopUpElementPropertyContent';
 
-const AttributeElement = ({ item }: { item: Property }): ReactElement => {
+const AttributeElement = ({ item, showTipPop }: { item: Property; showTipPop: boolean }): ReactElement => {
 	return (
 		<dl key={`product__properties__${item.key.slug}`} className="product__page__properties__item">
-			<dt className="product__page__properties__item__key">{item.key.name}</dt>
+			{showTipPop && item.key.description ? <TipPopUpElementPropertyContent property={item} /> : null}
+			<dt className="product__page__properties__item__key">
+				<p className="product__page__properties__item__key__value">{item.key.name}</p>
+			</dt>
 			<dd className="product__page__properties__item__value__wrapper">
 				<span className="product__page__properties__item__value">
 					{item.value} {item.key.valueUnit}
@@ -18,13 +24,22 @@ const AttributeElement = ({ item }: { item: Property }): ReactElement => {
 };
 
 const AttributesElement = ({ properties }: { properties: Property[] }): ReactElement => {
+	const groupedAttributes = GroupAttributes(properties);
 	return (
 		<div className=" product__page__card product__page__properties" id="product__page__properties">
 			<h3 className="product__page__header__medium product__page__properties__header">Характеристика</h3>
 			<div className="product__page__properties__content">
-				{properties.map((prop) => {
-					if (!prop.key) return null;
-					return <AttributeElement item={prop} key={`product__properties__${prop.key.slug}`} />;
+				{Object.entries(groupedAttributes).map(([key, attributes]) => {
+					return (
+						<div className="product__page__properties__block__wrapper" key={`product__page__properties__item__wrapper__${key}`}>
+							<h3 className="product__page__properties__block__header">{Capitalize(key)}</h3>
+
+							{attributes.map((prop) => {
+								if (!prop.key) return null;
+								return <AttributeElement item={prop} key={`product__properties__${prop.key.slug}`} showTipPop={true} />;
+							})}
+						</div>
+					);
 				})}
 			</div>
 		</div>
@@ -38,7 +53,7 @@ function ShortAttributesElement({ properties, take, showAllBtn }: { properties: 
 			<div className="product__page__properties__short__content">
 				{properties.slice(0, take).map((prop) => {
 					if (!prop.key) return null;
-					return <AttributeElement item={prop} key={`product__properties__${prop.key.slug}`} />;
+					return <AttributeElement item={prop} key={`product__properties__${prop.key.slug}`} showTipPop={false} />;
 				})}
 			</div>
 			{showAllBtn && properties.length > take ? (

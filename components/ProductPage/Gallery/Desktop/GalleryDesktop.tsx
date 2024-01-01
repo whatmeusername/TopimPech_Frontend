@@ -71,7 +71,9 @@ const GalleryDesktop = ({
 	};
 
 	const updateImageRectVariable = () => {
-		rect = imageElement.current.getBoundingClientRect();
+		if (imageElement.current) {
+			rect = imageElement.current.getBoundingClientRect();
+		}
 	};
 
 	const toggleScrollListener = (action: 'add' | 'remove') => {
