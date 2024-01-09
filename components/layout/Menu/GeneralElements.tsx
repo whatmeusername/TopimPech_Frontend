@@ -23,8 +23,8 @@ const CategoriesColumn = ({
 
 const CloseButton = (): ReactElement => {
 	return (
-		<button className="menu__content__close__button" title="закрыть меню">
-			<DeleteIcon className="menu__content__close__button__icon" onClick={() => menuModalControl.toggle(false)} />
+		<button className="menu__content__close__button" title="закрыть меню" onClick={() => menuModalControl.toggle(false)}>
+			<DeleteIcon className="menu__content__close__button__icon" />
 		</button>
 	);
 };

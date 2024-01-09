@@ -17,7 +17,7 @@ import { centerModalControl } from '../../../store/CenterModal';
 import { StandardBreakLine } from '../../Shared/Lines/StandardBreakLine/StandardBreakLine';
 
 const MenuContent = memo((): JSX.Element => {
-	const isMobile = useMobile(1024);
+	const isMobile = useMobile(1096);
 	const categories = useCategoriesContext()?.get();
 
 	if (!isMobile) {

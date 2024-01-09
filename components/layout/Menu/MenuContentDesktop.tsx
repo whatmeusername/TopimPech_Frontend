@@ -10,6 +10,7 @@ import { NO_IMAGE_SRC } from '../../const';
 import { Capitalize } from '../../../utils/Capitalize';
 import { SubCategoryColumn } from './SubCategoryColumn/SubCategoryColumn';
 import { observer } from 'mobx-react-lite';
+import { declOfProduct } from '../../../utils';
 
 const MainCategoryItem = observer(({ category }: { category: CategoryData }): ReactElement | null => {
 	if (category.productCount < 1) return null;
@@ -42,6 +43,39 @@ const MainCategoryItem = observer(({ category }: { category: CategoryData }): Re
 	);
 });
 
+const ManufacturersBlock = ({ category }: { category: CategoryData }): ReactElement | null => {
+	if (category.manufacturers.length === 0) return null;
+	return (
+		<div className="sub__categories__manufacturers__wrapper">
+			<div className="sub__categories__manufacturers__content">
+				{category.manufacturers.map((manufacturer) => {
+					if (!manufacturer.image) return null;
+					return (
+						<Link
+							className="sub__categories__manufacturers__item"
+							key={`sub__categories__manufacturers__item__${manufacturer.slug}`}
+							href={`/catalog/${category.slug}/${manufacturer.slug}`}
+							onClick={() => menuModalControl.toggle(false)}
+							title={`Каталог товаров производителя ${manufacturer.slug}`}
+						>
+							<Image
+								className="sub__categories__manufacturers__item__image"
+								onError={(e) => ((e.target as HTMLImageElement).src = NO_IMAGE_SRC)}
+								src={`/api${manufacturer.image.path}`}
+								alt={category.name}
+								width={70}
+								height={70}
+								quality={50}
+								style={{ objectFit: 'contain', maxInlineSize: '100%', height: 'auto' }}
+							/>
+						</Link>
+					);
+				})}
+			</div>
+		</div>
+	);
+};
+
 const CategoriesBlock = observer(({ categories }: { categories: CategoryData[] }): ReactElement | null => {
 	if (!menuModalControl.selectedCategory) return null;
 
@@ -50,6 +84,13 @@ const CategoriesBlock = observer(({ categories }: { categories: CategoryData[] }
 
 	return (
 		<div className="sub__categories">
+			<div className="sub__categories__header__wrapper">
+				<p className="sub__categories__header">{Capitalize(category.name)}</p>
+				<span className="sub__categories__product__count">
+					{category.productCount} {declOfProduct(category.productCount)}
+				</span>
+			</div>
+			<ManufacturersBlock category={category} />
 			<div className="sub__categories_columns">
 				{category.child.map((category) => {
 					return <SubCategoryColumn data={category} key={category.slug} />;

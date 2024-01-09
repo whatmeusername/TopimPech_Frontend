@@ -19,7 +19,11 @@ function ManufacturesBlock({ ManufacturerData }: { ManufacturerData: Manufacture
 					{ManufacturerData.sort((m) => (m.image ? -1 : 1)).map((manufacturer) => {
 						return (
 							<Slider.Item className="home__page__manufacturer__item" key={`home__page__manufacturer__item__${manufacturer.slug}`}>
-								<Link href={`/catalog/manufacturer/${manufacturer.slug}`} className="home__page__manufacturer__item__content">
+								<Link
+									href={`/catalog/manufacturer/${manufacturer.slug}`}
+									className="home__page__manufacturer__item__content"
+									title={`Каталог товаров производителя ${manufacturer.name}`}
+								>
 									{manufacturer.image ? (
 										<div className="home__page__manufacturer__item__image__wrapper">
 											<Image
