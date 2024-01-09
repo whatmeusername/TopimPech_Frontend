@@ -15,9 +15,9 @@ import './AllFilterComponent.scss';
 import { useMobile } from '../../../../context/MobileContext/MobileContext';
 import { ModalWrapper, ModalContentWrapper, ModalHead, ModalFooterWrapper } from '../../../CentralModal/CenterModal';
 import { ClearFiltersButton } from '../ClearFilterButton/ClearFiltersButton';
-import { Capitalize } from '../../../../utils/Capitalize';
 import { RangeFilter } from '../RangeFilter/RangeFilter';
 import { useFilterPathname } from '../Filter';
+import { FilterDropdownLabel } from '../FilterDropdownLabel/FilterDropdownLabel';
 
 const FoundedItemsButton = ({
 	count,
@@ -67,6 +67,7 @@ const AllFilterComponent = ({
 	ActiveFilters: FilterParameters;
 }): ReactElement => {
 	const [FilterData, setFilterData] = useState<{ count: number; filtered: FacetFiltersData }>(filterData);
+	const filtersContentRef = useRef<HTMLDivElement>(null!);
 	const router = useRouter();
 	const isMobile = useMobile(768);
 
@@ -107,7 +108,7 @@ const AllFilterComponent = ({
 					</div>
 				</ModalHead>
 
-				<div className="filter__modal__content__items__wrapper">
+				<div className="filter__modal__content__items__wrapper" ref={filtersContentRef}>
 					<div className="filter__modal__content__items" key={randomKey.current}>
 						{[1, 2, 3].map((column) => {
 							const start = itemsPerColumn * (column - 1);
@@ -117,14 +118,11 @@ const AllFilterComponent = ({
 									{Object.entries(FilterData?.filtered ?? {})
 										.slice(start, end)
 										.map(([parentKey, parentValue]) => {
-											const DropdownHeader = (
-												<span className="dropdown__label">
-													{Capitalize(parentValue.other.label)}
-													{parentValue.other.unit ? `, ${parentValue.other.unit}` : ''}
-												</span>
-											);
 											return (
-												<Dropdown header={DropdownHeader} key={'modal-filter-' + parentKey}>
+												<Dropdown
+													header={<FilterDropdownLabel parentValue={parentValue} TipPopParent={filtersContentRef.current} />}
+													key={'modal-filter-' + parentKey}
+												>
 													{parentValue.type === FacetType.OBJECT ? (
 														<CheckboxFilter
 															config={{

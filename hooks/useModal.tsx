@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export default function useModal(
-	modalElement: React.MutableRefObject<HTMLElement>,
-): [boolean, (value: boolean) => void] {
+export default function useModal(modalElement: React.MutableRefObject<HTMLElement>): [boolean, (value: boolean) => void] {
 	const [modalActive, setModalActive] = useState<boolean>(false);
 
 	useEffect(() => {

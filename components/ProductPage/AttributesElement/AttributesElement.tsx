@@ -10,7 +10,7 @@ import { TipPopUpElementPropertyContent } from '../../Shared/TipPopUpElementProp
 const AttributeElement = ({ item, showTipPop }: { item: Property; showTipPop: boolean }): ReactElement => {
 	return (
 		<dl key={`product__properties__${item.key.slug}`} className="product__page__properties__item">
-			{showTipPop && item.key.description ? <TipPopUpElementPropertyContent property={item} /> : null}
+			{showTipPop && item.key.description ? <TipPopUpElementPropertyContent header={item.key.name} description={item.key.description} /> : null}
 			<dt className="product__page__properties__item__key">
 				<p className="product__page__properties__item__key__value">{item.key.name}</p>
 			</dt>

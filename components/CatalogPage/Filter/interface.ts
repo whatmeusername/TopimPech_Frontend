@@ -20,11 +20,11 @@ interface FilterItemObject {
 	value: string;
 	max: number;
 	min: number;
-	other: { label: string; unit?: string };
+	other: { label: string; unit?: string; description?: string };
 	items: {
 		value: string;
 		count: number;
-		other: { label: string; unit?: string };
+		other: { label: string; unit?: string; description?: string };
 	}[];
 }
 
@@ -33,7 +33,7 @@ interface FilterItemNumber {
 	value: string;
 	max: number;
 	min: number;
-	other: { label: string; unit?: string };
+	other: { label: string; unit?: string; description?: string };
 }
 
 interface FacetFiltersData {

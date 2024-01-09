@@ -1,8 +1,7 @@
-import { useState, memo, ReactElement, Dispatch, SetStateAction } from 'react';
+import { ReactElement } from 'react';
 import './menu.scss';
 import Link from 'next/link';
 
-import { CategoriesColumn } from './GeneralElements';
 import type { CategoryData } from './GeneralElements';
 import { menuModalControl } from '../../../store/MenuModal';
 
@@ -10,26 +9,21 @@ import Image from 'next/image';
 import { NO_IMAGE_SRC } from '../../const';
 import { Capitalize } from '../../../utils/Capitalize';
 import { SubCategoryColumn } from './SubCategoryColumn/SubCategoryColumn';
+import { observer } from 'mobx-react-lite';
 
-const MainCategoryItem = ({
-	category,
-	isSelected,
-	setSelectedCategory,
-}: {
-	category: CategoryData;
-	isSelected: boolean;
-	setSelectedCategory: Dispatch<SetStateAction<string>>;
-}): ReactElement => {
+const MainCategoryItem = observer(({ category }: { category: CategoryData }): ReactElement | null => {
+	if (category.productCount < 1) return null;
+
 	return (
 		<Link
 			href={`/catalog/${category.slug}/`}
 			onClick={() => menuModalControl.toggle(false)}
+			onMouseEnter={() => menuModalControl.setCategory(category)}
 			prefetch={false}
 			className={`
 				main__category__column__item
-				${isSelected ? 'main__category__column__item__selected' : ''}
+				${menuModalControl.selectedCategory === category.slug ? 'main__category__column__item__selected' : ''}
 				`}
-			onMouseEnter={() => setSelectedCategory(category.slug)}
 		>
 			<div className="main__category__item__image__wrapper">
 				<Image
@@ -46,41 +40,39 @@ const MainCategoryItem = ({
 			<p className="main__category__item__text">{Capitalize(category.name)}</p>
 		</Link>
 	);
-};
+});
 
-const MenuContentDesktop = memo(({ categories }: { categories: CategoryData[] }): ReactElement => {
-	const [selectedCategory, setSelectedCategory] = useState<string>('');
+const CategoriesBlock = observer(({ categories }: { categories: CategoryData[] }): ReactElement | null => {
+	if (!menuModalControl.selectedCategory) return null;
 
-	function CategoriesBlock({ categories }: { categories: CategoryData[] }): ReactElement | null {
-		const category = categories.find((category) => category.slug === selectedCategory);
-
-		if (!category || category.child.length === 0) return null;
-
-		return (
-			<div className="sub__categories">
-				<div className="sub__categories_columns">
-					{category?.child?.map((category) => {
-						return <SubCategoryColumn data={category} key={category.slug} />;
-					})}
-				</div>
-			</div>
-		);
-	}
+	const category = categories.find((category) => category.slug === menuModalControl.selectedCategory);
+	if (!category || category.child.length === 0) return null;
 
 	return (
-		<div className="menu__content">
-			<div className="main__categories">
-				<CategoriesColumn
-					categories={categories}
-					CategoryItem={({ category }) =>
-						MainCategoryItem({ isSelected: selectedCategory === category.slug, setSelectedCategory: setSelectedCategory, category: category })
-					}
-				/>
+		<div className="sub__categories">
+			<div className="sub__categories_columns">
+				{category.child.map((category) => {
+					return <SubCategoryColumn data={category} key={category.slug} />;
+				})}
 			</div>
-			{selectedCategory ? <CategoriesBlock categories={categories} /> : null}
 		</div>
 	);
 });
+
+const MenuContentDesktop = ({ categories }: { categories: CategoryData[] }): ReactElement => {
+	return (
+		<div className="menu__content">
+			<div className="main__categories">
+				<div className="menu__category__column">
+					{(categories ?? []).map((category) => {
+						return <MainCategoryItem category={category} key={category.slug} />;
+					})}
+				</div>
+			</div>
+			<CategoriesBlock categories={categories} />
+		</div>
+	);
+};
 
 MenuContentDesktop.displayName = 'MenuContentDesktop';
 

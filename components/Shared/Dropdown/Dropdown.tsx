@@ -9,10 +9,10 @@ function Dropdown({ children, header }: { children?: ReactElement | ReactElement
 
 	return (
 		<div className="dropdown__wrapper">
-			<button className="dropdown__toggle__button" onClick={() => setToggle()}>
+			<div className="dropdown__toggle__button" onClick={() => setToggle()}>
 				{header}
 				<AngleArrowIcon className={`dropdown__toggle__arrow__icon ${toggled ? 'dropdown__toggle__arrow__icon__active' : ''}`} />
-			</button>
+			</div>
 			<div className={`dropdown__content ${toggled ? 'dropdown__content__active' : ''}`}>{children}</div>
 		</div>
 	);

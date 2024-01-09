@@ -1,0 +1,27 @@
+.dropdown__label__wrapper {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	width: 90%;
+	.dropdown__label {
+		overflow: hidden;
+		font-family: var(--museo_cyrl);
+		color: var(--primary-color);
+		font-size: var(--fontM);
+		font-weight: 700;
+		text-align: left;
+
+		transition: all 0.4s ease;
+
+		display: -webkit-box;
+		-webkit-line-clamp: 3;
+		-webkit-box-orient: vertical;
+		text-overflow: ellipsis;
+		font-family: var(--museo_cyrl);
+		margin: 0;
+	}
+
+	&:first-letter {
+		text-transform: uppercase;
+	}
+}

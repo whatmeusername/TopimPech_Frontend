@@ -20,12 +20,13 @@ import { AllFilterComponent, ClearFiltersButton } from './AllFilterComponent/All
 import { ReactElement, useEffect, useRef } from 'react';
 import { useMobile } from '../../../context/MobileContext/MobileContext';
 import { FilterIcon } from '../../IconsElements';
-import { Capitalize } from '../../../utils/Capitalize';
 import { RangeFilter } from './RangeFilter/RangeFilter';
 import { IsSearchParamsFilterQueryNumberResult, IsSearchParamsFilterQueryStringResult } from './AppliedFiltersElement/AppliedFiltersElement';
 import { useFilterParam } from '../../../hooks/useFilterParam';
 import { useFilterPathname } from '../../../hooks/useFilterPathname';
 import { RecomendationAdElement } from '../RecomendationAdElement/RecomendationAdElement';
+
+import { FilterDropdownLabel } from './FilterDropdownLabel/FilterDropdownLabel';
 
 const getFilterParameters = (searchParams: URLSearchParams | ParsedUrlQuery, appliedFilters: SearchParamsFilterQueryResult): FilterParameters => {
 	let filterParam: string | null;
@@ -141,15 +142,8 @@ function FacetFilter({ initialFilters }: { initialFilters: FilterFetchData }): R
 							Object.entries(initialFilters?.filtered ?? {})
 								.slice(0, 10)
 								.map(([parentKey, parentValue]) => {
-									const DropdownHeader = (
-										<span className="dropdown__label">
-											{Capitalize(parentValue.other.label)}
-											{parentValue.other.unit ? `, ${parentValue.other.unit}` : ''}
-										</span>
-									);
-
 									return (
-										<Dropdown header={DropdownHeader} key={'filter-' + parentKey}>
+										<Dropdown header={<FilterDropdownLabel parentValue={parentValue} />} key={'filter-' + parentKey}>
 											<OverflowContainer maxHeight={290}>
 												{parentValue.type === FacetType.OBJECT ? (
 													<CheckboxFilter
