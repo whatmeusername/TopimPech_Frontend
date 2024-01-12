@@ -158,7 +158,6 @@ function ButtonVersionSlider({ children, options = {} }: { children: ReactElemen
 		} else {
 			contentRef.current.style.left = `-${itemWidth.current * current}px`;
 		}
-		//setSliderTimeout();
 	};
 
 	useEffect(() => {
@@ -178,10 +177,6 @@ function ButtonVersionSlider({ children, options = {} }: { children: ReactElemen
 
 		IS_BUTTON_ACTIVE.current = GetButtonsEnableInitialState(options, width, itemsCount);
 		IS_DOTS_ACTIVE.current = GetDotsInitialState(options, slidesTotal.current);
-
-		// contentRef.current.childNodes.forEach((child) => {
-		// 	(child as HTMLDivElement).style.width = `${wrapperInnerWidth}px`;
-		// });
 
 		setItemsCount(itemsCount);
 		validateButtons(itemsCount);
@@ -316,7 +311,11 @@ function ButtonVersionSlider({ children, options = {} }: { children: ReactElemen
 
 	return (
 		<div className="slider__wrapper slider__wrapper__carousel" ref={wrapperRef}>
-			<div className={`slider__main__content ${slidesTotal.current === 0 ? 'slider__main__content__single' : ''}`}>
+			<div
+				className={`slider__main__content ${slidesTotal.current === 0 ? 'slider__main__content__single__slide' : ''} ${
+					children.length === 1 ? 'slider__main__content__single__child' : ''
+				}`}
+			>
 				{IS_BUTTON_ACTIVE.current && !LBDisabled ? <SliderButton side={SlideDirection.LEFT} /> : null}
 				<div className="slider__content__wrapper">
 					<div
@@ -366,7 +365,13 @@ function DragVersionSlider({ children }: { children: ReactElement | ReactElement
 	return (
 		<div className="slider__wrapper slider__wrapper__drag">
 			<div className="slider__main__content">
-				<div className="slider__content__wrapper" ref={contentWrapperRef} onMouseDown={DragStart}>
+				<div
+					className={`slider__content__wrapper ${
+						(Array.isArray(children) ? children.length === 1 : true) ? 'slider__main__content__single__child' : ''
+					}`}
+					ref={contentWrapperRef}
+					onMouseDown={DragStart}
+				>
 					<div className="slider__content" ref={contentRef}>
 						{children}
 					</div>

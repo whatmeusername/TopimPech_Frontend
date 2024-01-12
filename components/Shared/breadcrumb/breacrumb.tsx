@@ -91,7 +91,7 @@ export default function BreadcrumbByURL({
 					return (
 						<ReactFragment key={`breadcrumb__item-${breadcrumbItem.slug}`}>
 							<CatalogBreadcrumbItem data={breadcrumbItem} position={index + 1} manufacturer={manufacturer} />
-							<span className="breadcrumb__slash">/</span>
+							<span className="breadcrumb__dash">-</span>
 						</ReactFragment>
 					);
 				} else {

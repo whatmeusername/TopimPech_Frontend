@@ -31,7 +31,7 @@
 			color: var(--orange-color);
 		}
 	}
-	.breadcrumb__slash {
+	.breadcrumb__dash {
 		color: var(--gray-color);
 		font-size: var(--fontS);
 		margin: 0px;
@@ -43,7 +43,7 @@
 		overflow: scroll;
 		gap: 10px;
 		padding: 12px 10px 12px;
-		.breadcrumb__slash {
+		.breadcrumb__dash {
 			display: none;
 		}
 		.breadcrumb__item {

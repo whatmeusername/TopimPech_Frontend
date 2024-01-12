@@ -128,4 +128,11 @@
 			}
 		}
 	}
+
+	@media (max-width: 648px) {
+		min-height: 400px;
+		.product__card__image__wrapper {
+			height: 250px;
+		}
+	}
 }

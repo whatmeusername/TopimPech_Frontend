@@ -14,13 +14,13 @@
 	.contacts__page__info__item {
 		max-width: 30%;
 		min-width: 30%;
-		height: 100px;
+		height: 110px;
 		display: flex;
 		flex-direction: row;
 		align-items: center;
 		box-sizing: content-box;
 		gap: 10px;
-		padding: 15px;
+		padding: 12px;
 		border-radius: 8px;
 		box-shadow: 0 0 16px var(--box-shadow-color);
 		.contacts__page__info__item__icon__wrapper {
@@ -38,7 +38,7 @@
 				color: var(--standard-color);
 				font-weight: 400;
 				font-family: var(--museo_cyrl);
-				margin: 0 0 10px;
+				margin: 0 0 5px;
 			}
 			.contacts__page__info__item__text {
 				font-size: var(--fontL);
@@ -46,7 +46,6 @@
 				font-weight: 400;
 				font-family: var(--museo_cyrl);
 				margin: 0;
-				letter-spacing: 0.5px;
 				line-height: calc(var(--fontL) + 6px);
 			}
 		}

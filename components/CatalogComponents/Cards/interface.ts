@@ -65,6 +65,12 @@ interface Manufacturer {
 	description: string;
 }
 
+interface ProductType {
+	name: string;
+	slug: string;
+	category: ProductBaseData;
+}
+
 interface ProductData {
 	id: number;
 	name: string;
@@ -74,7 +80,7 @@ interface ProductData {
 	images: BaseImage[];
 	manufacturer: Manufacturer;
 	categories: ProductBaseData[];
-	type?: ProductBaseData;
+	type?: ProductType;
 	properties: Property[];
 	slug: string;
 	descriptionFlat?: string;
@@ -108,4 +114,5 @@ export type {
 	ProductPriceHistory,
 	Manufacturer,
 	ProductTag,
+	ProductType,
 };

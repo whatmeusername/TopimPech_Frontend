@@ -1,4 +1,4 @@
-import { Manufacturer, ProductBaseData, ProductTag } from '../CatalogComponents/Cards/interface';
+import { Manufacturer, ProductBaseData, ProductTag, ProductType } from '../CatalogComponents/Cards/interface';
 
 interface OurWorksData {
 	path: string;
@@ -15,6 +15,7 @@ interface SiteInfoData {
 	OurWorks: OurWorksData[];
 	manufacturerData: ManufacturerData[];
 	ProductsTags: ProductTag[];
+	ProductTypes: ProductType[];
 }
 
 export type { OurWorksData, ManufacturerData, SiteInfoData };

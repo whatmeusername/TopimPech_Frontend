@@ -1,0 +1,23 @@
+.home__page__product__types__wrapper {
+	display: flex;
+	flex-direction: row;
+	gap: 10px;
+	align-items: center;
+	overflow-x: scroll;
+	scroll-snap-type: x mandatory;
+	padding: 0 10px;
+	.home__page__product__types__item {
+		background-color: var(--orange-color);
+		border-radius: 8px;
+		padding: 6px 10px;
+		scroll-snap-align: end;
+		.home__page__product__types__item__text {
+			margin: 0;
+			font-family: var(--museo_cyrl);
+			font-size: var(--fontM);
+			color: var(--white-color);
+			white-space: nowrap;
+			font-weight: 500;
+		}
+	}
+}

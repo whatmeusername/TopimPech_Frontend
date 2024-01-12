@@ -19,44 +19,43 @@ function TipPopUpElement({
 	const [popUpYDirection, setPopUpYDirection] = useState<'up' | 'down' | null>(null);
 	const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
-	useEffect(() => {
-		if (popUpActive === false) {
-			setPopUpXDirection(null);
-			setPopUpYDirection(null);
-			setIsLoaded(false);
+	const updatePopUpPosition = () => {
+		const contentRect = popUpContentRef.current.getBoundingClientRect();
+		let parentHasSpaceUp, parentHasSpaceDown, parentHasSpaceLeft, parentHasSpaceRight;
+		if (parent) {
+			const parentRect = parent.getBoundingClientRect();
+			parentHasSpaceUp = contentRect.top >= parentRect.top;
+			parentHasSpaceDown = parentRect.height + parent.scrollTop >= contentRect.bottom;
+			parentHasSpaceRight = parent.offsetWidth + parentRect.left - contentRect.right >= 0;
+			parentHasSpaceLeft = parent.offsetWidth + parentRect.left - contentRect.left >= contentRect.width;
 		} else {
-			const contentRect = popUpContentRef.current.getBoundingClientRect();
-			let parentHasSpaceUp, parentHasSpaceDown, parentHasSpaceLeft, parentHasSpaceRight;
-			if (parent) {
-				const parentRect = parent.getBoundingClientRect();
-				parentHasSpaceUp = contentRect.top >= parentRect.top;
-				parentHasSpaceDown = parentRect.height + parent.scrollTop >= contentRect.bottom;
-				parentHasSpaceRight = parent.offsetWidth + parentRect.left - contentRect.right >= 0;
-				parentHasSpaceLeft = parent.offsetWidth + parentRect.left - contentRect.left >= 0;
-			} else {
-				parentHasSpaceUp = contentRect.top >= window.innerHeight + window.screenTop;
-				parentHasSpaceDown = contentRect.bottom >= window.innerHeight + window.screenTop;
-				parentHasSpaceRight = window.innerWidth - contentRect.right >= 0;
-				parentHasSpaceLeft = window.innerWidth - contentRect.left >= 0;
-			}
-
-			if (!parentHasSpaceRight && parentHasSpaceLeft) {
-				setPopUpXDirection('left');
-			} else if (!parentHasSpaceRight && !parentHasSpaceLeft) {
-				setPopUpXDirection('center');
-			} else {
-				setPopUpXDirection('right');
-			}
-
-			if (parentHasSpaceUp && !parentHasSpaceDown) {
-				setPopUpYDirection('up');
-			} else if (!parentHasSpaceUp && parentHasSpaceDown) {
-				setPopUpYDirection('down');
-			} else {
-				setPopUpYDirection(null);
-			}
-			setIsLoaded(true);
+			parentHasSpaceUp = contentRect.top >= window.innerHeight + window.screenTop;
+			parentHasSpaceDown = contentRect.bottom >= window.innerHeight + window.screenTop;
+			parentHasSpaceRight = window.innerWidth - contentRect.right >= 0;
+			parentHasSpaceLeft = window.innerWidth - contentRect.left >= 0;
 		}
+
+		if (!parentHasSpaceRight && parentHasSpaceLeft) {
+			setPopUpXDirection('left');
+		} else if (!parentHasSpaceRight && !parentHasSpaceLeft) {
+			setPopUpXDirection('center');
+		} else {
+			setPopUpXDirection('right');
+		}
+
+		if (parentHasSpaceUp && !parentHasSpaceDown) {
+			setPopUpYDirection('up');
+		} else if (!parentHasSpaceUp && parentHasSpaceDown) {
+			setPopUpYDirection('down');
+		} else {
+			setPopUpYDirection(null);
+		}
+	};
+
+	useEffect(() => {
+		if (isLoaded) return;
+		updatePopUpPosition();
+		if (popUpActive) setIsLoaded(true);
 	}, [popUpActive]);
 
 	return (

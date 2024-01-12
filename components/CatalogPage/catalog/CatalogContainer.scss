@@ -34,13 +34,6 @@
 						grid-template-columns: repeat(8, 1fr);
 					}
 
-					@media (max-width: 648px) {
-						display: flex;
-						flex-direction: column;
-						align-items: center;
-						flex-wrap: wrap;
-					}
-
 					.product__card__wrapper {
 						width: 100%;
 						height: 100;

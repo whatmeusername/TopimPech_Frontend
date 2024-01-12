@@ -10,13 +10,14 @@ import { HomePageElementCategories } from './HomePageElementCategories/HomePageE
 import { ManufacturesBlock } from './ManufacturesBlock/ManufacturesBlock';
 import { ProductTagSlider } from './ProductTagSlider/ProductTagSlider';
 
-import type { SiteInfoData } from './interface';
-
 import { ReactElement } from 'react';
+import type { SiteInfoData } from './interface';
+import { ProductTypeSlider } from './ProductTypeSlider/ProductTypeSlider';
 
 function HomePageElement({ SiteInfoData }: { SiteInfoData: SiteInfoData }): ReactElement {
 	return (
 		<div className="home__page__wrapper">
+			<ProductTypeSlider SiteInfoData={SiteInfoData} />
 			<BannersSlider />
 			<div className="home__page__wrapper__content">
 				<AboutStoreElement />

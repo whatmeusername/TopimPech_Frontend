@@ -58,6 +58,18 @@
 			color: var(--orange-color);
 		}
 	}
+
+	@media (max-width: 496px) {
+		.product__available__status__text {
+			font-size: var(--fontM);
+		}
+	}
+
+	@media (max-width: 368px) {
+		.product__available__status__text {
+			font-size: var(--fontS);
+		}
+	}
 }
 
 .product__where__to__buy {

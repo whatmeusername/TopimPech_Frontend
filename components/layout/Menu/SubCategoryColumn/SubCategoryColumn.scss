@@ -13,14 +13,17 @@
 		gap: 10px;
 
 		.sub__categories__column__item__sub {
-			color: var(--standard-color);
 			text-decoration: none;
-			font-size: var(--fontL);
-			font-weight: 400;
-			transition: color 0.25s ease;
-			text-transform: capitalize;
+			.sub__categories__column__item__sub__text {
+				color: var(--standard-color);
+				font-size: var(--fontL);
+				font-weight: 400;
+				transition: color 0.25s ease;
+			}
 			&:hover {
-				color: var(--orange-color);
+				.sub__categories__column__item__sub__text {
+					color: var(--orange-color);
+				}
 			}
 		}
 	}

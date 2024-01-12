@@ -19,6 +19,7 @@ import { MobileContext } from '../context/MobileContext/MobileContext';
 import { CATALOG_VIEW_COOKIE, CatalogView } from '../components/CatalogContainer/ChangeProductView/interface';
 import { Metadata } from 'next/types';
 import { fetchCategories, getData } from '../appRouteUtils';
+import { HeadFavicon } from '../components/HeadComponents/HeadFavicon';
 
 const PROXY_URL = process.env.PROXY_URL ?? 'http://localhost:8000';
 
@@ -88,6 +89,7 @@ async function RootLayout({ children }: { children: ReactElement }) {
 		<html lang="en">
 			<head>
 				<meta name="theme-color" media="(prefers-color-scheme: light)" content="white" />
+				<HeadFavicon />
 				<script
 					type="text/javascript"
 					dangerouslySetInnerHTML={{

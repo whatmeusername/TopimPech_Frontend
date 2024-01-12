@@ -6,8 +6,8 @@ import { GridIcon, ListIcon } from '../../IconsElements';
 import { useGlobalContext } from '../../../context/GlobalContext/GlobalContext';
 
 const AvailableVariant: ProductAligmentVariantData[] = [
-	{ icon: <GridIcon className="product__view__icon" />, name: CatalogView.GRID },
-	{ icon: <ListIcon className="product__view__icon" />, name: CatalogView.ROW },
+	{ icon: <GridIcon className="product__view__icon" />, name: CatalogView.GRID, label: 'Cеткой' },
+	{ icon: <ListIcon className="product__view__icon" />, name: CatalogView.ROW, label: 'Cтолбцом' },
 ];
 
 const ChangeProductView = memo(({ disabled, setCatalogView }: { disabled?: boolean; setCatalogView: (value: CatalogView) => void }) => {
@@ -25,7 +25,7 @@ const ChangeProductView = memo(({ disabled, setCatalogView }: { disabled?: boole
 		<div className={`prdouct__views__wrapper ${disabled ? 'prdouct__views__wrapper__disabled' : ''}`}>
 			{AvailableVariant.map((variant) => {
 				return (
-					<div
+					<button
 						className={`prdouct__view ${selectedView === variant.name ? 'prdouct__view__selected' : ''}`}
 						key={variant.name}
 						onClick={() => {
@@ -34,9 +34,11 @@ const ChangeProductView = memo(({ disabled, setCatalogView }: { disabled?: boole
 								setView(variant.name);
 							}
 						}}
+						title={`Раскладка товаров ${variant.label}`}
 					>
-						{variant.icon}
-					</div>
+						<div className="prdouct__view__icon__wrapper">{variant.icon}</div>
+						<p className="prdouct__view__label">{variant.label}</p>
+					</button>
 				);
 			})}
 		</div>
