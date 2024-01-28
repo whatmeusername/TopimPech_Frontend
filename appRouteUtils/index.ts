@@ -1,10 +1,11 @@
 import { notFound } from 'next/navigation';
-import { ServerSideURLProps, PROXY_URL } from '../app/layout';
+import { ServerSideURLProps } from '../app/layout';
 import { ProductAPIResponse, CatalogData } from '../components/CatalogPage/catalog/interface';
 import { FilterFetchData } from '../components/CatalogPage/Filter/interface';
 import { SearchParamsBuilder } from '../utils';
 import { GetCategoryName } from '../utils/GetCategoryName';
 import { SiteInfoData } from '../components/HomePageElement/interface';
+import { PROXY_URL } from '../const/siteinfo.const';
 
 async function getData(url: string, init?: RequestInit) {
 	const res = fetch(url, init)

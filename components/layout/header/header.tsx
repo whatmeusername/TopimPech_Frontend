@@ -14,7 +14,7 @@ import ProductSearch from '../searchfield/SearchFieldDesktop/SearchField';
 import { SearchMobile } from '../searchfield/SearchFieldMobile/SearchFieldMobile';
 import { headerSticky } from '../../../store/HeaderSticky';
 import { useGlobalContext } from '../../../context/GlobalContext/GlobalContext';
-import { IS_CART_ENABLED } from '../../../const/settings';
+import { IS_CART_ENABLED } from '../../../const/settings.const';
 
 const HeaderLogo = (): JSX.Element => {
 	return (
@@ -156,10 +156,10 @@ const HeaderDesktop = observer((): ReactElement => {
 							</Link>
 						</div>
 						<div className="header__info__contact__phone__wrapper">
-							{globalContext.basePhoneNumber.map((phone, i) => {
+							{globalContext.PhoneNumbersData.map((phone, i) => {
 								return (
 									<p className="header__info__contact__phone" key={`contact__phone__${i}`}>
-										{phone}
+										{phone.format}
 									</p>
 								);
 							})}

@@ -9,6 +9,7 @@ import { useMobile } from '../../../context/MobileContext/MobileContext';
 function ProductTypeSlider({ SiteInfoData }: { SiteInfoData: SiteInfoData }): ReactElement | null {
 	const isMobile = useMobile(768);
 	if (!isMobile) return null;
+    
 	return (
 		<div className="home__page__product__types__wrapper home__width__limiter">
 			{SiteInfoData.ProductTypes.filter((t) => t.category).map((type) => (

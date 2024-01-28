@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic';
-import { FULL_DOMAIN, META_PAGE_DESCRIPTION_BASE, OPENGRAPH_BASE, PROXY_URL } from '../../layout';
 import { getData } from '../../../appRouteUtils';
 import { Metadata } from 'next';
+import { PROXY_URL, META_PAGE_DESCRIPTION_BASE, OPENGRAPH_BASE, FULL_DOMAIN } from '../../../const/siteinfo.const';
 
 const UserPolicyElement = dynamic(() => import('../../../components/InfoPages/PrivacyElements/UserPolicyElement'));
 

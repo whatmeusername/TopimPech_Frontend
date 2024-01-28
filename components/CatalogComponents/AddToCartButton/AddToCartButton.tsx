@@ -5,7 +5,7 @@ import { useStore } from '../../../context/MobxStoreContext/MobxStoreContext';
 import Link from 'next/link';
 import { ProductData, ProductDataShort } from '../Cards/interface';
 import { ReactElement } from 'react';
-import { IS_CART_ENABLED } from '../../../const/settings';
+import { IS_CART_ENABLED } from '../../../const/settings.const';
 
 function AddToCartButton({
 	product,

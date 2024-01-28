@@ -2,22 +2,15 @@ import Catalog from '../../../../components/CatalogPage/catalog/index';
 
 import { Metadata } from 'next';
 
-import {
-	DOMAIN_NAME,
-	FULL_DOMAIN,
-	META_PAGE_DESCRIPTION,
-	OPENGRAPH_BASE,
-	PAGE_NOT_FOUND,
-	PRODUCT_PAGE_SUB_LABEL,
-	PROXY_URL,
-	SITE_URL_SLICED,
-	ServerSideURLProps,
-} from '../../../layout';
+import { ServerSideURLProps } from '../../../layout';
 import { getCategoryCatalogData, getData } from '../../../../appRouteUtils';
 
 import { FilterFetchData } from '../../../../components/CatalogPage/Filter/interface';
 import { ProductAPIResponse } from '../../../../components/CatalogPage/catalog/interface';
 import { GetCategoryName } from '../../../../utils/GetCategoryName';
+import { Page404Metadata } from '../../../../utils/Page404Metadata';
+import { CatalogPageMetadata } from '../../../../utils/CatalogPageMetadata';
+import { PROXY_URL } from '../../../../const/siteinfo.const';
 
 async function CatalogPage(context: ServerSideURLProps) {
 	context.params.category = 'manufacturer';
@@ -38,33 +31,8 @@ export async function generateMetadata({ params }: ServerSideURLProps): Promise<
 		getData(filtersFetchURLRaw, { next: { revalidate: 36000 } }),
 	])) as [ProductAPIResponse, FilterFetchData];
 
-	const product = productsData.products?.[0];
-	const pageHeader = GetCategoryName({
-		main: 'Товары производителя',
-		manufacturer: product.manufacturer.name,
-		categoryStringAdditions: filtersData.categoryStringAdditions,
-		capitalize: true,
-	});
-
-	const description = META_PAGE_DESCRIPTION(pageHeader ?? 'товары для бани и дома');
-	const ogTitle = productsData.status.is404Page ? 'товары для бани и дома' : `${pageHeader} ${PRODUCT_PAGE_SUB_LABEL}`;
-
-	const result: Metadata = {
-		title: productsData.status.is404Page ? PAGE_NOT_FOUND : `${pageHeader} ${PRODUCT_PAGE_SUB_LABEL}`,
-		description: description,
-		keywords: `${pageHeader}, Купить ${ogTitle} в интернет магазине, цена ${ogTitle}`,
-		openGraph: {
-			title: ogTitle,
-			description: description,
-			images: [`${SITE_URL_SLICED}/api${product?.images?.[0]?.path}`],
-			url: productsData.status.is404Page ? DOMAIN_NAME : `${FULL_DOMAIN}/catalog/category/${params.category}`,
-			...OPENGRAPH_BASE,
-		},
-	};
-	if (!productsData.status.is404Page) {
-		result.alternates = { canonical: `/catalog/${params.category}/${params.manufacturer}` };
-	}
-	return result;
+	if (productsData.status.is404Page) return Page404Metadata();
+	return CatalogPageMetadata(params, productsData, filtersData);
 }
 
 export default CatalogPage;

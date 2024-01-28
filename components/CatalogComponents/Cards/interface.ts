@@ -6,6 +6,13 @@ interface BaseImage {
 	dir: string;
 }
 
+interface ProductCategoryData {
+	id: number;
+	name: string;
+	slug: string;
+	image?: BaseImage;
+}
+
 interface ProductBaseData {
 	id: number;
 	name: string;
@@ -79,7 +86,7 @@ interface ProductData {
 	sale: number;
 	images: BaseImage[];
 	manufacturer: Manufacturer;
-	categories: ProductBaseData[];
+	categories: ProductCategoryData[];
 	type?: ProductType;
 	properties: Property[];
 	slug: string;
@@ -115,4 +122,5 @@ export type {
 	Manufacturer,
 	ProductTag,
 	ProductType,
+	ProductCategoryData,
 };

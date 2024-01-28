@@ -1,8 +1,9 @@
 import Catalog from '../../../components/CatalogPage/catalog/index';
 import { Metadata } from 'next';
 
-import { META_PAGE_DESCRIPTION, ServerSideURLProps } from '../../layout';
+import { ServerSideURLProps } from '../../layout';
 import { getCategoryCatalogData } from '../../../appRouteUtils';
+import { META_PAGE_DESCRIPTION } from '../../../const/siteinfo.const';
 
 async function CatalogPage(context: ServerSideURLProps) {
 	const CatalogData = await getCategoryCatalogData(context);
@@ -10,11 +11,9 @@ async function CatalogPage(context: ServerSideURLProps) {
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-	const description = META_PAGE_DESCRIPTION('Поиск среди товаров');
-
 	return {
 		title: 'Результаты поиска',
-		description: description,
+		description: META_PAGE_DESCRIPTION('Поиск среди товаров'),
 	};
 }
 

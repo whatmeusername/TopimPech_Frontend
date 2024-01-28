@@ -1,6 +1,6 @@
 import { ComparisonProductsPage } from '../../components/ComparisonProductPage/ComparisonProductsPage';
 import { Metadata } from 'next/types';
-import { PAGE_SUB_LABEL, META_PAGE_DESCRIPTION_BASE } from '../layout';
+import { PAGE_SUB_LABEL, META_PAGE_DESCRIPTION_BASE } from '../../const/siteinfo.const';
 
 export const metadata: Metadata = {
 	title: `Сравнение товаров ${PAGE_SUB_LABEL}`,

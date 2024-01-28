@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { NotFoundPage } from '../../../components/Shared/NotFoundPage/NotFoundPage';
-import { PAGE_NOT_FOUND, META_PAGE_DESCRIPTION_BASE } from '../../layout';
+import { PAGE_NOT_FOUND, META_PAGE_DESCRIPTION_BASE } from '../../../const/siteinfo.const';
 
 export const metadata: Metadata = {
 	title: PAGE_NOT_FOUND,

@@ -22,10 +22,10 @@ function ContactUs() {
 				<div className="contact__us__phones__wrapper">
 					<p className="contact__us__phones__header">Контактные номера</p>
 					<div className="contact__us__phones">
-						{globalContext.basePhoneNumber.map((phone, i) => {
+						{globalContext.PhoneNumbersData.map((phone, i) => {
 							return (
 								<p className="contact__us__phones__item" key={`contact__us__phones__item_${i}`}>
-									{phone}
+									{phone.format}
 								</p>
 							);
 						})}

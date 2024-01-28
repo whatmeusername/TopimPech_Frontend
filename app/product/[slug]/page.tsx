@@ -3,19 +3,19 @@ import { ProductPage, ProductPageResponse } from '../../../components/ProductPag
 
 import { Metadata } from 'next';
 
-import {
-	DOMAIN_NAME,
-	FULL_DOMAIN,
-	META_PAGE_DESCRIPTION,
-	OPENGRAPH_BASE,
-	PAGE_NOT_FOUND,
-	PRODUCT_PAGE_SUB_LABEL,
-	PROXY_URL,
-	SITE_URL_SLICED,
-	ServerSideURLProps,
-} from '../../layout';
+import { ServerSideURLProps } from '../../layout';
 import { getData } from '../../../appRouteUtils';
 import { Capitalize } from '../../../utils/Capitalize';
+import {
+	PROXY_URL,
+	META_PAGE_DESCRIPTION,
+	PRODUCT_PAGE_SUB_LABEL,
+	PAGE_NOT_FOUND,
+	SITE_URL_SLICED,
+	FULL_DOMAIN,
+	DOMAIN_NAME,
+	OPENGRAPH_BASE,
+} from '../../../const/siteinfo.const';
 
 export async function generateMetadata({ params }: ServerSideURLProps): Promise<Metadata> {
 	const product: ProductPageResponse = await getData(`${PROXY_URL}products/slug/${params.slug}`, { next: { revalidate: 43200 } });

@@ -71,13 +71,14 @@
 			.footer__contacts__wrapper {
 				display: flex;
 				flex-direction: column;
-				gap: 30px;
+				align-items: flex-end;
+				gap: 15px;
 				color: var(--white-color);
 				font-family: var(--museo_cyrl);
 				.footer__contacts__content__wrapper {
 					display: flex;
 					flex-direction: column;
-					gap: 10px;
+					gap: 5px;
 					text-align: right;
 				}
 				.footer__contacts__data__header {
@@ -85,10 +86,28 @@
 					font-weight: 600;
 					margin: 0;
 				}
+				.footer__contacts__data__wrapper {
+					display: flex;
+					flex-direction: row;
+					gap: 10px;
+					align-items: center;
+					.footer__contacts__data__phone {
+						font-size: var(--fontL);
+						margin: 0;
+						font-weight: 300;
+					}
+					.whatsapp__link {
+						width: 25px;
+						height: 25px;
+					}
+					.footer__contacts__data__phone__icon {
+						width: 24px;
+						height: 24px;
+						fill: var(--white-color);
+					}
+				}
 				.footer__contacts__data {
-					font-size: var(--fontL);
 					margin: 0;
-					font-weight: 300;
 				}
 			}
 		}
@@ -110,10 +129,13 @@
 				text-align: center;
 				justify-content: center;
 				align-items: center;
-				.footer__contacts__content__wrapper {
-					text-align: center;
-					justify-content: center;
+				.footer__contacts__wrapper {
 					align-items: center;
+					.footer__contacts__content__wrapper {
+						text-align: center;
+						justify-content: center;
+						align-items: center;
+					}
 				}
 			}
 		}
@@ -128,6 +150,7 @@
 				justify-content: flex-start;
 				align-items: flex-start;
 				.footer__contacts__wrapper {
+					align-items: flex-start;
 					.footer__contacts__content__wrapper {
 						text-align: left;
 						justify-content: unset;

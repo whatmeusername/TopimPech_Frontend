@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { ContactsPageElement } from '../../../components/InfoPages/ContactsPageElement/ContactsPageElement';
-import { FULL_DOMAIN, META_PAGE_DESCRIPTION_BASE, OPENGRAPH_BASE } from '../../layout';
+import { META_PAGE_DESCRIPTION_BASE, OPENGRAPH_BASE, FULL_DOMAIN } from '../../../const/siteinfo.const';
 
 function ContactsPage() {
 	return <ContactsPageElement />;

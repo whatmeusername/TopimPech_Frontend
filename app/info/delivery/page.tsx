@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic';
-import { FULL_DOMAIN, OPENGRAPH_BASE, PROXY_URL } from '../../layout';
 import { getData } from '../../../appRouteUtils';
 import { Metadata } from 'next';
+import { PROXY_URL, OPENGRAPH_BASE, FULL_DOMAIN } from '../../../const/siteinfo.const';
 
 const DeliveryPageElement = dynamic(() => import('../../../components/InfoPages/DeliveryPageElement/DeliveryPageElement'));
 

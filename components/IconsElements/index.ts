@@ -39,6 +39,8 @@ import Number7Icon from '../../public/HomePageIcons/Number7.svg';
 import Number15Icon from '../../public/HomePageIcons/Number15.svg';
 
 import QuestionIcon from '../../public/icons/question.svg';
+import WhatsappIcon from '../../public/icons/whatsapp.svg';
+import WhatsappColorIcon from '../../public/icons/WhatsappColor.svg';
 
 export {
 	MenuIcon,
@@ -74,4 +76,6 @@ export {
 	Number7Icon,
 	Number15Icon,
 	QuestionIcon,
+	WhatsappIcon,
+	WhatsappColorIcon,
 };

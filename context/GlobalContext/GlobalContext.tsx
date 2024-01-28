@@ -7,7 +7,7 @@ import { MappedProductsResponse } from '../../components/CatalogComponents/Cards
 interface GlobalContextData {
 	productCount: number;
 	view: CatalogView;
-	basePhoneNumber: string[];
+	PhoneNumbersData: { format: string; flat: string; isWhatsapp: boolean }[];
 	recomendation: MappedProductsResponse<true>;
 	baseAddress: string;
 }
@@ -18,20 +18,26 @@ function GlobalContext({
 	children,
 	productCount,
 	view,
-	basePhoneNumber,
+	PhoneNumbersData,
 	recomendation,
 	baseAddress,
 }: {
 	children: ReactElement | ReactElement[];
 	productCount: number;
 	view: CatalogView;
-	basePhoneNumber: string[];
+	PhoneNumbersData: { format: string; flat: string; isWhatsapp: boolean }[];
 	recomendation: MappedProductsResponse<true>;
 	baseAddress: string;
 }): ReactElement {
 	return (
 		<GlobalContextData.Provider
-			value={{ basePhoneNumber: basePhoneNumber, productCount: productCount, view: view, recomendation: recomendation, baseAddress: baseAddress }}
+			value={{
+				PhoneNumbersData: PhoneNumbersData,
+				productCount: productCount,
+				view: view,
+				recomendation: recomendation,
+				baseAddress: baseAddress,
+			}}
 		>
 			{children}
 		</GlobalContextData.Provider>

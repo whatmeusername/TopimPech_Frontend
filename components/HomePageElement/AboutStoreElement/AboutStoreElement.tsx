@@ -4,7 +4,7 @@ import { PhoneIcon, DeliveryIcon } from '../../IconsElements';
 import './AboutStoreElement.scss';
 
 function AboutStoreElement() {
-	const phones = useGlobalContext().basePhoneNumber;
+	const phones = useGlobalContext().PhoneNumbersData;
 
 	const AboutStoreText = [
 		{
@@ -20,7 +20,7 @@ function AboutStoreElement() {
 			text: 'Услуги замера, монтажа и доставки',
 		},
 		{
-			text: `Звоните ${phones[0]} или пишите нам в WhatsApp`,
+			text: `Звоните ${phones[0].format} или пишите нам в WhatsApp`,
 		},
 	];
 

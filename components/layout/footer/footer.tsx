@@ -5,7 +5,8 @@ import Link from 'next/link';
 
 import { ThinBreakLine } from '../../Shared/Lines/ThinBreakLine/ThinBreakLine';
 import { useGlobalContext } from '../../../context/GlobalContext/GlobalContext';
-import { SiteLogo } from '../../IconsElements';
+import { PhoneIcon, SiteLogo } from '../../IconsElements';
+import { WhatsappLink } from '../../Shared/WhatsappLink/WhatsappLink';
 
 const COPYRIGHTS_LABEL =
 	'Представленная информация на сайте носит чисто информационный смысл, материалы и цены, размещенные на сайте, не являются публичной офертой. Подробную информацию уточняйте у продавца.';
@@ -92,11 +93,27 @@ function ContactsColumn(): ReactElement {
 		<div className="footer__contacts__wrapper" itemScope itemType="http://schema.org/Organization">
 			<div className="footer__contacts__content__wrapper footer__contacts__phone__wrapper">
 				<p className="footer__contacts__data__header">Контактные номера</p>
-				{GlobalContext.basePhoneNumber.map((phone, i) => {
+				{GlobalContext.PhoneNumbersData.map((phone, i) => {
 					return (
-						<p className="footer__contacts__data" itemProp="telephone" key={`contacts__phone__${i}`}>
-							{phone}
-						</p>
+						<div className="footer__contacts__data__wrapper" key={`contacts__phone__${i}`}>
+							<PhoneIcon className="footer__contacts__data__phone__icon" />
+							<p className="footer__contacts__data__phone" itemProp="telephone">
+								{phone.format}
+							</p>
+						</div>
+					);
+				})}
+			</div>
+			<div className="footer__contacts__content__wrapper footer__contacts__phone__wrapper">
+				<p className="footer__contacts__data__header">Whatsapp</p>
+				{GlobalContext.PhoneNumbersData.filter((p) => p.isWhatsapp).map((phone, i) => {
+					return (
+						<div className="footer__contacts__data__wrapper" key={`contacts__phone__${i}`}>
+							<WhatsappLink phoneNumber={phone.flat} />
+							<p className="footer__contacts__data__phone" itemProp="telephone">
+								{phone.format}
+							</p>
+						</div>
 					);
 				})}
 			</div>
