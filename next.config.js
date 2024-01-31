@@ -15,9 +15,6 @@ const securityHeaders = [
 const nextConfig = {
 	reactStrictMode: false,
 	swcMinify: true,
-	experimental: {
-		appDir: true,
-	},
 
 	webpack(config) {
 		config.module.rules.forEach((rule) => {

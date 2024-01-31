@@ -1,11 +1,15 @@
-import { Manufacturer } from '../../CatalogComponents/Cards/interface';
+import { ProductData } from '../../CatalogComponents/Cards/interface';
 import Image from 'next/image';
 import { NO_IMAGE_SRC } from '../../const';
 import { Capitalize } from '../../../utils/Capitalize';
 import Link from 'next/link';
 import './ManufacturerElement.scss';
+import { ReactElement } from 'react';
 
-const ManufacturerElement = ({ ManufacturerData }: { ManufacturerData: Manufacturer }) => {
+function ManufacturerElement({ product }: { product: ProductData }): ReactElement | null {
+	if (!product.manufacturer) return null;
+
+	const ManufacturerData = product.manufacturer;
 	return (
 		<Link className="product__page__manufacturer" href={`/catalog/manufacturer/${ManufacturerData.slug}/`}>
 			{ManufacturerData.image ? (
@@ -27,6 +31,6 @@ const ManufacturerElement = ({ ManufacturerData }: { ManufacturerData: Manufactu
 			<p className="product__page__manufacturer__name">{Capitalize(ManufacturerData.name)}</p>
 		</Link>
 	);
-};
+}
 
 export { ManufacturerElement };

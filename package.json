@@ -10,32 +10,32 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@svgr/webpack": "^8.0.1",
-    "axios": "^1.4.0",
-    "chart.js": "^4.4.0",
-    "html-react-parser": "^4.2.1",
-    "mobx": "^6.10.0",
-    "mobx-react-lite": "^4.0.3",
-    "next": "^13.4.13",
-    "next-sitemap": "^4.2.2",
+    "@svgr/webpack": "^8.1.0",
+    "axios": "^1.6.7",
+    "chart.js": "^4.4.1",
+    "html-react-parser": "^5.1.1",
+    "mobx": "^6.12.0",
+    "mobx-react-lite": "^4.0.5",
+    "next": "^14.1.0",
+    "next-sitemap": "^4.2.3",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
     "react-input-mask": "^2.0.4",
-    "sharp": "^0.32.4"
+    "sharp": "^0.33.2"
   },
   "devDependencies": {
-    "@types/node": "20.4.9",
-    "@types/nprogress": "^0.2.0",
-    "@types/react": "18.2.20",
-    "@types/react-dom": "18.2.7",
-    "@types/react-input-mask": "^3.0.2",
-    "@typescript-eslint/eslint-plugin": "^6.3.0",
-    "@typescript-eslint/parser": "^6.3.0",
-    "eslint": "8.46.0",
-    "eslint-config-next": "^13.4.13",
-    "eslint-plugin-react": "^7.33.1",
-    "sass": "^1.64.2",
-    "typescript": "5.1.6"
+    "@types/node": "20.11.13",
+    "@types/nprogress": "^0.2.3",
+    "@types/react": "18.2.48",
+    "@types/react-dom": "18.2.18",
+    "@types/react-input-mask": "^3.0.5",
+    "@typescript-eslint/eslint-plugin": "^6.20.0",
+    "@typescript-eslint/parser": "^6.20.0",
+    "eslint": "8.56.0",
+    "eslint-config-next": "^14.1.0",
+    "eslint-plugin-react": "^7.33.2",
+    "sass": "^1.70.0",
+    "typescript": "5.3.3"
   }
 }

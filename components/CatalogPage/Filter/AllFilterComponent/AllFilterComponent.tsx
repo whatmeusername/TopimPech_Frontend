@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 
@@ -18,6 +17,7 @@ import { ClearFiltersButton } from '../ClearFilterButton/ClearFiltersButton';
 import { RangeFilter } from '../RangeFilter/RangeFilter';
 import { useFilterPathname } from '../Filter';
 import { FilterDropdownLabel } from '../FilterDropdownLabel/FilterDropdownLabel';
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 
 const FoundedItemsButton = ({
 	count,

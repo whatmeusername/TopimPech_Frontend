@@ -25,6 +25,8 @@ const getLabels = (priceHistory: ProductPriceHistory[]) => {
 };
 
 function PriceHistoryChart({ product }: { product: ProductData }): ReactElement | null {
+	if (product.priceHistory?.length < 2) return null;
+
 	const [isLoaded, setLoaded] = useState<boolean>(false);
 
 	useEffect(() => {
@@ -35,21 +37,19 @@ function PriceHistoryChart({ product }: { product: ProductData }): ReactElement 
 		return <div className="product__page__product__price__history__chart__skeleton" />;
 	}
 
-	const ProductHistoryPrice = product.priceHistory;
+	const ProductHistoryPrice = product.priceHistory.sort((a, b) => (new Date(a.date) > new Date(b.date) ? 1 : -1));
 
 	const firstPrice = ProductHistoryPrice[0].price.toLocaleString();
 	const currentPrice = ProductHistoryPrice[ProductHistoryPrice.length - 1].price.toLocaleString();
-	const firstDate = ConvertDateToLocale(ProductHistoryPrice[0].date);
-	const currentDate = ConvertDateToLocale(ProductHistoryPrice[ProductHistoryPrice.length - 1].date);
 
 	// GETTING CSS VARIABLES
-	const orangeColor = getComputedStyle(document.body).getPropertyValue('--orange-color');
-	const standardColor = getComputedStyle(document.body).getPropertyValue('--standard-color');
-	const primaryColor = getComputedStyle(document.body).getPropertyValue('--primary-color');
+	const computedStyle = getComputedStyle(document.body);
+	const orangeColor = computedStyle.getPropertyValue('--orange-color');
+	const standardColor = computedStyle.getPropertyValue('--standard-color');
+	const primaryColor = computedStyle.getPropertyValue('--primary-color');
 
 	// GETTING GRADIENT FOR CHART BG
-	const ctx = document.createElement('canvas').getContext('2d') as CanvasRenderingContext2D;
-	const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+	const gradient = (document.createElement('canvas').getContext('2d') as CanvasRenderingContext2D).createLinearGradient(0, 0, 0, 400);
 	gradient.addColorStop(0, 'rgba(238,115,14, 0.25)');
 	gradient.addColorStop(0.4, 'rgba(255,255,255,0.1)');
 
@@ -114,8 +114,10 @@ function PriceHistoryChart({ product }: { product: ProductData }): ReactElement 
 				<Line data={data} options={options} />
 			</div>
 			<div className="product__page__product__price__history__chart__dates">
-				<p className="product__page__product__price__history__chart__date">{firstDate}</p>
-				<p className="product__page__product__price__history__chart__date">{currentDate}</p>
+				<p className="product__page__product__price__history__chart__date">{ConvertDateToLocale(ProductHistoryPrice[0].date)}</p>
+				<p className="product__page__product__price__history__chart__date">
+					{ConvertDateToLocale(ProductHistoryPrice[ProductHistoryPrice.length - 1].date)}
+				</p>
 			</div>
 		</div>
 	);

@@ -1,6 +1,6 @@
 import { Metadata } from 'next/types';
 import { FavouritesElement } from '../../components/FavouritesElement/FavouritesElement';
-import { PAGE_SUB_LABEL, META_PAGE_DESCRIPTION_BASE } from '../layout';
+import { PAGE_SUB_LABEL, META_PAGE_DESCRIPTION_BASE } from '../../const/siteinfo.const';
 
 export const metadata: Metadata = {
 	title: `Избранные товары ${PAGE_SUB_LABEL}`,

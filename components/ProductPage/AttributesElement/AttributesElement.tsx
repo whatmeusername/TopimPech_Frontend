@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import { Property } from '../../CatalogComponents/Cards/interface';
+import { ProductData, Property } from '../../CatalogComponents/Cards/interface';
 import { SmoothScrollToAnchor } from '../../../utils';
 
 import './AttributeElement.scss';
@@ -23,7 +23,9 @@ const AttributeElement = ({ item, showTipPop }: { item: Property; showTipPop: bo
 	);
 };
 
-const AttributesElement = ({ properties }: { properties: Property[] }): ReactElement => {
+function AttributesElement({ product }: { product: ProductData }): ReactElement | null {
+	if (product.properties.length === 0) return null;
+	const properties = product.properties;
 	const groupedAttributes = GroupAttributes(properties);
 	return (
 		<div className=" product__page__card product__page__properties" id="product__page__properties">
@@ -44,9 +46,13 @@ const AttributesElement = ({ properties }: { properties: Property[] }): ReactEle
 			</div>
 		</div>
 	);
-};
+}
 
-function ShortAttributesElement({ properties, take, showAllBtn }: { properties: Property[]; take: number; showAllBtn: boolean }): ReactElement {
+function ShortAttributesElement({ product, take, showAllBtn }: { product: ProductData; take: number; showAllBtn: boolean }): ReactElement | null {
+	if (product.properties && product.properties.length === 0) return null;
+
+	const properties = product.properties;
+
 	return (
 		<div className="product__page__properties__short">
 			<h5 className="product__page__properties__short__header">Характеристика:</h5>

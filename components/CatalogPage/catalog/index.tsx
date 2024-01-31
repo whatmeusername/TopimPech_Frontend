@@ -88,7 +88,7 @@ function Catalog({ CatalogData, isManufacturerPage }: { CatalogData: CatalogData
 				) : (
 					<CatalogHeader content={CatalogData.pageHeader} paginator={CatalogData.productsData.paginator} isCounterEnabled={!isManufacturerPage} />
 				)}
-				{CatalogData.ManufacturerData ? <ManufacturerInfoElement manufacturer={CatalogData.ManufacturerData} /> : null}
+				<ManufacturerInfoElement manufacturer={CatalogData.ManufacturerData} />
 
 				<ChildCategoriesElement
 					isInner={false}

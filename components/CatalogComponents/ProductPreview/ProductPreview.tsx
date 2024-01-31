@@ -32,7 +32,7 @@ function ProductPreviewModal({ id, toggle, productData }: { id: string; toggle: 
 							<FavouriteButton productData={productData} withLabel={true} useBaseStyle />
 							<ComparisonButton productData={productData} withLabel={true} useBaseStyle />
 						</div>
-						<ShortAttributesElement properties={productData.properties ?? []} showAllBtn={false} take={7} />
+						<ShortAttributesElement product={productData} showAllBtn={false} take={7} />
 						<Link
 							className="product__preview__link"
 							href={`/product/${productData.slug}`}

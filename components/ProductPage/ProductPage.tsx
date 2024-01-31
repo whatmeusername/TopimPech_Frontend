@@ -35,7 +35,9 @@ interface ProductPageResponse {
 	status: { status: number; message: any };
 }
 
-function SuitableProductsElement({ products }: { products: ProductData[] }): ReactElement {
+function SuitableProductsElement({ product }: { product: ProductData }): ReactElement | null {
+	if (product.suitableProducts.length === 0) return null;
+	const products = product.suitableProducts;
 	return (
 		<div className="product__page__suitable__products product__page__card">
 			<div className="product__page__suitable__products__header__wrapper">
@@ -50,7 +52,9 @@ function SuitableProductsElement({ products }: { products: ProductData[] }): Rea
 	);
 }
 
-function RelatedProductsElement({ product }: { product: ProductData }): ReactElement {
+function RelatedProductsElement({ product }: { product: ProductData }): ReactElement | null {
+	if (!product.RelatedProductsTable) return null;
+
 	const RelatedProductsTable = product.RelatedProductsTable;
 	RelatedProductsTable.relatedProducts.sort((a, b) => (a.value < b.value ? -1 : 1));
 	return (
@@ -98,15 +102,11 @@ function ProductPageMainInfoCard({ product }: { product: ProductData }): ReactEl
 					{product.name}
 				</h1>
 				<span itemProp="offers" itemScope itemType="http://schema.org/Offer">
-					{product.available ? (
-						<link itemProp="availability" href="http://schema.org/InStock" />
-					) : (
-						<link itemProp="availability" href="http://schema.org/OutOfStock" />
-					)}
+					<link itemProp="availability" href={product.available ? 'http://schema.org/InStock' : 'http://schema.org/OutOfStock'} />
 					<PriceElement product={product} includeMeta={true} />
-					{product.RelatedProductsTable ? <RelatedProductsElement product={product} /> : null}
-					{product.manufacturer ? <ManufacturerElement ManufacturerData={product.manufacturer} /> : null}
-					{product.priceHistory?.length > 1 ? <PriceHistoryChart product={product} /> : null}
+					<RelatedProductsElement product={product} />
+					<ManufacturerElement product={product} />
+					<PriceHistoryChart product={product} />
 					<div className="product__page__options__wrapper">
 						<AddToCartButton product={product} isContactMode={true} showAvailability={true} />
 						<div className="product__page__options__lower">
@@ -114,10 +114,7 @@ function ProductPageMainInfoCard({ product }: { product: ProductData }): ReactEl
 							<FavouriteButton productData={product} withLabel={true} useBaseStyle={true} />
 						</div>
 					</div>
-					{product.properties && product.properties?.length > 0 ? (
-						<ShortAttributesElement properties={product.properties} take={4} showAllBtn={true} />
-					) : null}
-
+					<ShortAttributesElement product={product} take={4} showAllBtn={true} />
 					<ThinBreakLine />
 					<div className="product__page__upper__item__info__wrapper">
 						<Link className="product__page__upper__item__wrapper" href={'/info/delivery'}>
@@ -180,9 +177,9 @@ const ProductPage = observer(({ productData, params }: { productData: ProductPag
 						</span>
 					</div>
 				) : null}
-				{product.properties.length > 0 ? <AttributesElement properties={product.properties ?? []} /> : null}
+				<AttributesElement product={product} />
 
-				{product.suitableProducts.length > 0 ? <SuitableProductsElement products={product.suitableProducts} /> : null}
+				<SuitableProductsElement product={product} />
 				<SimilarProductBlock DiffProduct={product} SimilarProductsData={productData.similar} />
 				<HydrationComponent>
 					{productHistory.items.length > 1 ? (

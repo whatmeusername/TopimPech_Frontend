@@ -5,8 +5,8 @@ import { Manufacturer } from '../../CatalogComponents/Cards/interface';
 import './ManufacturerInfoElement.scss';
 import { Capitalize } from '../../../utils/Capitalize';
 
-function ManufacturerInfoElement({ manufacturer }: { manufacturer: Manufacturer }): ReactElement | null {
-	if (!manufacturer.description) return null;
+function ManufacturerInfoElement({ manufacturer }: { manufacturer: Manufacturer | undefined }): ReactElement | null {
+	if (!manufacturer || !manufacturer.description) return null;
 	return (
 		<div className="manufacturer__info__element__wrapper">
 			<div className="manufacturer__info__element">
