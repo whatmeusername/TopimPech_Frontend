@@ -16,7 +16,11 @@ function ManufacturerElement({ product }: { product: ProductData }): ReactElemen
 				<div className="product__page__manufacturer__image__wrapper">
 					<Image
 						className="product__page__manufacturer__image"
-						onError={(e) => ((e.target as HTMLImageElement).src = NO_IMAGE_SRC)}
+						onError={(e) => {
+							const target = e.target as HTMLImageElement;
+							target.srcset = NO_IMAGE_SRC;
+							target.src = NO_IMAGE_SRC;
+						}}
 						src={`/api${ManufacturerData.image.path}`}
 						alt={ManufacturerData.name}
 						width={150}

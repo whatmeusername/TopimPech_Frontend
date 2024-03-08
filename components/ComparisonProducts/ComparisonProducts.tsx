@@ -69,7 +69,11 @@ function ComparisonProductsCardBig({ product, config }: { product: ProductData; 
 						src={`${config.URLstart ?? ''}${product.images?.[0]?.path ?? NO_IMAGE_SRC}`}
 						alt={product.name}
 						className="comparison__products__card__img"
-						onError={(e) => ((e.target as HTMLImageElement).src = NO_IMAGE_SRC)}
+						onError={(e) => {
+							const target = e.target as HTMLImageElement;
+							target.srcset = NO_IMAGE_SRC;
+							target.src = NO_IMAGE_SRC;
+						}}
 						width={180}
 						height={180}
 						style={{ objectFit: 'contain', maxInlineSize: '100%', height: 'auto' }}

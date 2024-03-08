@@ -17,7 +17,11 @@ const ProductSliderItem = ({ product, URLStartWith }: { product: ProductData | P
 			<div className="product_slider__item__image__wrapper">
 				<Image
 					className="product_slider__item__image"
-					onError={(e) => ((e.target as HTMLImageElement).src = NO_IMAGE_SRC)}
+					onError={(e) => {
+						const target = e.target as HTMLImageElement;
+						target.srcset = NO_IMAGE_SRC;
+						target.src = NO_IMAGE_SRC;
+					}}
 					src={image ? (URLStartWith ?? '') + image : NO_IMAGE_SRC}
 					alt={product.name}
 					width={215}

@@ -27,7 +27,11 @@ function ManufacturerPageElement({ ManufacturerData }: { ManufacturerData: Manuf
 								<div className="manufacturer__page__data__item__image__wrapper">
 									<Image
 										className="manufacturer__page__data__item__image"
-										onError={(e) => ((e.target as HTMLImageElement).src = NO_IMAGE_SRC)}
+										onError={(e) => {
+											const target = e.target as HTMLImageElement;
+											target.srcset = NO_IMAGE_SRC;
+											target.src = NO_IMAGE_SRC;
+										}}
 										src={`/api${manufacturer.image.path}`}
 										alt={manufacturer.name}
 										width={80}

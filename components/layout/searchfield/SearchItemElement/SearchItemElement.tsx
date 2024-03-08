@@ -30,7 +30,11 @@ function SearchItemElement({
 			<div className="search__result__item__left">
 				<div className="search__result__item__image__wrapper">
 					<Image
-						onError={(e) => ((e.target as HTMLImageElement).src = NO_IMAGE_SRC)}
+						onError={(e) => {
+							const target = e.target as HTMLImageElement;
+							target.srcset = NO_IMAGE_SRC;
+							target.src = NO_IMAGE_SRC;
+						}}
 						src={product.images.length > 0 ? `/api${product.images[0].path}` : NO_IMAGE_SRC}
 						alt={product.name}
 						className="search__result__item__image"

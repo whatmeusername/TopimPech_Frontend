@@ -55,7 +55,11 @@ const ProductImageGallery = ({
 					width={size ?? 400}
 					height={size ?? 400}
 					style={{ objectFit: 'contain', maxInlineSize: '100%' }}
-					onError={(e) => ((e.target as HTMLImageElement).src = NO_IMAGE_SRC)}
+					onError={(e) => {
+						const target = e.target as HTMLImageElement;
+						target.srcset = NO_IMAGE_SRC;
+						target.src = NO_IMAGE_SRC;
+					}}
 				/>
 			</div>
 			{refImages.current.length > 1 ? (

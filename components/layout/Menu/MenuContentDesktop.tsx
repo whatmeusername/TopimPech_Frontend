@@ -29,7 +29,11 @@ const MainCategoryItem = observer(({ category }: { category: CategoryData }): Re
 			<div className="main__category__item__image__wrapper">
 				<Image
 					className="main__category__item__image"
-					onError={(e) => ((e.target as HTMLImageElement).src = NO_IMAGE_SRC)}
+					onError={(e) => {
+						const target = e.target as HTMLImageElement;
+						target.srcset = NO_IMAGE_SRC;
+						target.src = NO_IMAGE_SRC;
+					}}
 					src={`/api${category.image?.path}`}
 					alt={category.name}
 					width={40}
@@ -60,7 +64,11 @@ const ManufacturersBlock = ({ category }: { category: CategoryData }): ReactElem
 						>
 							<Image
 								className="sub__categories__manufacturers__item__image"
-								onError={(e) => ((e.target as HTMLImageElement).src = NO_IMAGE_SRC)}
+								onError={(e) => {
+									const target = e.target as HTMLImageElement;
+									target.srcset = NO_IMAGE_SRC;
+									target.src = NO_IMAGE_SRC;
+								}}
 								src={`/api${manufacturer.image.path}`}
 								alt={category.name}
 								width={70}

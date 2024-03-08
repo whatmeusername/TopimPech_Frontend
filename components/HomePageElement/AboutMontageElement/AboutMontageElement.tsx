@@ -34,7 +34,11 @@ function AboutMontageElement({ OurWorksData }: { OurWorksData: OurWorksData[] })
 							<div className="home__page__montage__item__wrapper" key={`montage__page__work__${img.name}`}>
 								<Image
 									className="home__page__montage__item"
-									onError={(e) => ((e.target as HTMLImageElement).src = NO_IMAGE_SRC)}
+									onError={(e) => {
+										const target = e.target as HTMLImageElement;
+										target.srcset = NO_IMAGE_SRC;
+										target.src = NO_IMAGE_SRC;
+									}}
 									src={`/api${img.path}`}
 									alt={`примеры работы ${img.name}`}
 									width={220}

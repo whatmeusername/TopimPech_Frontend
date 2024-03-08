@@ -74,7 +74,11 @@ const CartItemElementDesktop = observer(({ productData }: { productData: Product
 				<div className="cart__item__image__wrapper">
 					<Image
 						className="cart__item__image"
-						onError={(e) => ((e.target as HTMLImageElement).src = NO_IMAGE_SRC)}
+						onError={(e) => {
+							const target = e.target as HTMLImageElement;
+							target.srcset = NO_IMAGE_SRC;
+							target.src = NO_IMAGE_SRC;
+						}}
 						src={imageSrc}
 						alt={productData.name}
 						width={150}
@@ -119,7 +123,11 @@ const CartItemElementMobile = observer(({ productData }: { productData: ProductD
 				<div className="cart__item__image__wrapper">
 					<Image
 						className="cart__item__image"
-						onError={(e) => ((e.target as HTMLImageElement).src = NO_IMAGE_SRC)}
+						onError={(e) => {
+							const target = e.target as HTMLImageElement;
+							target.srcset = NO_IMAGE_SRC;
+							target.src = NO_IMAGE_SRC;
+						}}
 						src={imageSrc}
 						alt={productData.name}
 						width={150}

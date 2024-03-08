@@ -19,7 +19,11 @@ function HomePageElementCategoryItem({ categoryData }: { categoryData: CategoryD
 				<Image
 					src={`/api${categoryData.image.path}`}
 					className="home__page__categories__item__image"
-					onError={(e) => ((e.target as HTMLImageElement).src = NO_IMAGE_SRC)}
+					onError={(e) => {
+						const target = e.target as HTMLImageElement;
+						target.srcset = NO_IMAGE_SRC;
+						target.src = NO_IMAGE_SRC;
+					}}
 					alt={categoryData.name}
 					width={210}
 					height={210}

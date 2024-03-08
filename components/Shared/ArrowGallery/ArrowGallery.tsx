@@ -34,7 +34,11 @@ function ArrowGallery({ items, urlStartsWith }: { items: BaseImage[]; urlStartsW
 								width={500}
 								height={500}
 								style={{ objectFit: 'contain', maxInlineSize: '100%' }}
-								onError={(e) => ((e.target as HTMLImageElement).src = NO_IMAGE_SRC)}
+								onError={(e) => {
+									const target = e.target as HTMLImageElement;
+									target.srcset = NO_IMAGE_SRC;
+									target.src = NO_IMAGE_SRC;
+								}}
 							/>
 						</span>
 					);

@@ -50,7 +50,11 @@ const MenuContentMobile = memo((): ReactElement => {
 					<div className="mobile__category__item__link__image__wrapper">
 						<Image
 							className="mobile__category__item__link__image"
-							onError={(e) => ((e.target as HTMLImageElement).src = NO_IMAGE_SRC)}
+							onError={(e) => {
+								const target = e.target as HTMLImageElement;
+								target.srcset = NO_IMAGE_SRC;
+								target.src = NO_IMAGE_SRC;
+							}}
 							src={`/api${category.image.path}`}
 							alt={category.name}
 							width={40}

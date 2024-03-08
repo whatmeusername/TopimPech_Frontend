@@ -31,7 +31,11 @@ const SliderChildCategoriesChild = ({ category, manufacturer }: { category: Cate
 							height={50}
 							priority={false}
 							style={{ objectFit: 'contain', maxInlineSize: '100%' }}
-							onError={(e) => ((e.target as HTMLImageElement).src = NO_IMAGE_SRC)}
+							onError={(e) => {
+								const target = e.target as HTMLImageElement;
+								target.srcset = NO_IMAGE_SRC;
+								target.src = NO_IMAGE_SRC;
+							}}
 						/>
 					</div>
 				) : (
@@ -71,7 +75,11 @@ const PrimaryChildCategoriesChild = ({ category, manufacturer }: { category: Cat
 			<div className="block__child__categories__item__image__wrapper">
 				<Image
 					className="block__child__categories__item__image"
-					onError={(e) => ((e.target as HTMLImageElement).src = NO_IMAGE_SRC)}
+					onError={(e) => {
+						const target = e.target as HTMLImageElement;
+						target.srcset = NO_IMAGE_SRC;
+						target.src = NO_IMAGE_SRC;
+					}}
 					src={`/api${category.image.path}`}
 					alt={category.name}
 					width={120}

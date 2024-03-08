@@ -44,7 +44,11 @@ function BannersSlider() {
 									<Image
 										src={isMobile ? banner.mobile : banner.desktop}
 										className="home__page__banner__image"
-										onError={(e) => ((e.target as HTMLImageElement).src = NO_IMAGE_SRC)}
+										onError={(e) => {
+											const target = e.target as HTMLImageElement;
+											target.srcset = NO_IMAGE_SRC;
+											target.src = NO_IMAGE_SRC;
+										}}
 										alt={banner.url}
 										width={isMobile ? 720 : 1440}
 										height={isMobile ? 420 : 400}

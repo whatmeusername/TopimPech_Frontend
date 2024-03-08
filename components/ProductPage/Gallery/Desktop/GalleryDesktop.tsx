@@ -142,7 +142,11 @@ const GalleryDesktop = ({
 								>
 									<Image
 										className="gallery__available__item__image"
-										onError={(e) => ((e.target as HTMLImageElement).src = NO_IMAGE_SRC)}
+										onError={(e) => {
+											const target = e.target as HTMLImageElement;
+											target.srcset = NO_IMAGE_SRC;
+											target.src = NO_IMAGE_SRC;
+										}}
 										src={(urlStartsWith ?? '') + item.path}
 										alt={productName}
 										width={80}
@@ -166,12 +170,16 @@ const GalleryDesktop = ({
 					>
 						<img
 							src={activeImagePath}
-							alt={productName}
 							className="gallery__current__img"
 							ref={imageElement}
 							style={{ opacity: 0 }}
 							onLoad={OnLoad}
-							onError={(e) => ((e.target as HTMLImageElement).src = NO_IMAGE_SRC)}
+							onError={(e) => {
+								console.log(e);
+								const target = e.target as HTMLImageElement;
+								target.srcset = NO_IMAGE_SRC;
+								target.src = NO_IMAGE_SRC;
+							}}
 						/>
 
 						{allowZoom ? <div ref={zoomPointer} className="gallery__current__zoom__cursor" /> : null}

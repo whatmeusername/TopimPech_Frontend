@@ -31,7 +31,11 @@ function ManufacturerProductPageElement({ category }: { category: string }): Rea
 										<div className="product__page__manufacturer__item__image__wrapper">
 											<Image
 												className="product__page__manufacturer__item__image"
-												onError={(e) => ((e.target as HTMLImageElement).src = NO_IMAGE_SRC)}
+												onError={(e) => {
+													const target = e.target as HTMLImageElement;
+													target.srcset = NO_IMAGE_SRC;
+													target.src = NO_IMAGE_SRC;
+												}}
 												src={`/api${manufacturer.image.path}`}
 												alt={manufacturer.name}
 												width={160}

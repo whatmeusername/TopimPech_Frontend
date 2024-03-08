@@ -27,7 +27,11 @@ function RecomendationAdElement(): ReactElement {
 						<div className="recomendation__ad__element__image__wrapper">
 							<Image
 								className="recomendation__ad__element__image"
-								onError={(e) => ((e.target as HTMLImageElement).src = NO_IMAGE_SRC)}
+								onError={(e) => {
+									const target = e.target as HTMLImageElement;
+									target.srcset = NO_IMAGE_SRC;
+									target.src = NO_IMAGE_SRC;
+								}}
 								src={`/api${recomendationProduct.images?.[0]?.path}`}
 								alt={recomendationProduct.name}
 								width={250}

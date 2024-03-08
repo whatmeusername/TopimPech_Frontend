@@ -102,7 +102,11 @@ const GalleryMobile = ({
 							<span className="gallery__image__holder" key={`gallery__image__holder__${item.id}`}>
 								<Image
 									className="gallery__current__image"
-									onError={(e) => ((e.target as HTMLImageElement).src = NO_IMAGE_SRC)}
+									onError={(e) => {
+										const target = e.target as HTMLImageElement;
+										target.srcset = NO_IMAGE_SRC;
+										target.src = NO_IMAGE_SRC;
+									}}
 									src={(urlStartsWith ?? '') + item.path}
 									alt={productName}
 									width={300}
@@ -129,7 +133,11 @@ const GalleryMobile = ({
 								>
 									<Image
 										className="gallery__available__item__image"
-										onError={(e) => ((e.target as HTMLImageElement).src = NO_IMAGE_SRC)}
+										onError={(e) => {
+											const target = e.target as HTMLImageElement;
+											target.srcset = NO_IMAGE_SRC;
+											target.src = NO_IMAGE_SRC;
+										}}
 										src={(urlStartsWith ?? '') + item.path}
 										alt={productName}
 										width={50}

@@ -6,6 +6,5 @@ Disallow: /catalog/search
 Disallow: /user
 Disallow: /_next
 
-
 Sitemap: https://topimpech.ru/sitemap.xml
 Host: https://topimpech.ru/
