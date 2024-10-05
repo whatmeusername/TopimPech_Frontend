@@ -1,62 +1,59 @@
-.option__empty__page__wrapper{
-    padding: 20px;
-    .option__empty__page{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        background-color: var(--primary-cards-background);
-        margin: 100px 0;
-        border-radius: 8px;
-        padding: 20px 10px;
-        .option__empty__page__icon__wrapper{
-            &.option__empty__page__icon__rotated{
-                .option__empty__page__icon{
-                    transform: rotateZ(-15deg);
-                }
-            }
-            .option__empty__page__icon{
-                width: 80px;
-                height: 80px;
-                fill: var(--orange-color);
-            }
-        }
-        .option__empty__page__main{
-            text-align: center;
-            display: flex;
-            align-items: center;
-            flex-direction: column;
-            font-family: var(--museo_cyrl);
-            .option__empty__page__main__header{
-                margin: 10px 0;
-                font-weight: 300;
-                color: var(--primary-color);
-            }
-            .option__empty__page__main__label{
-                margin: 0;
-                width: 350px;
-                color: var(--gray-color);
-                font-size: var(--fontX);
-                .option__empty__page__main__label__icon{
-                    width:20px;
-                    height: 20px;
-                    position: relative;
-                    top: 5px;
-                    fill: var(--gray-color);
-                }
-    
-            }
-            .option__empty__page__main__button{
-                border-radius: 8px;
-                background-color: var(--orange-color);
-                color: var(--white-color);
-                padding: 8px 10px;
-                margin: 10px 0;
-                &:hover{
-                    opacity: 0.8;
-                }
-                
-            }
-        }
-    }
+.option__empty__page__wrapper {
+	padding: 20px;
+	.option__empty__page {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		background-color: var(--primary-cards-background);
+		margin: 100px 0;
+		border-radius: 8px;
+		padding: 20px 10px;
+		.option__empty__page__icon__wrapper {
+			&.option__empty__page__icon__rotated {
+				.option__empty__page__icon {
+					transform: rotateZ(-15deg);
+				}
+			}
+			.option__empty__page__icon {
+				width: 80px;
+				height: 80px;
+				fill: var(--orange-color);
+			}
+		}
+		.option__empty__page__main {
+			text-align: center;
+			display: flex;
+			align-items: center;
+			flex-direction: column;
+			font-family: var(--museo_cyrl);
+			.option__empty__page__main__header {
+				margin: 10px 0;
+				font-weight: 400;
+				color: var(--primary-color);
+			}
+			.option__empty__page__main__label {
+				margin: 0;
+				width: 350px;
+				color: var(--gray-color);
+				font-size: var(--fontX);
+				.option__empty__page__main__label__icon {
+					width: 20px;
+					height: 20px;
+					position: relative;
+					top: 5px;
+					fill: var(--gray-color);
+				}
+			}
+			.option__empty__page__main__button {
+				border-radius: 8px;
+				background-color: var(--orange-color);
+				color: var(--white-color);
+				padding: 8px 10px;
+				margin: 10px 0;
+				&:hover {
+					opacity: 0.8;
+				}
+			}
+		}
+	}
 }
-

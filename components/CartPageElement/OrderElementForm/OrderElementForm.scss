@@ -9,7 +9,7 @@
 			color: var(--orange-color);
 			font-size: var(-fontL);
 			font-family: var(--museo_cyrl);
-			font-weight: 300;
+			font-weight: 400;
 			padding: 0 5px;
 		}
 		.order__element__form__item__label__wrappper {
@@ -18,7 +18,7 @@
 			.order__element__form__item__label {
 				font-size: var(--fontL);
 				font-family: var(--museo_cyrl);
-				font-weight: 300;
+				font-weight: 400;
 				margin: 0 0 5px;
 			}
 		}
@@ -31,7 +31,7 @@
 			border: 2px solid var(--grey-color);
 			font-size: var(--fontX);
 			transition: border 0.25s ease;
-			font-weight: 300;
+			font-weight: 400;
 			&:focus {
 				border: 2px solid var(--gray-color);
 			}
@@ -40,7 +40,7 @@
 			font-family: var(--museo_cyrl);
 			color: var(--red-color);
 			font-size: var(--fontM);
-			font-weight: 300;
+			font-weight: 400;
 			margin: 0;
 		}
 
@@ -67,7 +67,7 @@
 		margin: 0;
 		max-width: 500px;
 		font-family: var(--museo_cyrl);
-		font-weight: 300;
+		font-weight: 400;
 		color: var(--standard-color);
 		font-size: var(--fontL);
 	}
@@ -112,7 +112,7 @@
 			font-size: var(--fontL);
 			font-family: var(--museo_cyrl);
 			color: var(--standard-color);
-			font-weight: 300;
+			font-weight: 400;
 			.order__element__user__aggrement__link {
 				color: var(--orange-color);
 				opacity: 1;

@@ -16,7 +16,7 @@
 	}
 	.paginator__arrow__wrapper {
 		font-family: var(--museo_cyrl);
-		font-weight: 300;
+		font-weight: 400;
 		.paginator__link {
 			display: flex;
 			flex-direction: row;
@@ -40,7 +40,7 @@
 				color: var(--gray-color);
 			}
 
-			@media (max-width: 428px){
+			@media (max-width: 428px) {
 				padding: 5px 3px;
 			}
 		}
@@ -68,7 +68,7 @@
 			border: none;
 			background-color: var(--orange-color);
 			color: var(--white-color);
-			font-weight: 300;
+			font-weight: 400;
 		}
 	}
 }

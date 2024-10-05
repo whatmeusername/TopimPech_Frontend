@@ -11,7 +11,7 @@
 		color: var(--primary-color);
 		font-family: var(--museo_cyrl);
 		margin: 0;
-		font-weight: 300;
+		font-weight: 400;
 	}
 
 	.cart__page__content {
@@ -67,7 +67,7 @@
 				.cart__summary__content__item__label {
 					overflow: hidden;
 					margin: 0;
-					font-weight: 300;
+					font-weight: 400;
 				}
 				.cart__summary__content__item__count {
 					width: 130px;
@@ -82,7 +82,7 @@
 		}
 		.cart__summary__content__count {
 			color: var(--standard-color);
-			font-weight: 300;
+			font-weight: 400;
 		}
 	}
 	.cart__summary__total__wrapper {
@@ -121,7 +121,7 @@
 			color: var(--primary-color);
 			font-family: var(--museo_cyrl);
 			font-size: var(--headerS);
-			font-weight: 300;
+			font-weight: 400;
 		}
 	}
 }
@@ -155,7 +155,7 @@
 			.order__page__success__content__text {
 				color: var(--standard-color);
 				font-size: var(--fontX);
-				font-weight: 300;
+				font-weight: 400;
 				max-width: 400px;
 				text-align: center;
 			}
