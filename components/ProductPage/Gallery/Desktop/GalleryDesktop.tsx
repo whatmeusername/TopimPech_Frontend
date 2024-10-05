@@ -175,7 +175,6 @@ const GalleryDesktop = ({
 							style={{ opacity: 0 }}
 							onLoad={OnLoad}
 							onError={(e) => {
-								console.log(e);
 								const target = e.target as HTMLImageElement;
 								target.srcset = NO_IMAGE_SRC;
 								target.src = NO_IMAGE_SRC;
