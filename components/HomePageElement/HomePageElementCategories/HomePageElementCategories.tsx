@@ -24,6 +24,7 @@ function HomePageElementCategoryItem({ categoryData }: { categoryData: CategoryD
 						target.srcset = NO_IMAGE_SRC;
 						target.src = NO_IMAGE_SRC;
 					}}
+					unoptimized={categoryData.image.path.endsWith('.gif')}
 					alt={categoryData.name}
 					width={210}
 					height={210}

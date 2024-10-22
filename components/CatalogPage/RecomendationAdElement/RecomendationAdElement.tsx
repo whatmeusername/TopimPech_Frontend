@@ -32,6 +32,7 @@ function RecomendationAdElement(): ReactElement {
 									target.srcset = NO_IMAGE_SRC;
 									target.src = NO_IMAGE_SRC;
 								}}
+								unoptimized={recomendationProduct.images?.[0]?.path?.endsWith('.gif') ?? false}
 								src={`/api${recomendationProduct.images?.[0]?.path}`}
 								alt={recomendationProduct.name}
 								width={250}

@@ -50,6 +50,7 @@ const ProductImageGallery = ({
 				<Image
 					className="gallery__image"
 					src={imageSrc}
+					unoptimized={imageSrc.endsWith('.gif')}
 					alt={alt ?? ''}
 					loading="lazy"
 					width={size ?? 400}

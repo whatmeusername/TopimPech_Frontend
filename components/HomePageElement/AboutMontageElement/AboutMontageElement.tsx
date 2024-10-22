@@ -39,6 +39,7 @@ function AboutMontageElement({ OurWorksData }: { OurWorksData: OurWorksData[] })
 										target.srcset = NO_IMAGE_SRC;
 										target.src = NO_IMAGE_SRC;
 									}}
+									unoptimized={img.path.endsWith('.gif')}
 									src={`/api${img.path}`}
 									alt={`примеры работы ${img.name}`}
 									width={220}

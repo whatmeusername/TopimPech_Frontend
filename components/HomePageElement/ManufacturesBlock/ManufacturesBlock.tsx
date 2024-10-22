@@ -33,6 +33,7 @@ function ManufacturesBlock({ ManufacturerData }: { ManufacturerData: Manufacture
 													target.srcset = NO_IMAGE_SRC;
 													target.src = NO_IMAGE_SRC;
 												}}
+												unoptimized={manufacturer.image.path.endsWith('.gif')}
 												src={`/api${manufacturer.image.path}`}
 												alt={manufacturer.name}
 												width={160}

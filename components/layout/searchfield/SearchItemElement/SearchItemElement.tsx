@@ -36,6 +36,7 @@ function SearchItemElement({
 							target.src = NO_IMAGE_SRC;
 						}}
 						src={product.images.length > 0 ? `/api${product.images[0].path}` : NO_IMAGE_SRC}
+						unoptimized={product?.images?.[0]?.path?.endsWith('.gif')}
 						alt={product.name}
 						className="search__result__item__image"
 						width={40}

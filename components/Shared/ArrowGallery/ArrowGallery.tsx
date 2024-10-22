@@ -33,6 +33,7 @@ function ArrowGallery({ items, urlStartsWith }: { items: BaseImage[]; urlStartsW
 								loading="lazy"
 								width={500}
 								height={500}
+								unoptimized={image ? image.path.endsWith('.gif') : false}
 								style={{ objectFit: 'contain', maxInlineSize: '100%' }}
 								onError={(e) => {
 									const target = e.target as HTMLImageElement;

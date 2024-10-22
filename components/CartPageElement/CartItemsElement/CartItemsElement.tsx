@@ -79,6 +79,7 @@ const CartItemElementDesktop = observer(({ productData }: { productData: Product
 							target.srcset = NO_IMAGE_SRC;
 							target.src = NO_IMAGE_SRC;
 						}}
+						unoptimized={imageSrc.endsWith('.gif')}
 						src={imageSrc}
 						alt={productData.name}
 						width={150}

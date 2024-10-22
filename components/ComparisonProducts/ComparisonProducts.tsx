@@ -74,6 +74,7 @@ function ComparisonProductsCardBig({ product, config }: { product: ProductData; 
 							target.srcset = NO_IMAGE_SRC;
 							target.src = NO_IMAGE_SRC;
 						}}
+						unoptimized={product.images?.[0]?.path?.endsWith('.gif') ?? false}
 						width={180}
 						height={180}
 						style={{ objectFit: 'contain', maxInlineSize: '100%', height: 'auto' }}

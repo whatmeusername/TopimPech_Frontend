@@ -22,6 +22,7 @@ const ProductSliderItem = ({ product, URLStartWith }: { product: ProductData | P
 						target.srcset = NO_IMAGE_SRC;
 						target.src = NO_IMAGE_SRC;
 					}}
+					unoptimized={image ? image.endsWith('.gif') : false}
 					src={image ? (URLStartWith ?? '') + image : NO_IMAGE_SRC}
 					alt={product.name}
 					width={215}

@@ -34,6 +34,7 @@ const MainCategoryItem = observer(({ category }: { category: CategoryData }): Re
 						target.srcset = NO_IMAGE_SRC;
 						target.src = NO_IMAGE_SRC;
 					}}
+					unoptimized={category.image?.path.endsWith('.gif')}
 					src={`/api${category.image?.path}`}
 					alt={category.name}
 					width={40}

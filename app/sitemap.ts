@@ -36,7 +36,6 @@ async function GetManufacturersSitemap() {
 
 async function GetCategoriesSitemap() {
 	const categories = (await fetchCategories())?.categories ?? [];
-	console.log(categories);
 	const prefix = process.env.SITE_URL;
 	const result: any[] = [];
 
