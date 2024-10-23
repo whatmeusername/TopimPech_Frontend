@@ -15,7 +15,7 @@ import { Manufacturer } from '../../CatalogComponents/Cards/interface';
 import { GetCategoryName } from '../../../utils/GetCategoryName';
 
 const SliderChildCategoriesChild = ({ category, manufacturer }: { category: CategoryData; manufacturer?: Manufacturer }): ReactElement | null => {
-	if (category.productCount === 0) return null;
+	if (category.productCount === 0 || category.image === undefined) return null;
 	return (
 		<Link href={`/catalog/${category.slug}${manufacturer ? `/${manufacturer.slug}` : ''}`}>
 			<div className="child__category__wrapper">
@@ -69,7 +69,7 @@ const SliderChildCategoriesElement = ({ categories, manufacturer }: { categories
 };
 
 const PrimaryChildCategoriesChild = ({ category, manufacturer }: { category: CategoryData; manufacturer?: Manufacturer }): ReactElement | null => {
-	if (category.productCount === 0) return null;
+	if (category.productCount === 0 || category.image === undefined) return null;
 	return (
 		<Link className="block__child__categories__item" href={`/catalog/${category.slug}${manufacturer ? `/${manufacturer.slug}` : ''}`}>
 			<div className="block__child__categories__item__image__wrapper">

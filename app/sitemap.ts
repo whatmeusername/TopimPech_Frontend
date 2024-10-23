@@ -26,6 +26,7 @@ async function GetProductsSitemap() {
 async function GetManufacturersSitemap() {
 	const prefix = process.env.SITE_URL;
 	const sizeMainInfo = await fetchMainInfo();
+	if (sizeMainInfo?.manufacturerData === undefined) return [];
 	return sizeMainInfo.manufacturerData.map((m) => {
 		return {
 			url: `${prefix}/catalog/manufacturer/${m.slug}`,

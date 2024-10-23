@@ -5,8 +5,9 @@ import { NO_IMAGE_SRC } from '../../const';
 import { CategoryData } from '../../layout/Menu/GeneralElements';
 import Image from 'next/image';
 import './HomePageElementCategories.scss';
+import { ReactElement } from 'react';
 
-function HomePageElementCategoryItem({ categoryData }: { categoryData: CategoryData }) {
+function HomePageElementCategoryItem({ categoryData }: { categoryData: CategoryData }): ReactElement | null {
 	return (
 		<Link className="home__page__categories__item" href={`catalog/${categoryData.slug}`}>
 			<div className="home__page__categories__item__info">
@@ -43,8 +44,8 @@ function HomePageElementCategories() {
 			<div className="home__page__categories__content__wrapper">
 				<div className="home__page__categories__content">
 					{categories.categories.map((categoryData) => {
-						if (categoryData.productCount > 0)
-							return <HomePageElementCategoryItem key={`home__page__category__item__${categoryData.slug}`} categoryData={categoryData} />;
+						if (categoryData.productCount === 0 || categoryData?.image === undefined) return null;
+						return <HomePageElementCategoryItem key={`home__page__category__item__${categoryData.slug}`} categoryData={categoryData} />;
 					})}
 				</div>
 			</div>

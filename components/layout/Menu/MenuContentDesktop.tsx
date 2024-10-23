@@ -13,7 +13,7 @@ import { observer } from 'mobx-react-lite';
 import { declOfProduct } from '../../../utils';
 
 const MainCategoryItem = observer(({ category }: { category: CategoryData }): ReactElement | null => {
-	if (category.productCount < 1) return null;
+	if (category.productCount < 1 || category.image === undefined) return null;
 
 	return (
 		<Link
