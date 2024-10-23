@@ -1,9 +1,11 @@
-import dynamic from 'next/dynamic';
+export const dynamic = 'force-dynamic';
+
+import { default as DynamicLoad } from 'next/dynamic';
 import { getData } from '../../../appRouteUtils';
 import { Metadata } from 'next';
 import { PROXY_URL, META_PAGE_DESCRIPTION_BASE, OPENGRAPH_BASE, FULL_DOMAIN } from '../../../const/siteinfo.const';
 
-const PrivacyPolicyElement = dynamic(() => import('../../../components/InfoPages/PrivacyElements/PrivacyPolicyElement'));
+const PrivacyPolicyElement = DynamicLoad(() => import('../../../components/InfoPages/PrivacyElements/PrivacyPolicyElement'));
 
 async function PrivacyPolicyPage() {
 	const privacyPolicyData = await getData(`${PROXY_URL}info/privacypolicy`, { cache: 'no-store' });

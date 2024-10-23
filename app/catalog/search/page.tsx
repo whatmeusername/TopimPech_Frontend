@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import Catalog from '../../../components/CatalogPage/catalog/index';
 import { Metadata } from 'next';
 

@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { Metadata } from 'next';
 import { MontagePageElemenent } from '../../../components/InfoPages/MontagePageElement/MontagePageElement';
 import { getData } from '../../../appRouteUtils';

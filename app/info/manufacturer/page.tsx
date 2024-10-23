@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { getData } from '../../../appRouteUtils';
 import { SiteInfoData } from '../../../components/HomePageElement/interface';
 import { ManufacturerPageElement } from '../../../components/ManufacturerPageElement/ManufacturerPageElement';

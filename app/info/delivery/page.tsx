@@ -1,9 +1,11 @@
-import dynamic from 'next/dynamic';
+export const dynamic = 'force-dynamic';
+
+import { default as DynamicLoad } from 'next/dynamic';
 import { getData } from '../../../appRouteUtils';
 import { Metadata } from 'next';
 import { PROXY_URL, OPENGRAPH_BASE, FULL_DOMAIN } from '../../../const/siteinfo.const';
 
-const DeliveryPageElement = dynamic(() => import('../../../components/InfoPages/DeliveryPageElement/DeliveryPageElement'));
+const DeliveryPageElement = DynamicLoad(() => import('../../../components/InfoPages/DeliveryPageElement/DeliveryPageElement'));
 
 async function DeliveryPage() {
 	const deliveryData = await getData(`${PROXY_URL}info/delivery`, { cache: 'no-store' });
