@@ -15,7 +15,8 @@ const CategoriesColumn = ({
 	return (
 		<div className="menu__category__column">
 			{(categories ?? []).map((category) => {
-				return category.productCount > 0 ? <CategoryItem category={category} key={category.slug} /> : null;
+				if (category.productCount === 0 || category?.image === undefined) return null;
+				return <CategoryItem category={category} key={category.slug} />;
 			})}
 		</div>
 	);

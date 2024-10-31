@@ -18,6 +18,7 @@ function SearchItemElement({
 	highlight: { [K: string]: string[] };
 	ToggleModal: (fixedState?: boolean | undefined) => void;
 }) {
+	const ImageSrc = product.images.length > 0 ? `/api${product.images[0].path}` : NO_IMAGE_SRC;
 	return (
 		<Link
 			className="search__result__item"
@@ -35,8 +36,8 @@ function SearchItemElement({
 							target.srcset = NO_IMAGE_SRC;
 							target.src = NO_IMAGE_SRC;
 						}}
-						src={product.images.length > 0 ? `/api${product.images[0].path}` : NO_IMAGE_SRC}
-						unoptimized={product?.images?.[0]?.path?.endsWith('.gif')}
+						src={ImageSrc}
+						unoptimized={ImageSrc.endsWith('.gif')}
 						alt={product.name}
 						className="search__result__item__image"
 						width={40}

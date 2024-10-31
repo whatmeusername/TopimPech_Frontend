@@ -98,7 +98,8 @@ const MenuContentMobile = memo((): ReactElement => {
 						</Link>
 					</div>
 					{category.child.map((category) => {
-						return category.productCount > 0 ? <CategoryItem category={category} key={category.slug} /> : null;
+						if (category.productCount === 0 || category?.image === undefined) return null;
+						return <CategoryItem category={category} key={category.slug} />;
 					})}
 				</div>
 			</div>

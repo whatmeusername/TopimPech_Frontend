@@ -9,7 +9,7 @@ import { ReactElement } from 'react';
 
 function HomePageElementCategoryItem({ categoryData }: { categoryData: CategoryData }): ReactElement | null {
 	return (
-		<Link className="home__page__categories__item" href={`catalog/${categoryData.slug}`}>
+		<Link className={`home__page__categories__item home__page__grid__item__${categoryData.slug}`} href={`catalog/${categoryData.slug}`}>
 			<div className="home__page__categories__item__info">
 				<p className="home__page__categories__item__label">{categoryData.name}</p>
 				<p className="home__page__categories__item__count">
@@ -27,8 +27,8 @@ function HomePageElementCategoryItem({ categoryData }: { categoryData: CategoryD
 					}}
 					unoptimized={categoryData.image.path.endsWith('.gif')}
 					alt={categoryData.name}
-					width={210}
-					height={210}
+					width={480}
+					height={480}
 					style={{ objectFit: 'contain', maxInlineSize: '100%' }}
 				/>
 			</div>

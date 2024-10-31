@@ -75,6 +75,7 @@ function HistoryComponent() {
 }
 
 function Catalog({ CatalogData, isManufacturerPage }: { CatalogData: CatalogData; isManufacturerPage?: boolean }): ReactElement {
+	const FiltersEnabled = CatalogData.productsData.paginator.pages > 1;
 	return (
 		<div className="catalog__page__wrapper" itemScope itemType="https://schema.org/OfferCatalog">
 			<CatalogHead>
@@ -101,7 +102,7 @@ function Catalog({ CatalogData, isManufacturerPage }: { CatalogData: CatalogData
 				{isManufacturerPage ? <ManufacturerPageAllProductsHeader paginator={CatalogData.productsData.paginator} /> : null}
 			</CatalogHead>
 			<div className="catalog__body">
-				<FacetFilter initialFilters={CatalogData?.filtersData} />
+				{FiltersEnabled ? <FacetFilter initialFilters={CatalogData?.filtersData} /> : null}
 				<CatalogContainer CatalogData={CatalogData} />
 			</div>
 

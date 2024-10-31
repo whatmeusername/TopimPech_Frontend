@@ -68,7 +68,7 @@ function CatalogPageMetadata(params: ServerSideURLProps['params'], productsData:
 		openGraph: {
 			title: pageTitle,
 			description: description,
-			images: [`${SITE_URL_SLICED}/api${pageImage.path}`],
+			images: pageImage ? [`${SITE_URL_SLICED}/api${pageImage.path}`] : undefined,
 			url: `${FULL_DOMAIN}${pageURL}`,
 			...OPENGRAPH_BASE,
 		},

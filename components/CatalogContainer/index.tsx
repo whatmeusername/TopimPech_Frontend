@@ -20,6 +20,7 @@ import { Manufacturer } from '../CatalogComponents/Cards/interface';
 import { CatalogData } from '../CatalogPage/catalog/interface';
 
 const CatalogContainer = ({ CatalogData }: { CatalogData: CatalogData }): ReactElement => {
+	const FiltersEnabled = CatalogData.productsData.paginator.pages > 1;
 	const [catalogView, setCatalogView] = useCatalogView();
 
 	const isLoaded = useRef<number>(0);
@@ -33,15 +34,20 @@ const CatalogContainer = ({ CatalogData }: { CatalogData: CatalogData }): ReactE
 	const isFetched = IsLoaded();
 
 	return (
-		<div className="catalog__wrapper">
+		<div className={`catalog__wrapper ${FiltersEnabled ? 'catalog__wrapper__filters__enabled' : 'catalog__wrapper__filters__disabled'}`}>
 			<ChildCategoriesElement
 				isInner={true}
 				category={CatalogData.filtersData.category}
 				manufacturer={CatalogData.ManufacturerData as Manufacturer}
 				pageHeader={CatalogData.pageHeader}
 			/>
-			<AllFiltersOpenButton shortLabel={true} />
-			<AppliedFiltersElement filtersData={CatalogData?.filtersData} />
+			{FiltersEnabled ? (
+				<>
+					<AllFiltersOpenButton shortLabel={true} />
+					<AppliedFiltersElement filtersData={CatalogData?.filtersData} />
+				</>
+			) : null}
+
 			<ProductCatalogHeader
 				disabled={CatalogData.productsData?.products === undefined || CatalogData.productsData?.products?.length === 0}
 				setCatalogView={setCatalogView}

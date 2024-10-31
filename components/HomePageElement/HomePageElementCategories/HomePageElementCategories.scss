@@ -11,10 +11,63 @@
 		padding: 0 10px;
 		.home__page__categories__content {
 			display: grid;
-			grid-template-columns: repeat(5, 1fr);
+			grid-template-columns: repeat(6, 1fr);
+			grid-template-areas:
+				'big q w e r t'
+				'big a s d f g';
 			gap: 20px;
 
 			.home__page__categories__item {
+				&.home__page__grid__item__pechi-dlya-bani {
+					grid-area: big;
+					height: 520px;
+					.home__page__categories__item__image__wrapper {
+						width: 480px;
+						height: 480px;
+						right: unset;
+						left: -35%;
+						.home__page__categories__item__image {
+							width: 100%;
+							height: 100%;
+						}
+					}
+				}
+				&.home__page__grid__item__pechi-otopitelnye {
+					grid-area: q;
+				}
+				&.home__page__grid__item__pechi-dlya-sada {
+					grid-area: w;
+				}
+
+				&.home__page__grid__item__kaminy {
+					grid-area: e;
+				}
+
+				&.home__page__grid__item__kotly-otopitelnye {
+					grid-area: r;
+				}
+
+				&.home__page__grid__item__tandyry {
+					grid-area: t;
+				}
+
+				&.home__page__grid__item__aksessuary {
+					grid-area: a;
+				}
+				&.home__page__grid__item__dveri-dlya-bani-i-sauny {
+					grid-area: s;
+				}
+				&.home__page__grid__item__izolyacionnye-otdelochnye-materialy {
+					grid-area: d;
+				}
+				&.home__page__grid__item__kaminnoepechnoe-lite {
+					grid-area: f;
+				}
+
+				&.home__page__grid__item__dymohody-baki-dlya-vody {
+					grid-area: g;
+				}
+
 				grid-column-start: span 1;
 				height: 250px;
 				max-width: 215px;
@@ -42,20 +95,20 @@
 				.home__page__categories__item__image__wrapper {
 					overflow: hidden;
 					border-radius: 12px;
-					width: 220px;
-					height: 220px;
-					min-height: 220px;
+					width: 230px;
+					height: 230px;
+					min-height: 230px;
 					display: flex;
 					align-items: center;
 					justify-content: center;
 					position: absolute;
-					right: -20%;
+					right: -22.5%;
 					bottom: -35px;
 					z-index: 0;
 					.home__page__categories__item__image {
 						max-width: 100%;
 						max-height: 100%;
-						width: auto;
+						width: 100%;
 						height: auto;
 						border-radius: 12px;
 						transform: scale(1);
@@ -87,23 +140,75 @@
 			}
 		}
 
-		@media (max-width: 1028px) {
+		@media (max-width: 1028px) and (min-width: 768px) {
 			.home__page__categories__content {
 				grid-template-columns: repeat(4, 1fr);
+				grid-template-areas:
+					'big big q w'
+					'big big q w'
+					'e r t a'
+					's d f g';
+
+				.home__page__categories__item {
+					&.home__page__grid__item__pechi-dlya-bani {
+						max-width: 100%;
+						.home__page__categories__item__image__wrapper {
+							width: 120%;
+							height: 120%;
+							left: 5%;
+							bottom: -25%;
+						}
+					}
+					&.home__page__grid__item__pechi-otopitelnye,
+					&.home__page__grid__item__pechi-dlya-sada {
+						height: 520px !important;
+						.home__page__categories__item__image__wrapper {
+							width: 480px;
+							height: 480px;
+							right: unset;
+							left: -7.5%;
+							.home__page__categories__item__image {
+								width: 100%;
+								height: 100%;
+							}
+						}
+					}
+				}
 			}
 		}
 
 		@media (max-width: 768px) {
 			.home__page__categories__content {
-				grid-template-columns: repeat(3, 1fr);
+				grid-template-columns: repeat(2, 1fr);
+				grid-template-areas:
+					'big big'
+					'q w'
+					'e r'
+					't a'
+					's d'
+					'f g';
+
+				.home__page__categories__item {
+					&.home__page__grid__item__pechi-dlya-bani {
+						max-width: 100%;
+						height: 160px;
+						.home__page__categories__item__image__wrapper {
+							width: 300px !important;
+							height: 300px !important;
+							right: 0%;
+							bottom: -50%;
+							left: unset;
+						}
+					}
+				}
 			}
 		}
 
 		@media (max-width: 628px) {
-			.home__page__categories__content {
-				gap: 15px;
-				grid-template-columns: repeat(2, 1fr);
-			}
+			// .home__page__categories__content {
+			// 	gap: 15px;
+			// 	grid-template-columns: repeat(2, 1fr);
+			// }
 		}
 
 		@media (max-width: 428px) {
@@ -123,6 +228,12 @@
 						.home__page__categories__item__label {
 							letter-spacing: 0px;
 							font-size: var(--fontM);
+						}
+					}
+					&.home__page__grid__item__pechi-dlya-bani {
+						.home__page__categories__item__image__wrapper {
+							max-height: unset;
+							max-width: unset;
 						}
 					}
 				}
