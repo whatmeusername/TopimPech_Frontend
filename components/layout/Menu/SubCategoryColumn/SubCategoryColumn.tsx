@@ -5,7 +5,6 @@ import { SubCategoryItem } from '../SubCategoryItem/SubCategoryItem';
 import './SubCategoryColumn.scss';
 
 function SubCategoryColumn({ data }: { data: CategoryData }): ReactElement | null {
-	if (data.productCount === 0) return null;
 	return (
 		<div className="sub__categories__column">
 			<SubCategoryItem category={data} className="sub__categories__column__item" showCount={true} />

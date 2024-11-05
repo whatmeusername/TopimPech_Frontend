@@ -11,10 +11,11 @@ import { ManufacturesBlock } from './ManufacturesBlock/ManufacturesBlock';
 import { ProductTagSlider } from './ProductTagSlider/ProductTagSlider';
 
 import { ReactElement } from 'react';
-import type { SiteInfoData } from './interface';
 import { ProductTypeSlider } from './ProductTypeSlider/ProductTypeSlider';
+import { useSiteInfoContext } from '../../context/GlobalContext/GlobalContext';
 
-function HomePageElement({ SiteInfoData }: { SiteInfoData: SiteInfoData }): ReactElement {
+function HomePageElement(): ReactElement {
+	const SiteInfoData = useSiteInfoContext();
 	return (
 		<div className="home__page__wrapper">
 			<ProductTypeSlider SiteInfoData={SiteInfoData} />

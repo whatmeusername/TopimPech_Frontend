@@ -44,7 +44,7 @@ function HomePageElementCategories() {
 			<div className="home__page__categories__content__wrapper">
 				<div className="home__page__categories__content">
 					{categories.categories.map((categoryData) => {
-						if (categoryData.productCount === 0 || categoryData?.image === undefined) return null;
+						if (categoryData?.image === undefined) return null;
 						return <HomePageElementCategoryItem key={`home__page__category__item__${categoryData.slug}`} categoryData={categoryData} />;
 					})}
 				</div>

@@ -31,35 +31,6 @@ export interface FetchURLData {
 	query: URLSearchParams;
 }
 
-// WAITING FOR NEXT 1.3.4.9 WILL BE RELEASED (GET SCROLL FALSE )
-// const getFetchURL = (router: FetchURLData): [string, string] => {
-// 	const { category } = router.params;
-// 	let url = '/api/products/filter/';
-// 	if (category) url += `${category}/`;
-// 	return SearchParamsBuilder(url, router.query, 'page', 'items_per_page', 'order', 'filter');
-// };
-
-// useEffect(() => {
-// 	isLoaded.current = 0;
-// 	if (initData?.productsData?.products === undefined) {
-// 		axios({
-// 			method: 'GET',
-// 			url: fetchUrl,
-// 		}).then(({ data }: { data: ProductAPIResponse }) => {
-// 			setCatalogData(data);
-// 			isLoaded.current = 1;
-// 		});
-// 	} else setCatalogData(initData.productsData);
-// 	//eslint-disable-next-line
-// }, [maincategory, category, SearchParams]);
-
-// const getFetchURL = (router: FetchURLData): [string, string] => {
-// 	const { category } = router.params;
-// 	let url = '/api/products/filter/';
-// 	if (category) url += `${category}/`;
-// 	return SearchParamsBuilder(url, router.query, 'page', 'items_per_page', 'order', 'filter');
-// };
-
 function HistoryComponent() {
 	const productHistory = useProductHistory();
 	if (productHistory.items.length === 0) return null;
@@ -75,7 +46,7 @@ function HistoryComponent() {
 }
 
 function Catalog({ CatalogData, isManufacturerPage }: { CatalogData: CatalogData; isManufacturerPage?: boolean }): ReactElement {
-	const FiltersEnabled = CatalogData.productsData.paginator.pages > 1;
+	const FiltersEnabled = CatalogData.filtersData.status.is404Page === false;
 	return (
 		<div className="catalog__page__wrapper" itemScope itemType="https://schema.org/OfferCatalog">
 			<CatalogHead>

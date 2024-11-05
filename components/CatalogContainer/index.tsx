@@ -20,7 +20,7 @@ import { Manufacturer } from '../CatalogComponents/Cards/interface';
 import { CatalogData } from '../CatalogPage/catalog/interface';
 
 const CatalogContainer = ({ CatalogData }: { CatalogData: CatalogData }): ReactElement => {
-	const FiltersEnabled = CatalogData.productsData.paginator.pages > 1;
+	const FiltersEnabled = CatalogData.filtersData.status.is404Page === false;
 	const [catalogView, setCatalogView] = useCatalogView();
 
 	const isLoaded = useRef<number>(0);

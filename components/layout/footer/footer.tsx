@@ -18,7 +18,7 @@ function CatalogBlock(): ReactElement {
 			<p className="footer__content__block__header">Каталог</p>
 			<ul className="footer__content__block__column">
 				{categories.categories.map((category) => {
-					if (category.productCount === 0 || category.image === undefined) return null;
+					if (category.image === undefined) return null;
 					return (
 						<li className="footer__content__block__column__item" key={`footer__catalog__${category.slug}`}>
 							<Link href={`/catalog/${category.slug}`}>{category.name}</Link>

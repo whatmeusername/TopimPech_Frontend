@@ -1,7 +1,6 @@
 'use client';
 
 import { ReactElement } from 'react';
-import type { ManufacturerData } from '../HomePageElement/interface';
 import { PrimaryPageHeader } from '../Shared/PrimaryPageHeader/PrimaryPageHeader';
 import Image from 'next/image';
 
@@ -10,8 +9,10 @@ import { NO_IMAGE_SRC } from '../const';
 import { Capitalize } from '../../utils/Capitalize';
 import Link from 'next/link';
 import { declOfProduct } from '../../utils';
+import { useSiteInfoContext } from '../../context/GlobalContext/GlobalContext';
 
-function ManufacturerPageElement({ ManufacturerData }: { ManufacturerData: ManufacturerData[] }): ReactElement {
+function ManufacturerPageElement(): ReactElement {
+	const ManufacturerData = useSiteInfoContext().manufacturerData;
 	return (
 		<div className="manufacturer__page__data">
 			<PrimaryPageHeader header={'Производители'} />

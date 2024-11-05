@@ -3,6 +3,7 @@
 import { ReactElement, createContext, useContext } from 'react';
 import { CatalogView } from '../../components/CatalogContainer/ChangeProductView/interface';
 import { MappedProductsResponse } from '../../components/CatalogComponents/Cards/interface';
+import { SiteInfoData } from '../../components/HomePageElement/interface';
 
 interface GlobalContextData {
 	productCount: number;
@@ -10,6 +11,7 @@ interface GlobalContextData {
 	PhoneNumbersData: { format: string; flat: string; isWhatsapp: boolean }[];
 	recomendation: MappedProductsResponse<true>;
 	baseAddress: string;
+	SiteInfo: SiteInfoData;
 }
 
 const GlobalContextData = createContext<GlobalContextData>(null!);
@@ -21,6 +23,7 @@ function GlobalContext({
 	PhoneNumbersData,
 	recomendation,
 	baseAddress,
+	SiteInfo,
 }: {
 	children: ReactElement | ReactElement[];
 	productCount: number;
@@ -28,6 +31,7 @@ function GlobalContext({
 	PhoneNumbersData: { format: string; flat: string; isWhatsapp: boolean }[];
 	recomendation: MappedProductsResponse<true>;
 	baseAddress: string;
+	SiteInfo: SiteInfoData;
 }): ReactElement {
 	return (
 		<GlobalContextData.Provider
@@ -37,6 +41,7 @@ function GlobalContext({
 				view: view,
 				recomendation: recomendation,
 				baseAddress: baseAddress,
+				SiteInfo: SiteInfo,
 			}}
 		>
 			{children}
@@ -48,4 +53,8 @@ function useGlobalContext(): GlobalContextData {
 	return useContext(GlobalContextData);
 }
 
-export { GlobalContext, GlobalContextData, useGlobalContext };
+function useSiteInfoContext(): SiteInfoData {
+	return useContext(GlobalContextData).SiteInfo;
+}
+
+export { GlobalContext, GlobalContextData, useGlobalContext, useSiteInfoContext };

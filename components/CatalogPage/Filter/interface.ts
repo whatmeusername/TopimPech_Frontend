@@ -102,6 +102,11 @@ interface FilterFetchData {
 	filtered: FacetFiltersData;
 	category: string;
 	appliedFilters: SearchParamsFilterQueryResult;
+	status: {
+		is404page: boolean;
+		status: 200 | 404;
+		message: string;
+	};
 	categoryStringAdditions: { prefix: string; postfix: string };
 }
 

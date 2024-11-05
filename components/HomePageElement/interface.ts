@@ -6,9 +6,26 @@ interface OurWorksData {
 	extension: string;
 }
 
+interface ManufacturerRootCategoryData extends ProductBaseData {
+	image: null | {
+		path: string;
+		name: string;
+	};
+}
+
+interface ManufacturerCategoryData extends ProductBaseData {
+	id: number;
+	parentID: number;
+	image: null | {
+		path: string;
+		name: string;
+	};
+}
+
 interface ManufacturerData extends Manufacturer {
 	productCount: number;
-	categories: ProductBaseData[];
+	categories: ManufacturerCategoryData[];
+	rootCategories: ManufacturerRootCategoryData[];
 }
 
 interface SiteInfoData {
@@ -18,4 +35,4 @@ interface SiteInfoData {
 	ProductTypes: ProductType[];
 }
 
-export type { OurWorksData, ManufacturerData, SiteInfoData };
+export type { OurWorksData, ManufacturerData, SiteInfoData, ManufacturerCategoryData, ManufacturerRootCategoryData };

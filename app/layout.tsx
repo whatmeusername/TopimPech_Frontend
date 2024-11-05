@@ -18,7 +18,7 @@ import { MenuModal } from '../components/layout/Menu/Menu';
 import { MobileContext } from '../context/MobileContext/MobileContext';
 import { CATALOG_VIEW_COOKIE, CatalogView } from '../components/CatalogContainer/ChangeProductView/interface';
 import { Metadata } from 'next/types';
-import { fetchCategories, getData } from '../appRouteUtils';
+import { fetchCategories, fetchMainInfo, getData } from '../appRouteUtils';
 import { HeadFavicon } from '../components/HeadComponents/HeadFavicon';
 import {
 	PROXY_URL,
@@ -64,7 +64,12 @@ async function RootLayout({ children }: { children: ReactElement }) {
 	});
 	const userAgentString = headers().get('user-agent') ?? '';
 
-	const [categoriesData, userSession, recomendationData] = await Promise.all([fetchCategories(), getSessionData(), recomendationFetch]);
+	const [categoriesData, userSession, recomendationData, SiteInfo] = await Promise.all([
+		fetchCategories(),
+		getSessionData(),
+		recomendationFetch,
+		fetchMainInfo(),
+	]);
 
 	return (
 		<html lang="en">
@@ -102,6 +107,7 @@ async function RootLayout({ children }: { children: ReactElement }) {
 					PhoneNumbersData={PhoneNumbersData}
 					recomendation={recomendationData}
 					baseAddress="1-я Вокзальная ул., 11, микрорайон Барыбино, Домодедово"
+					SiteInfo={SiteInfo}
 				>
 					<MobileContext userAgentString={userAgentString}>
 						<CategoriesContext initialCategories={categoriesData.categories}>
