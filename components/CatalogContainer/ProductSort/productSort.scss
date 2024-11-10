@@ -1,5 +1,5 @@
 .product__sort__wrapper {
-	width: 180px;
+	width: 200px;
 	position: relative;
 
 	.product__sort__button {
@@ -65,10 +65,10 @@
 			.modal__sort__item {
 				font-family: var(--museo_cyrl);
 				font-weight: 400;
-				margin-bottom: 5px;
 				font-size: var(--fontML);
 				cursor: pointer;
 				transition: 0.1s ease;
+				padding: 3px 0;
 				&:hover {
 					color: var(--orange-color);
 				}
@@ -95,6 +95,14 @@
 					color: var(--primary-color);
 				}
 			}
+		}
+	}
+
+	@media (max-width: 496px) {
+		width: 100%;
+		.product__sort__button {
+			width: 100%;
+			padding: 10px 6px;
 		}
 	}
 }

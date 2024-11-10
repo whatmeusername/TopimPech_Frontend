@@ -103,7 +103,7 @@ interface FilterFetchData {
 	category: string;
 	appliedFilters: SearchParamsFilterQueryResult;
 	status: {
-		is404page: boolean;
+		is404Page: boolean;
 		status: 200 | 404;
 		message: string;
 	};

@@ -73,7 +73,14 @@ async function getCategoryCatalogData({ params, searchParams }: ServerSideURLPro
 			status: { status: 404, message: '', is404Page: true },
 			category: '',
 		};
-		filtersData = { count: 0, filtered: {}, category: '', appliedFilters: {}, categoryStringAdditions: { prefix: '', postfix: '' } };
+		filtersData = {
+			count: 0,
+			filtered: {},
+			category: '',
+			appliedFilters: {},
+			categoryStringAdditions: { prefix: '', postfix: '' },
+			status: { is404Page: true, status: 404, message: 'page not found' },
+		};
 	}
 
 	if (productsData.status.is404Page) {

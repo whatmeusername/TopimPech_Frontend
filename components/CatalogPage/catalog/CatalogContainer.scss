@@ -67,11 +67,13 @@
 				display: none;
 			}
 			.catalog__wrapper {
-				width: 100%;
-				max-width: 100%;
-				min-width: 100%;
-				.filter__show__all {
-					display: flex;
+				&.catalog__wrapper__filters__enabled {
+					width: 100%;
+					max-width: 100%;
+					min-width: 100%;
+					.filter__show__all {
+						display: flex;
+					}
 				}
 			}
 		}

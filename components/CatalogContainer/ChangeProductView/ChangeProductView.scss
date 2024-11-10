@@ -14,7 +14,7 @@
 		color: var(--gray-color);
 		font-size: var(--fontM);
 		border: 2px solid var(--gray-color);
-		border-radius: 12px;
+		border-radius: 4px;
 		padding: 2px 6px;
 		opacity: 1;
 
@@ -32,6 +32,13 @@
 		&.prdouct__view__selected {
 			border-color: var(--orange-color);
 			color: var(--orange-color);
+		}
+	}
+	@media (max-width: 496px) {
+		width: 100%;
+		.prdouct__view {
+			width: 50%;
+			justify-content: center;
 		}
 	}
 }
